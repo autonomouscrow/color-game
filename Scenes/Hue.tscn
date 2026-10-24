@@ -4,3 +4,5 @@
 
 [node name="Hue" type="Node2D" unique_id=1902301394]
 script = ExtResource("1_wn31x")
+
+[node name="Animation" type="AnimatedSprite2D" parent="." unique_id=1177540707]
