@@ -2,7 +2,20 @@
 
 [ext_resource type="Script" uid="uid://cl5jbihvjv8ca" path="res://Scripts/Hue.gd" id="1_wn31x"]
 
-[node name="Hue" type="Node2D" unique_id=1902301394]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hb1x"]
+size = Vector2(32, 64)
+
+[node name="Hue" type="CharacterBody2D" unique_id=1902301394]
 script = ExtResource("1_wn31x")
 
 [node name="Animation" type="AnimatedSprite2D" parent="." unique_id=1177540707]
+
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=736195284]
+shape = SubResource("RectangleShape2D_hb1x")
+
+[node name="Color" type="ColorRect" parent="." unique_id=1592846307]
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 16.0
+offset_bottom = 32.0
+color = Color(1, 1, 1, 1)
