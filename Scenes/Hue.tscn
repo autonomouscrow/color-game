@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://hhdk7g45lsgg"]
+
+[ext_resource type="Script" uid="uid://cl5jbihvjv8ca" path="res://Scripts/Hue.gd" id="1_wn31x"]
+
+[node name="Hue" type="Node2D" unique_id=1902301394]
+script = ExtResource("1_wn31x")
