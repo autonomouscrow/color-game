@@ -73,6 +73,7 @@ extends CharacterBody2D
 @export var punch_extend_time := 0.05
 ## Seconds the punch stays at full size before disappearing
 @export var punch_hold_time := 0.05
+@export var punch_damage := 15.0
 ## Seconds after punching or uppercutting before S can attack again
 @export var punch_cooldown := 0.1
 
@@ -84,11 +85,14 @@ extends CharacterBody2D
 @export var uppercut_extend_time := 0.05
 ## Seconds the uppercut stays at full size before disappearing
 @export var uppercut_hold_time := 0.05
+@export var uppercut_damage := 15.0
 
 @export_group("Slide Attack")
 @export var slide_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/SlideAttack.tscn")
 ## Pixels the slide hitbox reaches past the front half of Hue on every side
 @export var slide_hitbox_margin := 5.0
+## Slide damage is this times Hue's speed when it hits, divided by walking speed
+@export var slide_damage := 10.0
 
 @export_group("Slam Attack")
 @export var slam_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/SlamAttack.tscn")
@@ -96,11 +100,13 @@ extends CharacterBody2D
 @export var slam_hitbox_fraction := 0.25
 ## Pixels the slam hitbox reaches past that part of Hue on every side
 @export var slam_hitbox_margin := 5.0
+@export var slam_damage := 20.0
 
 @export_group("Dive Attack")
 @export var dive_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/DiveAttack.tscn")
 ## Side length of the square dive hitbox, which is turned 45 degrees and centered on Hue's lower front corner
 @export var dive_hitbox_size := 32.0
+@export var dive_damage := 20.0
 
 @export_group("Display")
 ## Color the true hitbox is drawn in, underneath the white color rectangle
@@ -288,10 +294,12 @@ func _physics_process(delta: float) -> void:
 			# Straight down is a slam; with sideways speed it's a dive
 			if velocity.x == 0:
 				slam_hitbox = slam_hitbox_scene.instantiate()
+				slam_hitbox.damage = slam_damage
 				add_child(slam_hitbox)
 			else:
 				dive_direction = signf(velocity.x)
 				dive_hitbox = dive_hitbox_scene.instantiate()
+				dive_hitbox.damage = dive_damage
 				add_child(dive_hitbox)
 			_update_attack_hitboxes()
 	if slamming:
@@ -344,6 +352,7 @@ func _punch() -> void:
 	punch.extend_time = punch_extend_time
 	punch.hold_time = punch_hold_time
 	punch.direction = Vector2(facing, 0)
+	punch.damage = punch_damage
 	punch.position = Vector2(facing * punch_offset.x, punch_offset.y)
 	add_child(punch)
 	current_punch = punch
@@ -358,6 +367,7 @@ func _uppercut() -> void:
 	uppercut.extend_time = uppercut_extend_time
 	uppercut.hold_time = uppercut_hold_time
 	uppercut.direction = Vector2.UP
+	uppercut.damage = uppercut_damage
 	# Starts from Hue's top edge, even when Hue is squished
 	uppercut.position = Vector2(hitbox.position.x, hitbox.position.y - hitbox_shape.size.y / 2)
 	add_child(uppercut)
@@ -446,6 +456,8 @@ func _update_attack_hitboxes() -> void:
 		# Front half of Hue's hitbox: from its center to the edge in the slide direction, plus the margin all around
 		var front_center := hitbox.position + Vector2(slide_direction * size.x / 4, 0)
 		slide_hitbox.set_rect(Rect2(front_center - half / 2, half))
+		# Faster slides hit harder; the damage is whatever the speed is when the enemy is touched
+		slide_hitbox.damage = slide_damage * absf(velocity.x) / speed
 		_remove_hitbox(dive_hitbox)
 	# Slam hitbox: the bottom part of Hue plus the margin, at full size right away, until the squat is fully squished
 	if is_instance_valid(slam_hitbox):

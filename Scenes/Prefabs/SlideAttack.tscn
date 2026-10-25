@@ -1,12 +1,13 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://Scripts/SlideHitbox.gd" id="1_slide"]
+[ext_resource type="Script" path="res://Scripts/Attack.gd" id="1_attack"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_slide"]
 size = Vector2(42, 42)
 
 [node name="SlideAttack" type="Area2D"]
-script = ExtResource("1_slide")
+script = ExtResource("1_attack")
+timed = false
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_slide")
