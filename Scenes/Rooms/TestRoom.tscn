@@ -11,3 +11,9 @@ position = Vector2(1281, 365)
 position = Vector2(1312, 365)
 target_room_id = "test2"
 target_door_id = "LeftDoor"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=338085723]
+offset_top = 517.0
+offset_right = 1279.0
+offset_bottom = 557.0
+color = Color(1, 0, 0, 1)
