@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bvbkoiedl4jtg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x3acn"]
+radius = 231.03462
+
+[node name="Craw" type="Node2D" unique_id=817144124]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=663994427]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(1, 0, 0, 1)
+
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=847005788]
+scale = Vector2(1.8411453, 1.8411453)
+shape = SubResource("RectangleShape2D_x3acn")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1589992056]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=362128148]
+shape = SubResource("CircleShape2D_x3acn")
