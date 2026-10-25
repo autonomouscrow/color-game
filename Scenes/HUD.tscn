@@ -4,6 +4,8 @@
 
 [node name="Hud" type="CanvasLayer" unique_id=1967454566]
 script = ExtResource("1_hud")
+max_mp = 10
+mp = 10
 
 [node name="Canvas" type="Control" parent="." unique_id=1967454567]
 layout_mode = 3

@@ -17,6 +17,14 @@ extends CharacterBody2D
 @export var coyote_time := 0.1
 ## Seconds before landing that a Z press is remembered and jumps on touchdown
 @export var jump_buffer_time := 0.1
+## Seconds to unsquish when jumping out of a slide with Z
+@export var slide_jump_unsquish_time := 0.05
+## Downward speed of the mid-air D slam
+@export var slam_speed := 2000.0
+## Seconds to squish into a slide when a slam hits the ground
+@export var slam_squish_time := 0.05
+## Seconds a straight-down slam stays squished before standing up, if no other input cuts it short
+@export var squat_hold_time := 0.2
 
 @export_group("Stats")
 @export var max_health := 100.0:
@@ -26,11 +34,11 @@ extends CharacterBody2D
 @export var health := 100.0:
 	set(value):
 		health = clampf(value, 0.0, max_health)
-@export var max_mp := 10:
+@export var max_mp := 8:
 	set(value):
 		max_mp = maxi(value, 0)
 		mp = mini(mp, max_mp)
-@export var mp := 10:
+@export var mp := 8:
 	set(value):
 		mp = clampi(value, 0, max_mp)
 
@@ -53,6 +61,11 @@ var sliding := false
 var slide_direction := 1.0
 var slide_stopping := false
 var slide_stop_rate := 0.0
+var slide_squish_duration := 0.1
+var slamming := false
+## True for a slam that landed with no sideways speed: Hue squats to half height without widening
+var squatting := false
+var squat_timer := 0.0
 var squish := 0.0
 var coyote_timer := 0.0
 var jump_buffer_timer := 0.0
@@ -76,15 +89,27 @@ func _physics_process(delta: float) -> void:
 
 	if is_on_floor():
 		coyote_timer = coyote_time
+		# A slam that hits the ground turns straight into a slide, keeping its horizontal speed
+		if slamming:
+			slamming = false
+			if velocity.x != 0:
+				slide_direction = signf(velocity.x)
+			_start_slide(slam_squish_time)
+			squatting = velocity.x == 0
 	else:
 		coyote_timer -= delta
-		velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
+		if slamming:
+			velocity.y = slam_speed
+		else:
+			velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer = jump_buffer_time
 	else:
 		jump_buffer_timer -= delta
 	# A buffered press jumps as soon as Hue is on the floor, or just walked off it
-	if jump_buffer_timer > 0 and coyote_timer > 0 and not sliding:
+	if jump_buffer_timer > 0 and coyote_timer > 0 and not slamming:
+		if sliding:
+			_jump_out_of_slide(dash_held)
 		velocity.y = -jump_velocity
 		jump_buffer_timer = 0
 		coyote_timer = 0
@@ -92,14 +117,26 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_released("jump") and velocity.y < 0:
 		velocity.y *= jump_release_cut
 
-	if Input.is_action_just_pressed("slide") and not sliding and is_on_floor() and absf(velocity.x) >= speed:
-		sliding = true
-		slide_stopping = false
-		slide_direction = signf(velocity.x)
-		# Slides start at least at slide_min_speed; faster slides keep their speed
-		if absf(velocity.x) < slide_min_speed:
-			velocity.x = slide_direction * slide_min_speed
-		dashing = false
+	if Input.is_action_just_pressed("slide") and not sliding:
+		if is_on_floor():
+			if absf(velocity.x) >= speed:
+				slide_direction = signf(velocity.x)
+				# Slides start at least at slide_min_speed; faster slides keep their speed
+				if absf(velocity.x) < slide_min_speed:
+					velocity.x = slide_direction * slide_min_speed
+				_start_slide(slide_squish_time)
+		elif not slamming:
+			slamming = true
+			dashing = false
+			velocity.y = slam_speed
+	if slamming:
+		# No steering during a slam; horizontal speed is kept as it was
+		move_and_slide()
+		return
+	# Finish unsquishing after jumping out of a slide
+	if not sliding and squish > 0:
+		squish = move_toward(squish, 0, delta / slide_jump_unsquish_time)
+		_apply_squish()
 	if sliding:
 		_slide(direction, delta)
 		move_and_slide()
@@ -115,7 +152,7 @@ func _physics_process(delta: float) -> void:
 			dash_direction = direction
 		velocity.x = dash_direction * dash_speed
 
-	if dashing and dash_held:
+	if dashing and dash_held and not dash_locked:
 		# Keep dashing with no arrows held; pressing the other way turns around over dash_turn_time
 		var target_direction := direction if direction != 0 else dash_direction
 		velocity.x = move_toward(velocity.x, target_direction * dash_speed, 2 * dash_speed / dash_turn_time * delta)
@@ -132,7 +169,38 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction * speed
 	move_and_slide()
 
+func _start_slide(squish_time: float) -> void:
+	sliding = true
+	slide_stopping = false
+	slide_squish_duration = squish_time
+	squatting = false
+	squat_timer = 0.0
+	dashing = false
+
+func _jump_out_of_slide(dash_held: bool) -> void:
+	sliding = false
+	# Leftover slide speed above walking speed eases off like the end of a dash; C held through the slide doesn't dash
+	if absf(velocity.x) > speed:
+		dashing = true
+		dash_direction = signf(velocity.x)
+		dash_locked = dash_held
+
 func _slide(direction: float, delta: float) -> void:
+	if squatting:
+		# Arrows or C during a squat stand Hue straight up and hand control back (Z is handled by the jump)
+		if direction != 0 or Input.is_action_just_pressed("dash"):
+			sliding = false
+			return
+		# Otherwise squish all the way down, hold for squat_hold_time, then stand up over slide_squish_time
+		if not slide_stopping:
+			squish = move_toward(squish, 1, delta / slide_squish_duration)
+			if squish == 1:
+				squat_timer += delta
+				if squat_timer >= squat_hold_time:
+					slide_stopping = true
+					slide_stop_rate = 0.0
+			_apply_squish()
+			return
 	# Letting go of the arrows or running out of speed ends the slide: stop over slide_stop_time and unsquish
 	if (direction == 0 or velocity.x == 0) and not slide_stopping:
 		slide_stopping = true
@@ -146,11 +214,12 @@ func _slide(direction: float, delta: float) -> void:
 			dash_locked = Input.is_action_pressed("dash")
 	else:
 		velocity.x = move_toward(velocity.x, 0, slide_friction * delta)
-		squish = move_toward(squish, 1, delta / slide_squish_time)
+		squish = move_toward(squish, 1, delta / slide_squish_duration)
 	_apply_squish()
 
 func _apply_squish() -> void:
-	var size := stand_size.lerp(Vector2(stand_size.x * 2, stand_size.y / 2), squish)
+	var squished_width := stand_size.x if squatting else stand_size.x * 2
+	var size := stand_size.lerp(Vector2(squished_width, stand_size.y / 2), squish)
 	hitbox_shape.size = size
 	# Keep the bottom edge in place so Hue squishes down instead of shrinking toward its center
 	hitbox.position.y = (stand_size.y - size.y) / 2

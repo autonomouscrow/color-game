@@ -15,12 +15,12 @@ extends CanvasLayer
 		health = clampf(value, 0.0, max_health)
 		_redraw()
 ## One diamond is drawn per point of max MP
-@export var max_mp := 10:
+@export var max_mp := 8:
 	set(value):
 		max_mp = maxi(value, 0)
 		mp = mini(mp, max_mp)
 		_redraw()
-@export var mp := 10:
+@export var mp := 8:
 	set(value):
 		mp = clampi(value, 0, max_mp)
 		_redraw()
