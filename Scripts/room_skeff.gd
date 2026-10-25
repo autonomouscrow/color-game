@@ -16,9 +16,6 @@ func _ready() -> void:
 	return
 
 func change_room(target_room_id: String, target_door_id: String) -> void:
-	print("--- TRANSITION START ---")
-	print("Target Room: ", target_room_id, " | Target Door: ", target_door_id)
-
 	# Check if room exists in dictionary
 	if not room_scenes.has(target_room_id):
 		push_error("Room ID '" + target_room_id + "' not found in room_scenes")
