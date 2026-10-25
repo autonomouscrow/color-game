@@ -8,6 +8,8 @@ extends Node2D
 }
 @export var Hue: CharacterBody2D
 
+@export var spawnControl: Node2D
+
 var current_room: Node2D = null
 var player: CharacterBody2D = null
 
@@ -28,6 +30,9 @@ func change_room(target_room_id: String, target_door_id: String) -> void:
 	# Find RoomContainer safely
 	var container = get_tree().current_scene.find_child("RoomContainer", true, false)
 
+	#cach all enemy information
+	spawnControl.addRoom(current_room.name,current_room.Enemies)
+
 	# Remove old room
 	if current_room:
 		current_room.queue_free()
@@ -42,6 +47,12 @@ func change_room(target_room_id: String, target_door_id: String) -> void:
 
 	current_room = room_res.instantiate()
 	container.add_child(current_room)
+	
+	#check enemies in room
+	if spawnControl.checkDictionary(current_room.name):
+		pass
+	else:
+		pass
 
 	await get_tree().process_frame
 

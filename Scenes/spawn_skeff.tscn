@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c4ub8bd6bn2by"]
+
+[ext_resource type="Script" uid="uid://bcr0ji1icd2lq" path="res://Scripts/spawn_skeff.gd" id="1_gusdb"]
+
+[node name="SpawnSkeff" type="Node2D" unique_id=1639310276]
+script = ExtResource("1_gusdb")

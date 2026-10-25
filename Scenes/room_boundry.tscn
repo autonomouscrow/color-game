@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b5ve86daq1wpt"]
 
-[ext_resource type="Script" uid="uid://c4cagaq4x5lx2" path="res://room_boundry.gd" id="1_wkrid"]
+[ext_resource type="Script" uid="uid://c4cagaq4x5lx2" path="res://Scripts/room_boundry.gd" id="1_wkrid"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 
