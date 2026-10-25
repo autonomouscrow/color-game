@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b5ve86daq1wpt"]
+
+[ext_resource type="Script" uid="uid://c4cagaq4x5lx2" path="res://room_boundry.gd" id="1_wkrid"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+
+[node name="RoomBoundry" type="Area2D" unique_id=2141509462]
+script = ExtResource("1_wkrid")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=734127765]
+shape = SubResource("RectangleShape2D_x3acn")

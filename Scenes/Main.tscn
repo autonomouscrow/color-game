@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bheepay7tcmdw" path="res://Scenes/Rooms/TestRoom2.tscn" id="1_kln2b"]
 [ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
+[ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
 
 [node name="Main" type="Node2D" unique_id=396947077]
 
@@ -17,16 +18,15 @@ Hue = NodePath("../Hue")
 [node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
 position = Vector2(636, 395)
 
-[node name="Camera2D" type="Camera2D" parent="Hue" unique_id=1716874876]
+[node name="Camera2D" type="Camera2D" parent="Hue" unique_id=1716874876 groups=["Camera"]]
 position = Vector2(3, -38)
 process_callback = 0
-limit_enabled = false
-position_smoothing_enabled = true
 position_smoothing_speed = 40.0
 drag_vertical_enabled = true
 drag_left_margin = 0.0
 drag_top_margin = 0.04
 drag_right_margin = 0.0
+script = ExtResource("4_pbw6q")
 
 [node name="HUD" parent="." unique_id=1967454570 node_paths=PackedStringArray("player") instance=ExtResource("3_hud")]
 player = NodePath("../Hue")
