@@ -18,6 +18,31 @@ extends CharacterBody2D
 ## Seconds before landing that a Z press is remembered and jumps on touchdown
 @export var jump_buffer_time := 0.1
 
+@export_group("Stats")
+@export var max_health := 100.0:
+	set(value):
+		max_health = maxf(value, 0.0)
+		health = minf(health, max_health)
+@export var health := 100.0:
+	set(value):
+		health = clampf(value, 0.0, max_health)
+@export var max_mp := 10:
+	set(value):
+		max_mp = maxi(value, 0)
+		mp = mini(mp, max_mp)
+@export var mp := 10:
+	set(value):
+		mp = clampi(value, 0, max_mp)
+
+@export_group("Debug")
+## Q/W raise/lower health and E/R raise/lower MP while held, for testing the HUD
+@export var debug_stat_keys := true
+## Health per second gained or lost while Q or W is held
+@export var debug_health_rate := 50.0
+## Seconds between each MP point gained or lost while E or R is held
+@export var debug_mp_interval := 0.3
+@export_group("")
+
 @onready var hitbox: CollisionShape2D = $Hitbox
 @onready var color_rect: ColorRect = $Color
 
@@ -33,6 +58,7 @@ var coyote_timer := 0.0
 var jump_buffer_timer := 0.0
 var hitbox_shape: RectangleShape2D
 var stand_size: Vector2
+var debug_mp_timer := 0.0
 
 func _ready() -> void:
 	# Own copy of the shape so resizing it doesn't affect other Hue instances
@@ -41,6 +67,8 @@ func _ready() -> void:
 	stand_size = hitbox_shape.size
 
 func _physics_process(delta: float) -> void:
+	if debug_stat_keys:
+		_debug_stats(delta)
 	var direction := signf(Input.get_axis("move_left", "move_right"))
 	var dash_held := Input.is_action_pressed("dash")
 	if not dash_held:
@@ -130,3 +158,16 @@ func _apply_squish() -> void:
 	hitbox.position.x = slide_direction * (size.x - stand_size.x) / 2
 	color_rect.size = size
 	color_rect.position = hitbox.position - size / 2
+
+func _debug_stats(delta: float) -> void:
+	var health_direction := float(Input.is_physical_key_pressed(KEY_Q)) - float(Input.is_physical_key_pressed(KEY_W))
+	health += health_direction * debug_health_rate * delta
+	var mp_direction := int(Input.is_physical_key_pressed(KEY_E)) - int(Input.is_physical_key_pressed(KEY_R))
+	if mp_direction == 0:
+		debug_mp_timer = 0.0
+		return
+	# Change by one point right away on press, then once every debug_mp_interval while held
+	debug_mp_timer -= delta
+	if debug_mp_timer <= 0.0:
+		mp += mp_direction
+		debug_mp_timer = debug_mp_interval
