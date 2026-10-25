@@ -106,5 +106,5 @@ func _on_body_exited(body: Node2D) -> void:
 		swoop_timer.stop()
 
 func _on_hitbox_2_body_entered(body: Node2D) -> void:
-	if current_state == State.SWOOP:
+	if not body.is_in_group("enemy") and current_state == State.SWOOP:
 		bounce_to_last_home()

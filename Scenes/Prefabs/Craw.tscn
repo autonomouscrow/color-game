@@ -9,7 +9,7 @@ radius = 231.03462
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t53hv"]
 
-[node name="Craw" type="CharacterBody2D" unique_id=2060975062]
+[node name="Craw" type="CharacterBody2D" unique_id=2060975062 groups=["enemy"]]
 script = ExtResource("1_g60cy")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=663994427]
