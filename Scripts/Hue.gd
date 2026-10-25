@@ -63,6 +63,45 @@ extends CharacterBody2D
 ## How far the color rectangle can jump from the hitbox by the explosion, in multiples of Hue's size
 @export var crisis_shake_max_distance := 1.5
 
+@export_group("Punch Attack")
+@export var punch_scene: PackedScene = preload("res://Scenes/Prefabs/PunchAttack.tscn")
+## Full size of the punch hitbox
+@export var punch_size := Vector2(53, 48)
+## Where the punch starts when facing right: x is the edge nearest Hue, y is the punch's vertical center (mirrored when facing left)
+@export var punch_offset := Vector2(12, -3)
+## Seconds for the punch to extend out to full size
+@export var punch_extend_time := 0.05
+## Seconds the punch stays at full size before disappearing
+@export var punch_hold_time := 0.05
+## Seconds after punching or uppercutting before S can attack again
+@export var punch_cooldown := 0.1
+
+@export_group("Uppercut Attack")
+@export var uppercut_scene: PackedScene = preload("res://Scenes/Prefabs/UppercutAttack.tscn")
+## Full size of the uppercut hitbox; it sits centered on top of Hue and extends upward
+@export var uppercut_size := Vector2(53, 48)
+## Seconds for the uppercut to extend up to full size
+@export var uppercut_extend_time := 0.05
+## Seconds the uppercut stays at full size before disappearing
+@export var uppercut_hold_time := 0.05
+
+@export_group("Slide Attack")
+@export var slide_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/SlideAttack.tscn")
+## Pixels the slide hitbox reaches past the front half of Hue on every side
+@export var slide_hitbox_margin := 5.0
+
+@export_group("Slam Attack")
+@export var slam_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/SlamAttack.tscn")
+## Fraction of Hue's height, from the bottom, that a straight-down slam's hitbox covers
+@export var slam_hitbox_fraction := 0.25
+## Pixels the slam hitbox reaches past that part of Hue on every side
+@export var slam_hitbox_margin := 5.0
+
+@export_group("Dive Attack")
+@export var dive_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/DiveAttack.tscn")
+## Side length of the square dive hitbox, which is turned 45 degrees and centered on Hue's lower front corner
+@export var dive_hitbox_size := 32.0
+
 @export_group("Display")
 ## Color the true hitbox is drawn in, underneath the white color rectangle
 @export var hitbox_color := Color(0.6, 0.2, 1.0, 0.4)
@@ -98,7 +137,14 @@ extends CharacterBody2D
 var dashing := false
 var dash_locked := false
 var dash_direction := 1.0
-var sliding := false
+var sliding := false:
+	set(value):
+		sliding = value
+		# The slide hitbox goes away the moment the slide ends, however it ends
+		if not sliding:
+			_remove_hitbox(slide_hitbox)
+			_remove_hitbox(slam_hitbox)
+			_remove_hitbox(dive_hitbox)
 var slide_direction := 1.0
 var slide_stopping := false
 var slide_stop_rate := 0.0
@@ -128,6 +174,15 @@ var crisis_copies: Array[ColorRect] = []
 ## 0 is normal size, 1 is fully shrunk into crisis_shrink_scale
 var crisis_shrink := 0.0
 var exploded := false
+## 1 when facing right, -1 when facing left; punches go this way
+var facing := 1.0
+var punch_cooldown_timer := 0.0
+var current_punch: Node2D
+var slide_hitbox: Node2D
+var slam_hitbox: Node2D
+var dive_hitbox: Node2D
+## Which way the dive hitbox's corner faces: the direction of horizontal movement when the dive started
+var dive_direction := 1.0
 
 func _ready() -> void:
 	# Own copy of the shape so resizing it doesn't affect other Hue instances
@@ -147,6 +202,14 @@ func _physics_process(delta: float) -> void:
 			crisis_locked = Input.is_action_pressed("crisis")
 		return
 	var direction := signf(Input.get_axis("move_left", "move_right"))
+	if direction != 0:
+		facing = direction
+	punch_cooldown_timer -= delta
+	if Input.is_action_just_pressed("punch") and punch_cooldown_timer <= 0:
+		if Input.is_action_pressed("move_up"):
+			_uppercut()
+		else:
+			_punch()
 	var dash_held := Input.is_action_pressed("dash")
 	if not dash_held:
 		dash_locked = false
@@ -154,7 +217,7 @@ func _physics_process(delta: float) -> void:
 	var crisis_held := Input.is_action_pressed("crisis")
 	if not crisis_held:
 		crisis_locked = false
-	var other_input := direction != 0 or dash_held or Input.is_action_pressed("jump") or Input.is_action_pressed("slide")
+	var other_input := direction != 0 or dash_held or Input.is_action_pressed("jump") or Input.is_action_pressed("slide") or Input.is_action_pressed("punch")
 	if in_crisis and (not crisis_held or other_input or not is_on_floor()):
 		# Any other input breaks out of the crisis and then does its normal thing below
 		_end_crisis()
@@ -186,6 +249,9 @@ func _physics_process(delta: float) -> void:
 			_start_slide(slam_squish_time)
 			squatting = velocity.x == 0
 			squat_amount = 1.0 if squatting else 0.0
+			# The dive hitbox ends on landing, unless C is held into the slide: then it lasts until the slide hitbox appears
+			if not Input.is_action_pressed("slide"):
+				_remove_hitbox(dive_hitbox)
 	else:
 		coyote_timer -= delta
 		if slamming:
@@ -219,6 +285,15 @@ func _physics_process(delta: float) -> void:
 			slamming = true
 			dashing = false
 			velocity.y = slam_speed
+			# Straight down is a slam; with sideways speed it's a dive
+			if velocity.x == 0:
+				slam_hitbox = slam_hitbox_scene.instantiate()
+				add_child(slam_hitbox)
+			else:
+				dive_direction = signf(velocity.x)
+				dive_hitbox = dive_hitbox_scene.instantiate()
+				add_child(dive_hitbox)
+			_update_attack_hitboxes()
 	if slamming:
 		# No steering during a slam; horizontal speed is kept as it was
 		move_and_slide()
@@ -258,6 +333,35 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = direction * speed
 	move_and_slide()
+
+func _punch() -> void:
+	punch_cooldown_timer = punch_cooldown
+	# Only one punch at a time: a new punch replaces one that's still out
+	if is_instance_valid(current_punch):
+		current_punch.queue_free()
+	var punch := punch_scene.instantiate()
+	punch.size = punch_size
+	punch.extend_time = punch_extend_time
+	punch.hold_time = punch_hold_time
+	punch.direction = Vector2(facing, 0)
+	punch.position = Vector2(facing * punch_offset.x, punch_offset.y)
+	add_child(punch)
+	current_punch = punch
+
+func _uppercut() -> void:
+	# Shares the punch's cooldown, and replaces a punch or uppercut that's still out
+	punch_cooldown_timer = punch_cooldown
+	if is_instance_valid(current_punch):
+		current_punch.queue_free()
+	var uppercut := uppercut_scene.instantiate()
+	uppercut.size = uppercut_size
+	uppercut.extend_time = uppercut_extend_time
+	uppercut.hold_time = uppercut_hold_time
+	uppercut.direction = Vector2.UP
+	# Starts from Hue's top edge, even when Hue is squished
+	uppercut.position = Vector2(hitbox.position.x, hitbox.position.y - hitbox_shape.size.y / 2)
+	add_child(uppercut)
+	current_punch = uppercut
 
 func _start_slide(squish_time: float) -> void:
 	sliding = true
@@ -329,6 +433,37 @@ func _apply_squish() -> void:
 	hitbox.position.x = slide_direction * (squish_size.x - stand_size.x) / 2
 	color_rect.size = size
 	color_rect.position = hitbox.position - size / 2 + shake_offset
+	_update_attack_hitboxes()
+
+func _update_attack_hitboxes() -> void:
+	var size := hitbox_shape.size
+	# Slide hitbox: spawns once Hue is fully squished into a slide (not a squat), then follows its shape until the slide ends
+	if sliding and not is_instance_valid(slide_hitbox) and squish == 1 and not squatting and squat_amount == 0:
+		slide_hitbox = slide_hitbox_scene.instantiate()
+		add_child(slide_hitbox)
+	if is_instance_valid(slide_hitbox):
+		var half := Vector2(size.x / 2, size.y) + Vector2.ONE * slide_hitbox_margin * 2
+		# Front half of Hue's hitbox: from its center to the edge in the slide direction, plus the margin all around
+		var front_center := hitbox.position + Vector2(slide_direction * size.x / 4, 0)
+		slide_hitbox.set_rect(Rect2(front_center - half / 2, half))
+		_remove_hitbox(dive_hitbox)
+	# Slam hitbox: the bottom part of Hue plus the margin, at full size right away, until the squat is fully squished
+	if is_instance_valid(slam_hitbox):
+		if sliding and squish == 1:
+			_remove_hitbox(slam_hitbox)
+		else:
+			var bottom_size := Vector2(size.x, size.y * slam_hitbox_fraction) + Vector2.ONE * slam_hitbox_margin * 2
+			var bottom := hitbox.position.y + size.y / 2 + slam_hitbox_margin
+			slam_hitbox.set_rect(Rect2(hitbox.position.x - bottom_size.x / 2, bottom - bottom_size.y, bottom_size.x, bottom_size.y))
+	# Dive hitbox: a turned square centered on Hue's lower front corner
+	if is_instance_valid(dive_hitbox):
+		dive_hitbox.position = hitbox.position + Vector2(dive_direction * size.x / 2, size.y / 2)
+		dive_hitbox.set_rect(Rect2(-Vector2.ONE * dive_hitbox_size / 2, Vector2.ONE * dive_hitbox_size))
+
+# Untyped so it also takes hitboxes that are already freed, which a Node2D parameter rejects
+func _remove_hitbox(attack_hitbox) -> void:
+	if is_instance_valid(attack_hitbox):
+		attack_hitbox.queue_free()
 
 func _draw() -> void:
 	if not exploded:
