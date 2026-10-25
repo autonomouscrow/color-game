@@ -6,6 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_24gi2"]
 size = Vector2(1283, 39)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+size = Vector2(23, 22.253693)
+
 [node name="test" type="Node2D" unique_id=915329821]
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("1_d83gb")]
@@ -16,7 +19,7 @@ scale = Vector2(171.99998, 47)
 position = Vector2(-119, 520)
 
 [node name="Exit" parent="." unique_id=199470789 instance=ExtResource("1_24gi2")]
-position = Vector2(-69, 374.99997)
+position = Vector2(-83, 375)
 scale = Vector2(1, 16.800001)
 target_room_id = "test2"
 target_door_id = "LeftDoor"
@@ -35,3 +38,8 @@ position = Vector2(-8, -496)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect2/StaticBody2D" unique_id=1295099511]
 position = Vector2(649, 516.5)
 shape = SubResource("RectangleShape2D_24gi2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=758597901]
+position = Vector2(-63, 363)
+scale = Vector2(1, 16.240002)
+shape = SubResource("RectangleShape2D_x3acn")
