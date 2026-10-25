@@ -1,11 +1,16 @@
 [gd_scene format=3 uid="uid://bheepay7tcmdw"]
 
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="1_3gxmx"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://room_boundry.tscn" id="1_67234"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 size = Vector2(1283, 39)
 
 [node name="test2" type="Node2D" unique_id=2077970759]
+
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("1_67234")]
+position = Vector2(1674, 362.99997)
+scale = Vector2(165.15997, 75.56)
 
 [node name="LeftDoor" type="Marker2D" parent="." unique_id=1431322980]
 position = Vector2(8, 465)
@@ -16,16 +21,47 @@ scale = Vector2(1, 13.919997)
 target_room_id = "test"
 target_door_id = "RightDoor"
 
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=782758684]
+offset_left = 1444.0001
+offset_top = 411.0
+offset_right = 2720.0
+offset_bottom = 451.0
+scale = Vector2(0.03536272, 1)
+color = Color(0, 0, 1, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ColorRect2" unique_id=322181816]
+position = Vector2(-8, -496)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect2/StaticBody2D" unique_id=837430968]
+position = Vector2(649, 516.5)
+shape = SubResource("RectangleShape2D_x3acn")
+
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1016732588]
 offset_left = 8.0
 offset_top = 496.0
 offset_right = 1284.0
 offset_bottom = 536.0
+scale = Vector2(2.7600002, 1)
 color = Color(0, 0, 1, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="ColorRect" unique_id=1785335093]
 position = Vector2(-8, -496)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/StaticBody2D" unique_id=1451943172]
+position = Vector2(649, 516.5)
+shape = SubResource("RectangleShape2D_x3acn")
+
+[node name="ColorRect3" type="ColorRect" parent="." unique_id=2145154999]
+offset_left = 1624.0001
+offset_top = 346.0
+offset_right = 2900.0
+offset_bottom = 386.0
+scale = Vector2(0.03536272, 1)
+color = Color(0, 0, 1, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ColorRect3" unique_id=1113714730]
+position = Vector2(-8, -496)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect3/StaticBody2D" unique_id=1996343966]
 position = Vector2(649, 516.5)
 shape = SubResource("RectangleShape2D_x3acn")
