@@ -8,6 +8,8 @@ extends Area2D
 
 ## Seconds before the plane disappears if it hasn't hit anything
 @export var lifetime := 5.0
+## Damage dealt to Hue on hit
+@export var damage := 5
 
 ## Ranges below are (min, max): a random value between them is picked per throw.
 @export_group("Straight Shot")
@@ -336,4 +338,7 @@ func _rand(range_value: Vector2) -> float:
 func _on_body_entered(body: Node2D) -> void:
 	if body == thrower or body is enemy:
 		return
+	if body.is_in_group("Player") and body.has_method("GetDamaged"):
+		body.GetDamaged(damage)
+	# Hitting Hue or anything else (walls, floor) stops the plane
 	queue_free()
