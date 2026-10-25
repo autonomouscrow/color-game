@@ -2,14 +2,22 @@
 
 [ext_resource type="PackedScene" uid="uid://hhdk7g45lsgg" path="res://Scenes/Hue.tscn" id="1_lc1oi"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(1302, 64)
+
 [node name="Test" type="Node2D" unique_id=2087328106]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=282767845]
-
 [node name="Hue" parent="." unique_id=689116480 instance=ExtResource("1_lc1oi")]
+position = Vector2(71, 297)
 
 [node name="Color" type="ColorRect" parent="." unique_id=8194329]
-offset_left = -53.0
-offset_top = 378.0
-offset_right = 1135.0
-offset_bottom = 442.0
+offset_left = -500.0
+offset_top = 528.0
+offset_right = 802.0
+offset_bottom = 592.0
+
+[node name="Floor" type="StaticBody2D" parent="Color" unique_id=1450227316]
+
+[node name="Hitbox" type="CollisionShape2D" parent="Color/Floor" unique_id=1450227317]
+position = Vector2(651, 32)
+shape = SubResource("RectangleShape2D_floor")
