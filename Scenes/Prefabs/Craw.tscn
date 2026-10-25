@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://bvbkoiedl4jtg"]
 
-[ext_resource type="Script" uid="uid://du60s5p8qjtr1" path="res://craw.gd" id="1_g60cy"]
+[ext_resource type="Script" uid="uid://du60s5p8qjtr1" path="res://Scripts/craw.gd" id="1_g60cy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x3acn"]
 radius = 231.03462
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_t53hv"]
+
 [node name="Craw" type="CharacterBody2D" unique_id=2060975062]
 script = ExtResource("1_g60cy")
-max_health = null
-total_health = null
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=663994427]
 offset_left = -20.0
@@ -35,5 +35,10 @@ one_shot = true
 scale = Vector2(1.8411453, 1.8411453)
 shape = SubResource("RectangleShape2D_x3acn")
 
+[node name="Body" type="CollisionShape2D" parent="." unique_id=401692203]
+scale = Vector2(1.6800008, 1.6800008)
+shape = SubResource("CircleShape2D_t53hv")
+
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_body_exited"]
+[connection signal="body_entered" from="Hitbox2" to="." method="_on_hitbox_2_body_entered"]

@@ -5,9 +5,9 @@ var current_state: State = State.HOVER
 
 @export var total_health = 25
 
-
 var player: Node2D = null
 var home_position: Vector2 = Vector2.ZERO
+var last_home_position: Vector2 = Vector2.ZERO
 var hover_timer: float = 0.0
 var return_dir: float = 1.0
 
@@ -23,6 +23,7 @@ var float_rand: float = randf_range(2.0, 2.3)
 
 func _ready() -> void:
 	home_position = global_position
+	last_home_position = global_position
 	swoop_timer.timeout.connect(_on_swoop_timer_timeout)
 
 func _physics_process(delta: float) -> void:
@@ -39,7 +40,7 @@ func _physics_process(delta: float) -> void:
 				start_return()
 
 		State.RETURN:
-			if follow_curve(280.0, delta):
+			if follow_curve(320.0, delta):
 				global_position = home_position
 				velocity = Vector2.ZERO
 				current_state = State.HOVER
@@ -48,8 +49,6 @@ func _physics_process(delta: float) -> void:
 					float_rand = randf_range(2.0, 2.3)
 
 	move_and_slide()
-
-# --- Curve & Movement ---
 
 func follow_curve(speed: float, delta: float) -> bool:
 	curve_progress += (speed / curve_length) * delta
@@ -68,6 +67,7 @@ func set_curve(start: Vector2, ctrl: Vector2, target: Vector2, state: State) -> 
 	current_state = state
 
 func start_swoop() -> void:
+	last_home_position = home_position
 	return_dir = sign(player.global_position.x - global_position.x)
 	if return_dir == 0: return_dir = 1.0 if randf() > 0.5 else -1.0
 
@@ -81,10 +81,14 @@ func start_return() -> void:
 	var ctrl = Vector2(global_position.x + return_dir * (dist * 1.25 + randf_range(75, 125)), lerp(global_position.y, home_position.y, randf_range(0.3, 0.45)))
 	set_curve(global_position, ctrl, home_position, State.RETURN)
 
+func bounce_to_last_home() -> void:
+	home_position = last_home_position
+	# Control point pops upward and backward away from the impact to create a bounce recoil
+	var ctrl = global_position + Vector2(-return_dir * randf_range(70, 110), -randf_range(180, 240))
+	set_curve(global_position, ctrl, home_position, State.RETURN)
+
 func start_timer() -> void:
 	swoop_timer.start(randf_range(1.2, 2.8))
-
-# --- Callbacks ---
 
 func _on_swoop_timer_timeout() -> void:
 	if player and current_state == State.HOVER:
@@ -100,4 +104,7 @@ func _on_body_exited(body: Node2D) -> void:
 	if body == player:
 		player = null
 		swoop_timer.stop()
-		
+
+func _on_hitbox_2_body_entered(body: Node2D) -> void:
+	if current_state == State.SWOOP:
+		bounce_to_last_home()
