@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Craw.tscn" id="6_v1gob"]
 
 [node name="Main" type="Node2D" unique_id=396947077]
 
@@ -30,3 +31,12 @@ script = ExtResource("4_pbw6q")
 
 [node name="HUD" parent="." unique_id=1967454570 node_paths=PackedStringArray("player") instance=ExtResource("3_hud")]
 player = NodePath("../Hue")
+
+[node name="Craw" parent="." unique_id=2060975062 instance=ExtResource("6_v1gob")]
+position = Vector2(1851, 278)
+
+[node name="Craw2" parent="." unique_id=1810167277 instance=ExtResource("6_v1gob")]
+position = Vector2(2005, 169)
+
+[node name="Craw3" parent="." unique_id=948565496 instance=ExtResource("6_v1gob")]
+position = Vector2(1536, 79)
