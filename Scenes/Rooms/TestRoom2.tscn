@@ -2,19 +2,30 @@
 
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="1_3gxmx"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+size = Vector2(1283, 39)
+
 [node name="test2" type="Node2D" unique_id=2077970759]
 
 [node name="LeftDoor" type="Marker2D" parent="." unique_id=1431322980]
-position = Vector2(2, 388)
+position = Vector2(8, 465)
 
 [node name="Exit" parent="." unique_id=199470789 instance=ExtResource("1_3gxmx")]
 position = Vector2(-33, 388)
+scale = Vector2(1, 13.919997)
 target_room_id = "test"
 target_door_id = "RightDoor"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1016732588]
-offset_left = 2.0
-offset_top = 280.0
-offset_right = 1278.0
-offset_bottom = 320.0
+offset_left = 8.0
+offset_top = 496.0
+offset_right = 1284.0
+offset_bottom = 536.0
 color = Color(0, 0, 1, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ColorRect" unique_id=1785335093]
+position = Vector2(-8, -496)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/StaticBody2D" unique_id=1451943172]
+position = Vector2(649, 516.5)
+shape = SubResource("RectangleShape2D_x3acn")
