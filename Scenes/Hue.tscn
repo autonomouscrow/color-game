@@ -12,6 +12,7 @@ script = ExtResource("1_wn31x")
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=736195284]
 shape = SubResource("RectangleShape2D_hb1x")
+debug_color = Color(0.6, 0.2, 1, 0.4)
 
 [node name="Color" type="ColorRect" parent="." unique_id=1592846307]
 offset_left = -16.0
