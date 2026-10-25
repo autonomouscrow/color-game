@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bheepay7tcmdw"]
+
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="1_3gxmx"]
+
+[node name="test2" type="Node2D" unique_id=2077970759]
+
+[node name="LeftDoor" type="Marker2D" parent="." unique_id=1431322980]
+position = Vector2(2, 388)
+
+[node name="Exit" parent="." unique_id=199470789 instance=ExtResource("1_3gxmx")]
+position = Vector2(-33, 388)
+target_room_id = "test"
+target_door_id = "RightDoor"

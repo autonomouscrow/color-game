@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://castvwqi4rwud"]
+
+[ext_resource type="Script" uid="uid://gtk40wdx3u1c" path="res://Scripts/room_skeff.gd" id="1_fwbac"]
+
+[node name="Node2D" type="Node2D" unique_id=1091275121]
+script = ExtResource("1_fwbac")

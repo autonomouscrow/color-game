@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://b3v1edmqhqd75"]
+
+[ext_resource type="PackedScene" uid="uid://hhdk7g45lsgg" path="res://Scenes/Hue.tscn" id="1_idj7w"]
+[ext_resource type="PackedScene" uid="uid://bheepay7tcmdw" path="res://Scenes/Rooms/TestRoom2.tscn" id="1_kln2b"]
+[ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
+
+[node name="Main" type="Node2D" unique_id=396947077]
+
+[node name="RoomControl" parent="." unique_id=1091275121 node_paths=PackedStringArray("Hue") groups=["RoomControl"] instance=ExtResource("2_kln2b")]
+Hue = NodePath("../Hue")
+
+[node name="RoomContainer" type="Node2D" parent="." unique_id=311234013]
+
+[node name="test2" parent="RoomContainer" unique_id=2077970759 instance=ExtResource("1_kln2b")]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1716874876]
+position = Vector2(639, 357)
+
+[node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
+position = Vector2(636, 395)
