@@ -16,6 +16,7 @@ size = Vector2(768, 720)
 
 [node name="PaperAirplaneThrower" type="CharacterBody2D" unique_id=499016071 groups=["enemy"]]
 script = ExtResource("1_thrower")
+max_health = 50
 
 [node name="Body" type="CollisionShape2D" parent="." unique_id=1221422424]
 shape = SubResource("RectangleShape2D_thrower")

@@ -107,6 +107,7 @@ var loop_drift_used := 0.0
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
+	area_entered.connect(_on_area_entered)
 
 ## Builds a random flight that passes through target; call after the plane is added and positioned
 func launch(target: Vector2) -> void:
@@ -342,3 +343,8 @@ func _on_body_entered(body: Node2D) -> void:
 		body.GetDamaged(damage)
 	# Hitting Hue or anything else (walls, floor) stops the plane
 	queue_free()
+
+## Any of Hue's attack hitboxes (punch, uppercut, slide, slam, dive) destroys the plane
+func _on_area_entered(area: Area2D) -> void:
+	if area is Attack:
+		queue_free()

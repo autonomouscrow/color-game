@@ -44,7 +44,4 @@ position = Vector2(2005, 169)
 position = Vector2(1536, 79)
 
 [node name="PaperAirplaneThrower" parent="." unique_id=499016071 instance=ExtResource("7_jw32o")]
-position = Vector2(1797, 448)
-
-[node name="SlidyBoi" parent="." unique_id=1609698959 instance=ExtResource("8_50glp")]
-position = Vector2(305, 440)
+position = Vector2(734, 457)

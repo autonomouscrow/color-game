@@ -4,9 +4,16 @@ extends CharacterBody2D
 @export var speed := 300.0
 
 @export_group("Dash")
-@export var dash_speed := 600.0
-@export var dash_slowdown_time := 0.2
-@export var dash_turn_time := 0.3
+## Horizontal speed for the whole dash; vertical speed stays at zero
+@export var dash_speed := 1200.0
+## Horizontal speed kept after the dash ends while D is still held, on the ground and in the air
+@export var dash_run_speed := 600.0
+## Seconds a dash lasts; it can't be cancelled, and Hue has i-frames and passes through enemies the whole time
+@export var dash_time := 0.2
+## Seconds from the start of one dash until D can dash again
+@export var dash_cooldown := 1
+## Seconds to ease down to walking speed when D is released after a dash with an arrow held
+@export var dash_release_time := 0.2
 
 @export_group("Slide")
 @export var slide_friction := 200.0
@@ -30,6 +37,8 @@ extends CharacterBody2D
 @export var jump_buffer_time := 0.1
 ## Seconds to unsquish when jumping out of a slide with A
 @export var slide_jump_unsquish_time := 0.05
+## Seconds for leftover slide speed above walking speed to ease off after jumping out of a slide
+@export var slide_jump_slowdown_time := 0.2
 
 @export_group("Slam")
 ## Downward speed of the mid-air C slam
@@ -66,7 +75,7 @@ extends CharacterBody2D
 @export_group("Punch Attack")
 @export var punch_scene: PackedScene = preload("res://Scenes/Prefabs/PunchAttack.tscn")
 ## Full size of the punch hitbox
-@export var punch_size := Vector2(53, 48)
+@export var punch_size := Vector2(100, 50)
 ## Where the punch starts when facing right: x is the edge nearest Hue, y is the punch's vertical center (mirrored when facing left)
 @export var punch_offset := Vector2(12, -3)
 ## Seconds for the punch to extend out to full size
@@ -80,7 +89,7 @@ extends CharacterBody2D
 @export_group("Uppercut Attack")
 @export var uppercut_scene: PackedScene = preload("res://Scenes/Prefabs/UppercutAttack.tscn")
 ## Full size of the uppercut hitbox; it sits centered on top of Hue and extends upward
-@export var uppercut_size := Vector2(53, 48)
+@export var uppercut_size := Vector2(65, 80)
 ## Seconds for the uppercut to extend up to full size
 @export var uppercut_extend_time := 0.05
 ## Seconds the uppercut stays at full size before disappearing
@@ -105,8 +114,15 @@ extends CharacterBody2D
 @export_group("Dive Attack")
 @export var dive_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/DiveAttack.tscn")
 ## Side length of the square dive hitbox, which is turned 45 degrees and centered on Hue's lower front corner
-@export var dive_hitbox_size := 32.0
+@export var dive_hitbox_size := 45.0
 @export var dive_damage := 20.0
+
+@export_group("Dash Attack")
+@export var dash_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/DashAttack.tscn")
+## Pixels the dash hitbox reaches past Hue on every side
+@export var dash_hitbox_margin := 5.0
+## Damage to each enemy in the dash's path, once per enemy per dash
+@export var dash_damage := 20.0
 
 @export_group("Display")
 ## Color the true hitbox is drawn in, underneath the white color rectangle
@@ -141,8 +157,17 @@ extends CharacterBody2D
 @onready var color_rect: ColorRect = $Color
 
 var dashing := false
-var dash_locked := false
 var dash_direction := 1.0
+var dash_timer := 0.0
+var dash_cooldown_timer := 0.0
+var dash_hitbox: Node2D
+## Enemies Hue stopped colliding with for the current dash, so they can be restored when it ends
+var dash_passed_enemies: Array[PhysicsBody2D] = []
+## True while D is still held after a dash ends: Hue runs at dash_run_speed, with gravity and collisions back as usual
+var dash_carrying := false
+## True while extra speed eases down to walking speed, after a dash or after jumping out of a slide
+var speed_easing := false
+var speed_ease_rate := 0.0
 var sliding := false:
 	set(value):
 		sliding = value
@@ -219,8 +244,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			_punch()
 	var dash_held := Input.is_action_pressed("dash")
-	if not dash_held:
-		dash_locked = false
+	dash_cooldown_timer -= delta
 
 	var crisis_held := Input.is_action_pressed("crisis")
 	if not crisis_held:
@@ -229,9 +253,10 @@ func _physics_process(delta: float) -> void:
 	if in_crisis and (not crisis_held or other_input or not is_on_floor()):
 		# Any other input breaks out of the crisis and then does its normal thing below
 		_end_crisis()
-	elif not in_crisis and crisis_held and not crisis_locked and not other_input and is_on_floor() and not sliding and not slamming and squish == 0:
+	elif not in_crisis and crisis_held and not crisis_locked and not other_input and is_on_floor() and not sliding and not slamming and not dashing and squish == 0:
 		in_crisis = true
-		dashing = false
+		dash_carrying = false
+		speed_easing = false
 		crisis_time = 0.0
 		crisis_mp_interval = crisis_first_mp_time
 		crisis_next_mp_time = crisis_first_mp_time
@@ -246,6 +271,12 @@ func _physics_process(delta: float) -> void:
 	elif crisis_shrink > 0:
 		crisis_shrink = move_toward(crisis_shrink, 0, delta / crisis_shrink_time)
 		_apply_squish()
+
+	if Input.is_action_just_pressed("dash") and not dashing and dash_cooldown_timer <= 0:
+		_start_dash(direction)
+	if dashing:
+		_dash(direction, delta)
+		return
 
 	if is_on_floor():
 		coyote_timer = coyote_time
@@ -286,7 +317,7 @@ func _physics_process(delta: float) -> void:
 		# A buffered press jumps as soon as Hue is on the floor, or just walked off it
 		if jump_buffer_timer > 0 and coyote_timer > 0 and not slamming:
 			if sliding:
-				_jump_out_of_slide(dash_held)
+				_jump_out_of_slide()
 			velocity.y = -jump_velocity
 			jump_buffer_timer = 0
 			coyote_timer = 0
@@ -304,7 +335,6 @@ func _physics_process(delta: float) -> void:
 					_start_slide(slide_squish_time)
 			elif not slamming:
 				slamming = true
-				dashing = false
 				velocity.y = slam_speed
 				# Straight down is a slam; with sideways speed it's a dive
 				if velocity.x == 0:
@@ -330,29 +360,17 @@ func _physics_process(delta: float) -> void:
 			move_and_slide()
 			return
 
-		# Start a dash, or snap back to full dash speed if D is pressed again mid-slowdown
-		if dash_held and direction != 0 and not dashing and not dash_locked:
-			dashing = true
-			dash_direction = direction
-			velocity.x = dash_direction * dash_speed
-		elif Input.is_action_just_pressed("dash") and dashing:
-			if direction != 0:
-				dash_direction = direction
-			velocity.x = dash_direction * dash_speed
-
-		if dashing and dash_held and not dash_locked:
-			# Keep dashing with no arrows held; pressing the other way turns around over dash_turn_time
-			var target_direction := direction if direction != 0 else dash_direction
-			velocity.x = move_toward(velocity.x, target_direction * dash_speed, 2 * dash_speed / dash_turn_time * delta)
-			if signf(velocity.x) == target_direction:
-				dash_direction = target_direction
-		elif dashing:
-			# D released: slow to walking speed, or to a stop if no arrows are held, over dash_slowdown_time
+		if dash_carrying and not dash_held:
+			dash_carrying = false
+			_ease_from_dash(direction)
+		if dash_carrying:
+			velocity.x = dash_direction * dash_run_speed
+		elif speed_easing:
+			# Extra speed eases down to walking speed, or to a stop if no arrows are held
 			var target_speed := direction * speed
-			var slowdown_rate := (dash_speed - absf(target_speed)) / dash_slowdown_time
-			velocity.x = move_toward(velocity.x, target_speed, slowdown_rate * delta)
+			velocity.x = move_toward(velocity.x, target_speed, speed_ease_rate * delta)
 			if velocity.x == target_speed:
-				dashing = false
+				speed_easing = false
 		else:
 			velocity.x = direction * speed
 	move_and_slide()
@@ -395,15 +413,77 @@ func _start_slide(squish_time: float) -> void:
 	squatting = false
 	squat_timer = 0.0
 	squat_amount = 0.0
-	dashing = false
+	speed_easing = false
+	dash_carrying = false
 
-func _jump_out_of_slide(dash_held: bool) -> void:
+func _jump_out_of_slide() -> void:
 	sliding = false
-	# Leftover slide speed above walking speed eases off like the end of a dash; D held through the slide doesn't dash
+	# Leftover slide speed above walking speed eases off over slide_jump_slowdown_time
 	if absf(velocity.x) > speed:
-		dashing = true
-		dash_direction = signf(velocity.x)
-		dash_locked = dash_held
+		speed_easing = true
+		speed_ease_rate = absf(velocity.x) / slide_jump_slowdown_time
+
+## With an arrow held, eases from the current speed down to walking speed over dash_release_time; otherwise Hue just stops
+func _ease_from_dash(direction: float) -> void:
+	if direction == 0:
+		return
+	speed_easing = true
+	speed_ease_rate = absf(velocity.x - direction * speed) / dash_release_time
+
+func _start_dash(direction: float) -> void:
+	dashing = true
+	dash_timer = dash_time
+	dash_cooldown_timer = dash_cooldown
+	dash_direction = direction if direction != 0 else facing
+	facing = dash_direction
+	# A dash cuts off a slide, squat or slam (their hitboxes go with them) and any knockback
+	sliding = false
+	slamming = false
+	squatting = false
+	squat_amount = 0.0
+	speed_easing = false
+	dash_carrying = false
+	knockback = Vector2.ZERO
+	jump_buffer_timer = 0
+	# Pass through enemies both ways: Hue doesn't bump into them, and they don't bump into Hue
+	for node in get_tree().get_nodes_in_group("enemy"):
+		if node is PhysicsBody2D:
+			add_collision_exception_with(node)
+			node.add_collision_exception_with(self)
+			dash_passed_enemies.append(node)
+	_remove_hitbox(dash_hitbox)
+	dash_hitbox = dash_hitbox_scene.instantiate()
+	dash_hitbox.damage = dash_damage
+	add_child(dash_hitbox)
+	_update_attack_hitboxes()
+
+func _dash(direction: float, delta: float) -> void:
+	# Straight across at dash speed with no gravity, until dash_time runs out
+	velocity = Vector2(dash_direction * dash_speed, 0)
+	if squish > 0:
+		squish = move_toward(squish, 0, delta / slide_jump_unsquish_time)
+		_apply_squish()
+	move_and_slide()
+	_update_attack_hitboxes()
+	dash_timer -= delta
+	if dash_timer <= 0:
+		_end_dash(direction)
+
+func _end_dash(direction: float) -> void:
+	dashing = false
+	velocity.y = 0
+	# Holding D keeps running at dash_run_speed after the dash; letting go with an arrow held eases down to walking speed
+	if Input.is_action_pressed("dash"):
+		dash_carrying = true
+		velocity.x = dash_direction * dash_run_speed
+	else:
+		_ease_from_dash(direction)
+	_remove_hitbox(dash_hitbox)
+	for node in dash_passed_enemies:
+		if is_instance_valid(node):
+			remove_collision_exception_with(node)
+			node.remove_collision_exception_with(self)
+	dash_passed_enemies.clear()
 
 func _slide(direction: float, delta: float) -> void:
 	if squatting:
@@ -439,8 +519,6 @@ func _slide(direction: float, delta: float) -> void:
 		squish = move_toward(squish, 0, delta / slide_squish_time)
 		if velocity.x == 0 and squish == 0:
 			sliding = false
-			# D held through the slide doesn't dash on getting up; it has to be pressed again
-			dash_locked = Input.is_action_pressed("dash")
 	else:
 		velocity.x = move_toward(velocity.x, slide_direction * slide_lowest_speed, slide_friction * delta)
 		squish = move_toward(squish, 1, delta / slide_squish_duration)
@@ -482,6 +560,10 @@ func _update_attack_hitboxes() -> void:
 			var bottom_size := Vector2(size.x, size.y * slam_hitbox_fraction) + Vector2.ONE * slam_hitbox_margin * 2
 			var bottom := hitbox.position.y + size.y / 2 + slam_hitbox_margin
 			slam_hitbox.set_rect(Rect2(hitbox.position.x - bottom_size.x / 2, bottom - bottom_size.y, bottom_size.x, bottom_size.y))
+	# Dash hitbox: all of Hue plus the margin, for the whole dash
+	if is_instance_valid(dash_hitbox):
+		var dash_size := size + Vector2.ONE * dash_hitbox_margin * 2
+		dash_hitbox.set_rect(Rect2(hitbox.position - dash_size / 2, dash_size))
 	# Dive hitbox: a turned square centered on Hue's lower front corner
 	if is_instance_valid(dive_hitbox):
 		dive_hitbox.position = hitbox.position + Vector2(dive_direction * size.x / 2, size.y / 2)
@@ -562,7 +644,14 @@ func _debug_stats(delta: float) -> void:
 		debug_mp_timer = debug_mp_interval
 
 func SetKnockback(force: Vector2) -> void:
+	# I-frames: dashing ignores knockback and damage
+	if dashing:
+		return
+	dash_carrying = false
+	speed_easing = false
 	knockback = force
 
 func GetDamaged(damage: int) -> void:
+	if dashing:
+		return
 	health -= damage
