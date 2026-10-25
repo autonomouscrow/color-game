@@ -119,3 +119,18 @@ func _on_too_close_body_entered(body: Node2D) -> void:
 func _on_too_close_body_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		in_too_close_area = false
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		var push_dir = sign(body.global_position.x - global_position.x)
+		var knockback = Vector2(push_dir * 500.0, -500.0)
+		
+		if body.has_method("SetKnockback"):
+			body.SetKnockback(knockback)
+		else:
+			push_error("no knockback")
+			
+		if body.has_method("GetDamaged"):
+			body.GetDamaged(10)
+				

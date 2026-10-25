@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cws3j3jx4uba0" path="res://Scripts/paper_airplane_thrower.gd" id="1_thrower"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_thrower"]
-size = Vector2(32, 64)
+size = Vector2(30, 62)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_detection"]
 size = Vector2(2048, 720)
@@ -13,6 +13,9 @@ size = Vector2(1280, 720)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tooclose"]
 size = Vector2(768, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+size = Vector2(32, 64)
 
 [node name="PaperAirplaneThrower" type="CharacterBody2D" unique_id=499016071 groups=["enemy"]]
 script = ExtResource("1_thrower")
@@ -50,9 +53,15 @@ debug_color = Color(0.9, 0.2, 0.2, 0.1)
 [node name="ThrowTimer" type="Timer" parent="." unique_id=1019314499]
 one_shot = true
 
+[node name="Area2D" type="Area2D" parent="." unique_id=1307551421]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=924123149]
+shape = SubResource("RectangleShape2D_x3acn")
+
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_body_exited"]
 [connection signal="body_entered" from="ThrowArea" to="." method="_on_throw_area_body_entered"]
 [connection signal="body_exited" from="ThrowArea" to="." method="_on_throw_area_body_exited"]
 [connection signal="body_entered" from="TooCloseArea" to="." method="_on_too_close_body_entered"]
 [connection signal="body_exited" from="TooCloseArea" to="." method="_on_too_close_body_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

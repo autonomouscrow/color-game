@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="6_v1gob"]
 [ext_resource type="PackedScene" uid="uid://ctaww7bptkekr" path="res://Scenes/Prefabs/PaperAirplaneThrower.tscn" id="7_jw32o"]
 [ext_resource type="PackedScene" uid="uid://c5i7skmtn3i2o" path="res://breakable_wall.tscn" id="8_50glp"]
+[ext_resource type="PackedScene" uid="uid://bg20reqytwww4" path="res://Scenes/Prefabs/slidy_boi.tscn" id="9_vy5pj"]
+[ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://damage_tp.tscn" id="10_4kpch"]
+[ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://DamageBlock.tscn" id="11_grg3l"]
 
 [node name="Main" type="Node2D" unique_id=396947077]
 
@@ -49,3 +52,14 @@ position = Vector2(734, 457)
 [node name="Breakable Wall" parent="." unique_id=987624992 instance=ExtResource("8_50glp")]
 position = Vector2(354, 326)
 scale = Vector2(1, 4.239998)
+
+[node name="SlidyBoi" parent="." unique_id=1609698959 instance=ExtResource("9_vy5pj")]
+position = Vector2(958, 451)
+
+[node name="DamageTP" parent="." unique_id=502579649 instance=ExtResource("10_4kpch")]
+position = Vector2(287, 489)
+
+[node name="DamageBlock" parent="." unique_id=2136408807 node_paths=PackedStringArray("safeZone") instance=ExtResource("11_grg3l")]
+position = Vector2(84, 486)
+scale = Vector2(4.418162, 0.32497424)
+safeZone = NodePath("../DamageTP")
