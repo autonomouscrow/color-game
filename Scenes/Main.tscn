@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="6_v1gob"]
 [ext_resource type="PackedScene" uid="uid://ctaww7bptkekr" path="res://Scenes/Prefabs/PaperAirplaneThrower.tscn" id="7_jw32o"]
+[ext_resource type="PackedScene" uid="uid://bg20reqytwww4" path="res://slidy_boi.tscn" id="8_50glp"]
 
 [node name="Main" type="Node2D" unique_id=396947077]
 
@@ -44,3 +45,6 @@ position = Vector2(1536, 79)
 
 [node name="PaperAirplaneThrower" parent="." unique_id=499016071 instance=ExtResource("7_jw32o")]
 position = Vector2(1797, 448)
+
+[node name="SlidyBoi" parent="." unique_id=1609698959 instance=ExtResource("8_50glp")]
+position = Vector2(305, 440)
