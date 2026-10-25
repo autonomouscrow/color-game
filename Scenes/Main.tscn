@@ -19,6 +19,14 @@ position = Vector2(636, 395)
 
 [node name="Camera2D" type="Camera2D" parent="Hue" unique_id=1716874876]
 position = Vector2(3, -38)
+process_callback = 0
+limit_enabled = false
+position_smoothing_enabled = true
+position_smoothing_speed = 40.0
+drag_vertical_enabled = true
+drag_left_margin = 0.0
+drag_top_margin = 0.04
+drag_right_margin = 0.0
 
 [node name="HUD" parent="." unique_id=1967454570 node_paths=PackedStringArray("player") instance=ExtResource("3_hud")]
 player = NodePath("../Hue")
