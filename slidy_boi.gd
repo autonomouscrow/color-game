@@ -7,9 +7,9 @@ enum State { PATROL, WINDUP, SLIDING, COOLDOWN }
 
 @export_group("Slide Settings")
 @export var slide_speed: float = 600.0
-@export var slide_friction: float = 300.0 # How fast it slows down
-@export var windup_time: float = 0.35 # Brief pause before lunging
-@export var cooldown_time: float = 1.0 # Pause after sliding before moving again
+@export var slide_friction: float = 300.0 
+@export var windup_time: float = 0.35 
+@export var cooldown_time: float = 1.0 
 
 var current_state: State = State.PATROL
 var player_target: Node2D = null
@@ -22,10 +22,9 @@ var slide_direction: float = 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready() -> void:
-	hitbox_shape.disabled = true # Start with attack hitbox off
+	hitbox_shape.disabled = true 
 
 func _physics_process(delta: float) -> void:
-	# Apply gravity if in the air
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
@@ -41,7 +40,7 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-# --- STATES LOGIC ---
+
 
 func _process_patrol() -> void:
 	# Reverse direction if hitting a wall
@@ -53,12 +52,11 @@ func _process_patrol() -> void:
 func _start_windup() -> void:
 	current_state = State.WINDUP
 	
-	# Face the player during windup
 	slide_direction = sign(player_target.global_position.x - global_position.x)
 	if slide_direction == 0:
 		slide_direction = 1
 
-	# Optional: Play windup animation / flash white here
+
 	await get_tree().create_timer(windup_time).timeout
 	_start_slide()
 
@@ -69,27 +67,22 @@ func _start_slide() -> void:
 
 
 func _process_slide(delta: float) -> void:
-	# Decelerate over time using friction
 	velocity.x = move_toward(velocity.x, 0, slide_friction * delta)
 
-	# Stop sliding if we hit a wall or slowed down enough
 	if abs(velocity.x) < 30.0 or is_on_wall():
 		_end_slide()
 
 func _end_slide() -> void:
-	hitbox_shape.disabled = true # Turn off attack hitbox
+	hitbox_shape.disabled = true
 	current_state = State.COOLDOWN
 	
-	# Wait before returning to normal patrol
 	await get_tree().create_timer(cooldown_time).timeout
 
-	# Check if player is still in range to slide again, otherwise patrol
 	if player_target and is_instance_valid(player_target):
 		_start_windup()
 	else:
 		current_state = State.PATROL
 
-# --- SIGNALS & HELPERS ---
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") and current_state == State.PATROL:
