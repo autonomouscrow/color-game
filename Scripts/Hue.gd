@@ -190,6 +190,8 @@ var dive_hitbox: Node2D
 ## Which way the dive hitbox's corner faces: the direction of horizontal movement when the dive started
 var dive_direction := 1.0
 
+var knockback: Vector2 = Vector2.ZERO
+
 func _ready() -> void:
 	# Own copy of the shape so resizing it doesn't affect other Hue instances
 	hitbox_shape = hitbox.shape.duplicate()
@@ -264,82 +266,95 @@ func _physics_process(delta: float) -> void:
 			velocity.y = slam_speed
 		else:
 			velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
-	if Input.is_action_just_pressed("jump"):
-		jump_buffer_timer = jump_buffer_time
+	
+	#---------------------------------------------------------------------------
+	if knockback.length() > 100.0:
+		velocity.x = knockback.x
+		# Pop the player upward once, then zero it out so gravity can pull them down
+		if knockback.y != 0:
+			velocity.y = knockback.y
+			knockback.y = 0.0
+		knockback = knockback.move_toward(Vector2.ZERO, 800.0 * delta)
+		
 	else:
-		jump_buffer_timer -= delta
-	# A buffered press jumps as soon as Hue is on the floor, or just walked off it
-	if jump_buffer_timer > 0 and coyote_timer > 0 and not slamming:
+	#---------------------------------------------------------------------------
+	
+		if Input.is_action_just_pressed("jump"):
+			jump_buffer_timer = jump_buffer_time
+		else:
+			jump_buffer_timer -= delta
+		# A buffered press jumps as soon as Hue is on the floor, or just walked off it
+		if jump_buffer_timer > 0 and coyote_timer > 0 and not slamming:
+			if sliding:
+				_jump_out_of_slide(dash_held)
+			velocity.y = -jump_velocity
+			jump_buffer_timer = 0
+			coyote_timer = 0
+		# Letting go of A while still rising cuts the jump short
+		if Input.is_action_just_released("jump") and velocity.y < 0:
+			velocity.y *= jump_release_cut
+
+		if Input.is_action_just_pressed("slide") and not sliding:
+			if is_on_floor():
+				if absf(velocity.x) >= speed:
+					slide_direction = signf(velocity.x)
+					# Slides start at least at slide_min_speed; faster slides keep their speed
+					if absf(velocity.x) < slide_min_speed:
+						velocity.x = slide_direction * slide_min_speed
+					_start_slide(slide_squish_time)
+			elif not slamming:
+				slamming = true
+				dashing = false
+				velocity.y = slam_speed
+				# Straight down is a slam; with sideways speed it's a dive
+				if velocity.x == 0:
+					slam_hitbox = slam_hitbox_scene.instantiate()
+					slam_hitbox.damage = slam_damage
+					add_child(slam_hitbox)
+				else:
+					dive_direction = signf(velocity.x)
+					dive_hitbox = dive_hitbox_scene.instantiate()
+					dive_hitbox.damage = dive_damage
+					add_child(dive_hitbox)
+				_update_attack_hitboxes()
+		if slamming:
+			# No steering during a slam; horizontal speed is kept as it was
+			move_and_slide()
+			return
+		# Finish unsquishing after jumping out of a slide
+		if not sliding and squish > 0:
+			squish = move_toward(squish, 0, delta / slide_jump_unsquish_time)
+			_apply_squish()
 		if sliding:
-			_jump_out_of_slide(dash_held)
-		velocity.y = -jump_velocity
-		jump_buffer_timer = 0
-		coyote_timer = 0
-	# Letting go of A while still rising cuts the jump short
-	if Input.is_action_just_released("jump") and velocity.y < 0:
-		velocity.y *= jump_release_cut
+			_slide(direction, delta)
+			move_and_slide()
+			return
 
-	if Input.is_action_just_pressed("slide") and not sliding:
-		if is_on_floor():
-			if absf(velocity.x) >= speed:
-				slide_direction = signf(velocity.x)
-				# Slides start at least at slide_min_speed; faster slides keep their speed
-				if absf(velocity.x) < slide_min_speed:
-					velocity.x = slide_direction * slide_min_speed
-				_start_slide(slide_squish_time)
-		elif not slamming:
-			slamming = true
-			dashing = false
-			velocity.y = slam_speed
-			# Straight down is a slam; with sideways speed it's a dive
-			if velocity.x == 0:
-				slam_hitbox = slam_hitbox_scene.instantiate()
-				slam_hitbox.damage = slam_damage
-				add_child(slam_hitbox)
-			else:
-				dive_direction = signf(velocity.x)
-				dive_hitbox = dive_hitbox_scene.instantiate()
-				dive_hitbox.damage = dive_damage
-				add_child(dive_hitbox)
-			_update_attack_hitboxes()
-	if slamming:
-		# No steering during a slam; horizontal speed is kept as it was
-		move_and_slide()
-		return
-	# Finish unsquishing after jumping out of a slide
-	if not sliding and squish > 0:
-		squish = move_toward(squish, 0, delta / slide_jump_unsquish_time)
-		_apply_squish()
-	if sliding:
-		_slide(direction, delta)
-		move_and_slide()
-		return
-
-	# Start a dash, or snap back to full dash speed if D is pressed again mid-slowdown
-	if dash_held and direction != 0 and not dashing and not dash_locked:
-		dashing = true
-		dash_direction = direction
-		velocity.x = dash_direction * dash_speed
-	elif Input.is_action_just_pressed("dash") and dashing:
-		if direction != 0:
+		# Start a dash, or snap back to full dash speed if D is pressed again mid-slowdown
+		if dash_held and direction != 0 and not dashing and not dash_locked:
+			dashing = true
 			dash_direction = direction
-		velocity.x = dash_direction * dash_speed
+			velocity.x = dash_direction * dash_speed
+		elif Input.is_action_just_pressed("dash") and dashing:
+			if direction != 0:
+				dash_direction = direction
+			velocity.x = dash_direction * dash_speed
 
-	if dashing and dash_held and not dash_locked:
-		# Keep dashing with no arrows held; pressing the other way turns around over dash_turn_time
-		var target_direction := direction if direction != 0 else dash_direction
-		velocity.x = move_toward(velocity.x, target_direction * dash_speed, 2 * dash_speed / dash_turn_time * delta)
-		if signf(velocity.x) == target_direction:
-			dash_direction = target_direction
-	elif dashing:
-		# D released: slow to walking speed, or to a stop if no arrows are held, over dash_slowdown_time
-		var target_speed := direction * speed
-		var slowdown_rate := (dash_speed - absf(target_speed)) / dash_slowdown_time
-		velocity.x = move_toward(velocity.x, target_speed, slowdown_rate * delta)
-		if velocity.x == target_speed:
-			dashing = false
-	else:
-		velocity.x = direction * speed
+		if dashing and dash_held and not dash_locked:
+			# Keep dashing with no arrows held; pressing the other way turns around over dash_turn_time
+			var target_direction := direction if direction != 0 else dash_direction
+			velocity.x = move_toward(velocity.x, target_direction * dash_speed, 2 * dash_speed / dash_turn_time * delta)
+			if signf(velocity.x) == target_direction:
+				dash_direction = target_direction
+		elif dashing:
+			# D released: slow to walking speed, or to a stop if no arrows are held, over dash_slowdown_time
+			var target_speed := direction * speed
+			var slowdown_rate := (dash_speed - absf(target_speed)) / dash_slowdown_time
+			velocity.x = move_toward(velocity.x, target_speed, slowdown_rate * delta)
+			if velocity.x == target_speed:
+				dashing = false
+		else:
+			velocity.x = direction * speed
 	move_and_slide()
 
 func _punch() -> void:
@@ -545,3 +560,9 @@ func _debug_stats(delta: float) -> void:
 	if debug_mp_timer <= 0.0:
 		mp += mp_direction
 		debug_mp_timer = debug_mp_interval
+
+func SetKnockback(force: Vector2) -> void:
+	knockback = force
+
+func GetDamaged(damage: int) -> void:
+	health -= damage

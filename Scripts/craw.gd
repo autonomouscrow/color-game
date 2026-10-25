@@ -4,6 +4,7 @@ enum State { HOVER, SWOOP, RETURN }
 var current_state: State = State.HOVER
 
 @export var total_health = 25
+@export var damage = 15
 
 var player: Node2D = null
 var home_position: Vector2 = Vector2.ZERO
@@ -106,5 +107,24 @@ func _on_body_exited(body: Node2D) -> void:
 		swoop_timer.stop()
 
 func _on_hitbox_2_body_entered(body: Node2D) -> void:
-	if not body.is_in_group("enemy") and current_state == State.SWOOP:
-		bounce_to_last_home()
+	if current_state == State.SWOOP:
+		if body.is_in_group("Player"):
+			bounce_to_last_home()
+			
+			# Knock the player away horizontally and slightly upward
+			var push_dir = sign(body.global_position.x - global_position.x)
+			if push_dir == 0: 
+				push_dir = return_dir * 50
+			var knockback = Vector2(push_dir * 500.0, -500.0)
+			
+			if body.has_method("SetKnockback"):
+				body.SetKnockback(knockback)
+			else:
+				push_error("no knockback")
+				
+			if body.has_method("GetDamaged"):
+				body.GetDamaged(damage)
+				
+		elif not body.is_in_group("enemy"):
+			bounce_to_last_home()
+			
