@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://clgdbgwdxlmio"]
+
+[ext_resource type="Script" uid="uid://dm1fckrwju30f" path="res://Scripts/paper_airplane.gd" id="1_plane"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plane"]
+size = Vector2(20, 10)
+
+[node name="PaperAirplane" type="Area2D" unique_id=1670774133]
+script = ExtResource("1_plane")
+
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=1516564215]
+shape = SubResource("RectangleShape2D_plane")
+
+[node name="Color" type="ColorRect" parent="." unique_id=19807216]
+offset_left = -10.0
+offset_top = -5.0
+offset_right = 10.0
+offset_bottom = 5.0
+mouse_filter = 2
+color = Color(0.95, 0.95, 0.9, 1)
