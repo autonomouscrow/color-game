@@ -78,7 +78,7 @@ func start_swoop() -> void:
 
 func start_return() -> void:
 	var dist = randf_range(110, 190)
-	home_position = global_position + Vector2(return_dir * dist, -randf_range(250, 350))
+	home_position = global_position + Vector2(return_dir * dist, -randf_range(150, 250))
 	var ctrl = Vector2(global_position.x + return_dir * (dist * 1.25 + randf_range(75, 125)), lerp(global_position.y, home_position.y, randf_range(0.3, 0.45)))
 	set_curve(global_position, ctrl, home_position, State.RETURN)
 

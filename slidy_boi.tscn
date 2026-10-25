@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bg20reqytwww4"]
+
+[ext_resource type="Script" uid="uid://cpl2j5dxpntco" path="res://slidy_boi.gd" id="1_2blm0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2blm0"]
+size = Vector2(16.079113, 88.412994)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+size = Vector2(69.09532, 59.765305)
+
+[node name="SlidyBoi" type="CharacterBody2D" unique_id=1609698959]
+script = ExtResource("1_2blm0")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1503958340]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.80000055, 0.55999994)
+color = Color(0, 0, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=194118279]
+position = Vector2(16.000002, 11.129399)
+rotation = -3.1415925
+scale = Vector2(1.9739723, -0.25175935)
+shape = SubResource("RectangleShape2D_2blm0")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=125314633]
+position = Vector2(16.000002, 11.129399)
+rotation = -3.1415925
+scale = Vector2(1.9739723, -0.25175935)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=11444638]
+position = Vector2(1.9073486e-06, -53.143604)
+scale = Vector2(4.140874, -3.2898073)
+shape = SubResource("RectangleShape2D_x3acn")
