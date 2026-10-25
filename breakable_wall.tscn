@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c5i7skmtn3i2o"]
+
+[ext_resource type="Script" uid="uid://25jjvwfgol1d" path="res://breakable_wall.gd" id="1_agq2u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+size = Vector2(40, 40)
+
+[node name="Breakable Wall" type="CharacterBody2D" unique_id=485390736]
+script = ExtResource("1_agq2u")
+max_health = 50
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=93616397]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.42903125, 0.42903125, 0.42903125, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=168137254]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_x3acn")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1496207334]
