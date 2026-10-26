@@ -39,7 +39,7 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var glide_cooldown := 0.5  ## Seconds from the start of one glide until A can start another
 
 @export_group("Slam")
-@export var slam_speed := 2000.0  ## Downward speed of the mid-air C slam
+@export var slam_speed := 2000.0  ## Downward speed of the mid-air Shift slam (Blue)
 @export var slam_squish_time := 0.05  ## Seconds to squish into a slide when a slam hits the ground
 @export var squat_scale := Vector2(1.0, 0.5)  ## Hue's size while squatting after a straight-down slam, as a fraction of its normal width and height
 @export var squat_hold_time := 0.2  ## Seconds a straight-down slam stays squished before standing up, if no other input cuts it short
@@ -410,7 +410,7 @@ func _physics_process(delta: float) -> void:
 			_start_slide(slam_squish_time)
 			squatting = velocity.x == 0
 			squat_amount = 1.0 if squatting else 0.0
-			# The dive hitbox ends on landing, unless C is held into the slide: then it lasts until the slide hitbox appears
+			# The dive hitbox ends on landing, unless Shift is held into the slide: then it lasts until the slide hitbox appears
 			if not Input.is_action_pressed("slide"):
 				_remove_hitbox(dive_hitbox)
 	else:
@@ -492,7 +492,7 @@ func _physics_process(delta: float) -> void:
 					_start_slide(slide_squish_time)
 			elif not slamming and mp >= (slam_mp_cost if velocity.x == 0 else dive_mp_cost):
 				mp -= slam_mp_cost if velocity.x == 0 else dive_mp_cost
-				# Clinging has no sideways speed, so C on the wall is a straight-down slam
+				# Clinging has no sideways speed, so Shift on the wall is a straight-down slam
 				_end_cling()
 				slamming = true
 				gliding = false
@@ -743,7 +743,7 @@ func _restore_enemy_collisions() -> void:
 
 func _slide(direction: float, delta: float) -> void:
 	if squatting:
-		# Shift during a squat stands Hue straight up and hands control back (A is handled by the jump)
+		# Shift during a squat (dash or slide, both on Shift) stands Hue straight up and hands control back (A is handled by the jump)
 		if Input.is_action_just_pressed("dash"):
 			sliding = false
 			return
