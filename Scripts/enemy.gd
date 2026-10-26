@@ -20,3 +20,7 @@ func take_damage(amount: float) -> void:
 
 func die() -> void:
 	queue_free()
+
+## False for a missing player, or one hidden in a matching color zone; enemies act as if a hidden player isn't there
+func can_see(body: Node2D) -> bool:
+	return is_instance_valid(body) and not (body.has_method("is_hidden") and body.is_hidden())

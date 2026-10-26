@@ -6,7 +6,10 @@ var current_state: State = State.HOVER
 @export var total_health = 25
 @export var damage = 15
 
+## The player in DetectionArea that the craw can see; null while they're hidden in a color zone
 var player: Node2D = null
+## The player in DetectionArea, seen or not
+var detected_player: Node2D = null
 var home_position: Vector2 = Vector2.ZERO
 var last_home_position: Vector2 = Vector2.ZERO
 var hover_timer: float = 0.0
@@ -28,6 +31,11 @@ func _ready() -> void:
 	swoop_timer.timeout.connect(_on_swoop_timer_timeout)
 
 func _physics_process(delta: float) -> void:
+	var seen_player: Node2D = detected_player if can_see(detected_player) else null
+	if seen_player != player:
+		player = seen_player
+		if not player:
+			swoop_timer.stop()
 	match current_state:
 		State.HOVER:
 			hover_timer += delta * 4.0
@@ -96,15 +104,13 @@ func _on_swoop_timer_timeout() -> void:
 		start_swoop()
 
 func _on_body_entered(body: Node2D) -> void:
+	# The swoop timer starts from _physics_process once the player can be seen
 	if body.is_in_group("Player"):
-		player = body
-		if swoop_timer.is_stopped() and current_state == State.HOVER:
-			start_timer()
+		detected_player = body
 
 func _on_body_exited(body: Node2D) -> void:
-	if body == player:
-		player = null
-		swoop_timer.stop()
+	if body == detected_player:
+		detected_player = null
 
 func _on_hitbox_2_body_entered(body: Node2D) -> void:
 	if current_state == State.SWOOP:

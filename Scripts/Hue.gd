@@ -1,5 +1,10 @@
 extends CharacterBody2D
 
+enum HueColor { WHITE, RED, BLUE, YELLOW, GREEN }
+
+## Input action for each color, in HueColor order
+const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow", "color_green"]
+
 @export_group("Walk")
 @export var speed := 300.0
 
@@ -40,6 +45,15 @@ extends CharacterBody2D
 ## Seconds for leftover slide speed above walking speed to ease off after jumping out of a slide
 @export var slide_jump_slowdown_time := 0.2
 
+@export_group("Glide")
+## Pressing A in mid-air (outside coyote time) starts a glide that lasts while A is held
+@export var glide_gravity := 150.0
+@export var glide_max_fall_speed := 300.0
+## Horizontal speed while gliding; any dash speed being carried is dropped when the glide starts
+@export var glide_speed := 300.0
+## Seconds from the start of one glide until A can start another
+@export var glide_cooldown := 0.5
+
 @export_group("Slam")
 ## Downward speed of the mid-air C slam
 @export var slam_speed := 2000.0
@@ -71,6 +85,18 @@ extends CharacterBody2D
 @export var crisis_shake_start_interval := 0.15
 ## How far the color rectangle can jump from the hitbox by the explosion, in multiples of Hue's size
 @export var crisis_shake_max_distance := 1.5
+
+@export_group("MP Costs")
+## MP spent to start each move; a move can't start without enough MP
+@export var dash_mp_cost := 1
+@export var slide_mp_cost := 1
+@export var slam_mp_cost := 1
+@export var dive_mp_cost := 1
+## MP spent to start a glide
+@export var glide_mp_cost := 1
+## MP spent every glide_mp_drain_interval seconds while gliding; the glide ends when there isn't enough
+@export var glide_mp_drain := 1
+@export var glide_mp_drain_interval := 2.0
 
 @export_group("Punch Attack")
 @export var punch_scene: PackedScene = preload("res://Scenes/Prefabs/PunchAttack.tscn")
@@ -124,6 +150,24 @@ extends CharacterBody2D
 ## Damage to each enemy in the dash's path, once per enemy per dash
 @export var dash_damage := 20.0
 
+@export_group("Colors")
+## Hue's current color; Q/W/E/R/F swap to white/red/blue/yellow/green, except during a dash, slide, slam or dive
+@export var current_color := HueColor.WHITE:
+	set(value):
+		current_color = value
+		_apply_color()
+@export var white_color := Color(1, 1, 1)
+@export var red_color := Color(0.9, 0.15, 0.15)
+@export var blue_color := Color(0.2, 0.4, 1.0)
+@export var yellow_color := Color(1.0, 0.85, 0.1)
+@export var green_color := Color(0.2, 0.8, 0.25)
+## Seconds a color press is remembered while swapping is blocked; matches jump_buffer_time for now
+@export var color_buffer_time := 0.1
+
+@export_group("Color Zones")
+## Hue's opacity while hidden from enemies in a color zone that matches its color
+@export var hidden_alpha := 0.5
+
 @export_group("Display")
 ## Color the true hitbox is drawn in, underneath the white color rectangle
 @export var hitbox_color := Color(0.6, 0.2, 1.0, 0.4)
@@ -142,14 +186,17 @@ extends CharacterBody2D
 		mp = mini(mp, max_mp)
 @export var mp := 0:
 	set(value):
+		# Spending MP breaks color zone hiding until the zone's reveal_time has passed
+		if value < mp:
+			time_since_mp_spent = 0.0
 		mp = clampi(value, 0, max_mp)
 
 @export_group("Debug")
-## Q/W raise/lower health and E/R raise/lower MP while held, for testing the HUD
+## 1/2 raise/lower health and 3/4 raise/lower MP while held, for testing the HUD
 @export var debug_stat_keys := true
-## Health per second gained or lost while Q or W is held
+## Health per second gained or lost while 1 or 2 is held
 @export var debug_health_rate := 50.0
-## Seconds between each MP point gained or lost while E or R is held
+## Seconds between each MP point gained or lost while 3 or 4 is held
 @export var debug_mp_interval := 0.3
 @export_group("")
 
@@ -161,7 +208,7 @@ var dash_direction := 1.0
 var dash_timer := 0.0
 var dash_cooldown_timer := 0.0
 var dash_hitbox: Node2D
-## Enemies Hue stopped colliding with for the current dash, so they can be restored when it ends
+## Enemies Hue stopped colliding with for the current dash or straight-down slam, so they can be restored when it ends
 var dash_passed_enemies: Array[PhysicsBody2D] = []
 ## True while D is still held after a dash ends: Hue runs at dash_run_speed, with gravity and collisions back as usual
 var dash_carrying := false
@@ -188,10 +235,18 @@ var squat_timer := 0.0
 var squat_amount := 0.0
 var squish := 0.0
 var coyote_timer := 0.0
+## True while A is held after a mid-air press; ends on release, landing, dash, slam, dive, punch or uppercut
+var gliding := false
+var glide_cooldown_timer := 0.0
+## Seconds of gliding left until the next glide_mp_drain is spent
+var glide_drain_timer := 0.0
 var jump_buffer_timer := 0.0
 var hitbox_shape: RectangleShape2D
 var stand_size: Vector2
 var debug_mp_timer := 0.0
+## Color pressed while swapping was blocked, applied once it's allowed if color_buffer_timer hasn't run out
+var buffered_color := HueColor.WHITE
+var color_buffer_timer := 0.0
 var in_crisis := false
 ## Z has to be released and pressed again after a crisis ends
 var crisis_locked := false
@@ -216,24 +271,35 @@ var dive_hitbox: Node2D
 var dive_direction := 1.0
 
 var knockback: Vector2 = Vector2.ZERO
+## Color zones Hue is overlapping right now; untyped so their zone_color and reveal_time can be read
+var color_zones := []
+## Seconds since Hue last spent MP; starts high so a zone hides Hue right away
+var time_since_mp_spent := INF
 
 func _ready() -> void:
 	# Own copy of the shape so resizing it doesn't affect other Hue instances
 	hitbox_shape = hitbox.shape.duplicate()
 	hitbox.shape = hitbox_shape
 	stand_size = hitbox_shape.size
+	_apply_color()
 
 func _physics_process(delta: float) -> void:
 	if debug_stat_keys:
 		_debug_stats(delta)
 	queue_redraw()
+	time_since_mp_spent += delta
+	color_rect.modulate.a = hidden_alpha if is_hidden() else 1.0
 	if exploded:
-		# Raising health again (Q debug key) brings Hue back
+		# Raising health again (1 debug key) brings Hue back
 		if health > 0:
 			exploded = false
 			color_rect.visible = true
 			crisis_locked = Input.is_action_pressed("crisis")
 		return
+	_update_color_swap(delta)
+	# A straight-down slam passes through enemies until its hitbox goes away, once Hue is fully squished
+	if not dashing and not is_instance_valid(slam_hitbox) and not dash_passed_enemies.is_empty():
+		_restore_enemy_collisions()
 	var direction := signf(Input.get_axis("move_left", "move_right"))
 	if direction != 0:
 		facing = direction
@@ -245,6 +311,7 @@ func _physics_process(delta: float) -> void:
 			_punch()
 	var dash_held := Input.is_action_pressed("dash")
 	dash_cooldown_timer -= delta
+	glide_cooldown_timer -= delta
 
 	var crisis_held := Input.is_action_pressed("crisis")
 	if not crisis_held:
@@ -272,7 +339,7 @@ func _physics_process(delta: float) -> void:
 		crisis_shrink = move_toward(crisis_shrink, 0, delta / crisis_shrink_time)
 		_apply_squish()
 
-	if Input.is_action_just_pressed("dash") and not dashing and dash_cooldown_timer <= 0:
+	if Input.is_action_just_pressed("dash") and not dashing and dash_cooldown_timer <= 0 and mp >= dash_mp_cost:
 		_start_dash(direction)
 	if dashing:
 		_dash(direction, delta)
@@ -280,6 +347,7 @@ func _physics_process(delta: float) -> void:
 
 	if is_on_floor():
 		coyote_timer = coyote_time
+		gliding = false
 		# A slam that hits the ground turns straight into a slide, keeping its horizontal speed
 		if slamming:
 			slamming = false
@@ -295,6 +363,8 @@ func _physics_process(delta: float) -> void:
 		coyote_timer -= delta
 		if slamming:
 			velocity.y = slam_speed
+		elif gliding:
+			velocity.y = minf(velocity.y + glide_gravity * delta, glide_max_fall_speed)
 		else:
 			velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
 	
@@ -321,26 +391,51 @@ func _physics_process(delta: float) -> void:
 			velocity.y = -jump_velocity
 			jump_buffer_timer = 0
 			coyote_timer = 0
+		# A mid-air press that didn't jump starts a glide: falling stops and any carried dash speed is dropped
+		elif Input.is_action_just_pressed("jump") and not is_on_floor() and not slamming and not sliding and glide_cooldown_timer <= 0 and mp >= glide_mp_cost:
+			gliding = true
+			mp -= glide_mp_cost
+			glide_drain_timer = glide_mp_drain_interval
+			glide_cooldown_timer = glide_cooldown
+			velocity.y = 0
+			dash_carrying = false
+			speed_easing = false
+		# Letting go of A falls as normal
+		if gliding and not Input.is_action_pressed("jump"):
+			gliding = false
+		# Gliding keeps costing MP, and ends when Hue can't pay
+		if gliding:
+			glide_drain_timer -= delta
+			if glide_drain_timer <= 0:
+				if mp >= glide_mp_drain:
+					mp -= glide_mp_drain
+					glide_drain_timer += glide_mp_drain_interval
+				else:
+					gliding = false
 		# Letting go of A while still rising cuts the jump short
 		if Input.is_action_just_released("jump") and velocity.y < 0:
 			velocity.y *= jump_release_cut
 
 		if Input.is_action_just_pressed("slide") and not sliding:
 			if is_on_floor():
-				if absf(velocity.x) >= speed:
+				if absf(velocity.x) >= speed and mp >= slide_mp_cost:
+					mp -= slide_mp_cost
 					slide_direction = signf(velocity.x)
 					# Slides start at least at slide_min_speed; faster slides keep their speed
 					if absf(velocity.x) < slide_min_speed:
 						velocity.x = slide_direction * slide_min_speed
 					_start_slide(slide_squish_time)
-			elif not slamming:
+			elif not slamming and mp >= (slam_mp_cost if velocity.x == 0 else dive_mp_cost):
+				mp -= slam_mp_cost if velocity.x == 0 else dive_mp_cost
 				slamming = true
+				gliding = false
 				velocity.y = slam_speed
 				# Straight down is a slam; with sideways speed it's a dive
 				if velocity.x == 0:
 					slam_hitbox = slam_hitbox_scene.instantiate()
 					slam_hitbox.damage = slam_damage
 					add_child(slam_hitbox)
+					_pass_through_enemies()
 				else:
 					dive_direction = signf(velocity.x)
 					dive_hitbox = dive_hitbox_scene.instantiate()
@@ -363,7 +458,9 @@ func _physics_process(delta: float) -> void:
 		if dash_carrying and not dash_held:
 			dash_carrying = false
 			_ease_from_dash(direction)
-		if dash_carrying:
+		if gliding:
+			velocity.x = direction * glide_speed
+		elif dash_carrying:
 			velocity.x = dash_direction * dash_run_speed
 		elif speed_easing:
 			# Extra speed eases down to walking speed, or to a stop if no arrows are held
@@ -377,6 +474,8 @@ func _physics_process(delta: float) -> void:
 
 func _punch() -> void:
 	punch_cooldown_timer = punch_cooldown
+	# Attacking ends a glide; A has to be pressed again to glide again
+	gliding = false
 	# Only one punch at a time: a new punch replaces one that's still out
 	if is_instance_valid(current_punch):
 		current_punch.queue_free()
@@ -393,6 +492,7 @@ func _punch() -> void:
 func _uppercut() -> void:
 	# Shares the punch's cooldown, and replaces a punch or uppercut that's still out
 	punch_cooldown_timer = punch_cooldown
+	gliding = false
 	if is_instance_valid(current_punch):
 		current_punch.queue_free()
 	var uppercut := uppercut_scene.instantiate()
@@ -432,6 +532,7 @@ func _ease_from_dash(direction: float) -> void:
 
 func _start_dash(direction: float) -> void:
 	dashing = true
+	mp -= dash_mp_cost
 	dash_timer = dash_time
 	dash_cooldown_timer = dash_cooldown
 	dash_direction = direction if direction != 0 else facing
@@ -439,18 +540,14 @@ func _start_dash(direction: float) -> void:
 	# A dash cuts off a slide, squat or slam (their hitboxes go with them) and any knockback
 	sliding = false
 	slamming = false
+	gliding = false
 	squatting = false
 	squat_amount = 0.0
 	speed_easing = false
 	dash_carrying = false
 	knockback = Vector2.ZERO
 	jump_buffer_timer = 0
-	# Pass through enemies both ways: Hue doesn't bump into them, and they don't bump into Hue
-	for node in get_tree().get_nodes_in_group("enemy"):
-		if node is PhysicsBody2D:
-			add_collision_exception_with(node)
-			node.add_collision_exception_with(self)
-			dash_passed_enemies.append(node)
+	_pass_through_enemies()
 	_remove_hitbox(dash_hitbox)
 	dash_hitbox = dash_hitbox_scene.instantiate()
 	dash_hitbox.damage = dash_damage
@@ -479,6 +576,17 @@ func _end_dash(direction: float) -> void:
 	else:
 		_ease_from_dash(direction)
 	_remove_hitbox(dash_hitbox)
+	_restore_enemy_collisions()
+
+## Pass through enemies both ways: Hue doesn't bump into them, and they don't bump into Hue
+func _pass_through_enemies() -> void:
+	for node in get_tree().get_nodes_in_group("enemy"):
+		if node is PhysicsBody2D and node not in dash_passed_enemies:
+			add_collision_exception_with(node)
+			node.add_collision_exception_with(self)
+			dash_passed_enemies.append(node)
+
+func _restore_enemy_collisions() -> void:
 	for node in dash_passed_enemies:
 		if is_instance_valid(node):
 			remove_collision_exception_with(node)
@@ -630,28 +738,70 @@ func _explode() -> void:
 	# Hue simply vanishes; _draw stops drawing the hitbox too
 	color_rect.visible = false
 
+## Q/W/E/R/F presses are buffered for color_buffer_time, so a press during a dash, slide, slam or dive swaps right after it
+func _update_color_swap(delta: float) -> void:
+	for i in COLOR_ACTIONS.size():
+		if Input.is_action_just_pressed(COLOR_ACTIONS[i]):
+			buffered_color = i as HueColor
+			color_buffer_timer = color_buffer_time
+	if color_buffer_timer <= 0:
+		return
+	color_buffer_timer -= delta
+	# Slamming covers both the straight-down slam and the dive
+	if not dashing and not sliding and not slamming:
+		current_color = buffered_color
+		color_buffer_timer = 0.0
+
+func _apply_color() -> void:
+	if color_rect == null:
+		return
+	color_rect.color = [white_color, red_color, blue_color, yellow_color, green_color][current_color]
+
 func _debug_stats(delta: float) -> void:
-	var health_direction := float(Input.is_physical_key_pressed(KEY_Q)) - float(Input.is_physical_key_pressed(KEY_W))
+	var health_direction := float(Input.is_physical_key_pressed(KEY_1)) - float(Input.is_physical_key_pressed(KEY_2))
 	health += health_direction * debug_health_rate * delta
-	var mp_direction := int(Input.is_physical_key_pressed(KEY_E)) - int(Input.is_physical_key_pressed(KEY_R))
+	var mp_direction := int(Input.is_physical_key_pressed(KEY_3)) - int(Input.is_physical_key_pressed(KEY_4))
 	if mp_direction == 0:
 		debug_mp_timer = 0.0
 		return
 	# Change by one point right away on press, then once every debug_mp_interval while held
 	debug_mp_timer -= delta
 	if debug_mp_timer <= 0.0:
+		# Lowering MP with the debug key doesn't count as spending it
+		var spent_time := time_since_mp_spent
 		mp += mp_direction
+		time_since_mp_spent = spent_time
 		debug_mp_timer = debug_mp_interval
 
+## I-frames: dashing, and a straight-down slam until Hue is fully squished, ignore knockback and damage (both also pass through enemies)
+func _invincible() -> bool:
+	return dashing or is_instance_valid(slam_hitbox)
+
 func SetKnockback(force: Vector2) -> void:
-	# I-frames: dashing ignores knockback and damage
-	if dashing:
+	if _invincible():
 		return
 	dash_carrying = false
 	speed_easing = false
+	gliding = false
 	knockback = force
 
 func GetDamaged(damage: int) -> void:
-	if dashing:
+	if _invincible():
 		return
 	health -= damage
+
+func enter_color_zone(zone: Area2D) -> void:
+	if zone not in color_zones:
+		color_zones.append(zone)
+
+func exit_color_zone(zone: Area2D) -> void:
+	color_zones.erase(zone)
+
+## True while Hue overlaps a color zone of its own color and hasn't spent MP within that zone's reveal_time; enemies ignore Hue then
+func is_hidden() -> bool:
+	if exploded:
+		return false
+	for zone in color_zones:
+		if is_instance_valid(zone) and zone.zone_color == current_color and time_since_mp_spent >= zone.reveal_time:
+			return true
+	return false

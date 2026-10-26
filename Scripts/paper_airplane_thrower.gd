@@ -7,8 +7,8 @@ var current_state: State = State.IDLE
 
 @export_group("Idle")
 ## Total width of the side to side patrol while the player is out of DetectionArea
-@export var idle_patrol_width := 300.0
-@export var idle_speed := 100.0
+@export var idle_patrol_width := 30.0
+@export var idle_speed := 10.0
 
 @export_group("Move")
 @export var move_speed := 150.0
@@ -26,7 +26,10 @@ var current_state: State = State.IDLE
 @export var gravity := 1800.0
 @export var max_fall_speed := 1000.0
 
+## The player in DetectionArea that the thrower can see; null while they're hidden in a color zone
 var player: Node2D = null
+## The player in DetectionArea, seen or not
+var detected_player: Node2D = null
 var idle_center := Vector2.ZERO
 var idle_dir := 1.0
 # Throwing range is inside ThrowArea but outside TooCloseArea
@@ -40,6 +43,14 @@ func _ready() -> void:
 	throw_timer.wait_time = throw_cooldown
 
 func _physics_process(delta: float) -> void:
+	var seen_player: Node2D = detected_player if can_see(detected_player) else null
+	if seen_player != player:
+		player = seen_player
+		if player:
+			current_state = State.MOVE
+		else:
+			idle_center = global_position
+			current_state = State.IDLE
 	match current_state:
 		State.IDLE:
 			velocity.x = idle_dir * idle_speed
@@ -94,15 +105,13 @@ func _aim_point() -> Vector2:
 	return center + Vector2.from_angle(randf() * TAU) * height * aim_spread * sqrt(randf())
 
 func _on_detection_body_entered(body: Node2D) -> void:
+	# Switching to MOVE happens in _physics_process once the player can be seen
 	if body.is_in_group("Player"):
-		player = body
-		current_state = State.MOVE
+		detected_player = body
 
 func _on_detection_body_exited(body: Node2D) -> void:
-	if body == player:
-		player = null
-		idle_center = global_position
-		current_state = State.IDLE
+	if body == detected_player:
+		detected_player = null
 
 func _on_throw_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

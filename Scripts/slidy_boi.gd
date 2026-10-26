@@ -31,6 +31,8 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		State.PATROL:
 			_process_patrol()
+			if can_see(player_target):
+				_start_windup()
 		State.WINDUP:
 			velocity.x = move_toward(velocity.x, 0, 800 * delta)
 		State.SLIDING:
@@ -78,16 +80,20 @@ func _end_slide() -> void:
 	
 	await get_tree().create_timer(cooldown_time).timeout
 
-	if player_target and is_instance_valid(player_target):
+	if can_see(player_target):
 		_start_windup()
 	else:
 		current_state = State.PATROL
 
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Player") and current_state == State.PATROL:
+	# The windup starts from _physics_process once the player can be seen
+	if body.is_in_group("Player"):
 		player_target = body
-		_start_windup()
+
+func _on_detection_area_body_exited(body: Node2D) -> void:
+	if body == player_target:
+		player_target = null
 
 	
 func _on_hitbox_2_body_entered(body: Node2D) -> void:
