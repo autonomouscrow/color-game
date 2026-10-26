@@ -2,7 +2,6 @@ class_name Room
 extends Node
 
 @export var EnemyObjects: Array[CharacterBody2D] = []
-
 var Enemies: Array[String] = []
 
 var EnemiesLiving: Array[String] = []
