@@ -74,4 +74,8 @@ func _hit(target: enemy) -> void:
 	if target in hit_enemies:
 		return
 	hit_enemies.append(target)
+	var health_before: int = target.health
 	target.take_damage(damage)
+	# Hue (the hitbox's parent) gains MP only when this hit is the one that kills the enemy
+	if health_before > 0 and target.health <= 0 and get_parent().has_method("on_attack_kill"):
+		get_parent().on_attack_kill()

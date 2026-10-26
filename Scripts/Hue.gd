@@ -9,10 +9,10 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 
 @export_group("Dash")
 @export var dash_speed := 1200.0  ## Horizontal speed for the whole dash; vertical speed stays at zero
-@export var dash_run_speed := 600.0  ## Horizontal speed kept after the dash ends while D is still held, on the ground and in the air
+@export var dash_run_speed := 600.0  ## Horizontal speed kept after the dash ends while Shift is still held, on the ground and in the air
 @export var dash_time := 0.2  ## Seconds a dash lasts; it can't be cancelled, and Hue has i-frames and passes through enemies the whole time
-@export var dash_cooldown := 1  ## Seconds from the start of one dash until D can dash again
-@export var dash_release_time := 0.2  ## Seconds to ease down to walking speed when D is released after a dash with an arrow held
+@export var dash_cooldown := 1  ## Seconds from the start of one dash until Shift can dash again
+@export var dash_release_time := 0.2  ## Seconds to ease down to walking speed when Shift is released after a dash with an arrow held
 
 @export_group("Slide")
 @export var slide_friction := 200.0
@@ -45,7 +45,7 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var squat_hold_time := 0.2  ## Seconds a straight-down slam stays squished before standing up, if no other input cuts it short
 @export var squat_to_slide_time := 0.1  ## Seconds for a squat to stretch forward into a slide when left or right is held
 
-@export_group("Cling Grip")  ## Only while Green: moving into a wall in mid-air grabs it, stopping vertical movement
+@export_group("Cling Grip")  ## Only while cling_color (Green): moving into a wall in mid-air grabs it, stopping vertical movement
 @export var cling_height_scale := 0.75  ## Hue's height while clinging, as a fraction of its normal height; it shrinks equally from the top and bottom
 @export var cling_shrink_time := 0.1  ## Seconds to shrink when grabbing a wall, and to grow back when letting go
 @export var cling_hold_time := 0.1  ## Seconds Hue hangs still after grabbing a wall before sliding down it
@@ -71,6 +71,20 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var crisis_shake_start_interval := 0.15  ## Seconds between shake jumps when shaking starts; shrinks to one jump per frame by the explosion
 @export var crisis_shake_max_distance := 1.5  ## How far the color rectangle can jump from the hitbox by the explosion, in multiples of Hue's size
 
+@export_group("Healing")  ## Hold X on the ground to heal; any other input cancels it, keeping whatever MP was already drained
+@export var heal_time := 2.0  ## Seconds X must be held for the heal to finish
+@export var heal_fraction := 1.0 / 3.0  ## Fraction of max_health restored when the heal finishes
+@export var heal_squash_scale := Vector2(1.2, 0.6)  ## Hue's size while healing, as a fraction of its normal width and height; the bottom edge stays put
+@export var heal_squash_time := 0.15  ## Seconds to squash down when a heal starts, and to stand back up when it ends
+@export_subgroup("Shake")  ## A sped-up crisis shake that builds up over heal_build_time, then plays backwards for the rest of the heal
+@export var heal_build_time := 0.5  ## Seconds for the copies to pile up and spread out to their peak; they pull back in and get absorbed over the rest of heal_time
+@export var heal_copy_count := 12  ## Copies of Hue around it at the peak; the last one is absorbed as the heal finishes
+@export var heal_copy_ramp := 2.0  ## Higher values hold back the copies for longer near the start and end, crowding them around the peak
+@export var heal_shake_ramp := 2.0  ## Higher values keep the shaking gentle for longer near the start and end, and wilder only around the peak
+@export var heal_shake_calm_interval := 0.15  ## Seconds between shake jumps at the very start and end of the heal; it's one jump per frame at the peak
+@export var heal_shake_max_distance := 1.5  ## How far the color rectangle and copies can jump from the hitbox at the peak, in multiples of Hue's size
+@export_subgroup("")
+
 @export_group("MP Costs")  ## MP spent to start each move; a move can't start without enough MP
 @export var dash_mp_cost := 1
 @export var slide_mp_cost := 1
@@ -79,6 +93,10 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var glide_mp_cost := 1  ## MP spent to start a glide
 @export var glide_mp_drain := 1  ## MP spent every glide_mp_drain_interval seconds while gliding; the glide ends when there isn't enough
 @export var glide_mp_drain_interval := 2.0
+@export var heal_mp_cost := 5  ## Needed to start a heal; drained one point at a time at an even rate over heal_time, with no refund on cancel
+
+@export_group("MP Gain")
+@export var mp_per_kill := 1  ## MP gained for each enemy an attack kills, from any attack or move; hits that don't kill give none
 
 @export_group("Punch Attack")
 @export var punch_scene: PackedScene = preload("res://Scenes/Prefabs/PunchAttack.tscn")
@@ -127,6 +145,12 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var blue_color := Color(0.2, 0.4, 1.0)
 @export var yellow_color := Color(1.0, 0.85, 0.1)
 @export var green_color := Color(0.2, 0.8, 0.25)
+@export_subgroup("Ability Colors")  ## Abilities usable only in one color; everything else works in all colors
+@export var glide_color := HueColor.RED  ## Swapping away from it mid-glide ends the glide
+@export var dash_color := HueColor.YELLOW  ## Swapping away from it while still running after a dash eases down to walking speed
+@export var slide_color := HueColor.BLUE  ## Also covers the mid-air slam and dive
+@export var cling_color := HueColor.GREEN  ## Cling grip and wall jumps; swapping away from it lets go of the wall
+@export_subgroup("")
 @export var color_buffer_time := 0.1  ## Seconds a color press is remembered while swapping is blocked; matches jump_buffer_time for now
 
 @export_group("Color Zones")
@@ -170,7 +194,7 @@ var dash_cooldown_timer := 0.0
 var dash_hitbox: Node2D
 ## Enemies Hue stopped colliding with for the current dash or straight-down slam, so they can be restored when it ends
 var dash_passed_enemies: Array[PhysicsBody2D] = []
-## True while D is still held after a dash ends: Hue runs at dash_run_speed, with gravity and collisions back as usual
+## True while Shift is still held after a dash ends: Hue runs at dash_run_speed, with gravity and collisions back as usual
 var dash_carrying := false
 ## True while extra speed eases down to walking speed, after a dash or after jumping out of a slide
 var speed_easing := false
@@ -220,6 +244,16 @@ var crisis_copies: Array[ColorRect] = []
 ## 0 is normal size, 1 is fully shrunk into crisis_shrink_scale
 var crisis_shrink := 0.0
 var exploded := false
+var healing := false
+## X has to be released and pressed again after a heal ends
+var heal_locked := false
+var heal_time_elapsed := 0.0
+## MP drained so far this heal
+var heal_mp_spent := 0
+## Copies of the color rectangle scattered around Hue this heal; freed one by one as they're absorbed
+var heal_copies: Array[ColorRect] = []
+## 0 is normal size, 1 is fully squashed into heal_squash_scale
+var heal_squash := 0.0
 ## True while Green Hue grips a wall in mid-air
 var clinging := false
 ## 1 when the wall is to Hue's right, -1 when it's to the left
@@ -271,11 +305,18 @@ func _physics_process(delta: float) -> void:
 			exploded = false
 			color_rect.visible = true
 			crisis_locked = Input.is_action_pressed("crisis")
+			heal_locked = Input.is_action_pressed("heal")
 		return
 	_update_color_swap(delta)
 	# Changing color on the wall lets go right away and Hue falls
-	if clinging and current_color != HueColor.GREEN:
+	if clinging and current_color != cling_color:
 		_end_cling()
+	# Changing color mid-glide ends the glide, and changing out of the dash color stops the post-dash run
+	if gliding and current_color != glide_color:
+		gliding = false
+	if dash_carrying and current_color != dash_color:
+		dash_carrying = false
+		_ease_from_dash(signf(Input.get_axis("move_left", "move_right")))
 	# A straight-down slam passes through enemies until its hitbox goes away, once Hue is fully squished
 	if not dashing and not is_instance_valid(slam_hitbox) and not dash_passed_enemies.is_empty():
 		_restore_enemy_collisions()
@@ -295,7 +336,34 @@ func _physics_process(delta: float) -> void:
 	var crisis_held := Input.is_action_pressed("crisis")
 	if not crisis_held:
 		crisis_locked = false
-	var other_input := direction != 0 or dash_held or Input.is_action_pressed("jump") or Input.is_action_pressed("slide") or Input.is_action_pressed("punch")
+	var heal_held := Input.is_action_pressed("heal")
+	if not heal_held:
+		heal_locked = false
+	var move_input := direction != 0 or dash_held or Input.is_action_pressed("jump") or Input.is_action_pressed("slide") or Input.is_action_pressed("punch")
+	# Crisis and healing each count the other's key as another input that cancels them
+	var other_input := move_input or heal_held
+	var heal_other_input := move_input or crisis_held
+	if healing and (not heal_held or heal_other_input or not is_on_floor()):
+		_end_heal()
+	elif not healing and not in_crisis and heal_held and not heal_locked and not heal_other_input and is_on_floor() and not sliding and not slamming and not dashing and squish == 0 and mp >= heal_mp_cost:
+		healing = true
+		dash_carrying = false
+		speed_easing = false
+		heal_time_elapsed = 0.0
+		heal_mp_spent = 0
+		shake_timer = 0.0
+	if healing:
+		velocity.x = 0
+		heal_squash = move_toward(heal_squash, 1, delta / heal_squash_time)
+		crisis_shrink = move_toward(crisis_shrink, 0, delta / crisis_shrink_time)
+		_apply_squish()
+		_heal(delta)
+		move_and_slide()
+		return
+	elif heal_squash > 0:
+		heal_squash = move_toward(heal_squash, 0, delta / heal_squash_time)
+		_apply_squish()
+
 	if in_crisis and (not crisis_held or other_input or not is_on_floor()):
 		# Any other input breaks out of the crisis and then does its normal thing below
 		_end_crisis()
@@ -324,7 +392,7 @@ func _physics_process(delta: float) -> void:
 		cling_amount = move_toward(cling_amount, cling_target, delta / cling_shrink_time)
 		_apply_squish()
 
-	if Input.is_action_just_pressed("dash") and not dashing and dash_cooldown_timer <= 0 and mp >= dash_mp_cost:
+	if Input.is_action_just_pressed("dash") and current_color == dash_color and not dashing and dash_cooldown_timer <= 0 and mp >= dash_mp_cost:
 		# Dashing off a wall always goes away from it
 		_start_dash(-cling_wall_dir if clinging else direction)
 	if dashing:
@@ -378,7 +446,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			jump_buffer_timer -= delta
 		# A on the wall, or just after letting go of it, jumps off it at wall_jump_angle
-		var can_wall_jump := clinging or (wall_jump_coyote_timer > 0 and current_color == HueColor.GREEN and not is_on_floor() and not slamming)
+		var can_wall_jump := clinging or (wall_jump_coyote_timer > 0 and current_color == cling_color and not is_on_floor() and not slamming)
 		if can_wall_jump and Input.is_action_just_pressed("jump"):
 			_wall_jump(direction)
 		# A buffered press jumps as soon as Hue is on the floor, or just walked off it
@@ -389,7 +457,7 @@ func _physics_process(delta: float) -> void:
 			jump_buffer_timer = 0
 			coyote_timer = 0
 		# A mid-air press that didn't jump starts a glide: falling stops and any carried dash speed is dropped
-		elif Input.is_action_just_pressed("jump") and not is_on_floor() and not slamming and not sliding and glide_cooldown_timer <= 0 and mp >= glide_mp_cost:
+		elif Input.is_action_just_pressed("jump") and current_color == glide_color and not is_on_floor() and not slamming and not sliding and glide_cooldown_timer <= 0 and mp >= glide_mp_cost:
 			gliding = true
 			mp -= glide_mp_cost
 			glide_drain_timer = glide_mp_drain_interval
@@ -413,7 +481,7 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_released("jump") and velocity.y < 0:
 			velocity.y *= jump_release_cut
 
-		if Input.is_action_just_pressed("slide") and not sliding:
+		if Input.is_action_just_pressed("slide") and current_color == slide_color and not sliding:
 			if is_on_floor():
 				if absf(velocity.x) >= speed and mp >= slide_mp_cost:
 					mp -= slide_mp_cost
@@ -474,7 +542,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	_update_cling(direction, delta)
 
-## Grabs a wall while Green and airborne when an arrow toward it and a touch of it line up, within the buffer and coyote times;
+## Grabs a wall while cling_color (Green) and airborne when an arrow toward it and a touch of it line up, within the buffer and coyote times;
 ## lets go on landing, leaving the wall, or pushing away
 func _update_cling(direction: float, delta: float) -> void:
 	wall_jump_coyote_timer -= delta
@@ -500,7 +568,7 @@ func _update_cling(direction: float, delta: float) -> void:
 				wall_jump_coyote_timer = wall_jump_coyote_time
 			_end_cling()
 		return
-	if current_color != HueColor.GREEN or is_on_floor() or knockback.length() > 100.0:
+	if current_color != cling_color or is_on_floor() or knockback.length() > 100.0:
 		return
 	if dashing or sliding or slamming or in_crisis:
 		return
@@ -649,7 +717,7 @@ func _dash(direction: float, delta: float) -> void:
 func _end_dash(direction: float) -> void:
 	dashing = false
 	velocity.y = 0
-	# Holding D keeps running at dash_run_speed after the dash; letting go with an arrow held eases down to walking speed
+	# Holding Shift keeps running at dash_run_speed after the dash; letting go with an arrow held eases down to walking speed
 	if Input.is_action_pressed("dash"):
 		dash_carrying = true
 		velocity.x = dash_direction * dash_run_speed
@@ -675,7 +743,7 @@ func _restore_enemy_collisions() -> void:
 
 func _slide(direction: float, delta: float) -> void:
 	if squatting:
-		# D during a squat stands Hue straight up and hands control back (A is handled by the jump)
+		# Shift during a squat stands Hue straight up and hands control back (A is handled by the jump)
 		if Input.is_action_just_pressed("dash"):
 			sliding = false
 			return
@@ -715,7 +783,7 @@ func _slide(direction: float, delta: float) -> void:
 func _apply_squish() -> void:
 	var squish_scale := slide_squish_scale.lerp(squat_scale, squat_amount)
 	var squish_size := stand_size * Vector2.ONE.lerp(squish_scale, squish)
-	var size := squish_size * Vector2.ONE.lerp(crisis_shrink_scale, crisis_shrink)
+	var size := squish_size * Vector2.ONE.lerp(crisis_shrink_scale, crisis_shrink) * Vector2.ONE.lerp(heal_squash_scale, heal_squash)
 	# Keep the bottom edge in place so Hue squishes down instead of shrinking toward its center
 	hitbox.position.y = (stand_size.y - size.y) / 2
 	# Clinging shrinks equally from the top and bottom, around the center
@@ -810,6 +878,62 @@ func _end_crisis() -> void:
 	crisis_copies.clear()
 	_apply_squish()
 
+func _heal(delta: float) -> void:
+	heal_time_elapsed += delta
+	# Rises from 0 to 1 over heal_build_time, then falls back to 0 as the heal finishes
+	var intensity := 1.0
+	if heal_time_elapsed < heal_build_time:
+		intensity = heal_time_elapsed / heal_build_time
+	elif heal_time > heal_build_time:
+		intensity = 1.0 - clampf((heal_time_elapsed - heal_build_time) / (heal_time - heal_build_time), 0.0, 1.0)
+	# Copies pile up like a crisis, then get absorbed one by one in reverse
+	var copies_wanted := ceili(heal_copy_count * pow(intensity, heal_copy_ramp))
+	while heal_copies.size() < copies_wanted:
+		_add_heal_copy()
+	while heal_copies.size() > copies_wanted:
+		heal_copies.pop_back().queue_free()
+	# MP drains at a steady rate: with 5 MP over 2s, one point every 0.4s
+	while heal_mp_spent < heal_mp_cost and heal_time_elapsed >= heal_time * (heal_mp_spent + 1) / heal_mp_cost:
+		if mp < 1:
+			_end_heal()
+			return
+		mp -= 1
+		heal_mp_spent += 1
+	if heal_time_elapsed >= heal_time:
+		health += max_health * heal_fraction
+		_end_heal()
+		return
+	# Shake jumps get faster and farther apart up to the peak, then slow down and close in on the hitbox
+	var progress := pow(intensity, heal_shake_ramp)
+	shake_timer -= delta
+	if shake_timer <= 0:
+		shake_timer = lerpf(heal_shake_calm_interval, 0.0, progress)
+		var reach := stand_size * heal_shake_max_distance * progress
+		shake_offset = Vector2(randf_range(-reach.x, reach.x), randf_range(-reach.y, reach.y))
+		_apply_squish()
+		# Each copy jumps to its own spot around the hitbox
+		for copy in heal_copies:
+			copy.size = color_rect.size
+			var copy_offset := Vector2(randf_range(-reach.x, reach.x), randf_range(-reach.y, reach.y))
+			copy.position = hitbox.position - copy.size / 2 + copy_offset
+
+func _add_heal_copy() -> void:
+	var copy := ColorRect.new()
+	copy.color = color_rect.color
+	copy.size = color_rect.size
+	copy.position = color_rect.position
+	add_child(copy)
+	heal_copies.append(copy)
+
+func _end_heal() -> void:
+	healing = false
+	heal_locked = Input.is_action_pressed("heal")
+	shake_offset = Vector2.ZERO
+	for copy in heal_copies:
+		copy.queue_free()
+	heal_copies.clear()
+	_apply_squish()
+
 func _explode() -> void:
 	_end_crisis()
 	exploded = true
@@ -872,6 +996,10 @@ func GetDamaged(damage: int) -> void:
 	if _invincible():
 		return
 	health -= damage
+
+## Called by Attack each time one of Hue's hitboxes kills an enemy; gaining MP never breaks color zone hiding
+func on_attack_kill() -> void:
+	mp += mp_per_kill
 
 func enter_color_zone(zone: Area2D) -> void:
 	if zone not in color_zones:
