@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="1_3gxmx"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="1_67234"]
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_v8mhe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 size = Vector2(1283, 39)
@@ -10,6 +11,7 @@ size = Vector2(1283, 39)
 size = Vector2(20, 408)
 
 [node name="test2" type="Node2D" unique_id=2077970759]
+script = ExtResource("1_v8mhe")
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("1_67234")]
 position = Vector2(1674, 362.99997)

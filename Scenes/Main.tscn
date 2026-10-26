@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://hhdk7g45lsgg" path="res://Scenes/Hue.tscn" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://bheepay7tcmdw" path="res://Scenes/Rooms/TestRoom2.tscn" id="1_kln2b"]
+[ext_resource type="PackedScene" uid="uid://c4ub8bd6bn2by" path="res://Scenes/spawn_skeff.tscn" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
@@ -14,8 +15,12 @@
 
 [node name="Main" type="Node2D" unique_id=396947077]
 
-[node name="RoomControl" parent="." unique_id=1091275121 node_paths=PackedStringArray("Hue") groups=["RoomControl"] instance=ExtResource("2_kln2b")]
+[node name="RoomControl" parent="." unique_id=1091275121 node_paths=PackedStringArray("Hue", "spawnControl") groups=["RoomControl"] instance=ExtResource("2_kln2b")]
 Hue = NodePath("../Hue")
+spawnControl = NodePath("../SpawnSkeff")
+
+[node name="SpawnSkeff" parent="." unique_id=1639310276 node_paths=PackedStringArray("RoomControl") instance=ExtResource("2_grg3l")]
+RoomControl = NodePath("../RoomControl")
 
 [node name="RoomContainer" type="Node2D" parent="." unique_id=311234013]
 

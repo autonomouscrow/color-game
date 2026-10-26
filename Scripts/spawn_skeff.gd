@@ -7,10 +7,13 @@ extends Node2D
 	
 }
 
-func addRoom(id:String, enemies:Array[CharacterBody2D]) -> void:
+func addRoom(id:String, enemies:Array[String]) -> void:
 	roomEnemies[id] = enemies
 
 func checkDictionary(id:String) -> bool:
 	if roomEnemies.has(id):
 		return true
 	return false
+
+func getEnemyList(id:String) -> Array[String]:
+	return roomEnemies[id]

@@ -30,9 +30,9 @@ func change_room(target_room_id: String, target_door_id: String) -> void:
 	# Find RoomContainer safely
 	var container = get_tree().current_scene.find_child("RoomContainer", true, false)
 
-	#cach all enemy information
-	spawnControl.addRoom(current_room.name,current_room.Enemies)
-
+	#cach all enemy information'
+	current_room.checkDead()
+	spawnControl.addRoom(current_room.name,current_room.EnemiesLiving)
 	# Remove old room
 	if current_room:
 		current_room.queue_free()
@@ -50,9 +50,11 @@ func change_room(target_room_id: String, target_door_id: String) -> void:
 	
 	#check enemies in room
 	if spawnControl.checkDictionary(current_room.name):
-		pass
+		current_room.setEnemiesLiving(spawnControl.getEnemyList(current_room.name))
 	else:
-		pass
+		current_room.allLiving()
+	
+	current_room.PurgeEnemies()
 
 	await get_tree().process_frame
 
