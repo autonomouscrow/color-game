@@ -2,31 +2,23 @@ extends CharacterBody2D
 
 enum HueColor { WHITE, RED, BLUE, YELLOW, GREEN }
 
-## Input action for each color, in HueColor order
-const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow", "color_green"]
+const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow", "color_green"]  ## Input action for each color, in HueColor order
 
 @export_group("Walk")
 @export var speed := 300.0
 
 @export_group("Dash")
-## Horizontal speed for the whole dash; vertical speed stays at zero
-@export var dash_speed := 1200.0
-## Horizontal speed kept after the dash ends while D is still held, on the ground and in the air
-@export var dash_run_speed := 600.0
-## Seconds a dash lasts; it can't be cancelled, and Hue has i-frames and passes through enemies the whole time
-@export var dash_time := 0.2
-## Seconds from the start of one dash until D can dash again
-@export var dash_cooldown := 1
-## Seconds to ease down to walking speed when D is released after a dash with an arrow held
-@export var dash_release_time := 0.2
+@export var dash_speed := 1200.0  ## Horizontal speed for the whole dash; vertical speed stays at zero
+@export var dash_run_speed := 600.0  ## Horizontal speed kept after the dash ends while D is still held, on the ground and in the air
+@export var dash_time := 0.2  ## Seconds a dash lasts; it can't be cancelled, and Hue has i-frames and passes through enemies the whole time
+@export var dash_cooldown := 1  ## Seconds from the start of one dash until D can dash again
+@export var dash_release_time := 0.2  ## Seconds to ease down to walking speed when D is released after a dash with an arrow held
 
 @export_group("Slide")
 @export var slide_friction := 200.0
 @export var slide_min_speed := 450.0
-## Friction never slows a slide below this; letting go of the arrows still stops it
-@export var slide_lowest_speed := 150.0
-## Hue's size while fully squished into a slide, as a fraction of its normal width and height
-@export var slide_squish_scale := Vector2(2.0, 0.5)
+@export var slide_lowest_speed := 150.0  ## Friction never slows a slide below this; letting go of the arrows still stops it
+@export var slide_squish_scale := Vector2(2.0, 0.5)  ## Hue's size while fully squished into a slide, as a fraction of its normal width and height
 @export var slide_squish_time := 0.1
 @export var slide_stop_time := 0.1
 
@@ -34,125 +26,99 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var gravity := 1800.0
 @export var max_fall_speed := 1000.0
 @export var jump_velocity := 800.0
-## Upward speed is multiplied by this when A is released early, for shorter hops
-@export var jump_release_cut := 0.5
-## Seconds after walking off a ledge that A still jumps
-@export var coyote_time := 0.1
-## Seconds before landing that an A press is remembered and jumps on touchdown
-@export var jump_buffer_time := 0.1
-## Seconds to unsquish when jumping out of a slide with A
-@export var slide_jump_unsquish_time := 0.05
-## Seconds for leftover slide speed above walking speed to ease off after jumping out of a slide
-@export var slide_jump_slowdown_time := 0.2
+@export var jump_release_cut := 0.5  ## Upward speed is multiplied by this when A is released early, for shorter hops
+@export var coyote_time := 0.1  ## Seconds after walking off a ledge that A still jumps
+@export var jump_buffer_time := 0.1  ## Seconds before landing that an A press is remembered and jumps on touchdown
+@export var slide_jump_unsquish_time := 0.05  ## Seconds to unsquish when jumping out of a slide with A
+@export var slide_jump_slowdown_time := 0.2  ## Seconds for leftover slide speed above walking speed to ease off after jumping out of a slide
 
-@export_group("Glide")
-## Pressing A in mid-air (outside coyote time) starts a glide that lasts while A is held
+@export_group("Glide")  ## Pressing A in mid-air (outside coyote time) starts a glide that lasts while A is held
 @export var glide_gravity := 150.0
 @export var glide_max_fall_speed := 300.0
-## Horizontal speed while gliding; any dash speed being carried is dropped when the glide starts
-@export var glide_speed := 300.0
-## Seconds from the start of one glide until A can start another
-@export var glide_cooldown := 0.5
+@export var glide_speed := 300.0  ## Horizontal speed while gliding; any dash speed being carried is dropped when the glide starts
+@export var glide_cooldown := 0.5  ## Seconds from the start of one glide until A can start another
 
 @export_group("Slam")
-## Downward speed of the mid-air C slam
-@export var slam_speed := 2000.0
-## Seconds to squish into a slide when a slam hits the ground
-@export var slam_squish_time := 0.05
-## Hue's size while squatting after a straight-down slam, as a fraction of its normal width and height
-@export var squat_scale := Vector2(1.0, 0.5)
-## Seconds a straight-down slam stays squished before standing up, if no other input cuts it short
-@export var squat_hold_time := 0.2
-## Seconds for a squat to stretch forward into a slide when left or right is held
-@export var squat_to_slide_time := 0.1
+@export var slam_speed := 2000.0  ## Downward speed of the mid-air C slam
+@export var slam_squish_time := 0.05  ## Seconds to squish into a slide when a slam hits the ground
+@export var squat_scale := Vector2(1.0, 0.5)  ## Hue's size while squatting after a straight-down slam, as a fraction of its normal width and height
+@export var squat_hold_time := 0.2  ## Seconds a straight-down slam stays squished before standing up, if no other input cuts it short
+@export var squat_to_slide_time := 0.1  ## Seconds for a squat to stretch forward into a slide when left or right is held
+
+@export_group("Cling Grip")  ## Only while Green: moving into a wall in mid-air grabs it, stopping vertical movement
+@export var cling_height_scale := 0.75  ## Hue's height while clinging, as a fraction of its normal height; it shrinks equally from the top and bottom
+@export var cling_shrink_time := 0.1  ## Seconds to shrink when grabbing a wall, and to grow back when letting go
+@export var cling_hold_time := 0.1  ## Seconds Hue hangs still after grabbing a wall before sliding down it
+@export var cling_gravity_scale := 0.5  ## Gravity while sliding down a wall, as a fraction of normal gravity
+@export var wall_jump_coyote_time := 0.1  ## Seconds after letting go of a wall (by pushing away or sliding off its edge) that A still jumps off it
+@export var cling_coyote_time := 0.1  ## Seconds after touching a wall that pressing toward it still grabs it; Hue snaps back to the wall
+@export var cling_buffer_time := 0.1  ## Seconds an arrow press toward a wall is remembered, so it grabs the wall once Hue touches it
+@export var cling_snap_distance := 16.0  ## Farthest Hue snaps back to a wall it just left when grabbing it during coyote time, in pixels
+@export var wall_jump_angle := 45.0  ## Angle above horizontal of a jump off the wall; the jump's total speed is jump_velocity times wall_jump_velocity_scale
+@export var wall_jump_velocity_scale := 1.5
+@export var wall_jump_ease_time := 0.3  ## Seconds for the wall jump's sideways speed to ease to walking speed (or to a stop with no arrows held)
+@export var cling_release_on_away := true  ## Holding the arrow away from the wall lets go of it
 
 @export_group("Mental Health Crisis")
-## Seconds of holding Z for the first MP; each MP after takes crisis_mp_interval_factor times as long as the last
-@export var crisis_first_mp_time := 1.5
+@export var crisis_first_mp_time := 1.5  ## Seconds of holding Z for the first MP; each MP after takes crisis_mp_interval_factor times as long as the last
 @export var crisis_mp_interval_factor := 0.5
-## Hue's size while in a crisis, as a fraction of its normal width and height
-@export var crisis_shrink_scale := Vector2(0.8, 0.6)
-## Seconds to shrink when a crisis starts, and to grow back when it ends
-@export var crisis_shrink_time := 0.1
-## Seconds into the crisis that Hue explodes
-@export var crisis_explode_time := 2.999
+@export var crisis_shrink_scale := Vector2(0.8, 0.6)  ## Hue's size while in a crisis, as a fraction of its normal width and height
+@export var crisis_shrink_time := 0.1  ## Seconds to shrink when a crisis starts, and to grow back when it ends
+@export var crisis_explode_time := 2.999  ## Seconds into the crisis that Hue explodes
 @export_subgroup("Shake")
-## Seconds into the crisis that Hue starts shaking
-@export var crisis_shake_start_time := 0.5
-## Higher values keep the shaking gentle for longer before it ramps up near the explosion
-@export var crisis_shake_ramp := 2.0
-## Seconds between shake jumps when shaking starts; shrinks to one jump per frame by the explosion
-@export var crisis_shake_start_interval := 0.15
-## How far the color rectangle can jump from the hitbox by the explosion, in multiples of Hue's size
-@export var crisis_shake_max_distance := 1.5
+@export var crisis_shake_start_time := 0.5  ## Seconds into the crisis that Hue starts shaking
+@export var crisis_shake_ramp := 2.0  ## Higher values keep the shaking gentle for longer before it ramps up near the explosion
+@export var crisis_shake_start_interval := 0.15  ## Seconds between shake jumps when shaking starts; shrinks to one jump per frame by the explosion
+@export var crisis_shake_max_distance := 1.5  ## How far the color rectangle can jump from the hitbox by the explosion, in multiples of Hue's size
 
-@export_group("MP Costs")
-## MP spent to start each move; a move can't start without enough MP
+@export_group("MP Costs")  ## MP spent to start each move; a move can't start without enough MP
 @export var dash_mp_cost := 1
 @export var slide_mp_cost := 1
 @export var slam_mp_cost := 1
 @export var dive_mp_cost := 1
-## MP spent to start a glide
-@export var glide_mp_cost := 1
-## MP spent every glide_mp_drain_interval seconds while gliding; the glide ends when there isn't enough
-@export var glide_mp_drain := 1
+@export var glide_mp_cost := 1  ## MP spent to start a glide
+@export var glide_mp_drain := 1  ## MP spent every glide_mp_drain_interval seconds while gliding; the glide ends when there isn't enough
 @export var glide_mp_drain_interval := 2.0
 
 @export_group("Punch Attack")
 @export var punch_scene: PackedScene = preload("res://Scenes/Prefabs/PunchAttack.tscn")
-## Full size of the punch hitbox
-@export var punch_size := Vector2(100, 50)
-## Where the punch starts when facing right: x is the edge nearest Hue, y is the punch's vertical center (mirrored when facing left)
-@export var punch_offset := Vector2(12, -3)
-## Seconds for the punch to extend out to full size
-@export var punch_extend_time := 0.05
-## Seconds the punch stays at full size before disappearing
-@export var punch_hold_time := 0.05
+@export var punch_size := Vector2(100, 50)  ## Full size of the punch hitbox
+@export var punch_offset := Vector2(12, -3)  ## Where the punch starts when facing right: x is the edge nearest Hue, y is the punch's vertical center (mirrored when facing left)
+@export var punch_extend_time := 0.05  ## Seconds for the punch to extend out to full size
+@export var punch_hold_time := 0.05  ## Seconds the punch stays at full size before disappearing
 @export var punch_damage := 15.0
-## Seconds after punching or uppercutting before S can attack again
-@export var punch_cooldown := 0.1
+@export var punch_cooldown := 0.1  ## Seconds after punching or uppercutting before S can attack again
 
 @export_group("Uppercut Attack")
 @export var uppercut_scene: PackedScene = preload("res://Scenes/Prefabs/UppercutAttack.tscn")
-## Full size of the uppercut hitbox; it sits centered on top of Hue and extends upward
-@export var uppercut_size := Vector2(65, 80)
-## Seconds for the uppercut to extend up to full size
-@export var uppercut_extend_time := 0.05
-## Seconds the uppercut stays at full size before disappearing
-@export var uppercut_hold_time := 0.05
+@export var uppercut_size := Vector2(65, 80)  ## Full size of the uppercut hitbox; it sits centered on top of Hue and extends upward
+@export var uppercut_extend_time := 0.05  ## Seconds for the uppercut to extend up to full size
+@export var uppercut_hold_time := 0.05  ## Seconds the uppercut stays at full size before disappearing
 @export var uppercut_damage := 15.0
 
 @export_group("Slide Attack")
 @export var slide_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/SlideAttack.tscn")
-## Pixels the slide hitbox reaches past the front half of Hue on every side
-@export var slide_hitbox_margin := 5.0
-## Slide damage is this times Hue's speed when it hits, divided by walking speed
-@export var slide_damage := 10.0
+@export var slide_hitbox_margin := 5.0  ## Pixels the slide hitbox reaches past the front half of Hue on every side
+@export var slide_damage := 10.0  ## Slide damage is this times Hue's speed when it hits, divided by walking speed
 
 @export_group("Slam Attack")
 @export var slam_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/SlamAttack.tscn")
-## Fraction of Hue's height, from the bottom, that a straight-down slam's hitbox covers
-@export var slam_hitbox_fraction := 0.25
-## Pixels the slam hitbox reaches past that part of Hue on every side
-@export var slam_hitbox_margin := 5.0
+@export var slam_hitbox_fraction := 0.25  ## Fraction of Hue's height, from the bottom, that a straight-down slam's hitbox covers
+@export var slam_hitbox_margin := 5.0  ## Pixels the slam hitbox reaches past that part of Hue on every side
 @export var slam_damage := 20.0
 
 @export_group("Dive Attack")
 @export var dive_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/DiveAttack.tscn")
-## Side length of the square dive hitbox, which is turned 45 degrees and centered on Hue's lower front corner
-@export var dive_hitbox_size := 45.0
+@export var dive_hitbox_size := 45.0  ## Side length of the square dive hitbox, which is turned 45 degrees and centered on Hue's lower front corner
 @export var dive_damage := 20.0
 
 @export_group("Dash Attack")
 @export var dash_hitbox_scene: PackedScene = preload("res://Scenes/Prefabs/DashAttack.tscn")
-## Pixels the dash hitbox reaches past Hue on every side
-@export var dash_hitbox_margin := 5.0
-## Damage to each enemy in the dash's path, once per enemy per dash
-@export var dash_damage := 20.0
+@export var dash_hitbox_margin := 5.0  ## Pixels the dash hitbox reaches past Hue on every side
+@export var dash_damage := 20.0  ## Damage to each enemy in the dash's path, once per enemy per dash
 
 @export_group("Colors")
-## Hue's current color; Q/W/E/R/F swap to white/red/blue/yellow/green, except during a dash, slide, slam or dive
-@export var current_color := HueColor.WHITE:
+@export var current_color := HueColor.WHITE:  ## Hue's current color; Q/W/E/R/F swap to white/red/blue/yellow/green, except during a dash, slide, slam or dive
 	set(value):
 		current_color = value
 		_apply_color()
@@ -161,16 +127,13 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var blue_color := Color(0.2, 0.4, 1.0)
 @export var yellow_color := Color(1.0, 0.85, 0.1)
 @export var green_color := Color(0.2, 0.8, 0.25)
-## Seconds a color press is remembered while swapping is blocked; matches jump_buffer_time for now
-@export var color_buffer_time := 0.1
+@export var color_buffer_time := 0.1  ## Seconds a color press is remembered while swapping is blocked; matches jump_buffer_time for now
 
 @export_group("Color Zones")
-## Hue's opacity while hidden from enemies in a color zone that matches its color
-@export var hidden_alpha := 0.5
+@export var hidden_alpha := 0.5  ## Hue's opacity while hidden from enemies in a color zone that matches its color
 
 @export_group("Display")
-## Color the true hitbox is drawn in, underneath the white color rectangle
-@export var hitbox_color := Color(0.6, 0.2, 1.0, 0.4)
+@export var hitbox_color := Color(0.6, 0.2, 1.0, 0.4)  ## Color the true hitbox is drawn in, underneath the white color rectangle
 
 @export_group("Stats")
 @export var max_health := 100.0:
@@ -192,12 +155,9 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 		mp = clampi(value, 0, max_mp)
 
 @export_group("Debug")
-## 1/2 raise/lower health and 3/4 raise/lower MP while held, for testing the HUD
-@export var debug_stat_keys := true
-## Health per second gained or lost while 1 or 2 is held
-@export var debug_health_rate := 50.0
-## Seconds between each MP point gained or lost while 3 or 4 is held
-@export var debug_mp_interval := 0.3
+@export var debug_stat_keys := true  ## 1/2 raise/lower health and 3/4 raise/lower MP while held, for testing the HUD
+@export var debug_health_rate := 50.0  ## Health per second gained or lost while 1 or 2 is held
+@export var debug_mp_interval := 0.3  ## Seconds between each MP point gained or lost while 3 or 4 is held
 @export_group("")
 
 @onready var hitbox: CollisionShape2D = $Hitbox
@@ -260,6 +220,22 @@ var crisis_copies: Array[ColorRect] = []
 ## 0 is normal size, 1 is fully shrunk into crisis_shrink_scale
 var crisis_shrink := 0.0
 var exploded := false
+## True while Green Hue grips a wall in mid-air
+var clinging := false
+## 1 when the wall is to Hue's right, -1 when it's to the left
+var cling_wall_dir := 1.0
+## Seconds since grabbing the current wall
+var cling_timer := 0.0
+## 0 is normal height, 1 is fully shrunk into cling_height_scale
+var cling_amount := 0.0
+## Last arrow direction pressed, remembered for cling_buffer_time
+var cling_press_dir := 0.0
+var cling_press_timer := 0.0
+## Side of the last wall Hue touched, remembered for cling_coyote_time
+var wall_touch_dir := 0.0
+var wall_touch_timer := 0.0
+## Seconds left that A still jumps off the wall Hue just let go of
+var wall_jump_coyote_timer := 0.0
 ## 1 when facing right, -1 when facing left; punches go this way
 var facing := 1.0
 var punch_cooldown_timer := 0.0
@@ -297,6 +273,9 @@ func _physics_process(delta: float) -> void:
 			crisis_locked = Input.is_action_pressed("crisis")
 		return
 	_update_color_swap(delta)
+	# Changing color on the wall lets go right away and Hue falls
+	if clinging and current_color != HueColor.GREEN:
+		_end_cling()
 	# A straight-down slam passes through enemies until its hitbox goes away, once Hue is fully squished
 	if not dashing and not is_instance_valid(slam_hitbox) and not dash_passed_enemies.is_empty():
 		_restore_enemy_collisions()
@@ -339,8 +318,15 @@ func _physics_process(delta: float) -> void:
 		crisis_shrink = move_toward(crisis_shrink, 0, delta / crisis_shrink_time)
 		_apply_squish()
 
+	# Shrink into the cling, or grow back after letting go, even during a dash
+	var cling_target := 1.0 if clinging else 0.0
+	if cling_amount != cling_target:
+		cling_amount = move_toward(cling_amount, cling_target, delta / cling_shrink_time)
+		_apply_squish()
+
 	if Input.is_action_just_pressed("dash") and not dashing and dash_cooldown_timer <= 0 and mp >= dash_mp_cost:
-		_start_dash(direction)
+		# Dashing off a wall always goes away from it
+		_start_dash(-cling_wall_dir if clinging else direction)
 	if dashing:
 		_dash(direction, delta)
 		return
@@ -363,6 +349,13 @@ func _physics_process(delta: float) -> void:
 		coyote_timer -= delta
 		if slamming:
 			velocity.y = slam_speed
+		elif clinging:
+			# Hang still for cling_hold_time, then slide down the wall with reduced gravity
+			cling_timer += delta
+			if cling_timer < cling_hold_time:
+				velocity.y = 0
+			else:
+				velocity.y = minf(velocity.y + gravity * cling_gravity_scale * delta, max_fall_speed)
 		elif gliding:
 			velocity.y = minf(velocity.y + glide_gravity * delta, glide_max_fall_speed)
 		else:
@@ -384,8 +377,12 @@ func _physics_process(delta: float) -> void:
 			jump_buffer_timer = jump_buffer_time
 		else:
 			jump_buffer_timer -= delta
+		# A on the wall, or just after letting go of it, jumps off it at wall_jump_angle
+		var can_wall_jump := clinging or (wall_jump_coyote_timer > 0 and current_color == HueColor.GREEN and not is_on_floor() and not slamming)
+		if can_wall_jump and Input.is_action_just_pressed("jump"):
+			_wall_jump(direction)
 		# A buffered press jumps as soon as Hue is on the floor, or just walked off it
-		if jump_buffer_timer > 0 and coyote_timer > 0 and not slamming:
+		elif jump_buffer_timer > 0 and coyote_timer > 0 and not slamming:
 			if sliding:
 				_jump_out_of_slide()
 			velocity.y = -jump_velocity
@@ -427,6 +424,8 @@ func _physics_process(delta: float) -> void:
 					_start_slide(slide_squish_time)
 			elif not slamming and mp >= (slam_mp_cost if velocity.x == 0 else dive_mp_cost):
 				mp -= slam_mp_cost if velocity.x == 0 else dive_mp_cost
+				# Clinging has no sideways speed, so C on the wall is a straight-down slam
+				_end_cling()
 				slamming = true
 				gliding = false
 				velocity.y = slam_speed
@@ -458,7 +457,9 @@ func _physics_process(delta: float) -> void:
 		if dash_carrying and not dash_held:
 			dash_carrying = false
 			_ease_from_dash(direction)
-		if gliding:
+		if clinging:
+			velocity.x = 0
+		elif gliding:
 			velocity.x = direction * glide_speed
 		elif dash_carrying:
 			velocity.x = dash_direction * dash_run_speed
@@ -471,6 +472,84 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.x = direction * speed
 	move_and_slide()
+	_update_cling(direction, delta)
+
+## Grabs a wall while Green and airborne when an arrow toward it and a touch of it line up, within the buffer and coyote times;
+## lets go on landing, leaving the wall, or pushing away
+func _update_cling(direction: float, delta: float) -> void:
+	wall_jump_coyote_timer -= delta
+	if direction != 0:
+		cling_press_dir = direction
+		cling_press_timer = cling_buffer_time
+	else:
+		cling_press_timer -= delta
+	var touching_dir := 0.0
+	for side in [-1.0, 1.0]:
+		if _wall_on_side(side, 2.0):
+			touching_dir = side
+	if touching_dir != 0:
+		wall_touch_dir = touching_dir
+		wall_touch_timer = cling_coyote_time
+	else:
+		wall_touch_timer -= delta
+	if clinging:
+		var pushing_away := cling_release_on_away and direction == -cling_wall_dir
+		if is_on_floor() or pushing_away or touching_dir != cling_wall_dir:
+			# Pressing the arrow away a moment before A still wall jumps
+			if not is_on_floor():
+				wall_jump_coyote_timer = wall_jump_coyote_time
+			_end_cling()
+		return
+	if current_color != HueColor.GREEN or is_on_floor() or knockback.length() > 100.0:
+		return
+	if dashing or sliding or slamming or in_crisis:
+		return
+	if cling_press_timer <= 0 or wall_touch_timer <= 0 or cling_press_dir != wall_touch_dir:
+		return
+	if touching_dir != wall_touch_dir:
+		# Coyote grab: snap back to the wall Hue just left, if it's still beside Hue
+		var snap := move_and_collide(Vector2(wall_touch_dir * cling_snap_distance, 0), true)
+		if snap == null or not _wall_on_side(wall_touch_dir, cling_snap_distance):
+			return
+		global_position += snap.get_travel()
+	_start_cling(wall_touch_dir)
+
+## True when a mostly vertical surface that isn't an enemy is within reach pixels on that side (1 right, -1 left)
+func _wall_on_side(side: float, reach: float) -> bool:
+	var collision := move_and_collide(Vector2(side * reach, 0), true)
+	if collision == null:
+		return false
+	var collider := collision.get_collider()
+	return absf(collision.get_normal().x) > 0.7 and not (collider is Node and collider.is_in_group("enemy"))
+
+func _start_cling(wall_dir: float) -> void:
+	clinging = true
+	cling_wall_dir = wall_dir
+	cling_timer = 0.0
+	velocity = Vector2.ZERO
+	gliding = false
+	dash_carrying = false
+	speed_easing = false
+	jump_buffer_timer = 0
+
+func _end_cling() -> void:
+	clinging = false
+
+## Jumps away from the wall at wall_jump_angle with jump_velocity total speed; the sideways speed then eases off
+func _wall_jump(direction: float) -> void:
+	_end_cling()
+	var away := -cling_wall_dir
+	var angle := deg_to_rad(wall_jump_angle)
+	velocity = Vector2(away * cos(angle), -sin(angle)) * jump_velocity * wall_jump_velocity_scale
+	facing = away
+	# Don't grab the same wall again from the buffered press or the touch that's still remembered
+	cling_press_timer = 0
+	wall_touch_timer = 0
+	wall_jump_coyote_timer = 0
+	jump_buffer_timer = 0
+	coyote_timer = 0
+	speed_easing = true
+	speed_ease_rate = absf(velocity.x - direction * speed) / wall_jump_ease_time
 
 func _punch() -> void:
 	punch_cooldown_timer = punch_cooldown
@@ -537,6 +616,7 @@ func _start_dash(direction: float) -> void:
 	dash_cooldown_timer = dash_cooldown
 	dash_direction = direction if direction != 0 else facing
 	facing = dash_direction
+	_end_cling()
 	# A dash cuts off a slide, squat or slam (their hitboxes go with them) and any knockback
 	sliding = false
 	slamming = false
@@ -636,9 +716,11 @@ func _apply_squish() -> void:
 	var squish_scale := slide_squish_scale.lerp(squat_scale, squat_amount)
 	var squish_size := stand_size * Vector2.ONE.lerp(squish_scale, squish)
 	var size := squish_size * Vector2.ONE.lerp(crisis_shrink_scale, crisis_shrink)
-	hitbox_shape.size = size
 	# Keep the bottom edge in place so Hue squishes down instead of shrinking toward its center
 	hitbox.position.y = (stand_size.y - size.y) / 2
+	# Clinging shrinks equally from the top and bottom, around the center
+	size.y *= lerpf(1.0, cling_height_scale, cling_amount)
+	hitbox_shape.size = size
 	# Keep the back edge in place so Hue only stretches forward, and pulls the front back when getting up
 	# (the crisis shrink stays centered)
 	hitbox.position.x = slide_direction * (squish_size.x - stand_size.x) / 2
@@ -783,6 +865,7 @@ func SetKnockback(force: Vector2) -> void:
 	dash_carrying = false
 	speed_easing = false
 	gliding = false
+	_end_cling()
 	knockback = force
 
 func GetDamaged(damage: int) -> void:
