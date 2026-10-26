@@ -76,6 +76,11 @@ func _hit(target: enemy) -> void:
 	hit_enemies.append(target)
 	var health_before: int = target.health
 	target.take_damage(damage)
-	# Hue (the hitbox's parent) gains MP only when this hit is the one that kills the enemy
-	if health_before > 0 and target.health <= 0 and get_parent().has_method("on_attack_kill"):
-		get_parent().on_attack_kill()
+	# Hue gains MP only when this hit is the one that kills the enemy
+	var receiver := _kill_receiver()
+	if health_before > 0 and target.health <= 0 and is_instance_valid(receiver) and receiver.has_method("on_attack_kill"):
+		receiver.on_attack_kill()
+
+## Who gets on_attack_kill: the hitbox's parent (Hue) by default; a bullet isn't Hue's child, so it overrides this
+func _kill_receiver() -> Node:
+	return get_parent()

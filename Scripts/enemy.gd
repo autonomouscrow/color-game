@@ -14,7 +14,6 @@ func take_damage(amount: float) -> void:
 	if health <= 0:
 		return
 	health = maxi(health - roundi(amount), 0)
-	print(name, " took ", roundi(amount), " damage, health now ", health)
 	if health == 0:
 		die()
 
