@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://cj21ahglvgpf8"]
+
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_oiuna"]
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="1_ots34"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="2_qn1rc"]
+[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://canvas.tscn" id="3_1n0d2"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_y5hus"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+
+[node name="Start" type="Node2D" unique_id=118567636]
+script = ExtResource("1_oiuna")
+
+[node name="Exit" parent="." unique_id=199470789 instance=ExtResource("1_ots34")]
+position = Vector2(1272, 394)
+scale = Vector2(1, 15.039998)
+
+[node name="rightExit" type="Marker2D" parent="." unique_id=62011328]
+position = Vector2(1243, 392)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=128731402]
+position = Vector2(1338, 386)
+scale = Vector2(1, 15.039998)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2037355453]
+position = Vector2(-47, 0.46542558)
+shape = SubResource("RectangleShape2D_x3acn")
+
+[node name="Box" parent="." unique_id=1599687405 instance=ExtResource("2_qn1rc")]
+position = Vector2(631, 665)
+scale = Vector2(42.24, 1)
+
+[node name="Box2" parent="." unique_id=2104926722 instance=ExtResource("2_qn1rc")]
+position = Vector2(200, 645)
+scale = Vector2(7.9999995, 1)
+
+[node name="Box3" parent="." unique_id=277372887 instance=ExtResource("2_qn1rc")]
+position = Vector2(1066, 645)
+scale = Vector2(7.9999995, 1)
+
+[node name="Box4" parent="." unique_id=1514885839 instance=ExtResource("2_qn1rc")]
+position = Vector2(1105, 616)
+scale = Vector2(7.9999995, 3.12)
+
+[node name="Box5" parent="." unique_id=1539496219 instance=ExtResource("2_qn1rc")]
+position = Vector2(1189, 563)
+scale = Vector2(10.600009, 3.12)
+
+[node name="Box6" parent="." unique_id=1804923726 instance=ExtResource("2_qn1rc")]
+position = Vector2(117, 406)
+scale = Vector2(1, 23)
+
+[node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("3_1n0d2")]
+position = Vector2(243, 605)
+hide = true
+
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_y5hus")]
+position = Vector2(631, 357)
+scale = Vector2(58.399994, 35.68)

@@ -1,16 +1,11 @@
 [gd_scene format=3 uid="uid://b3v1edmqhqd75"]
 
 [ext_resource type="PackedScene" uid="uid://hhdk7g45lsgg" path="res://Scenes/Hue.tscn" id="1_idj7w"]
-[ext_resource type="PackedScene" uid="uid://bheepay7tcmdw" path="res://Scenes/Rooms/TestRoom2.tscn" id="1_kln2b"]
 [ext_resource type="PackedScene" uid="uid://c4ub8bd6bn2by" path="res://Scenes/spawn_skeff.tscn" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" uid="uid://cj21ahglvgpf8" path="res://Scenes/Rooms/start.tscn" id="3_v1gob"]
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
-[ext_resource type="PackedScene" uid="uid://c5i7skmtn3i2o" path="res://Scenes/Prefabs/breakable_wall.tscn" id="8_50glp"]
-[ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="10_4kpch"]
-[ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://wall_sitters.tscn" id="11_4kpch"]
-[ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="11_grg3l"]
-[ext_resource type="PackedScene" uid="uid://butbrp11dq2nx" path="res://ninja.tscn" id="13_frkhe"]
 
 [node name="Main" type="Node2D" unique_id=396947077]
 
@@ -21,11 +16,11 @@ spawnControl = NodePath("../SpawnSkeff")
 [node name="SpawnSkeff" parent="." unique_id=1639310276 node_paths=PackedStringArray("RoomControl") groups=["spawnSkeff"] instance=ExtResource("2_grg3l")]
 RoomControl = NodePath("../RoomControl")
 SpawnPoint = "Canvas"
-SpawnRoom = "test2"
+SpawnRoom = "Start"
 
 [node name="RoomContainer" type="Node2D" parent="." unique_id=311234013]
 
-[node name="test2" parent="RoomContainer" unique_id=2077970759 groups=["Room"] instance=ExtResource("1_kln2b")]
+[node name="Start" parent="RoomContainer" unique_id=118567636 groups=["Room"] instance=ExtResource("3_v1gob")]
 
 [node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
 position = Vector2(636, 395)
@@ -42,25 +37,3 @@ script = ExtResource("4_pbw6q")
 
 [node name="HUD" parent="." unique_id=1967454570 node_paths=PackedStringArray("player") instance=ExtResource("3_hud")]
 player = NodePath("../Hue")
-
-[node name="Breakable Wall" parent="." unique_id=987624992 instance=ExtResource("8_50glp")]
-position = Vector2(354, 326)
-scale = Vector2(1, 4.239998)
-
-[node name="DamageTP" parent="." unique_id=502579649 instance=ExtResource("10_4kpch")]
-position = Vector2(287, 489)
-
-[node name="DamageBlock" parent="." unique_id=2136408807 node_paths=PackedStringArray("safeZone") instance=ExtResource("11_grg3l")]
-position = Vector2(84, 486)
-scale = Vector2(4.418162, 0.32497424)
-safeZone = NodePath("../DamageTP")
-
-[node name="Ninja" parent="." unique_id=850865353 instance=ExtResource("13_frkhe")]
-position = Vector2(758, 453)
-
-[node name="Breakable Wall2" parent="." unique_id=485390736 instance=ExtResource("8_50glp")]
-position = Vector2(1399, 326)
-scale = Vector2(1, 4.239998)
-
-[node name="WallSitters" parent="." unique_id=1350810646 instance=ExtResource("11_4kpch")]
-position = Vector2(1397, 286)

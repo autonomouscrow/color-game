@@ -3,7 +3,8 @@ extends Node2D
 # Register your rooms here or fill this in the Inspector
 @export var room_scenes: Dictionary = {
 	"test": "res://Scenes/Rooms/TestRoom.tscn",
-	"test2": "res://Scenes/Rooms/TestRoom2.tscn"
+	"test2": "res://Scenes/Rooms/TestRoom2.tscn",
+	"Start": "res://Scenes/Rooms/start.tscn"
 	
 }
 @export var Hue: CharacterBody2D

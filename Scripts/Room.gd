@@ -12,9 +12,10 @@ func _ready() -> void:
 
 func checkDead() -> void:
 	EnemiesLiving = []
-	for enemy in EnemyObjects:
-		if enemy:
-			EnemiesLiving.append(enemy.name)
+	if EnemyObjects.size() > 0:
+		for enemy in EnemyObjects:
+			if enemy:
+				EnemiesLiving.append(enemy.name)
 
 func allLiving() -> void:
 	EnemiesLiving = Enemies

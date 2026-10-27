@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://b3v1edmqhqd75"]
+
+[ext_resource type="PackedScene" uid="uid://hhdk7g45lsgg" path="res://Scenes/Hue.tscn" id="1_idj7w"]
+[ext_resource type="PackedScene" uid="uid://c4ub8bd6bn2by" path="res://Scenes/spawn_skeff.tscn" id="2_grg3l"]
+[ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
+[ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" uid="uid://cj21ahglvgpf8" path="res://start.tscn" id="3_v1gob"]
+[ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
+
+[node name="Main" type="Node2D" unique_id=396947077]
+
+[node name="RoomControl" parent="." unique_id=1091275121 node_paths=PackedStringArray("Hue", "spawnControl") groups=["RoomControl"] instance=ExtResource("2_kln2b")]
+Hue = NodePath("../Hue")
+spawnControl = NodePath("../SpawnSkeff")
+
+[node name="SpawnSkeff" parent="." unique_id=1639310276 node_paths=PackedStringArray("RoomControl") groups=["spawnSkeff"] instance=ExtResource("2_grg3l")]
+RoomControl = NodePath("../RoomControl")
+SpawnPoint = "Canvas"
+SpawnRoom = "Start"
+
+[node name="RoomContainer" type="Node2D" parent="." unique_id=311234013]
+
+[node name="Start" parent="RoomContainer" unique_id=118567636 instance=ExtResource("3_v1gob")]
+
+[node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
+position = Vector2(636, 395)
+
+[node name="Camera2D" type="Camera2D" parent="Hue" unique_id=1716874876 groups=["Camera"]]
+position = Vector2(3, -38)
+process_callback = 0
+position_smoothing_speed = 40.0
+drag_vertical_enabled = true
+drag_left_margin = 0.0
+drag_top_margin = 0.04
+drag_right_margin = 0.0
+script = ExtResource("4_pbw6q")
+
+[node name="HUD" parent="." unique_id=1967454570 node_paths=PackedStringArray("player") instance=ExtResource("3_hud")]
+player = NodePath("../Hue")

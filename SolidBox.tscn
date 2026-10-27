@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bbreqjvxwbsbw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+
+[node name="Box" type="StaticBody2D" unique_id=1599687405]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1777555986]
+shape = SubResource("RectangleShape2D_x3acn")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=467515650]
+offset_left = -10.0
+offset_top = -9.999998
+offset_right = 30.0
+offset_bottom = 30.000002
+scale = Vector2(0.49799636, 0.5210984)
