@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/dasher.gd" id="1_dasher"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(30, 62)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_detection"]
+size = Vector2(2048, 2048)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aggro"]
+size = Vector2(1280, 1280)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
+size = Vector2(32, 64)
+
+[node name="Dasher" type="CharacterBody2D" groups=["enemy"]]
+motion_mode = 1
+script = ExtResource("1_dasher")
+max_health = 50
+
+[node name="Body" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Color" type="ColorRect" parent="."]
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 16.0
+offset_bottom = 32.0
+mouse_filter = 2
+color = Color(1, 0.9, 0, 1)
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="Rect" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("RectangleShape2D_detection")
+debug_color = Color(0, 0.6, 0.7, 0.1)
+
+[node name="AggroArea" type="Area2D" parent="."]
+
+[node name="Rect" type="CollisionShape2D" parent="AggroArea"]
+shape = SubResource("RectangleShape2D_aggro")
+debug_color = Color(0.2, 0.8, 0.2, 0.1)
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_contact")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_body_exited"]
+[connection signal="body_entered" from="AggroArea" to="." method="_on_aggro_area_body_entered"]
+[connection signal="body_exited" from="AggroArea" to="." method="_on_aggro_area_body_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
