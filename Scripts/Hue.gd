@@ -321,6 +321,8 @@ var burst_cooldown_timer := 0.0
 ## 0 is normal size, 1 is fully shrunk into burst_shrink_scale
 var burst_shrink := 0.0
 var current_punch: Node2D
+## Engine time in msec when the last uppercut reached full size; -1 before the first one. A Diver's dive is parried within its window after this
+var uppercut_extended_msec := -1
 var slide_hitbox: Node2D
 var slam_hitbox: Node2D
 var dive_hitbox: Node2D
@@ -868,6 +870,7 @@ func _uppercut() -> void:
 	uppercut.damage = uppercut_damage
 	# Starts from Hue's top edge, even when Hue is squished
 	uppercut.position = Vector2(hitbox.position.x, hitbox.position.y - hitbox_shape.size.y / 2)
+	uppercut.fully_extended.connect(func(): uppercut_extended_msec = Time.get_ticks_msec())
 	add_child(uppercut)
 	current_punch = uppercut
 
@@ -1267,6 +1270,10 @@ func GetDamaged(damage: int) -> void:
 		return
 	_cancel_burst_charge()
 	health -= damage
+
+## True if an uppercut reached full size within the last window seconds; a Diver's dive that hits Hue then is parried
+func parried_within(window: float) -> bool:
+	return uppercut_extended_msec >= 0 and Time.get_ticks_msec() - uppercut_extended_msec <= window * 1000.0
 
 ## Called by Attack each time one of Hue's hitboxes kills an enemy; gaining MP never breaks color zone hiding
 func on_attack_kill() -> void:
