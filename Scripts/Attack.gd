@@ -1,6 +1,9 @@
 class_name Attack
 extends Area2D
 
+## Emitted once, on the frame a timed hitbox reaches full size; the Diver's parry check uses the uppercut's
+signal fully_extended
+
 ## Damage dealt to each enemy this hitbox touches; each enemy is only hit once per hitbox, however long it stays inside
 @export var damage := 15.0
 ## On: extends from zero to full size over extend_time, stays for hold_time, then frees itself (punch, uppercut).
@@ -23,6 +26,7 @@ extends Area2D
 var hitbox_shape: RectangleShape2D
 var time := 0.0
 var hit_enemies: Array[Node] = []
+var extended := false
 
 func _ready() -> void:
 	# Own copy of the shape so resizing it doesn't affect other hitboxes
@@ -42,6 +46,9 @@ func _physics_process(delta: float) -> void:
 		return
 	var progress := 1.0 if extend_time <= 0 else minf(time / extend_time, 1.0)
 	_apply_length(progress)
+	if progress >= 1.0 and not extended:
+		extended = true
+		fully_extended.emit()
 
 func _apply_length(progress: float) -> void:
 	# The origin is the edge nearest Hue; only the side facing direction grows, away from Hue

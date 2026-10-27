@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://biuxt7a7rd7dg"]
-
-[ext_resource type="Script" uid="uid://cwqf8xichwsnp" path="res://Scripts/SlipyBois.gd" id="1_lt8br"]
-
-[node name="SlipyBoi" type="CharacterBody2D" unique_id=1582992222]
-script = ExtResource("1_lt8br")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=393823576]
