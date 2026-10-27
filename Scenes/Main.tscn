@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://c5i7skmtn3i2o" path="res://Scenes/Prefabs/breakable_wall.tscn" id="8_50glp"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="10_4kpch"]
+[ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://wall_sitters.tscn" id="11_4kpch"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="11_grg3l"]
 [ext_resource type="PackedScene" uid="uid://butbrp11dq2nx" path="res://ninja.tscn" id="13_frkhe"]
 
@@ -60,3 +61,6 @@ position = Vector2(758, 453)
 [node name="Breakable Wall2" parent="." unique_id=485390736 instance=ExtResource("8_50glp")]
 position = Vector2(1399, 326)
 scale = Vector2(1, 4.239998)
+
+[node name="WallSitters" parent="." unique_id=1350810646 instance=ExtResource("11_4kpch")]
+position = Vector2(1397, 286)

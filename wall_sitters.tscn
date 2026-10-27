@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://c3esrxtwcjlfa"]
+
+[ext_resource type="Script" uid="uid://b0kbuh0f3b0ff" path="res://wall_sitters.gd" id="1_i0tgi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tkjrr"]
+radius = 226.73553
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t53hv"]
+size = Vector2(38, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i0tgi"]
+size = Vector2(40, 40)
+
+[node name="WallSitters" type="CharacterBody2D" unique_id=1350810646]
+script = ExtResource("1_i0tgi")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1133158685]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=299698685]
+position = Vector2(20, 20)
+shape = SubResource("CircleShape2D_tkjrr")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=808330228]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 1, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=720012927]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_t53hv")
+
+[node name="Hitbox2" type="Area2D" parent="." unique_id=940959418]
+
+[node name="Hitbox" type="CollisionShape2D" parent="Hitbox2" unique_id=641894095]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_i0tgi")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_entered" from="Hitbox2" to="." method="_on_hitbox_2_body_entered"]
