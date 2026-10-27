@@ -281,6 +281,8 @@ var crisis_copies: Array[ColorRect] = []
 ## 0 is normal size, 1 is fully shrunk into crisis_shrink_scale
 var crisis_shrink := 0.0
 var exploded := false
+## True from death until Hue has been placed at the checkpoint; knockback stays at zero and can't be set meanwhile
+var respawning := false
 var healing := false
 ## X has to be released and pressed again after a heal ends
 var heal_locked := false
@@ -1185,6 +1187,8 @@ func _explode() -> void:
 	velocity = Vector2.ZERO
 	# Hue simply vanishes; _draw stops drawing the hitbox too
 	color_rect.visible = false
+	# Failing the crisis kills Hue; raising health on respawn brings it back through _try_revive
+	die()
 
 ## True when the space Hue's standing hitbox would grow into above its current top edge is clear of anything solid; enemies don't count
 func _can_stand() -> bool:
@@ -1247,7 +1251,7 @@ func _invincible() -> bool:
 	return dashing or slamming or is_instance_valid(slam_hitbox) or bursting
 
 func SetKnockback(force: Vector2) -> void:
-	if _invincible():
+	if _invincible() or respawning:
 		return
 	_cancel_burst_charge()
 	dash_carrying = false
@@ -1298,11 +1302,16 @@ func is_hidden() -> bool:
 	return false
 	
 func die() -> void:
+	# A second fatal hit before the first respawn finishes is ignored
+	if respawning:
+		return
+	respawning = true
+	knockback = Vector2.ZERO
 	velocity = Vector2.ZERO
 	var skeff = get_tree().get_first_node_in_group("spawnSkeff")
-	velocity = Vector2.ZERO
-	skeff.Respawn()
+	await skeff.Respawn()
+	knockback = Vector2.ZERO
 	velocity = Vector2.ZERO
 	health = 100
 	mp = 0
-	pass
+	respawning = false
