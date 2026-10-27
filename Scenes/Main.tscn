@@ -6,12 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
-[ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="6_v1gob"]
-[ext_resource type="PackedScene" uid="uid://ctaww7bptkekr" path="res://Scenes/Prefabs/PaperAirplaneThrower.tscn" id="7_jw32o"]
 [ext_resource type="PackedScene" uid="uid://c5i7skmtn3i2o" path="res://Scenes/Prefabs/breakable_wall.tscn" id="8_50glp"]
-[ext_resource type="PackedScene" uid="uid://bg20reqytwww4" path="res://Scenes/Prefabs/slidy_boi.tscn" id="9_vy5pj"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="10_4kpch"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="11_grg3l"]
+[ext_resource type="PackedScene" uid="uid://butbrp11dq2nx" path="res://ninja.tscn" id="13_frkhe"]
 
 [node name="Main" type="Node2D" unique_id=396947077]
 
@@ -44,24 +42,9 @@ script = ExtResource("4_pbw6q")
 [node name="HUD" parent="." unique_id=1967454570 node_paths=PackedStringArray("player") instance=ExtResource("3_hud")]
 player = NodePath("../Hue")
 
-[node name="Craw" parent="." unique_id=2060975062 instance=ExtResource("6_v1gob")]
-position = Vector2(1851, 278)
-
-[node name="Craw2" parent="." unique_id=1810167277 instance=ExtResource("6_v1gob")]
-position = Vector2(2005, 169)
-
-[node name="Craw3" parent="." unique_id=948565496 instance=ExtResource("6_v1gob")]
-position = Vector2(1536, 79)
-
-[node name="PaperAirplaneThrower" parent="." unique_id=499016071 instance=ExtResource("7_jw32o")]
-position = Vector2(734, 457)
-
 [node name="Breakable Wall" parent="." unique_id=987624992 instance=ExtResource("8_50glp")]
 position = Vector2(354, 326)
 scale = Vector2(1, 4.239998)
-
-[node name="SlidyBoi" parent="." unique_id=1609698959 instance=ExtResource("9_vy5pj")]
-position = Vector2(958, 451)
 
 [node name="DamageTP" parent="." unique_id=502579649 instance=ExtResource("10_4kpch")]
 position = Vector2(287, 489)
@@ -70,3 +53,10 @@ position = Vector2(287, 489)
 position = Vector2(84, 486)
 scale = Vector2(4.418162, 0.32497424)
 safeZone = NodePath("../DamageTP")
+
+[node name="Ninja" parent="." unique_id=850865353 instance=ExtResource("13_frkhe")]
+position = Vector2(758, 453)
+
+[node name="Breakable Wall2" parent="." unique_id=485390736 instance=ExtResource("8_50glp")]
+position = Vector2(1399, 326)
+scale = Vector2(1, 4.239998)

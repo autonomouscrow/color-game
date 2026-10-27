@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://butbrp11dq2nx"]
+
+[ext_resource type="Script" uid="uid://c6vjqvyppprjf" path="res://ninja.gd" id="1_buaqa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+size = Vector2(38, 39)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t53hv"]
+size = Vector2(84, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_buaqa"]
+size = Vector2(40, 40)
+
+[node name="Ninja" type="CharacterBody2D" unique_id=850865353]
+script = ExtResource("1_buaqa")
+max_health = 40
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1077024131]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0.8901961, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1113764261]
+position = Vector2(20, 20.5)
+shape = SubResource("RectangleShape2D_x3acn")
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=313271745]
+position = Vector2(7, 0)
+scale = Vector2(3.1199987, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=448186833]
+position = Vector2(4, 20)
+shape = SubResource("RectangleShape2D_t53hv")
+
+[node name="Hitbox2" type="Area2D" parent="." unique_id=764535175]
+
+[node name="Hitbox" type="CollisionShape2D" parent="Hitbox2" unique_id=1633746131]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_buaqa")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="Hitbox2" to="." method="_on_hitbox_2_body_entered"]
