@@ -1267,6 +1267,8 @@ func GetDamaged(damage: int) -> void:
 		return
 	_cancel_burst_charge()
 	health -= damage
+	if health <= 0:
+		die()
 
 ## Called by Attack each time one of Hue's hitboxes kills an enemy; gaining MP never breaks color zone hiding
 func on_attack_kill() -> void:
@@ -1287,3 +1289,13 @@ func is_hidden() -> bool:
 		if is_instance_valid(zone) and zone.zone_color == current_color and time_since_mp_spent >= zone.reveal_time:
 			return true
 	return false
+	
+func die() -> void:
+	velocity = Vector2.ZERO
+	var skeff = get_tree().get_first_node_in_group("spawnSkeff")
+	velocity = Vector2.ZERO
+	skeff.Respawn()
+	velocity = Vector2.ZERO
+	health = 100
+	mp = 0
+	pass

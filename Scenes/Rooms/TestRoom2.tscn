@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="1_3gxmx"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="1_67234"]
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_v8mhe"]
+[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://canvas.tscn" id="4_ygt78"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 size = Vector2(1283, 39)
@@ -74,3 +75,7 @@ shape = SubResource("RectangleShape2D_x3acn")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2092751543]
 position = Vector2(-42, 367)
 shape = SubResource("RectangleShape2D_t53hv")
+
+[node name="Canvas" parent="." unique_id=1299036508 groups=["Room"] instance=ExtResource("4_ygt78")]
+position = Vector2(551, 453)
+hide = true

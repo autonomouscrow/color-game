@@ -26,6 +26,7 @@ func Respawn() -> void:
 	RoomControl.change_room(SpawnRoom, SpawnPoint)
 
 func SetSpawn(room:String,point:String) -> void:
+	print (room, " ", room)
 	SpawnPoint = point
 	SpawnRoom = room
 

@@ -19,8 +19,10 @@
 Hue = NodePath("../Hue")
 spawnControl = NodePath("../SpawnSkeff")
 
-[node name="SpawnSkeff" parent="." unique_id=1639310276 node_paths=PackedStringArray("RoomControl") instance=ExtResource("2_grg3l")]
+[node name="SpawnSkeff" parent="." unique_id=1639310276 node_paths=PackedStringArray("RoomControl") groups=["spawnSkeff"] instance=ExtResource("2_grg3l")]
 RoomControl = NodePath("../RoomControl")
+SpawnPoint = "Canvas"
+SpawnRoom = "test2"
 
 [node name="RoomContainer" type="Node2D" parent="." unique_id=311234013]
 

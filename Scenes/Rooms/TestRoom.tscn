@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="1_d83gb"]
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_sg5r5"]
 [ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="4_aacpj"]
+[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://canvas.tscn" id="5_88kav"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_24gi2"]
 size = Vector2(1283, 39)
@@ -11,7 +12,7 @@ size = Vector2(1283, 39)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 size = Vector2(23, 22.253693)
 
-[node name="test" type="Node2D" unique_id=915329821 node_paths=PackedStringArray("EnemyObjects")]
+[node name="test" type="Node2D" unique_id=915329821 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 position = Vector2(0, -3)
 script = ExtResource("1_sg5r5")
 EnemyObjects = [NodePath("Craw"), NodePath("Craw2"), NodePath("Craw3"), NodePath("Craw4")]
@@ -60,3 +61,7 @@ position = Vector2(-813, 430)
 
 [node name="Craw4" parent="." unique_id=639338643 instance=ExtResource("4_aacpj")]
 position = Vector2(-498, 168)
+
+[node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("5_88kav")]
+position = Vector2(-1560, 485)
+hide = false

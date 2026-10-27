@@ -3,19 +3,21 @@
 [ext_resource type="Script" uid="uid://jismwu16vmw2" path="res://canvas.gd" id="1_75aqd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
-size = Vector2(31, 38)
+size = Vector2(46, 58)
 
 [node name="Canvas" type="Marker2D" unique_id=1299036508]
 script = ExtResource("1_75aqd")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=735695935]
-offset_right = 21.0
-offset_bottom = 29.0
+offset_left = -11.0
+offset_top = -14.0
+offset_right = 10.0
+offset_bottom = 15.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1411256138]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=96848017]
-position = Vector2(10.5, 14)
 shape = SubResource("RectangleShape2D_x3acn")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
