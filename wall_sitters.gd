@@ -1,9 +1,9 @@
-extends CharacterBody2D
+extends enemy
 
 enum State { IDLE, JUMPING, CHASING }
 var current_state: State = State.IDLE
 
-@export var chase_speed: float = 400.0
+@export var chase_speed: float = 200.0
 @export var jump_vertical_force: float = -200.0
 @export var jump_horizontal_speed: float = 500.0
 
