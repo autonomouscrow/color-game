@@ -23,7 +23,7 @@ SpawnRoom = "Start"
 [node name="Red2" parent="RoomContainer" unique_id=493293217 instance=ExtResource("3_v1gob")]
 
 [node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
-position = Vector2(709, 602)
+position = Vector2(4143, -6730)
 
 [node name="Camera2D" type="Camera2D" parent="Hue" unique_id=1716874876 groups=["Camera"]]
 position = Vector2(3, -38)

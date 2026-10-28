@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://iybgug44ob8o"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_2vpxa"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="2_dyo1k"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="2_xmy5j"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_xmy5j"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="4_cjpqh"]
@@ -9,17 +10,21 @@
 [node name="Red2" type="Node2D" unique_id=493293217 groups=["Room"]]
 script = ExtResource("1_2vpxa")
 
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_dyo1k")]
+position = Vector2(3781.0002, -8984)
+scale = Vector2(109.08, 232.84001)
+
 [node name="OutD" parent="." unique_id=199470789 instance=ExtResource("2_xmy5j")]
-position = Vector2(595, 754)
+position = Vector2(4049, -6635)
 scale = Vector2(6.6399975, 1)
 target_room_id = "Red1"
 target_door_id = "InU"
 
 [node name="InD" type="Marker2D" parent="." unique_id=624620213]
-position = Vector2(702, 631)
+position = Vector2(4147, -6756)
 
 [node name="platforms" type="Node2D" parent="." unique_id=1887796736]
-position = Vector2(595, 754)
+position = Vector2(4040, -6618.9995)
 scale = Vector2(6.6399975, 1)
 
 [node name="Box" parent="platforms" unique_id=1599687405 instance=ExtResource("3_xmy5j")]
@@ -131,10 +136,10 @@ scale = Vector2(0.15060246, 9.36)
 safeZone = NodePath("../DamageTP")
 
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("4_cjpqh")]
-position = Vector2(587, -302)
+position = Vector2(4032, -7675)
 
 [node name="Box15" parent="." unique_id=2016605142 instance=ExtResource("3_xmy5j")]
-position = Vector2(723.99994, 81.00006)
+position = Vector2(4169, -7292)
 scale = Vector2(2.36, 5.8399987)
 
 [node name="Box2" parent="Box15" unique_id=2122675506 instance=ExtResource("3_xmy5j")]
@@ -147,7 +152,7 @@ scale = Vector2(0.91525435, 0.42465764)
 safeZone = NodePath("../../platforms/DamageTP2")
 
 [node name="Box16" parent="." unique_id=668773920 instance=ExtResource("3_xmy5j")]
-position = Vector2(936.00006, -411)
+position = Vector2(4381, -7784)
 scale = Vector2(2.36, 5.8399987)
 
 [node name="Box2" parent="Box16" unique_id=845043700 instance=ExtResource("3_xmy5j")]
@@ -160,7 +165,7 @@ scale = Vector2(0.91525435, 0.42465764)
 safeZone = NodePath("../../platforms/DamageTP2")
 
 [node name="Box17" parent="." unique_id=741018608 instance=ExtResource("3_xmy5j")]
-position = Vector2(259, -236)
+position = Vector2(3704, -7609)
 scale = Vector2(2.36, 5.8399987)
 
 [node name="Box2" parent="Box17" unique_id=1405206737 instance=ExtResource("3_xmy5j")]
@@ -173,7 +178,7 @@ scale = Vector2(0.91525435, 0.42465764)
 safeZone = NodePath("../../platforms/DamageTP")
 
 [node name="Box18" parent="." unique_id=1433316071 instance=ExtResource("3_xmy5j")]
-position = Vector2(627.00006, -562)
+position = Vector2(4072, -7935)
 scale = Vector2(2.36, 5.8399987)
 
 [node name="Box2" parent="Box18" unique_id=925418617 instance=ExtResource("3_xmy5j")]
@@ -186,9 +191,26 @@ scale = Vector2(0.91525435, 0.42465764)
 safeZone = NodePath("../../DamageTP")
 
 [node name="DamageTP" type="Marker2D" parent="." unique_id=1597281815]
-position = Vector2(565, -292)
+position = Vector2(4010.0005, -7665.001)
 scale = Vector2(2.16, 2.48)
 
 [node name="DamageBlock" parent="." unique_id=1802660370 instance=ExtResource("5_bt88p")]
-position = Vector2(216, -697)
-scale = Vector2(1, 7.8400025)
+position = Vector2(3667, -8329)
+scale = Vector2(1, 15.840004)
+
+[node name="Box19" parent="." unique_id=68205956 instance=ExtResource("3_xmy5j")]
+position = Vector2(4305, -8142)
+scale = Vector2(2.36, 5.8399987)
+
+[node name="Box2" parent="Box19" unique_id=409035666 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="Box19" unique_id=1329499287 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP")
+
+[node name="Box" parent="." unique_id=1830392160 instance=ExtResource("3_xmy5j")]
+position = Vector2(4025.0002, -6619)
+scale = Vector2(23.399961, 1)
