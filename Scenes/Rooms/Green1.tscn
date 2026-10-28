@@ -10,7 +10,7 @@
 
 [node name="Green1" type="Node2D" unique_id=1491857186 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_7vu7n")
-EnemyObjects = [NodePath("Slime")]
+EnemyObjects = [NodePath("Slime"), NodePath("Node2D/Slime"), NodePath("Node2D/Slime2"), NodePath("Node2D/Slime3")]
 
 [node name="OutL" parent="." unique_id=199470789 instance=ExtResource("2_2gly8")]
 position = Vector2(1298, -161)
@@ -101,7 +101,7 @@ position = Vector2(1219, -154)
 position = Vector2(1089, -77)
 
 [node name="Slime3" parent="Node2D" unique_id=1387415012 instance=ExtResource("4_2gly8")]
-position = Vector2(1272, -78)
+position = Vector2(1272, -33)
 
 [node name="Box12" parent="Node2D" unique_id=1508947338 instance=ExtResource("3_qautl")]
 position = Vector2(2440, 82)

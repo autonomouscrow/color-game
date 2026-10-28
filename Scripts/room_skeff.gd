@@ -6,6 +6,7 @@ extends Node2D
 	"test2": "res://Scenes/Rooms/TestRoom2.tscn",
 	"Start": "res://Scenes/Rooms/start.tscn",
 	"Green1": "res://Scenes/Rooms/Green1.tscn",
+	"Green2": "res://Scenes/Rooms/Green2.tscn",
 	"Red1": "res://Scenes/Rooms/red_1.tscn"
 	
 }
