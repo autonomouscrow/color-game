@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c4ub8bd6bn2by" path="res://Scenes/spawn_skeff.tscn" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
-[ext_resource type="PackedScene" uid="uid://cfoaofavv0p2o" path="res://Scenes/Rooms/red_1.tscn" id="3_v1gob"]
+[ext_resource type="PackedScene" uid="uid://iybgug44ob8o" path="res://Scenes/Rooms/red_2.tscn" id="3_v1gob"]
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
 
 [node name="Main" type="Node2D" unique_id=396947077]
@@ -20,11 +20,10 @@ SpawnRoom = "Start"
 
 [node name="RoomContainer" type="Node2D" parent="." unique_id=311234013]
 
-[node name="Red1" parent="RoomContainer" unique_id=1782557211 node_paths=PackedStringArray("EnemyObjects") instance=ExtResource("3_v1gob")]
-EnemyObjects = [NodePath("Craw"), NodePath("Craw2"), null, NodePath("Slime"), NodePath("Slime2")]
+[node name="Red2" parent="RoomContainer" unique_id=493293217 instance=ExtResource("3_v1gob")]
 
 [node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
-position = Vector2(396, 812)
+position = Vector2(709, 602)
 
 [node name="Camera2D" type="Camera2D" parent="Hue" unique_id=1716874876 groups=["Camera"]]
 position = Vector2(3, -38)
