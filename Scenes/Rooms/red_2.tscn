@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://iybgug44ob8o"]
+
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_2vpxa"]
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="2_xmy5j"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_xmy5j"]
+[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="4_cjpqh"]
+
+[node name="Red2" type="Node2D" unique_id=493293217 groups=["Room"]]
+script = ExtResource("1_2vpxa")
+
+[node name="OutD" parent="." unique_id=199470789 instance=ExtResource("2_xmy5j")]
+position = Vector2(595, 754)
+scale = Vector2(6.6399975, 1)
+target_room_id = "Red1"
+target_door_id = "OutU"
+
+[node name="InD" type="Marker2D" parent="." unique_id=624620213]
+position = Vector2(702, 627)
+
+[node name="platforms" type="Node2D" parent="." unique_id=1887796736]
+position = Vector2(595, 754)
+scale = Vector2(6.6399975, 1)
+
+[node name="Box" parent="platforms" unique_id=1599687405 instance=ExtResource("3_xmy5j")]
+position = Vector2(-10.99398, -57)
+scale = Vector2(0.15060245, 4.3599997)
+
+[node name="Box2" parent="platforms" unique_id=459518769 instance=ExtResource("3_xmy5j")]
+position = Vector2(11.295181, -58)
+scale = Vector2(0.15060245, 4.3599997)
+
+[node name="Box3" parent="platforms" unique_id=5524793 instance=ExtResource("3_xmy5j")]
+position = Vector2(34.036156, -88)
+scale = Vector2(2.4016838, 1.2851795)
+
+[node name="Box4" parent="platforms" unique_id=2087650422 instance=ExtResource("3_xmy5j")]
+position = Vector2(-87.80124, -88.99994)
+scale = Vector2(7.889637, 1.2851795)
+
+[node name="Box5" parent="platforms" unique_id=96882247 instance=ExtResource("3_xmy5j")]
+position = Vector2(-56.174725, -970)
+scale = Vector2(0.15060246, 76.71999)
+
+[node name="Box6" parent="platforms" unique_id=1506288389 instance=ExtResource("3_xmy5j")]
+position = Vector2(56.17472, -1173)
+scale = Vector2(0.15060246, 100.71999)
+
+[node name="Box7" parent="platforms" unique_id=1114942737 instance=ExtResource("3_xmy5j")]
+position = Vector2(-55.873516, -2747.9998)
+scale = Vector2(0.15060246, 76.71999)
+
+[node name="Box8" parent="platforms" unique_id=1054818380 instance=ExtResource("3_xmy5j")]
+position = Vector2(55.722908, -3502)
+scale = Vector2(0.15060246, 76.71999)
+
+[node name="Box9" parent="platforms" unique_id=53921518 instance=ExtResource("3_xmy5j")]
+position = Vector2(55.722908, -2447.9998)
+scale = Vector2(0.15060246, 10.5199995)
+
+[node name="Box10" parent="platforms" unique_id=795117869 instance=ExtResource("3_xmy5j")]
+position = Vector2(-1.2048264, -974.99994)
+scale = Vector2(1.289157, 0.99999994)
+
+[node name="Box11" parent="platforms" unique_id=41690173 instance=ExtResource("3_xmy5j")]
+position = Vector2(-90.36148, -149)
+scale = Vector2(3.3795185, 0.99999994)
+
+[node name="Box12" parent="platforms" unique_id=1938258641 instance=ExtResource("3_xmy5j")]
+position = Vector2(-165.0603, -199)
+scale = Vector2(0.15060246, 9.559999)
+
+[node name="Box13" parent="platforms" unique_id=1040566149 instance=ExtResource("3_xmy5j")]
+position = Vector2(-139.9097, -285.99997)
+scale = Vector2(2.6626515, 0.99999994)
+
+[node name="Box14" parent="platforms" unique_id=1486760374 instance=ExtResource("3_xmy5j")]
+position = Vector2(-122.59041, -233)
+scale = Vector2(0.15060246, 8.5599985)
+
+[node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("4_cjpqh")]
+position = Vector2(587, -269)
+
+[node name="Box" parent="." unique_id=2016605142 instance=ExtResource("3_xmy5j")]
+position = Vector2(724, 81.00001)
+scale = Vector2(2.3600001, 5.839999)
+
+[node name="Box2" parent="Box" unique_id=2122675506 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="Box2" parent="." unique_id=845267510 instance=ExtResource("3_xmy5j")]
+position = Vector2(532, 288)
+scale = Vector2(2.3600001, 5.839999)
+
+[node name="Box2" parent="Box2" unique_id=1271396174 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="Box3" parent="." unique_id=1947128271 instance=ExtResource("3_xmy5j")]
+position = Vector2(279, 432.99997)
+scale = Vector2(5.089678, 3.3757246)
+
+[node name="Box4" parent="." unique_id=419658744 instance=ExtResource("3_xmy5j")]
+position = Vector2(915, 268)
+scale = Vector2(11.449682, 3.3757246)
