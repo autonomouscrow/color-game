@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="1_d83gb"]
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_sg5r5"]
 [ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="4_aacpj"]
-[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://canvas.tscn" id="5_88kav"]
-[ext_resource type="PackedScene" uid="uid://butbrp11dq2nx" path="res://ninja.tscn" id="6_ktbn5"]
+[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="5_88kav"]
+[ext_resource type="PackedScene" uid="uid://butbrp11dq2nx" path="res://Scenes/Prefabs/ninja.tscn" id="6_ktbn5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_24gi2"]
 size = Vector2(1283, 39)

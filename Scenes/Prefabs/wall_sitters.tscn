@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c3esrxtwcjlfa"]
 
-[ext_resource type="Script" uid="uid://b0kbuh0f3b0ff" path="res://wall_sitters.gd" id="1_i0tgi"]
+[ext_resource type="Script" uid="uid://b0kbuh0f3b0ff" path="res://Scripts/wall_sitters.gd" id="1_i0tgi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tkjrr"]
 radius = 226.73553

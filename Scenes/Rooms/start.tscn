@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_oiuna"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="1_ots34"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="2_qn1rc"]
-[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://canvas.tscn" id="3_1n0d2"]
+[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="3_1n0d2"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_y5hus"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]

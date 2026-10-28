@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://butbrp11dq2nx"]
 
-[ext_resource type="Script" uid="uid://c6vjqvyppprjf" path="res://ninja.gd" id="1_buaqa"]
+[ext_resource type="Script" uid="uid://c6vjqvyppprjf" path="res://Scripts/ninja.gd" id="1_buaqa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 size = Vector2(38, 39)

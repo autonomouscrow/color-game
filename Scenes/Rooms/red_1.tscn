@@ -1,0 +1,146 @@
+[gd_scene format=3 uid="uid://cfoaofavv0p2o"]
+
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_lwl47"]
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="2_062ts"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_062ts"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_w2i4l"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Slime.tscn" id="5_mraq4"]
+[ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="5_yplr5"]
+
+[node name="Red1" type="Node2D" unique_id=1782557211 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
+script = ExtResource("1_lwl47")
+EnemyObjects = [NodePath("Craw"), NodePath("Craw2"), NodePath(""), NodePath("Slime"), NodePath("Slime2")]
+
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_w2i4l")]
+position = Vector2(1326, 163)
+scale = Vector2(193.49457, 74.91999)
+
+[node name="OutD" parent="." unique_id=199470789 instance=ExtResource("2_062ts")]
+position = Vector2(555, 966)
+scale = Vector2(14.600002, 1)
+
+[node name="InD" type="Marker2D" parent="." unique_id=797697442]
+position = Vector2(398, 822)
+scale = Vector2(-50.533234, 104.21489)
+
+[node name="platforms" type="Node2D" parent="." unique_id=1036979319]
+position = Vector2(730, 286)
+
+[node name="Box19" parent="platforms" unique_id=242483806 instance=ExtResource("3_062ts")]
+position = Vector2(-316, 615)
+scale = Vector2(1, 4.480005)
+
+[node name="Box20" parent="platforms" unique_id=1895679745 instance=ExtResource("3_062ts")]
+position = Vector2(-31, 633)
+scale = Vector2(1, 4.480005)
+
+[node name="Box" parent="platforms" unique_id=1599687405 instance=ExtResource("3_062ts")]
+position = Vector2(-524, 580)
+scale = Vector2(21.92, 1)
+
+[node name="Box2" parent="platforms" unique_id=1679578306 instance=ExtResource("3_062ts")]
+position = Vector2(178, 580)
+scale = Vector2(21.92, 1)
+
+[node name="Box3" parent="platforms" unique_id=1046430961 instance=ExtResource("3_062ts")]
+position = Vector2(-736, 534)
+scale = Vector2(1, 8.879997)
+
+[node name="Box4" parent="platforms" unique_id=785869637 instance=ExtResource("3_062ts")]
+position = Vector2(-609, 233)
+scale = Vector2(1, 6.600003)
+
+[node name="Box5" parent="platforms" unique_id=1561638403 instance=ExtResource("3_062ts")]
+position = Vector2(-837, 455)
+scale = Vector2(10.959999, 1)
+
+[node name="Box6" parent="platforms" unique_id=384128518 instance=ExtResource("3_062ts")]
+position = Vector2(-773, 11.000019)
+scale = Vector2(1, 6.600003)
+
+[node name="Box7" parent="platforms" unique_id=1481619109 instance=ExtResource("3_062ts")]
+position = Vector2(-604, -195)
+scale = Vector2(1, 6.600003)
+
+[node name="Box8" parent="platforms" unique_id=369499842 instance=ExtResource("3_062ts")]
+position = Vector2(70, 562)
+
+[node name="Box9" parent="platforms" unique_id=1666189487 instance=ExtResource("3_062ts")]
+position = Vector2(88, 544)
+
+[node name="Box10" parent="platforms" unique_id=1665473669 instance=ExtResource("3_062ts")]
+position = Vector2(108, 526)
+
+[node name="Box11" parent="platforms" unique_id=1989644227 instance=ExtResource("3_062ts")]
+position = Vector2(126, 509)
+
+[node name="Box12" parent="platforms" unique_id=1675053674 instance=ExtResource("3_062ts")]
+position = Vector2(597, 487)
+scale = Vector2(46.479996, 1)
+
+[node name="Box13" parent="platforms" unique_id=2021405530 instance=ExtResource("3_062ts")]
+position = Vector2(493, 138)
+scale = Vector2(9.23999, 1)
+
+[node name="Box14" parent="platforms" unique_id=3755502 instance=ExtResource("3_062ts")]
+position = Vector2(52, 120)
+
+[node name="Box15" parent="platforms" unique_id=1255905653 instance=ExtResource("3_062ts")]
+position = Vector2(33, 106)
+
+[node name="Box16" parent="platforms" unique_id=582763778 instance=ExtResource("3_062ts")]
+position = Vector2(18, 4)
+scale = Vector2(1, 9.08)
+
+[node name="Box17" parent="platforms" unique_id=1797120231 instance=ExtResource("3_062ts")]
+position = Vector2(-221, -17)
+scale = Vector2(23.28, 1)
+
+[node name="Box18" parent="platforms" unique_id=33991629 instance=ExtResource("3_062ts")]
+
+[node name="Box21" parent="platforms" unique_id=496623198 instance=ExtResource("3_062ts")]
+position = Vector2(-444, -458)
+scale = Vector2(1, 41.72)
+
+[node name="Box22" parent="platforms" unique_id=1864404124 instance=ExtResource("3_062ts")]
+position = Vector2(1066, 504)
+
+[node name="Box23" parent="platforms" unique_id=1293199004 instance=ExtResource("3_062ts")]
+position = Vector2(577, 239)
+scale = Vector2(1, 11.120001)
+
+[node name="Box24" parent="platforms" unique_id=1972889218 instance=ExtResource("3_062ts")]
+position = Vector2(345, 304)
+scale = Vector2(8.267024, -5.167729)
+
+[node name="Box25" parent="platforms" unique_id=654387494 instance=ExtResource("3_062ts")]
+position = Vector2(260, 338)
+scale = Vector2(5.0278034, 3.3070695)
+
+[node name="Box26" parent="platforms" unique_id=1655747921 instance=ExtResource("3_062ts")]
+position = Vector2(182, 138)
+scale = Vector2(12.240005, 1)
+
+[node name="Box27" parent="platforms" unique_id=523082966 instance=ExtResource("3_062ts")]
+position = Vector2(410, -69)
+scale = Vector2(1, 19.880001)
+
+[node name="Box28" parent="platforms" unique_id=1278161136 instance=ExtResource("3_062ts")]
+position = Vector2(295, -67)
+scale = Vector2(1, 19.880001)
+
+[node name="Box29" parent="platforms" unique_id=439541382 instance=ExtResource("3_062ts")]
+position = Vector2(1536, 524)
+scale = Vector2(46.72001, 1)
+
+[node name="Craw" parent="." unique_id=2060975062 instance=ExtResource("5_yplr5")]
+position = Vector2(1879, 461)
+
+[node name="Craw2" parent="." unique_id=378220713 instance=ExtResource("5_yplr5")]
+position = Vector2(2011, 437)
+
+[node name="Slime" parent="." unique_id=1319275036 instance=ExtResource("5_mraq4")]
+position = Vector2(1086, 516)
+
+[node name="Slime2" parent="." unique_id=1707351795 instance=ExtResource("5_mraq4")]
+position = Vector2(961, 574)
