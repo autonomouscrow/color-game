@@ -4,24 +4,50 @@
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="2_062ts"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_062ts"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_w2i4l"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Slime.tscn" id="5_mraq4"]
+[ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="5_mraq4"]
 [ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="5_yplr5"]
+[ext_resource type="PackedScene" uid="uid://ctaww7bptkekr" path="res://Scenes/Prefabs/PaperAirplaneThrower.tscn" id="7_nv1wc"]
+[ext_resource type="PackedScene" uid="uid://c5i7skmtn3i2o" path="res://Scenes/Prefabs/breakable_wall.tscn" id="8_iu70p"]
+[ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="9_vjw5v"]
+[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="10_rdn0l"]
 
 [node name="Red1" type="Node2D" unique_id=1782557211 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_lwl47")
-EnemyObjects = [NodePath("Craw"), NodePath("Craw2"), NodePath(""), NodePath("Slime"), NodePath("Slime2")]
+EnemyObjects = [NodePath("enemies/Slime3"), NodePath("enemies/Craw"), NodePath("enemies/Craw2"), NodePath("enemies/Slime"), NodePath("enemies/Slime2"), NodePath("enemies/Craw3"), NodePath("enemies/Craw4"), NodePath("enemies/Craw5"), NodePath("enemies/Craw6"), NodePath("enemies/Craw7"), NodePath("enemies/Slime4"), NodePath("enemies/PaperAirplaneThrower"), NodePath("enemies/Slime5"), NodePath("enemies/Breakable Wall"), NodePath("enemies/PaperAirplaneThrower2"), NodePath("enemies/PaperAirplaneThrower3"), NodePath("enemies/PaperAirplaneThrower4"), NodePath("enemies/PaperAirplaneThrower5"), NodePath("enemies/PaperAirplaneThrower6"), NodePath("enemies/PaperAirplaneThrower7"), NodePath("enemies/Craw8"), NodePath("enemies/Craw9"), NodePath("enemies/Craw10")]
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_w2i4l")]
-position = Vector2(1326, 163)
-scale = Vector2(193.49457, 74.91999)
+position = Vector2(295, -907.00006)
+scale = Vector2(293.6146, 181.91998)
 
 [node name="OutD" parent="." unique_id=199470789 instance=ExtResource("2_062ts")]
 position = Vector2(555, 966)
 scale = Vector2(14.600002, 1)
+target_room_id = "Red1"
+target_door_id = "InU"
 
 [node name="InD" type="Marker2D" parent="." unique_id=797697442]
 position = Vector2(398, 822)
 scale = Vector2(-50.533234, 104.21489)
+
+[node name="OutR" parent="." unique_id=1584925336 instance=ExtResource("2_062ts")]
+position = Vector2(3270, -674)
+scale = Vector2(1, 9.639998)
+target_room_id = "Red1"
+target_door_id = "InD"
+
+[node name="InR" type="Marker2D" parent="." unique_id=1138180584]
+position = Vector2(3242, -615)
+scale = Vector2(1, 9.639998)
+
+[node name="OutU" parent="." unique_id=513142976 instance=ExtResource("2_062ts")]
+position = Vector2(-1066, -2796)
+scale = Vector2(50.04, 1)
+target_room_id = "Red2"
+target_door_id = "InD"
+
+[node name="InU" type="Marker2D" parent="." unique_id=792671878]
+position = Vector2(-1029, -2751)
+scale = Vector2(50.04, 1)
 
 [node name="platforms" type="Node2D" parent="." unique_id=1036979319]
 position = Vector2(730, 286)
@@ -51,8 +77,8 @@ position = Vector2(-609, 233)
 scale = Vector2(1, 6.600003)
 
 [node name="Box5" parent="platforms" unique_id=1561638403 instance=ExtResource("3_062ts")]
-position = Vector2(-837, 455)
-scale = Vector2(10.959999, 1)
+position = Vector2(-1940, 456)
+scale = Vector2(121.399994, 1)
 
 [node name="Box6" parent="platforms" unique_id=384128518 instance=ExtResource("3_062ts")]
 position = Vector2(-773, 11.000019)
@@ -99,8 +125,8 @@ scale = Vector2(23.28, 1)
 [node name="Box18" parent="platforms" unique_id=33991629 instance=ExtResource("3_062ts")]
 
 [node name="Box21" parent="platforms" unique_id=496623198 instance=ExtResource("3_062ts")]
-position = Vector2(-444, -458)
-scale = Vector2(1, 41.72)
+position = Vector2(-451, -1551)
+scale = Vector2(1, 142.4)
 
 [node name="Box22" parent="platforms" unique_id=1864404124 instance=ExtResource("3_062ts")]
 position = Vector2(1066, 504)
@@ -133,14 +159,256 @@ scale = Vector2(1, 19.880001)
 position = Vector2(1536, 524)
 scale = Vector2(46.72001, 1)
 
-[node name="Craw" parent="." unique_id=2060975062 instance=ExtResource("5_yplr5")]
-position = Vector2(1879, 461)
+[node name="Box30" parent="platforms" unique_id=693497957 instance=ExtResource("3_062ts")]
+position = Vector2(1991, -139)
+scale = Vector2(1, 72.880005)
 
-[node name="Craw2" parent="." unique_id=378220713 instance=ExtResource("5_yplr5")]
-position = Vector2(2011, 437)
+[node name="Box31" parent="platforms" unique_id=1081971171 instance=ExtResource("3_062ts")]
+position = Vector2(-1768, -703)
+scale = Vector2(120.44, 1)
 
-[node name="Slime" parent="." unique_id=1319275036 instance=ExtResource("5_mraq4")]
-position = Vector2(1086, 516)
+[node name="Box32" parent="platforms" unique_id=2067948089 instance=ExtResource("3_062ts")]
+position = Vector2(-1266, -240)
+scale = Vector2(12.280002, 46.039997)
 
-[node name="Slime2" parent="." unique_id=1707351795 instance=ExtResource("5_mraq4")]
-position = Vector2(961, 574)
+[node name="Box33" parent="platforms" unique_id=831148251 instance=ExtResource("3_062ts")]
+position = Vector2(240, -255)
+scale = Vector2(5.88, 1)
+
+[node name="Box34" parent="platforms" unique_id=1830457816 instance=ExtResource("3_062ts")]
+position = Vector2(493, -258)
+scale = Vector2(9.120003, 1)
+
+[node name="Box35" parent="platforms" unique_id=1349172369 instance=ExtResource("3_062ts")]
+position = Vector2(178, -433)
+scale = Vector2(1, 17.492105)
+
+[node name="Box36" parent="platforms" unique_id=1966323218 instance=ExtResource("3_062ts")]
+position = Vector2(577, -419.00003)
+scale = Vector2(1, 15.880001)
+
+[node name="Box37" parent="platforms" unique_id=434339368 instance=ExtResource("3_062ts")]
+position = Vector2(369, -586)
+scale = Vector2(25.64, 1)
+
+[node name="Box38" parent="platforms" unique_id=1806743466 instance=ExtResource("3_062ts")]
+position = Vector2(742, -321.00003)
+rotation = -1.3329858
+scale = Vector2(69.63999, 1)
+
+[node name="Box39" parent="platforms" unique_id=263937865 instance=ExtResource("3_062ts")]
+position = Vector2(1708, -997)
+scale = Vector2(82.639984, 1)
+
+[node name="Box40" parent="platforms" unique_id=969002575 instance=ExtResource("3_062ts")]
+position = Vector2(2295, -857)
+scale = Vector2(30.92, 1)
+
+[node name="Box41" parent="platforms" unique_id=1939327156 instance=ExtResource("3_062ts")]
+position = Vector2(2247, -958)
+scale = Vector2(8.2, 5.52)
+
+[node name="Box42" parent="platforms" unique_id=2094276953 instance=ExtResource("3_062ts")]
+position = Vector2(-1891, 175)
+scale = Vector2(13.759998, 4.3599997)
+
+[node name="Box43" parent="platforms" unique_id=1087845095 instance=ExtResource("3_062ts")]
+position = Vector2(-2330, -71)
+scale = Vector2(13.759998, 4.3599997)
+
+[node name="Box44" parent="platforms" unique_id=67515661 instance=ExtResource("3_062ts")]
+position = Vector2(-2860, 230)
+scale = Vector2(13.759998, 4.3599997)
+
+[node name="Box45" parent="platforms" unique_id=187869592 instance=ExtResource("3_062ts")]
+position = Vector2(-3140, -1174)
+scale = Vector2(1, 189.44)
+
+[node name="Box46" parent="platforms" unique_id=848685802 instance=ExtResource("3_062ts")]
+position = Vector2(-2932, -373.99997)
+scale = Vector2(32.879997, 6.88)
+
+[node name="Box47" parent="platforms" unique_id=445520542 instance=ExtResource("3_062ts")]
+position = Vector2(-3094, -522)
+scale = Vector2(11.160003, 7.3599997)
+
+[node name="Box48" parent="platforms" unique_id=1274528320 instance=ExtResource("3_062ts")]
+position = Vector2(-2844, -953)
+scale = Vector2(29.360003, 6.1600013)
+
+[node name="Box49" parent="platforms" unique_id=757594850 instance=ExtResource("3_062ts")]
+position = Vector2(-3155, -1258)
+scale = Vector2(29.360003, 11.920002)
+
+[node name="Box50" parent="platforms" unique_id=913599770 instance=ExtResource("3_062ts")]
+position = Vector2(-2419.9998, -1448)
+scale = Vector2(27.599207, 3.4882822)
+
+[node name="Box51" parent="platforms" unique_id=154562443 instance=ExtResource("3_062ts")]
+position = Vector2(-895, -2963)
+scale = Vector2(45, 1)
+
+[node name="Box52" parent="platforms" unique_id=64793723 instance=ExtResource("3_062ts")]
+position = Vector2(-1261.0001, -732)
+scale = Vector2(16.48, 3.239999)
+
+[node name="Box53" parent="platforms" unique_id=119170397 instance=ExtResource("3_062ts")]
+position = Vector2(-1444, -2130)
+scale = Vector2(11.443259, 14.251093)
+
+[node name="Box54" parent="platforms" unique_id=1601132486 instance=ExtResource("3_062ts")]
+position = Vector2(-1814, -1799)
+scale = Vector2(7.4800005, 18.999998)
+
+[node name="Box55" parent="platforms" unique_id=1917620302 instance=ExtResource("3_062ts")]
+position = Vector2(-1175, -1484)
+scale = Vector2(7.4800005, 6.48)
+
+[node name="Box56" parent="platforms" unique_id=851548799 instance=ExtResource("3_062ts")]
+position = Vector2(-1911, -2410)
+scale = Vector2(7.4800005, 6.48)
+
+[node name="Box57" parent="platforms" unique_id=455420094 instance=ExtResource("3_062ts")]
+position = Vector2(-1924, -1150)
+scale = Vector2(11.443259, 4.531091)
+
+[node name="Box58" parent="platforms" unique_id=2140021167 instance=ExtResource("3_062ts")]
+position = Vector2(-2516, -2184)
+scale = Vector2(11.443259, 4.531091)
+
+[node name="Box59" parent="platforms" unique_id=1668873377 instance=ExtResource("3_062ts")]
+position = Vector2(-812, -2046)
+scale = Vector2(21.480003, 2.6399999)
+
+[node name="Box60" parent="platforms" unique_id=42447503 instance=ExtResource("3_062ts")]
+position = Vector2(-1013, -2506)
+scale = Vector2(14.080002, 1.8)
+
+[node name="Box61" parent="platforms" unique_id=592096822 instance=ExtResource("3_062ts")]
+position = Vector2(-1017, -2071)
+
+[node name="Box62" parent="platforms" unique_id=562729512 instance=ExtResource("3_062ts")]
+position = Vector2(-1144, -2529)
+
+[node name="Box63" parent="platforms" unique_id=971745627 instance=ExtResource("3_062ts")]
+position = Vector2(-2173, -2658)
+scale = Vector2(11.443259, 10.171089)
+
+[node name="Box64" parent="platforms" unique_id=1991297025 instance=ExtResource("3_062ts")]
+position = Vector2(-1758, -2842)
+scale = Vector2(11.443259, 4.531091)
+
+[node name="Box65" parent="platforms" unique_id=787633533 instance=ExtResource("3_062ts")]
+position = Vector2(-2693, -2963)
+scale = Vector2(45, 1)
+
+[node name="Box66" parent="platforms" unique_id=941737239 instance=ExtResource("3_062ts")]
+position = Vector2(2607, -925)
+scale = Vector2(1, 6.1599994)
+
+[node name="Box67" parent="platforms" unique_id=1934225535 instance=ExtResource("3_062ts")]
+position = Vector2(-2257, -3057.0002)
+scale = Vector2(1, 8.4)
+
+[node name="Box68" parent="platforms" unique_id=423205049 instance=ExtResource("3_062ts")]
+position = Vector2(-1334, -3048.0002)
+scale = Vector2(1, 8.4)
+
+[node name="enemies" type="Node2D" parent="." unique_id=1624267369]
+position = Vector2(-2042, -1400)
+
+[node name="Slime3" parent="enemies" unique_id=316356887 instance=ExtResource("5_mraq4")]
+position = Vector2(867, 1800)
+spin = 1
+crawl_speed = 120.0
+
+[node name="Craw" parent="enemies" unique_id=2060975062 instance=ExtResource("5_yplr5")]
+position = Vector2(3921, 1861)
+
+[node name="Craw2" parent="enemies" unique_id=378220713 instance=ExtResource("5_yplr5")]
+position = Vector2(4053, 1837)
+
+[node name="Slime" parent="enemies" unique_id=1319275036 instance=ExtResource("5_mraq4")]
+position = Vector2(3128, 1916)
+
+[node name="Slime2" parent="enemies" unique_id=1707351795 instance=ExtResource("5_mraq4")]
+position = Vector2(3003, 1974)
+
+[node name="Craw3" parent="enemies" unique_id=1849497021 instance=ExtResource("5_yplr5")]
+position = Vector2(3920, 1448)
+
+[node name="Craw4" parent="enemies" unique_id=1435416348 instance=ExtResource("5_yplr5")]
+position = Vector2(4104, 1578)
+
+[node name="Craw5" parent="enemies" unique_id=229924185 instance=ExtResource("5_yplr5")]
+position = Vector2(4408, 1358)
+
+[node name="Craw6" parent="enemies" unique_id=1664490913 instance=ExtResource("5_yplr5")]
+position = Vector2(1973, 1324)
+
+[node name="Craw7" parent="enemies" unique_id=1118885033 instance=ExtResource("5_yplr5")]
+position = Vector2(4291, 994)
+
+[node name="Slime4" parent="enemies" unique_id=232231052 instance=ExtResource("5_mraq4")]
+position = Vector2(-75, 1853)
+spin = 1
+crawl_speed = 150.0
+
+[node name="PaperAirplaneThrower" parent="enemies" unique_id=499016071 instance=ExtResource("7_nv1wc")]
+position = Vector2(418, 2083)
+
+[node name="Slime5" parent="enemies" unique_id=1062910027 instance=ExtResource("5_mraq4")]
+position = Vector2(443, 1553)
+crawl_speed = 250.0
+
+[node name="Breakable Wall" parent="enemies" unique_id=485390736 instance=ExtResource("8_iu70p")]
+position = Vector2(-359, 958)
+scale = Vector2(4.440009, 1)
+
+[node name="DamageBlock" parent="enemies" unique_id=2136408807 node_paths=PackedStringArray("safeZone") instance=ExtResource("9_vjw5v")]
+position = Vector2(3389, 1888)
+rotation = -1.3343353
+scale = Vector2(34.84, 0.99999994)
+safeZone = NodePath("../DamageTP")
+
+[node name="DamageTP" type="Marker2D" parent="enemies" unique_id=196670246]
+position = Vector2(3459, 2131)
+scale = Vector2(34.84, 0.99999994)
+
+[node name="DamageBlock2" parent="enemies" unique_id=922753784 node_paths=PackedStringArray("safeZone") instance=ExtResource("9_vjw5v")]
+position = Vector2(2278, -1099)
+scale = Vector2(1, 45.480003)
+safeZone = NodePath("../DamageTP2")
+
+[node name="DamageTP2" type="Marker2D" parent="enemies" unique_id=677701803]
+position = Vector2(2166, 930)
+scale = Vector2(1, 45.480003)
+
+[node name="PaperAirplaneThrower2" parent="enemies" unique_id=714879485 instance=ExtResource("7_nv1wc")]
+position = Vector2(1656, -872)
+
+[node name="PaperAirplaneThrower3" parent="enemies" unique_id=1539992689 instance=ExtResource("7_nv1wc")]
+position = Vector2(1783, -421)
+
+[node name="PaperAirplaneThrower4" parent="enemies" unique_id=1064796227 instance=ExtResource("7_nv1wc")]
+position = Vector2(509, 926)
+
+[node name="PaperAirplaneThrower5" parent="enemies" unique_id=1032664169 instance=ExtResource("7_nv1wc")]
+position = Vector2(822, 926)
+
+[node name="PaperAirplaneThrower6" parent="enemies" unique_id=1730304681 instance=ExtResource("7_nv1wc")]
+position = Vector2(-306, 261)
+
+[node name="PaperAirplaneThrower7" parent="enemies" unique_id=1200120894 instance=ExtResource("7_nv1wc")]
+position = Vector2(231, -576)
+
+[node name="Craw8" parent="enemies" unique_id=734470336 instance=ExtResource("5_yplr5")]
+position = Vector2(1206, 240)
+
+[node name="Craw9" parent="enemies" unique_id=1240701803 instance=ExtResource("5_yplr5")]
+position = Vector2(824, -500)
+
+[node name="Craw10" parent="enemies" unique_id=2089927646 instance=ExtResource("5_yplr5")]
+
+[node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("10_rdn0l")]
+position = Vector2(-281, 676)
