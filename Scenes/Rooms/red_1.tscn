@@ -22,7 +22,7 @@ scale = Vector2(293.6146, 181.91998)
 [node name="OutD" parent="." unique_id=199470789 instance=ExtResource("2_062ts")]
 position = Vector2(555, 966)
 scale = Vector2(14.600002, 1)
-target_room_id = "Red1"
+target_room_id = "Green3"
 target_door_id = "InU"
 
 [node name="InD" type="Marker2D" parent="." unique_id=797697442]

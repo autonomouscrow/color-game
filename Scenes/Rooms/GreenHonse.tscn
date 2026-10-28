@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://ntjwn162y8of"]
+
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_slyfa"]
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_dq0vl"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="4_gop86"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_slyfa"]
+
+[node name="GreenHonse" type="Node2D" unique_id=2046928556 groups=["Room"]]
+script = ExtResource("1_slyfa")
+
+[node name="OutL" parent="." unique_id=199470789 instance=ExtResource("3_dq0vl")]
+position = Vector2(11672, 112)
+scale = Vector2(1, 15.039998)
+target_room_id = "Green2"
+target_door_id = "InR"
+
+[node name="InL" type="Marker2D" parent="." unique_id=1612901271]
+position = Vector2(11700, 215)
+
+[node name="Box38" parent="." unique_id=1599687405 instance=ExtResource("4_gop86")]
+position = Vector2(11647, 95)
+rotation = -3.1415925
+scale = Vector2(1.4836735, -15.909128)
+
+[node name="Box" parent="." unique_id=1139896322 instance=ExtResource("4_gop86")]
+position = Vector2(12285, 267)
+scale = Vector2(63.372536, 1.477747)
+
+[node name="Box2" parent="." unique_id=2113618482 instance=ExtResource("4_gop86")]
+position = Vector2(12926, -97)
+scale = Vector2(1.4739314, 34.994972)
+
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_slyfa")]
+position = Vector2(12297, -10)
+scale = Vector2(57.989933, -67.33202)

@@ -262,8 +262,8 @@ scale = Vector2(33.039963, 1.52)
 [node name="OutR1" parent="." unique_id=892660372 instance=ExtResource("3_mupk5")]
 position = Vector2(11625, 112)
 scale = Vector2(1, 15.039998)
-target_room_id = "Green1"
-target_door_id = "InR1"
+target_room_id = "GreenHonse"
+target_door_id = "InL"
 
 [node name="InR1" type="Marker2D" parent="." unique_id=1809277205]
 position = Vector2(11596, 215)
