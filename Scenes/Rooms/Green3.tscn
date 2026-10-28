@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://u53ev8iw1am2"]
+
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_m87rl"]
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_5ggvd"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="4_ho2ax"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_jfnis"]
+
+[node name="Green3" type="Node2D" unique_id=297855221 groups=["Room"]]
+script = ExtResource("1_m87rl")
+
+[node name="OutM1" parent="." unique_id=199470789 instance=ExtResource("3_5ggvd")]
+position = Vector2(8396, -1078)
+scale = Vector2(34.64002, 1.2399969)
+target_room_id = "Green2"
+target_door_id = "InM2"
+
+[node name="InM1" type="Marker2D" parent="." unique_id=1082644864]
+position = Vector2(8309, -1285)
+
+[node name="Box35" parent="." unique_id=1599687405 instance=ExtResource("4_ho2ax")]
+position = Vector2(8381, -1026)
+rotation = 3.1415927
+scale = Vector2(24.345991, -3.8599105)
+
+[node name="Box" parent="." unique_id=1536669274 instance=ExtResource("4_ho2ax")]
+position = Vector2(8146, -1101.0001)
+scale = Vector2(16.99999, 13.16)
+
+[node name="Box2" parent="." unique_id=413500053 instance=ExtResource("4_ho2ax")]
+position = Vector2(7868, -1371)
+scale = Vector2(25.388165, 12.683817)
+
+[node name="Box3" parent="." unique_id=1900085827 instance=ExtResource("4_ho2ax")]
+position = Vector2(8730, -1246)
+scale = Vector2(21.462557, 25.186945)
+
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_jfnis")]
+position = Vector2(8200, -1966.9999)
+scale = Vector2(337.57724, 80.82508)

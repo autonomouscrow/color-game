@@ -11,7 +11,7 @@
 
 [node name="Green2" type="Node2D" unique_id=1525656117 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_gey60")
-EnemyObjects = [NodePath("Slime"), NodePath("Slime2")]
+EnemyObjects = [NodePath("Slime"), NodePath("Slime2"), NodePath("WallSitters"), NodePath("WallSitters2"), NodePath("WallSitters3"), NodePath("WallSitters4"), NodePath("WallSitters5"), NodePath("WallSitters6"), NodePath("WallSitters7"), NodePath("Slime3"), NodePath("Slime4"), NodePath("Slime6"), NodePath("Slime7"), NodePath("Slime8"), NodePath("Slime9"), NodePath("Slime10"), NodePath("Slime11"), NodePath("Slime12"), NodePath("Slime13"), NodePath("WallSitters8"), NodePath("WallSitters9"), NodePath("WallSitters10"), NodePath("WallSitters11"), NodePath("WallSitters12")]
 
 [node name="OutL1" parent="." unique_id=199470789 instance=ExtResource("3_mupk5")]
 position = Vector2(4775, 112)
@@ -55,8 +55,8 @@ position = Vector2(6180, 63)
 crawl_speed = 100.0
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("5_niq6w")]
-position = Vector2(7869, -147)
-scale = Vector2(301.25726, 80.82508)
+position = Vector2(8200, -147)
+scale = Vector2(337.57724, 80.82508)
 
 [node name="Box4" parent="." unique_id=134018732 instance=ExtResource("4_niq6w")]
 position = Vector2(6956, 61)
@@ -206,3 +206,101 @@ scale = Vector2(14.954498, 2.147667)
 [node name="Box32" parent="." unique_id=868781416 instance=ExtResource("4_niq6w")]
 position = Vector2(8289, -831)
 scale = Vector2(2.6281967, 12.896028)
+
+[node name="Slime3" parent="." unique_id=1452434194 instance=ExtResource("4_mupk5")]
+position = Vector2(7857, -10)
+
+[node name="Slime4" parent="." unique_id=148851947 instance=ExtResource("4_mupk5")]
+position = Vector2(8118, -332)
+spin = 1
+crawl_speed = 75.0
+
+[node name="Slime6" parent="." unique_id=705201099 instance=ExtResource("4_mupk5")]
+position = Vector2(8441, -160)
+spin = 1
+
+[node name="Slime7" parent="." unique_id=1291743106 instance=ExtResource("4_mupk5")]
+position = Vector2(8652, -160)
+
+[node name="Slime8" parent="." unique_id=100741383 instance=ExtResource("4_mupk5")]
+position = Vector2(8852, -355)
+
+[node name="Slime9" parent="." unique_id=485686588 instance=ExtResource("4_mupk5")]
+position = Vector2(9392, -15)
+
+[node name="Slime10" parent="." unique_id=2022647361 instance=ExtResource("4_mupk5")]
+position = Vector2(9703, -160)
+
+[node name="Slime11" parent="." unique_id=895844986 instance=ExtResource("4_mupk5")]
+position = Vector2(9870, -54)
+
+[node name="Slime12" parent="." unique_id=1031143098 instance=ExtResource("4_mupk5")]
+position = Vector2(9736, -54)
+
+[node name="Slime13" parent="." unique_id=1109912432 instance=ExtResource("4_mupk5")]
+position = Vector2(9803, 57)
+
+[node name="WallSitters8" parent="." unique_id=588366693 instance=ExtResource("6_qhm1r")]
+position = Vector2(7859, -469)
+
+[node name="WallSitters9" parent="." unique_id=1973442411 instance=ExtResource("6_qhm1r")]
+position = Vector2(7812, -436)
+
+[node name="WallSitters10" parent="." unique_id=1447157221 instance=ExtResource("6_qhm1r")]
+position = Vector2(7769, -466)
+
+[node name="WallSitters11" parent="." unique_id=1368897480 instance=ExtResource("6_qhm1r")]
+position = Vector2(8466, -460)
+
+[node name="WallSitters12" parent="." unique_id=368843288 instance=ExtResource("6_qhm1r")]
+position = Vector2(8563, -458)
+
+[node name="Box33" parent="." unique_id=1521338261 instance=ExtResource("4_niq6w")]
+position = Vector2(11299, 268)
+scale = Vector2(33.039963, 1.52)
+
+[node name="OutR1" parent="." unique_id=892660372 instance=ExtResource("3_mupk5")]
+position = Vector2(11625, 112)
+scale = Vector2(1, 15.039998)
+target_room_id = "Green1"
+target_door_id = "InR1"
+
+[node name="InR1" type="Marker2D" parent="." unique_id=1809277205]
+position = Vector2(11596, 215)
+
+[node name="Box34" parent="." unique_id=87195426 instance=ExtResource("4_niq6w")]
+position = Vector2(11647, 95)
+rotation = 3.1415927
+scale = Vector2(1.4836735, -15.909128)
+
+[node name="OutM1" parent="." unique_id=1702948120 instance=ExtResource("3_mupk5")]
+position = Vector2(10771, 650)
+scale = Vector2(34.64002, 1.2399969)
+target_room_id = "Green1"
+target_door_id = "InR1"
+
+[node name="InM1" type="Marker2D" parent="." unique_id=419171331]
+position = Vector2(10539, 223)
+
+[node name="Box35" parent="." unique_id=220972831 instance=ExtResource("4_niq6w")]
+position = Vector2(10756, 702)
+rotation = 3.1415927
+scale = Vector2(24.345991, -3.8599105)
+
+[node name="OutM2" parent="." unique_id=353034829 instance=ExtResource("3_mupk5")]
+position = Vector2(8447, -967)
+scale = Vector2(34.64002, 1.2399969)
+target_room_id = "Green3"
+target_door_id = "InM1"
+
+[node name="InM2" type="Marker2D" parent="." unique_id=1860673047]
+position = Vector2(8366, -919)
+
+[node name="Box36" parent="." unique_id=103593360 instance=ExtResource("4_niq6w")]
+position = Vector2(8381, -1026.0001)
+rotation = 3.1415927
+scale = Vector2(24.345991, -3.8599105)
+
+[node name="Box37" parent="." unique_id=1716904531 instance=ExtResource("4_niq6w")]
+position = Vector2(4981, -510)
+scale = Vector2(41.26023, 38.53505)

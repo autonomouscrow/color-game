@@ -136,3 +136,11 @@ scale = Vector2(10.600005, 1)
 [node name="Box5" parent="." unique_id=1805545928 instance=ExtResource("3_qautl")]
 position = Vector2(4565, -306)
 scale = Vector2(1, 18.960003)
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=224559308]
+offset_left = 3981.0
+offset_top = -227.0
+offset_right = 4021.0
+offset_bottom = -187.0
+scale = Vector2(3.053636, 3.048267)
+color = Color(0.4509804, 0, 1, 1)
