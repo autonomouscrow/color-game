@@ -20,7 +20,8 @@ SpawnRoom = "Start"
 
 [node name="RoomContainer" type="Node2D" parent="." unique_id=311234013]
 
-[node name="Red1" parent="RoomContainer" unique_id=1782557211 instance=ExtResource("3_v1gob")]
+[node name="Red1" parent="RoomContainer" unique_id=1782557211 node_paths=PackedStringArray("EnemyObjects") instance=ExtResource("3_v1gob")]
+EnemyObjects = [NodePath("Craw"), NodePath("Craw2"), null, NodePath("Slime"), NodePath("Slime2")]
 
 [node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
 position = Vector2(396, 812)

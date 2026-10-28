@@ -5,12 +5,9 @@ extends Node2D
 	"test": "res://Scenes/Rooms/TestRoom.tscn",
 	"test2": "res://Scenes/Rooms/TestRoom2.tscn",
 	"Start": "res://Scenes/Rooms/start.tscn",
-<<<<<<< Updated upstream
-	"Green1": "res://Scenes/Rooms/Green1.tscn"
-=======
+	"Green1": "res://Scenes/Rooms/Green1.tscn",
 	"Red1": "res://Scenes/Rooms/red_1.tscn"
 	
->>>>>>> Stashed changes
 }
 @export var Hue: CharacterBody2D
 
