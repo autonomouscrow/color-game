@@ -25,25 +25,25 @@ position = Vector2(1323, 391)
 position = Vector2(1272, 393)
 scale = Vector2(-1.4836735, 15.909128)
 
-[node name="OutL2" parent="." unique_id=216781589 instance=ExtResource("2_2gly8")]
-position = Vector2(4433, 379)
+[node name="OutR1" parent="." unique_id=216781589 instance=ExtResource("2_2gly8")]
+position = Vector2(4687, 112)
 scale = Vector2(1, 15.039998)
-target_room_id = "Start"
-target_door_id = "rightExit"
+target_room_id = "Green2"
+target_door_id = "InL1"
 
-[node name="InL2" type="Marker2D" parent="." unique_id=1479627173]
-position = Vector2(4458, 375)
+[node name="InR1" type="Marker2D" parent="." unique_id=1479627173]
+position = Vector2(4645, 215)
+
+[node name="Box2" parent="." unique_id=43633049 instance=ExtResource("3_qautl")]
+position = Vector2(4710, 95)
+rotation = 3.1415927
+scale = Vector2(1.4836735, -15.909128)
 
 [node name="Slime" parent="." unique_id=1952343811 instance=ExtResource("4_2gly8")]
 position = Vector2(1673, 41)
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1260317969]
 position = Vector2(1881, -109)
-
-[node name="Box2" parent="Node2D" unique_id=43633049 instance=ExtResource("3_qautl")]
-position = Vector2(2526, 486)
-rotation = 3.1415927
-scale = Vector2(1.4836735, -15.909128)
 
 [node name="Box3" parent="Node2D" unique_id=220580212 instance=ExtResource("3_qautl")]
 position = Vector2(98, 540)
@@ -104,13 +104,35 @@ position = Vector2(1089, -77)
 position = Vector2(1272, -78)
 
 [node name="Box12" parent="Node2D" unique_id=1508947338 instance=ExtResource("3_qautl")]
-position = Vector2(2262, 82)
-scale = Vector2(18.88, 7.9199996)
+position = Vector2(2440, 82)
+scale = Vector2(39.479992, 7.9199996)
 
 [node name="Box13" parent="Node2D" unique_id=294582250 instance=ExtResource("3_qautl")]
-position = Vector2(2116, 381)
-scale = Vector2(45.998383, -1.948254)
+position = Vector2(2223, 381)
+scale = Vector2(61.358383, -1.948254)
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("5_qautl")]
 position = Vector2(2993, -147)
 scale = Vector2(162.17728, 80.82508)
+
+[node name="OutR2" parent="." unique_id=792090010 instance=ExtResource("2_2gly8")]
+position = Vector2(4687, -647)
+scale = Vector2(1, 15.039998)
+target_room_id = "GreenS1"
+target_door_id = "InL1"
+
+[node name="InR2" type="Marker2D" parent="." unique_id=2141342410]
+position = Vector2(4645, -544)
+
+[node name="Box3" parent="." unique_id=437018317 instance=ExtResource("3_qautl")]
+position = Vector2(4710, -664)
+rotation = 3.1415927
+scale = Vector2(1.4836735, -15.909128)
+
+[node name="Box4" parent="." unique_id=851659219 instance=ExtResource("3_qautl")]
+position = Vector2(4677.0005, -486)
+scale = Vector2(10.600005, 1)
+
+[node name="Box5" parent="." unique_id=1805545928 instance=ExtResource("3_qautl")]
+position = Vector2(4565, -306)
+scale = Vector2(1, 18.960003)
