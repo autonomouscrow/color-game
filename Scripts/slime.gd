@@ -9,7 +9,7 @@ enum Spin { CLOCKWISE, COUNTERCLOCKWISE }
 @export_group("Crawl")
 ## CLOCKWISE goes right along the top of a block and down its right side; COUNTERCLOCKWISE goes left along the top
 @export var spin := Spin.CLOCKWISE
-@export var crawl_speed := 250.0
+@export var crawl_speed := 50.0
 ## How far away a surface can be and still be grabbed at the start, or after the surface it was on disappears
 @export var attach_distance := 64.0
 ## How far the Slime reaches toward its surface after each step to stay pressed against it
@@ -32,6 +32,9 @@ var down := Vector2.DOWN
 var attached := false
 ## Half the body's size, x along the surface and y away from it
 var half := Vector2(25, 15)
+## Players and enemies the Slime crawls through; kept here instead of asking for get_collision_exceptions(), which
+## errors on bodies that have been freed
+var passed_through: Array[PhysicsBody2D] = []
 
 @onready var body_shape: CollisionShape2D = $Body
 @onready var visual: Node2D = $Visual
@@ -136,8 +139,10 @@ func _attach() -> bool:
 func _ray(from: Vector2, to: Vector2) -> Dictionary:
 	var query := PhysicsRayQueryParameters2D.create(from, to, collision_mask)
 	var exclude: Array[RID] = [get_rid()]
-	for body in get_collision_exceptions():
-		exclude.append(body.get_rid())
+	for body in passed_through:
+		# Players and enemies that died since are skipped; asking a freed body for its RID crashes
+		if is_instance_valid(body):
+			exclude.append(body.get_rid())
 	query.exclude = exclude
 	return get_world_2d().direct_space_state.intersect_ray(query)
 
@@ -153,6 +158,8 @@ func _pass_through(node: Object) -> bool:
 		return false
 	add_collision_exception_with(node)
 	node.add_collision_exception_with(self)
+	if node not in passed_through:
+		passed_through.append(node)
 	return true
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://d0y5ggtqv3vyv"]
 
-[ext_resource type="Script" path="res://Scripts/slime.gd" id="1_slime"]
+[ext_resource type="Script" uid="uid://7t85mmrkq0h3" path="res://Scripts/slime.gd" id="1_slime"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(50, 30)
@@ -8,17 +8,18 @@ size = Vector2(50, 30)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
 size = Vector2(52, 32)
 
-[node name="Slime" type="CharacterBody2D" groups=["enemy"]]
+[node name="Slime" type="CharacterBody2D" unique_id=316356887 groups=["enemy"]]
 motion_mode = 1
 script = ExtResource("1_slime")
+crawl_speed = 50.0
 max_health = 50
 
-[node name="Body" type="CollisionShape2D" parent="."]
+[node name="Body" type="CollisionShape2D" parent="." unique_id=2146220191]
 shape = SubResource("RectangleShape2D_body")
 
-[node name="Visual" type="Node2D" parent="."]
+[node name="Visual" type="Node2D" parent="." unique_id=1917475492]
 
-[node name="Color" type="ColorRect" parent="Visual"]
+[node name="Color" type="ColorRect" parent="Visual" unique_id=484001906]
 offset_left = -25.0
 offset_top = -15.0
 offset_right = 25.0
@@ -26,9 +27,9 @@ offset_bottom = 15.0
 mouse_filter = 2
 color = Color(0, 0.8, 0.2, 1)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=915535840]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1231385022]
 shape = SubResource("RectangleShape2D_contact")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

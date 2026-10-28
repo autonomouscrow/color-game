@@ -4,8 +4,8 @@ extends Node2D
 @export var room_scenes: Dictionary = {
 	"test": "res://Scenes/Rooms/TestRoom.tscn",
 	"test2": "res://Scenes/Rooms/TestRoom2.tscn",
-	"Start": "res://Scenes/Rooms/start.tscn"
-	
+	"Start": "res://Scenes/Rooms/start.tscn",
+	"Green1": "res://Scenes/Rooms/Green1.tscn"
 }
 @export var Hue: CharacterBody2D
 

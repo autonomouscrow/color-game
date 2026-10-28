@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://bjfxa7y2cc30n"]
+
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_7vu7n"]
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="2_2gly8"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_qautl"]
+[ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="4_2gly8"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="5_qautl"]
+[ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="6_wgraa"]
+[ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="7_sawut"]
+
+[node name="Green1" type="Node2D" unique_id=1491857186 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
+script = ExtResource("1_7vu7n")
+EnemyObjects = [NodePath("Slime")]
+
+[node name="OutL" parent="." unique_id=199470789 instance=ExtResource("2_2gly8")]
+position = Vector2(1298, -161)
+scale = Vector2(1, 61.320004)
+target_room_id = "Start"
+target_door_id = "rightExit"
+
+[node name="InL" type="Marker2D" parent="." unique_id=525671204]
+position = Vector2(1323, 391)
+
+[node name="Box" parent="." unique_id=1599687405 instance=ExtResource("3_qautl")]
+position = Vector2(1272, 393)
+scale = Vector2(-1.4836735, 15.909128)
+
+[node name="OutL2" parent="." unique_id=216781589 instance=ExtResource("2_2gly8")]
+position = Vector2(4433, 379)
+scale = Vector2(1, 15.039998)
+target_room_id = "Start"
+target_door_id = "rightExit"
+
+[node name="InL2" type="Marker2D" parent="." unique_id=1479627173]
+position = Vector2(4458, 375)
+
+[node name="Slime" parent="." unique_id=1952343811 instance=ExtResource("4_2gly8")]
+position = Vector2(1673, 41)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1260317969]
+position = Vector2(1881, -109)
+
+[node name="Box2" parent="Node2D" unique_id=43633049 instance=ExtResource("3_qautl")]
+position = Vector2(2526, 486)
+rotation = 3.1415927
+scale = Vector2(1.4836735, -15.909128)
+
+[node name="Box3" parent="Node2D" unique_id=220580212 instance=ExtResource("3_qautl")]
+position = Vector2(98, 540)
+scale = Vector2(71.76, 1)
+
+[node name="Box4" parent="Node2D" unique_id=1436902239 instance=ExtResource("3_qautl")]
+position = Vector2(453.00024, 470)
+rotation = 3.1415927
+scale = Vector2(1.5879836, 7.716538)
+
+[node name="Box5" parent="Node2D" unique_id=606187011 instance=ExtResource("3_qautl")]
+position = Vector2(1123, 350)
+scale = Vector2(65.85262, 18.626339)
+
+[node name="Box6" parent="Node2D" unique_id=1614989312 instance=ExtResource("3_qautl")]
+position = Vector2(105.000244, 317)
+scale = Vector2(9.50675, 0.7924277)
+
+[node name="Box7" parent="Node2D" unique_id=1915587793 instance=ExtResource("3_qautl")]
+position = Vector2(-248, 182)
+scale = Vector2(6.299911, 0.98979807)
+
+[node name="Box8" parent="Node2D" unique_id=1267697007 instance=ExtResource("3_qautl")]
+position = Vector2(-63, 42)
+scale = Vector2(10.147246, -1.7631333)
+
+[node name="Box" parent="Node2D" unique_id=1717594854 instance=ExtResource("3_qautl")]
+position = Vector2(236, -51.000004)
+scale = Vector2(5.6842017, 1.5914379)
+
+[node name="Box9" parent="Node2D" unique_id=16140632 instance=ExtResource("3_qautl")]
+position = Vector2(854, 70)
+scale = Vector2(3.0022812, 9.06106)
+
+[node name="DamageBlock" parent="Node2D" unique_id=2136408807 node_paths=PackedStringArray("safeZone") instance=ExtResource("6_wgraa")]
+position = Vector2(878, 139)
+scale = Vector2(15.12, 1)
+safeZone = NodePath("../DamageTP")
+
+[node name="DamageTP" parent="Node2D" unique_id=502579649 instance=ExtResource("7_sawut")]
+position = Vector2(847, -59)
+
+[node name="Box10" parent="Node2D" unique_id=1449546841 instance=ExtResource("3_qautl")]
+position = Vector2(1508, 70)
+scale = Vector2(3.0022812, 9.06106)
+
+[node name="Box11" parent="Node2D" unique_id=624965227 instance=ExtResource("3_qautl")]
+position = Vector2(1179, -72)
+scale = Vector2(6.4811344, 5.972907)
+
+[node name="Slime" parent="Node2D" unique_id=316356887 instance=ExtResource("4_2gly8")]
+position = Vector2(1219, -154)
+
+[node name="Slime2" parent="Node2D" unique_id=165108235 instance=ExtResource("4_2gly8")]
+position = Vector2(1089, -77)
+
+[node name="Slime3" parent="Node2D" unique_id=1387415012 instance=ExtResource("4_2gly8")]
+position = Vector2(1272, -78)
+
+[node name="Box12" parent="Node2D" unique_id=1508947338 instance=ExtResource("3_qautl")]
+position = Vector2(2262, 82)
+scale = Vector2(18.88, 7.9199996)
+
+[node name="Box13" parent="Node2D" unique_id=294582250 instance=ExtResource("3_qautl")]
+position = Vector2(2116, 381)
+scale = Vector2(45.998383, -1.948254)
+
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("5_qautl")]
+position = Vector2(2993, -147)
+scale = Vector2(162.17728, 80.82508)
