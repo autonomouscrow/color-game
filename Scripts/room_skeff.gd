@@ -120,9 +120,6 @@ func _apply_frame_from_room(room: Node2D) -> void:
 					right = int(pos.x + (size.x / 2.0))
 					bottom = int(pos.y + (size.y / 2.0))
 					found = true
-					print("[CameraFrame] Found Area2D on: ", node.name)
-					print("              Raw Shape: ", child.shape.size, " | Scale: ", scale_factor)
-					print("              Real Bounds: ", [left, top, right, bottom], " (Size: ", size, ")")
 					break
 		
 		elif node is CollisionShape2D and node.shape is RectangleShape2D:
@@ -134,13 +131,11 @@ func _apply_frame_from_room(room: Node2D) -> void:
 			right = int(pos.x + (size.x / 2.0))
 			bottom = int(pos.y + (size.y / 2.0))
 			found = true
-			print("[CameraFrame] Found Standalone Shape: ", node.name, " -> Bounds: ", [left, top, right, bottom])
-
 		if found:
 			break
 
 	if not found:
-		print("[CameraFrame] WARNING: Could not find frame in ", room.name)
+		push_error("WARNING: Could not find frame in ", room.name)
 		return
 
 	var cam: Camera2D = get_viewport().get_camera_2d()
