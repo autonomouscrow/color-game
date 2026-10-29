@@ -11,7 +11,8 @@ extends Node2D
 	"GreenHonse": "res://Scenes/Rooms/GreenHonse.tscn",
 	"Red1": "res://Scenes/Rooms/red_1.tscn",
 	"Red2": "res://Scenes/Rooms/red_2.tscn",
-	"Blue1": "res://Scenes/Rooms/Blue1.tscn"
+	"Blue1": "res://Scenes/Rooms/Blue1.tscn",
+	"Blue2": "res://Scenes/Rooms/Blue2.tscn"
 }
 @export var Hue: CharacterBody2D
 

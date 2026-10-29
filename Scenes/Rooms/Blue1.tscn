@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://c5h4o4wir0f08"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_6x4te"]
-[ext_resource type="PackedScene" uid="uid://u53ev8iw1am2" path="res://Scenes/Rooms/Green3.tscn" id="4_pli0g"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_dox6h"]
 [ext_resource type="PackedScene" uid="uid://qwq2dgsgx5d2" path="res://Scenes/Prefabs/Diver.tscn" id="6_ovws3"]
 [ext_resource type="PackedScene" uid="uid://bg20reqytwww4" path="res://Scenes/Prefabs/slidy_boi.tscn" id="7_dlvn0"]
@@ -326,7 +325,7 @@ position = Vector2(8669, -4623)
 [node name="OutU" parent="." unique_id=143640104 instance=ExtResource("9_es6mr")]
 position = Vector2(8676, -7691)
 scale = Vector2(50.04, 1)
-target_room_id = "Red2"
+target_room_id = "Blue2"
 target_door_id = "InD"
 
 [node name="InU" type="Marker2D" parent="." unique_id=1656000847]
@@ -414,4 +413,6 @@ position = Vector2(11281, -5802)
 [node name="Diver10" parent="." unique_id=1738115490 instance=ExtResource("6_ovws3")]
 position = Vector2(9795, -6434)
 
-[node name="Green3" parent="." unique_id=297855221 instance=ExtResource("4_pli0g")]
+[node name="Box45" parent="." unique_id=710656399 instance=ExtResource("10_rudwg")]
+position = Vector2(8695, -7724)
+scale = Vector2(15.12002, 1)
