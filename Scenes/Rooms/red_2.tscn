@@ -6,13 +6,18 @@
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_xmy5j"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="4_cjpqh"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_bt88p"]
+[ext_resource type="PackedScene" uid="uid://ctaww7bptkekr" path="res://Scenes/Prefabs/PaperAirplaneThrower.tscn" id="6_f1ljr"]
+[ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="7_sykg8"]
+[ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="9_to4dh"]
+[ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://Scenes/Prefabs/wall_sitters.tscn" id="10_58xyw"]
+[ext_resource type="PackedScene" uid="uid://c5i7skmtn3i2o" path="res://Scenes/Prefabs/breakable_wall.tscn" id="10_uxhc2"]
 
 [node name="Red2" type="Node2D" unique_id=493293217 groups=["Room"]]
 script = ExtResource("1_2vpxa")
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_dyo1k")]
-position = Vector2(3781.0002, -8984)
-scale = Vector2(109.08, 232.84001)
+position = Vector2(3642, -9007)
+scale = Vector2(206.06743, 232.84001)
 
 [node name="OutD" parent="." unique_id=199470789 instance=ExtResource("2_xmy5j")]
 position = Vector2(4049, -6635)
@@ -27,7 +32,238 @@ position = Vector2(4147, -6756)
 position = Vector2(4040, -6618.9995)
 scale = Vector2(6.6399975, 1)
 
-[node name="Box" parent="platforms" unique_id=1599687405 instance=ExtResource("3_xmy5j")]
+[node name="Box68" parent="platforms" unique_id=339217702 instance=ExtResource("3_xmy5j")]
+position = Vector2(-380.57245, -1623)
+scale = Vector2(0.15060246, 6.7199993)
+
+[node name="Box66" parent="platforms" unique_id=129107811 instance=ExtResource("3_xmy5j")]
+position = Vector2(-60.993958, -3445)
+scale = Vector2(0.66264784, 7.0399613)
+
+[node name="Box67" parent="platforms" unique_id=1475968539 instance=ExtResource("3_xmy5j")]
+position = Vector2(-63.704834, -3355)
+scale = Vector2(0.64458, 6.9999995)
+
+[node name="DamageBlock17" parent="platforms" unique_id=490399657 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-353.0122, -4166)
+scale = Vector2(0.506025, 2.32)
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock6" parent="platforms" unique_id=1406168525 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(50.150574, -2527.001)
+scale = Vector2(0.15060246, 7.9199996)
+safeZone = NodePath("../DamageTP3")
+
+[node name="Box42" parent="platforms" unique_id=353770103 instance=ExtResource("3_xmy5j")]
+position = Vector2(-53.91568, -4227)
+scale = Vector2(0.15060246, 25.559998)
+
+[node name="Box43" parent="platforms" unique_id=306118176 instance=ExtResource("3_xmy5j")]
+position = Vector2(3.614441, -4423)
+rotation = 1.5169747
+scale = Vector2(0.94293463, 13.508335)
+skew = -1.1184928
+
+[node name="Box44" parent="platforms" unique_id=1709322360 instance=ExtResource("3_xmy5j")]
+position = Vector2(-160.84344, -3203)
+scale = Vector2(10.271089, 0.99999994)
+
+[node name="Box45" parent="platforms" unique_id=604070052 instance=ExtResource("3_xmy5j")]
+position = Vector2(0.45184326, -3688.001)
+scale = Vector2(1.0481938, 31.919992)
+
+[node name="Box46" parent="platforms" unique_id=1305656364 instance=ExtResource("3_xmy5j")]
+position = Vector2(-159.18683, -3810)
+scale = Vector2(10.530124, 0.99999994)
+
+[node name="Box47" parent="platforms" unique_id=815582505 instance=ExtResource("3_xmy5j")]
+position = Vector2(110.3916, -2205)
+scale = Vector2(0.15060246, 40.719986)
+
+[node name="Box48" parent="platforms" unique_id=1413097918 instance=ExtResource("3_xmy5j")]
+position = Vector2(90.512146, -1865)
+scale = Vector2(2.1385548, 0.99999994)
+
+[node name="Box38" parent="platforms" unique_id=1599687405 instance=ExtResource("3_xmy5j")]
+position = Vector2(187.19885, -3311)
+scale = Vector2(0.15060246, 8.71996)
+
+[node name="Box39" parent="platforms" unique_id=1003427498 instance=ExtResource("3_xmy5j")]
+position = Vector2(210.84344, -3401)
+scale = Vector2(4.8614473, 0.99999994)
+
+[node name="Box40" parent="platforms" unique_id=995318609 instance=ExtResource("3_xmy5j")]
+position = Vector2(169.42773, -2919)
+scale = Vector2(1.1686766, 4.0399995)
+
+[node name="Box41" parent="platforms" unique_id=1420850148 instance=ExtResource("3_xmy5j")]
+position = Vector2(215.96393, -2783)
+scale = Vector2(0.8132532, 2.2399802)
+
+[node name="Box35" parent="platforms" unique_id=1501733658 instance=ExtResource("3_xmy5j")]
+position = Vector2(183.73499, -2603)
+scale = Vector2(8.771087, 0.99999994)
+
+[node name="Box36" parent="platforms" unique_id=1599779598 instance=ExtResource("3_xmy5j")]
+position = Vector2(142.92181, -3173)
+scale = Vector2(8.397593, 5.6800194)
+
+[node name="Box37" parent="platforms" unique_id=409767535 instance=ExtResource("3_xmy5j")]
+position = Vector2(244.729, -2998)
+scale = Vector2(0.15060246, 39.760017)
+
+[node name="Box22" parent="platforms" unique_id=2016605142 instance=ExtResource("3_xmy5j")]
+position = Vector2(19.427673, -673.0005)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box22" unique_id=2122675506 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box22" unique_id=1853571268 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP2")
+
+[node name="Box23" parent="platforms" unique_id=668773920 instance=ExtResource("3_xmy5j")]
+position = Vector2(51.355408, -1165.0005)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box23" unique_id=845043700 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box23" unique_id=1687252727 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP2")
+
+[node name="Box24" parent="platforms" unique_id=741018608 instance=ExtResource("3_xmy5j")]
+position = Vector2(-50.602478, -990.0005)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box24" unique_id=1405206737 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box24" unique_id=1331343120 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP")
+
+[node name="Box25" parent="platforms" unique_id=1433316071 instance=ExtResource("3_xmy5j")]
+position = Vector2(4.819275, -1316.0005)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box25" unique_id=925418617 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box25" unique_id=847066659 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP3")
+
+[node name="DamageTP3" type="Marker2D" parent="platforms" unique_id=1597281815]
+position = Vector2(-4.5180054, -1046.0015)
+scale = Vector2(0.32530132, 2.4799998)
+
+[node name="DamageBlock2" parent="platforms" unique_id=1802660370 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-56.174744, -1710)
+scale = Vector2(0.15060246, 15.840003)
+safeZone = NodePath("../DamageTP3")
+
+[node name="Box26" parent="platforms" unique_id=68205956 instance=ExtResource("3_xmy5j")]
+position = Vector2(39.909607, -1523.0005)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box26" unique_id=409035666 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box26" unique_id=1329499287 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP3")
+
+[node name="Box27" parent="platforms" unique_id=1830392160 instance=ExtResource("3_xmy5j")]
+position = Vector2(-2.2590332, -0.00048828125)
+scale = Vector2(3.5240917, 0.99999994)
+
+[node name="Box28" parent="platforms" unique_id=780051338 instance=ExtResource("3_xmy5j")]
+position = Vector2(34.186707, -2715)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box28" unique_id=1355592380 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box28" unique_id=1984077625 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP3")
+
+[node name="Box29" parent="platforms" unique_id=245076840 instance=ExtResource("3_xmy5j")]
+position = Vector2(-34.93976, -1968)
+scale = Vector2(2.1686783, 0.99999994)
+
+[node name="Box30" parent="platforms" unique_id=752449829 instance=ExtResource("3_xmy5j")]
+position = Vector2(-12.951843, -1977.999)
+scale = Vector2(0.15060246, 1.9200779)
+
+[node name="Box31" parent="platforms" unique_id=2120441299 instance=ExtResource("3_xmy5j")]
+position = Vector2(-27.710876, -2221.001)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box31" unique_id=1442609281 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box31" unique_id=699377935 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP3")
+
+[node name="Box32" parent="platforms" unique_id=1452191990 instance=ExtResource("3_xmy5j")]
+position = Vector2(-55.42169, -2558)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box32" unique_id=1628994104 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box32" unique_id=1132299250 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP3")
+
+[node name="Box33" parent="platforms" unique_id=936749788 instance=ExtResource("3_xmy5j")]
+position = Vector2(10.240967, -2434.001)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box33" unique_id=1176724106 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box33" unique_id=271561813 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP3")
+
+[node name="Box34" parent="platforms" unique_id=1246945883 instance=ExtResource("3_xmy5j")]
+position = Vector2(-19.728882, -2959)
+scale = Vector2(0.35542178, 5.8399982)
+
+[node name="Box2" parent="platforms/Box34" unique_id=206964623 instance=ExtResource("3_xmy5j")]
+position = Vector2(-0.42373657, 0)
+scale = Vector2(2.4060733, 0.46733683)
+
+[node name="DamageBlock2" parent="platforms/Box34" unique_id=22051251 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-18.220306, -8.219195)
+scale = Vector2(0.91525435, 0.42465764)
+safeZone = NodePath("../../DamageTP3")
+
+[node name="Box" parent="platforms" unique_id=1499228726 instance=ExtResource("3_xmy5j")]
 position = Vector2(-10.99398, -57)
 scale = Vector2(0.15060245, 4.3599997)
 
@@ -48,19 +284,19 @@ position = Vector2(-56.174725, -970)
 scale = Vector2(0.15060246, 76.71999)
 
 [node name="Box6" parent="platforms" unique_id=1506288389 instance=ExtResource("3_xmy5j")]
-position = Vector2(56.17472, -1173)
-scale = Vector2(0.15060246, 100.71999)
+position = Vector2(62.95183, -1503.0005)
+scale = Vector2(0.8253008, 131.68)
 
 [node name="Box7" parent="platforms" unique_id=1114942737 instance=ExtResource("3_xmy5j")]
 position = Vector2(-55.873516, -2747.9998)
 scale = Vector2(0.15060246, 76.71999)
 
 [node name="Box8" parent="platforms" unique_id=1054818380 instance=ExtResource("3_xmy5j")]
-position = Vector2(55.722908, -3502)
+position = Vector2(56.174713, -3786)
 scale = Vector2(0.15060246, 76.71999)
 
 [node name="Box9" parent="platforms" unique_id=53921518 instance=ExtResource("3_xmy5j")]
-position = Vector2(55.722908, -2447.9998)
+position = Vector2(-53.915695, -3741.0007)
 scale = Vector2(0.15060246, 10.5199995)
 
 [node name="Box10" parent="platforms" unique_id=795117869 instance=ExtResource("3_xmy5j")]
@@ -135,82 +371,294 @@ position = Vector2(-57.37954, -860.99994)
 scale = Vector2(0.15060246, 9.36)
 safeZone = NodePath("../DamageTP")
 
+[node name="Box15" parent="platforms" unique_id=1146170714 instance=ExtResource("3_xmy5j")]
+position = Vector2(-64.00606, -1077.0005)
+scale = Vector2(0.8253008, 65.87999)
+
+[node name="Box20" parent="platforms" unique_id=946882767 instance=ExtResource("3_xmy5j")]
+position = Vector2(-64.00606, -2632.0005)
+scale = Vector2(0.8253008, 65.87999)
+
+[node name="Box21" parent="platforms" unique_id=887962855 instance=ExtResource("3_xmy5j")]
+position = Vector2(63.554222, -3668.0002)
+scale = Vector2(0.8253008, 65.87999)
+
+[node name="Box49" parent="platforms" unique_id=1207831423 instance=ExtResource("3_xmy5j")]
+position = Vector2(-75.45184, -3961)
+scale = Vector2(2.29518, 0.99999994)
+
+[node name="Box50" parent="platforms" unique_id=1924716234 instance=ExtResource("3_xmy5j")]
+position = Vector2(-262.9519, -3531)
+scale = Vector2(0.15060246, 30.199978)
+
+[node name="Box51" parent="platforms" unique_id=332429226 instance=ExtResource("3_xmy5j")]
+position = Vector2(-113.704865, -4073)
+scale = Vector2(0.15060246, 24.680037)
+
+[node name="Box52" parent="platforms" unique_id=1699906225 instance=ExtResource("3_xmy5j")]
+position = Vector2(-92.77112, -4069)
+scale = Vector2(2.150603, 0.99999994)
+
+[node name="Box53" parent="platforms" unique_id=555090870 instance=ExtResource("3_xmy5j")]
+position = Vector2(-75.90369, -4182)
+scale = Vector2(2.150603, 0.99999994)
+
+[node name="Box54" parent="platforms" unique_id=551219021 instance=ExtResource("3_xmy5j")]
+position = Vector2(-93.373535, -4311)
+scale = Vector2(2.150603, 0.99999994)
+
+[node name="Box55" parent="platforms" unique_id=684816093 instance=ExtResource("3_xmy5j")]
+position = Vector2(-204.51816, -4473)
+scale = Vector2(15.325307, 0.99999994)
+
+[node name="Box56" parent="platforms" unique_id=471299516 instance=ExtResource("3_xmy5j")]
+position = Vector2(-189.60855, -4105)
+scale = Vector2(7.4638586, 12.679999)
+
+[node name="Box57" parent="platforms" unique_id=1738345166 instance=ExtResource("3_xmy5j")]
+position = Vector2(-265.21097, -2989.001)
+scale = Vector2(0.15060246, 124.32001)
+
+[node name="Box58" parent="platforms" unique_id=332479385 instance=ExtResource("3_xmy5j")]
+position = Vector2(-354.51822, -3136)
+scale = Vector2(0.15060246, 135.2)
+
+[node name="Box59" parent="platforms" unique_id=54346661 instance=ExtResource("3_xmy5j")]
+position = Vector2(-283.43384, -1690)
+scale = Vector2(1.9879525, 0.99999994)
+
+[node name="Box60" parent="platforms" unique_id=2034725426 instance=ExtResource("3_xmy5j")]
+position = Vector2(-364.60858, -1689)
+scale = Vector2(4.710844, 0.99999994)
+
+[node name="Box61" parent="platforms" unique_id=1942823296 instance=ExtResource("3_xmy5j")]
+position = Vector2(-301.80734, -1625.001)
+scale = Vector2(0.15060246, 7.1199994)
+
+[node name="Box62" parent="platforms" unique_id=2101099352 instance=ExtResource("3_xmy5j")]
+position = Vector2(-353.7652, -1547.0005)
+scale = Vector2(5.4096403, 0.99999994)
+
+[node name="Box63" parent="platforms" unique_id=1930903532 instance=ExtResource("3_xmy5j")]
+position = Vector2(-355.1206, -1680)
+scale = Vector2(1.072288, 1.5599998)
+
+[node name="Box64" parent="platforms" unique_id=1812007483 instance=ExtResource("3_xmy5j")]
+position = Vector2(-391.2652, -1560.0005)
+scale = Vector2(1.4277105, 0.99999994)
+
+[node name="Box65" parent="platforms" unique_id=490406627 instance=ExtResource("3_xmy5j")]
+position = Vector2(-310.09048, -1558.0005)
+scale = Vector2(0.8433738, 0.99999994)
+
+[node name="DamageBlock7" parent="platforms" unique_id=615428591 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-317.6206, -4165)
+scale = Vector2(1.3072301, 2.32)
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock8" parent="platforms" unique_id=1737624181 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-332.83145, -3828.001)
+scale = Vector2(0.82530266, 2.32)
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock9" parent="platforms" unique_id=1655093791 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-358.43384, -3522.001)
+scale = Vector2(0.59036237, 2.32)
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock10" parent="platforms" unique_id=1594530698 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-300.00012, -3193)
+scale = Vector2(0.59036237, 2.32)
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock11" parent="platforms" unique_id=936229418 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-337.1989, -2749.001)
+scale = Vector2(1.3855433, 2.32)
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock12" parent="platforms" unique_id=1089250591 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-359.4881, -2266)
+scale = Vector2(0.59036237, 2.32)
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock13" parent="platforms" unique_id=1925478665 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-323.0423, -2269)
+scale = Vector2(0.59036237, 2.32)
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock14" parent="platforms" unique_id=537554813 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-285.8435, -2277)
+scale = Vector2(0.59036237, 2.32)
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock15" parent="platforms" unique_id=545910618 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-356.17487, -1846)
+rotation = 1.3630899
+scale = Vector2(3.7604218, 0.5170982)
+skew = -1.2558793
+safeZone = NodePath("../DropperTP")
+
+[node name="DamageBlock16" parent="platforms" unique_id=586684757 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
+position = Vector2(-299.39774, -1692.999)
+rotation = -1.3996973
+scale = Vector2(4.964983, 0.54742485)
+skew = 1.2691785
+safeZone = NodePath("../DropperTP")
+
+[node name="DropperTP" type="Marker2D" parent="platforms" unique_id=892443430]
+position = Vector2(-257.53024, -4271)
+scale = Vector2(0.15060246, 0.99999994)
+
+[node name="enemies" type="Node2D" parent="." unique_id=949844764]
+position = Vector2(3970, -8623)
+
+[node name="PaperAirplaneThrower" parent="enemies" unique_id=499016071 instance=ExtResource("6_f1ljr")]
+position = Vector2(-271, -11)
+
+[node name="PaperAirplaneThrower2" parent="enemies" unique_id=1677417589 instance=ExtResource("6_f1ljr")]
+position = Vector2(-232, -11)
+
+[node name="Craw" parent="enemies" unique_id=2060975062 instance=ExtResource("7_sykg8")]
+position = Vector2(29, 1334)
+
+[node name="Craw2" parent="enemies" unique_id=1176074416 instance=ExtResource("7_sykg8")]
+
+[node name="Craw3" parent="enemies" unique_id=2089205311 instance=ExtResource("7_sykg8")]
+position = Vector2(750, -1032)
+
+[node name="Craw4" parent="enemies" unique_id=1833210607 instance=ExtResource("7_sykg8")]
+position = Vector2(692, -856)
+
+[node name="Slime" parent="enemies" unique_id=1065738114 instance=ExtResource("9_to4dh")]
+position = Vector2(1505, -818)
+spin = 1
+
+[node name="Slime2" parent="enemies" unique_id=1605187768 instance=ExtResource("9_to4dh")]
+position = Vector2(1503, -739)
+
+[node name="Slime3" parent="enemies" unique_id=1436560634 instance=ExtResource("9_to4dh")]
+position = Vector2(1192, -972)
+
+[node name="Slime4" parent="enemies" unique_id=1988867755 instance=ExtResource("9_to4dh")]
+position = Vector2(1194, -855)
+
+[node name="Slime5" parent="enemies" unique_id=1215287764 instance=ExtResource("9_to4dh")]
+position = Vector2(1298, -915)
+spin = 1
+
+[node name="Slime6" parent="enemies" unique_id=24964305 instance=ExtResource("9_to4dh")]
+position = Vector2(1091, -913)
+spin = 1
+
+[node name="Breakable Wall2" parent="enemies" unique_id=485390736 instance=ExtResource("10_uxhc2")]
+position = Vector2(529.0005, -609)
+scale = Vector2(6.6399975, 1)
+
+[node name="Breakable Wall" parent="enemies" unique_id=1000865144 instance=ExtResource("10_uxhc2")]
+position = Vector2(-318, -1950)
+scale = Vector2(1, 2.9600782)
+
+[node name="Slime7" parent="enemies" unique_id=316356887 instance=ExtResource("9_to4dh")]
+position = Vector2(78, -2020)
+spin = 1
+crawl_speed = 100.0
+
+[node name="Slime8" parent="enemies" unique_id=385168425 instance=ExtResource("9_to4dh")]
+position = Vector2(168, -1973)
+spin = 1
+crawl_speed = 100.0
+
+[node name="Slime9" parent="enemies" unique_id=1143302308 instance=ExtResource("9_to4dh")]
+position = Vector2(-23, -1959)
+spin = 1
+crawl_speed = 100.0
+
+[node name="Slime10" parent="enemies" unique_id=2099500251 instance=ExtResource("9_to4dh")]
+position = Vector2(168, -1905)
+spin = 1
+crawl_speed = 100.0
+
+[node name="Slime11" parent="enemies" unique_id=565362937 instance=ExtResource("9_to4dh")]
+position = Vector2(-22, -1906)
+spin = 1
+crawl_speed = 100.0
+
+[node name="Slime12" parent="enemies" unique_id=1787464838 instance=ExtResource("9_to4dh")]
+position = Vector2(168, -1692)
+spin = 1
+crawl_speed = 100.0
+
+[node name="Slime13" parent="enemies" unique_id=2052461498 instance=ExtResource("9_to4dh")]
+position = Vector2(-23, -1678)
+spin = 1
+crawl_speed = 100.0
+
+[node name="Slime14" parent="enemies" unique_id=1552733149 instance=ExtResource("9_to4dh")]
+position = Vector2(168, -1624)
+spin = 1
+crawl_speed = 100.0
+
+[node name="Slime15" parent="enemies" unique_id=1963821486 instance=ExtResource("9_to4dh")]
+position = Vector2(-22, -1625)
+spin = 1
+crawl_speed = 100.0
+
+[node name="Slime16" parent="enemies" unique_id=1273850510 instance=ExtResource("9_to4dh")]
+position = Vector2(597, 110)
+crawl_speed = 150.0
+
+[node name="Slime17" parent="enemies" unique_id=1327071106 instance=ExtResource("9_to4dh")]
+position = Vector2(762, 111)
+crawl_speed = 150.0
+
+[node name="Slime18" parent="enemies" unique_id=817146341 instance=ExtResource("9_to4dh")]
+position = Vector2(569, 29)
+crawl_speed = 150.0
+
+[node name="Slime19" parent="enemies" unique_id=119974783 instance=ExtResource("9_to4dh")]
+position = Vector2(766, 12)
+crawl_speed = 150.0
+
+[node name="Slime20" parent="enemies" unique_id=234707320 instance=ExtResource("9_to4dh")]
+position = Vector2(767, -38)
+spin = 1
+crawl_speed = 150.0
+
+[node name="Slime21" parent="enemies" unique_id=707332066 instance=ExtResource("9_to4dh")]
+position = Vector2(568, -38)
+spin = 1
+crawl_speed = 150.0
+
+[node name="Slime22" parent="enemies" unique_id=1334266568 instance=ExtResource("9_to4dh")]
+position = Vector2(677, 111)
+spin = 1
+crawl_speed = 150.0
+
+[node name="WallSitters" parent="enemies" unique_id=1350810646 instance=ExtResource("10_58xyw")]
+position = Vector2(-675, -2296)
+
+[node name="WallSitters2" parent="enemies" unique_id=1068914781 instance=ExtResource("10_58xyw")]
+position = Vector2(-340, -2165)
+
+[node name="PaperAirplaneThrower3" parent="enemies" unique_id=1512256430 instance=ExtResource("6_f1ljr")]
+position = Vector2(-1498, -2264)
+
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("4_cjpqh")]
 position = Vector2(4032, -7675)
 
-[node name="Box15" parent="." unique_id=2016605142 instance=ExtResource("3_xmy5j")]
-position = Vector2(4169, -7292)
-scale = Vector2(2.36, 5.8399987)
+[node name="Canvas2" parent="." unique_id=753632142 instance=ExtResource("4_cjpqh")]
+position = Vector2(5405, -9902)
 
-[node name="Box2" parent="Box15" unique_id=2122675506 instance=ExtResource("3_xmy5j")]
-position = Vector2(-0.42373657, 0)
-scale = Vector2(2.4060733, 0.46733683)
+[node name="ColorRect" type="ColorRect" parent="." unique_id=388438463]
+offset_left = 4619.0
+offset_top = -8538.0
+offset_right = 4659.0
+offset_bottom = -8498.0
+color = Color(0.6901961, 0, 1, 1)
 
-[node name="DamageBlock2" parent="Box15" unique_id=1853571268 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
-position = Vector2(-18.220306, -8.219195)
-scale = Vector2(0.91525435, 0.42465764)
-safeZone = NodePath("../../platforms/DamageTP2")
+[node name="OutL" parent="." unique_id=1448498682 instance=ExtResource("2_xmy5j")]
+position = Vector2(1539, -8249)
+scale = Vector2(1, 9.959961)
 
-[node name="Box16" parent="." unique_id=668773920 instance=ExtResource("3_xmy5j")]
-position = Vector2(4381, -7784)
-scale = Vector2(2.36, 5.8399987)
-
-[node name="Box2" parent="Box16" unique_id=845043700 instance=ExtResource("3_xmy5j")]
-position = Vector2(-0.42373657, 0)
-scale = Vector2(2.4060733, 0.46733683)
-
-[node name="DamageBlock2" parent="Box16" unique_id=1687252727 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
-position = Vector2(-18.220306, -8.219195)
-scale = Vector2(0.91525435, 0.42465764)
-safeZone = NodePath("../../platforms/DamageTP2")
-
-[node name="Box17" parent="." unique_id=741018608 instance=ExtResource("3_xmy5j")]
-position = Vector2(3704, -7609)
-scale = Vector2(2.36, 5.8399987)
-
-[node name="Box2" parent="Box17" unique_id=1405206737 instance=ExtResource("3_xmy5j")]
-position = Vector2(-0.42373657, 0)
-scale = Vector2(2.4060733, 0.46733683)
-
-[node name="DamageBlock2" parent="Box17" unique_id=1331343120 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
-position = Vector2(-18.220306, -8.219195)
-scale = Vector2(0.91525435, 0.42465764)
-safeZone = NodePath("../../platforms/DamageTP")
-
-[node name="Box18" parent="." unique_id=1433316071 instance=ExtResource("3_xmy5j")]
-position = Vector2(4072, -7935)
-scale = Vector2(2.36, 5.8399987)
-
-[node name="Box2" parent="Box18" unique_id=925418617 instance=ExtResource("3_xmy5j")]
-position = Vector2(-0.42373657, 0)
-scale = Vector2(2.4060733, 0.46733683)
-
-[node name="DamageBlock2" parent="Box18" unique_id=847066659 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
-position = Vector2(-18.220306, -8.219195)
-scale = Vector2(0.91525435, 0.42465764)
-safeZone = NodePath("../../DamageTP")
-
-[node name="DamageTP" type="Marker2D" parent="." unique_id=1597281815]
-position = Vector2(4010.0005, -7665.001)
-scale = Vector2(2.16, 2.48)
-
-[node name="DamageBlock" parent="." unique_id=1802660370 instance=ExtResource("5_bt88p")]
-position = Vector2(3667, -8329)
-scale = Vector2(1, 15.840004)
-
-[node name="Box19" parent="." unique_id=68205956 instance=ExtResource("3_xmy5j")]
-position = Vector2(4305, -8142)
-scale = Vector2(2.36, 5.8399987)
-
-[node name="Box2" parent="Box19" unique_id=409035666 instance=ExtResource("3_xmy5j")]
-position = Vector2(-0.42373657, 0)
-scale = Vector2(2.4060733, 0.46733683)
-
-[node name="DamageBlock2" parent="Box19" unique_id=1329499287 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_bt88p")]
-position = Vector2(-18.220306, -8.219195)
-scale = Vector2(0.91525435, 0.42465764)
-safeZone = NodePath("../../DamageTP")
-
-[node name="Box" parent="." unique_id=1830392160 instance=ExtResource("3_xmy5j")]
-position = Vector2(4025.0002, -6619)
-scale = Vector2(23.399961, 1)
+[node name="InL" type="Marker2D" parent="." unique_id=1153674813]
+position = Vector2(1563.2059, -8221.901)

@@ -205,7 +205,7 @@ position = Vector2(2295, -857)
 scale = Vector2(30.92, 1)
 
 [node name="Box41" parent="platforms" unique_id=1939327156 instance=ExtResource("3_062ts")]
-position = Vector2(2247, -958)
+position = Vector2(2247, -964)
 scale = Vector2(8.2, 5.52)
 
 [node name="Box42" parent="platforms" unique_id=2094276953 instance=ExtResource("3_062ts")]
