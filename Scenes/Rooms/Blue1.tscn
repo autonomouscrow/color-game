@@ -1,0 +1,417 @@
+[gd_scene format=3 uid="uid://c5h4o4wir0f08"]
+
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_6x4te"]
+[ext_resource type="PackedScene" uid="uid://u53ev8iw1am2" path="res://Scenes/Rooms/Green3.tscn" id="4_pli0g"]
+[ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_dox6h"]
+[ext_resource type="PackedScene" uid="uid://qwq2dgsgx5d2" path="res://Scenes/Prefabs/Diver.tscn" id="6_ovws3"]
+[ext_resource type="PackedScene" uid="uid://bg20reqytwww4" path="res://Scenes/Prefabs/slidy_boi.tscn" id="7_dlvn0"]
+[ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="8_jpjf8"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="8_x6fen"]
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="9_es6mr"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="9_ovws3"]
+[ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="10_dlvn0"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="10_rudwg"]
+[ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://Scenes/Prefabs/wall_sitters.tscn" id="11_jpjf8"]
+
+[node name="Blue1" type="Node2D" unique_id=1167361679 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
+script = ExtResource("1_6x4te")
+EnemyObjects = [NodePath("Diver"), NodePath("SlidyBoi"), NodePath("SlidyBoi2"), NodePath("Diver2"), NodePath("Diver3"), NodePath("Diver4"), NodePath("SlidyBoi3"), NodePath("SlidyBoi4"), NodePath("SlidyBoi5"), NodePath("SlidyBoi6"), NodePath("SlidyBoi7"), NodePath("SlidyBoi8"), NodePath("Slime"), NodePath("Slime2"), NodePath("Slime3"), NodePath("Slime4"), NodePath("Slime5"), NodePath("Slime6"), NodePath("Slime7"), NodePath("Slime8"), NodePath("Slime9"), NodePath("Slime10"), NodePath("Slime11"), NodePath("WallSitters"), NodePath("WallSitters2"), NodePath("WallSitters3"), NodePath("Slime12"), NodePath("Slime13"), NodePath("Slime14"), NodePath("Slime15"), NodePath("Slime16"), NodePath("Slime17"), NodePath("Slime18"), NodePath("Slime19"), NodePath("Slime20"), NodePath("Slime21"), NodePath("Slime22"), NodePath("Slime23"), NodePath("Slime24"), NodePath("SlidyBoi9"), NodePath("SlidyBoi10"), NodePath("SlidyBoi11"), NodePath("SlidyBoi12"), NodePath("SlidyBoi13"), NodePath("Diver5"), NodePath("Diver6"), NodePath("Diver7"), NodePath("Diver8"), NodePath("Diver9"), NodePath("Diver10")]
+
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("8_x6fen")]
+position = Vector2(10109, -5272)
+scale = Vector2(150.8, 232.84001)
+
+[node name="OutM" parent="." unique_id=199470789 instance=ExtResource("9_es6mr")]
+position = Vector2(11409.998, -2925)
+scale = Vector2(6.6399975, 1)
+target_room_id = "Green3"
+target_door_id = "InM3"
+
+[node name="InM" type="Marker2D" parent="." unique_id=1254004762]
+position = Vector2(10396, -3083)
+
+[node name="Box37" parent="." unique_id=1599687405 instance=ExtResource("10_rudwg")]
+position = Vector2(11268.998, -2913)
+rotation = 3.1415927
+scale = Vector2(24.345991, -0.77991056)
+
+[node name="OutL" parent="." unique_id=1291692068 instance=ExtResource("9_es6mr")]
+position = Vector2(8537, -4537)
+scale = Vector2(1, 9.639998)
+target_room_id = "Red1"
+target_door_id = "InR"
+
+[node name="InL" type="Marker2D" parent="." unique_id=1588657550]
+position = Vector2(8576, -4478)
+scale = Vector2(1, 9.639998)
+
+[node name="Box" parent="." unique_id=492095492 instance=ExtResource("10_rudwg")]
+position = Vector2(8616.999, -4434)
+scale = Vector2(10.63998, 1)
+
+[node name="Box2" parent="." unique_id=1784642140 instance=ExtResource("10_rudwg")]
+position = Vector2(8514, -4554)
+scale = Vector2(-0.86238253, 10.412831)
+
+[node name="Box3" parent="." unique_id=393843124 instance=ExtResource("10_rudwg")]
+position = Vector2(8553, -4574)
+scale = Vector2(12.08002, 1)
+
+[node name="Box4" parent="." unique_id=725854961 instance=ExtResource("10_rudwg")]
+position = Vector2(10589.999, -2987)
+scale = Vector2(75.88001, 1)
+
+[node name="Box5" parent="." unique_id=767636394 instance=ExtResource("10_rudwg")]
+position = Vector2(11536, -2987)
+scale = Vector2(5.88, 1)
+
+[node name="Box6" parent="." unique_id=2104772873 instance=ExtResource("10_rudwg")]
+position = Vector2(11600, -3653)
+scale = Vector2(1, 62.40001)
+
+[node name="Box7" parent="." unique_id=1082737541 instance=ExtResource("10_rudwg")]
+position = Vector2(11189, -3899.9998)
+scale = Vector2(23.155407, 1.52)
+
+[node name="Box8" parent="." unique_id=207141508 instance=ExtResource("10_rudwg")]
+position = Vector2(10275, -4434)
+scale = Vector2(138.44, 1)
+
+[node name="Box9" parent="." unique_id=2044762532 instance=ExtResource("10_rudwg")]
+position = Vector2(10966, -4091)
+scale = Vector2(1, 17.599998)
+
+[node name="Box10" parent="." unique_id=59921435 instance=ExtResource("10_rudwg")]
+position = Vector2(11285, -4259)
+scale = Vector2(32.84, 1)
+
+[node name="DamageBlock" parent="." unique_id=2136408807 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_dox6h")]
+position = Vector2(8703, -3016)
+scale = Vector2(28.160011, 1)
+safeZone = NodePath("../DamageTP")
+
+[node name="Diver" parent="." unique_id=516101857 instance=ExtResource("6_ovws3")]
+position = Vector2(10085, -3033)
+
+[node name="SlidyBoi" parent="." unique_id=1609698959 instance=ExtResource("7_dlvn0")]
+position = Vector2(10438, -3018)
+
+[node name="SlidyBoi2" parent="." unique_id=1157958083 instance=ExtResource("7_dlvn0")]
+position = Vector2(10763, -3018)
+
+[node name="DamageTP" parent="." unique_id=502579649 instance=ExtResource("8_jpjf8")]
+position = Vector2(9865, -3037)
+
+[node name="DamageBlock2" parent="." unique_id=1443238909 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_dox6h")]
+position = Vector2(8676.998, -4423)
+scale = Vector2(1.1176741, 36.191666)
+safeZone = NodePath("../DamageTP")
+
+[node name="Box11" parent="." unique_id=604889379 instance=ExtResource("10_rudwg")]
+position = Vector2(9782, -3085)
+
+[node name="Box12" parent="." unique_id=478652851 instance=ExtResource("10_rudwg")]
+position = Vector2(9552, -3152)
+
+[node name="Box13" parent="." unique_id=368165154 instance=ExtResource("10_rudwg")]
+position = Vector2(9242, -3138)
+scale = Vector2(1, 5.68)
+
+[node name="Box15" parent="." unique_id=1245347608 instance=ExtResource("10_rudwg")]
+position = Vector2(9003, -3233)
+scale = Vector2(1, 8.76)
+
+[node name="Box16" parent="." unique_id=1105060063 instance=ExtResource("10_rudwg")]
+position = Vector2(8839.998, -3456)
+scale = Vector2(1, 13.36)
+
+[node name="Box17" parent="." unique_id=289547234 instance=ExtResource("10_rudwg")]
+position = Vector2(9786.999, -3546)
+scale = Vector2(81.28, 1)
+
+[node name="Box18" parent="." unique_id=160482642 instance=ExtResource("10_rudwg")]
+position = Vector2(10588, -3997)
+scale = Vector2(1, 42.600002)
+
+[node name="Box19" parent="." unique_id=1776411070 instance=ExtResource("10_rudwg")]
+position = Vector2(9447, -3964)
+scale = Vector2(72.48001, 1)
+
+[node name="Diver2" parent="." unique_id=1667606320 instance=ExtResource("6_ovws3")]
+position = Vector2(10445, -3592)
+
+[node name="Diver3" parent="." unique_id=163975121 instance=ExtResource("6_ovws3")]
+position = Vector2(9441, -3596)
+
+[node name="Diver4" parent="." unique_id=936292221 instance=ExtResource("6_ovws3")]
+position = Vector2(9893, -3591)
+
+[node name="ColorZone" parent="." unique_id=1635868850 instance=ExtResource("9_ovws3")]
+position = Vector2(9722, -3618)
+scale = Vector2(2.1268299, 0.92115295)
+
+[node name="SlidyBoi3" parent="." unique_id=408382224 instance=ExtResource("7_dlvn0")]
+position = Vector2(8981, -4004)
+
+[node name="SlidyBoi4" parent="." unique_id=1454642457 instance=ExtResource("7_dlvn0")]
+position = Vector2(9182, -4013)
+
+[node name="SlidyBoi5" parent="." unique_id=2005859113 instance=ExtResource("7_dlvn0")]
+position = Vector2(9430, -4020)
+
+[node name="SlidyBoi6" parent="." unique_id=765848720 instance=ExtResource("7_dlvn0")]
+position = Vector2(9725, -4016)
+
+[node name="SlidyBoi7" parent="." unique_id=436301976 instance=ExtResource("7_dlvn0")]
+position = Vector2(10177, -3590)
+
+[node name="SlidyBoi8" parent="." unique_id=1441276615 instance=ExtResource("7_dlvn0")]
+position = Vector2(9041, -3590)
+
+[node name="Box20" parent="." unique_id=912947684 instance=ExtResource("10_rudwg")]
+position = Vector2(10032, -4054)
+
+[node name="Box21" parent="." unique_id=1617962261 instance=ExtResource("10_rudwg")]
+position = Vector2(9618, -4067)
+
+[node name="Box22" parent="." unique_id=1697938248 instance=ExtResource("10_rudwg")]
+position = Vector2(10161, -3979)
+scale = Vector2(1, 2.399922)
+
+[node name="Box23" parent="." unique_id=574037448 instance=ExtResource("10_rudwg")]
+position = Vector2(9001, -4078)
+
+[node name="Box24" parent="." unique_id=723386176 instance=ExtResource("10_rudwg")]
+position = Vector2(8815, -4184)
+
+[node name="Box25" parent="." unique_id=1098416219 instance=ExtResource("10_rudwg")]
+position = Vector2(8762, -4325)
+
+[node name="Box26" parent="." unique_id=635969632 instance=ExtResource("10_rudwg")]
+position = Vector2(10369, -4047)
+scale = Vector2(1, 14.160005)
+
+[node name="Box14" parent="." unique_id=671930900 instance=ExtResource("10_rudwg")]
+position = Vector2(8712, -3993)
+scale = Vector2(1, 3.68)
+
+[node name="DamageBlock3" parent="." unique_id=154744528 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_dox6h")]
+position = Vector2(11584, -7555)
+scale = Vector2(1, 77.96)
+safeZone = NodePath("../DamageTP2")
+
+[node name="DamageTP2" parent="." unique_id=448865195 instance=ExtResource("8_jpjf8")]
+position = Vector2(11507, -4520)
+
+[node name="DamageBlock4" parent="." unique_id=1102922843 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_dox6h")]
+position = Vector2(8595, -7560)
+scale = Vector2(1, 74.400085)
+safeZone = NodePath("../DamageTP3")
+
+[node name="Box27" parent="." unique_id=1278672214 instance=ExtResource("10_rudwg")]
+position = Vector2(9954, -5077)
+scale = Vector2(131.87997, 1)
+
+[node name="Box28" parent="." unique_id=1871640097 instance=ExtResource("10_rudwg")]
+position = Vector2(11004, -5756)
+scale = Vector2(58.44001, 1)
+
+[node name="Box29" parent="." unique_id=1486706286 instance=ExtResource("10_rudwg")]
+position = Vector2(9513, -5756)
+scale = Vector2(67.67999, 1)
+
+[node name="Box30" parent="." unique_id=1884791097 instance=ExtResource("10_rudwg")]
+position = Vector2(10305, -6378)
+scale = Vector2(128.88, 1)
+
+[node name="Box31" parent="." unique_id=209672788 instance=ExtResource("10_rudwg")]
+position = Vector2(8978, -6943)
+scale = Vector2(34.239998, 1)
+
+[node name="Box32" parent="." unique_id=1065766885 instance=ExtResource("10_rudwg")]
+position = Vector2(9774, -7177)
+scale = Vector2(22.793161, 14.453234)
+
+[node name="Box33" parent="." unique_id=1504844263 instance=ExtResource("10_rudwg")]
+position = Vector2(10501.999, -6874)
+scale = Vector2(25.532152, 15.17541)
+
+[node name="Box34" parent="." unique_id=581403938 instance=ExtResource("10_rudwg")]
+position = Vector2(11094.998, -6602)
+scale = Vector2(2.4568079, 13.463186)
+
+[node name="Slime" parent="." unique_id=316356887 instance=ExtResource("10_dlvn0")]
+position = Vector2(11149, -6707)
+crawl_speed = 100.0
+
+[node name="Slime2" parent="." unique_id=1036774018 instance=ExtResource("10_dlvn0")]
+position = Vector2(11151, -6640)
+crawl_speed = 100.0
+
+[node name="Slime3" parent="." unique_id=1334135527 instance=ExtResource("10_dlvn0")]
+position = Vector2(11149, -6565)
+crawl_speed = 100.0
+
+[node name="Slime4" parent="." unique_id=456197094 instance=ExtResource("10_dlvn0")]
+position = Vector2(11151, -6492)
+crawl_speed = 100.0
+
+[node name="Slime5" parent="." unique_id=1735755770 instance=ExtResource("10_dlvn0")]
+position = Vector2(11086, -6438)
+crawl_speed = 100.0
+
+[node name="Slime6" parent="." unique_id=1963500526 instance=ExtResource("10_dlvn0")]
+position = Vector2(11040, -6505)
+crawl_speed = 100.0
+
+[node name="Slime7" parent="." unique_id=574347349 instance=ExtResource("10_dlvn0")]
+position = Vector2(11040, -6583)
+crawl_speed = 100.0
+
+[node name="Slime8" parent="." unique_id=791761496 instance=ExtResource("10_dlvn0")]
+position = Vector2(10529, -7047)
+spin = 1
+crawl_speed = 500.0
+
+[node name="Slime9" parent="." unique_id=876921533 instance=ExtResource("10_dlvn0")]
+position = Vector2(10420, -7045)
+crawl_speed = 500.0
+
+[node name="Slime10" parent="." unique_id=796402795 instance=ExtResource("10_dlvn0")]
+position = Vector2(9824, -7345)
+spin = 1
+crawl_speed = 1000.0
+
+[node name="Slime11" parent="." unique_id=1016463279 instance=ExtResource("10_dlvn0")]
+position = Vector2(9715, -7343)
+crawl_speed = 1000.0
+
+[node name="Box35" parent="." unique_id=1528224440 instance=ExtResource("10_rudwg")]
+position = Vector2(11502, -5073)
+scale = Vector2(1, 34.920002)
+
+[node name="Box36" parent="." unique_id=1681306051 instance=ExtResource("10_rudwg")]
+position = Vector2(11222, -4563)
+scale = Vector2(16.64, 1)
+
+[node name="Box38" parent="." unique_id=355883145 instance=ExtResource("10_rudwg")]
+position = Vector2(8668, -5761)
+scale = Vector2(1, 34.36001)
+
+[node name="Box39" parent="." unique_id=1859091474 instance=ExtResource("10_rudwg")]
+position = Vector2(8744, -5235)
+
+[node name="Box40" parent="." unique_id=1689049555 instance=ExtResource("10_rudwg")]
+position = Vector2(10184, -5574)
+scale = Vector2(15.8, 1)
+
+[node name="Box41" parent="." unique_id=293520520 instance=ExtResource("10_rudwg")]
+position = Vector2(10442, -5331)
+scale = Vector2(14.2, 1)
+
+[node name="Box42" parent="." unique_id=604109677 instance=ExtResource("10_rudwg")]
+position = Vector2(8910.998, -6375)
+scale = Vector2(-1.0749357, 32.742455)
+
+[node name="Box43" parent="." unique_id=1367600705 instance=ExtResource("10_rudwg")]
+position = Vector2(10914, -6789)
+
+[node name="Box44" parent="." unique_id=193664014 instance=ExtResource("10_rudwg")]
+position = Vector2(8617.998, -7328)
+scale = Vector2(2.458456, 36.573708)
+
+[node name="DamageTP3" parent="." unique_id=607015242 instance=ExtResource("8_jpjf8")]
+position = Vector2(8669, -4623)
+
+[node name="OutU" parent="." unique_id=143640104 instance=ExtResource("9_es6mr")]
+position = Vector2(8676, -7691)
+scale = Vector2(50.04, 1)
+target_room_id = "Red2"
+target_door_id = "InD"
+
+[node name="InU" type="Marker2D" parent="." unique_id=1656000847]
+position = Vector2(8709.4, -7631)
+scale = Vector2(50.04, 1)
+
+[node name="WallSitters" parent="." unique_id=1350810646 instance=ExtResource("11_jpjf8")]
+position = Vector2(10052, -5630)
+
+[node name="WallSitters2" parent="." unique_id=1990416078 instance=ExtResource("11_jpjf8")]
+position = Vector2(10330, -5382)
+
+[node name="WallSitters3" parent="." unique_id=988302955 instance=ExtResource("11_jpjf8")]
+position = Vector2(10472, -5377)
+
+[node name="Slime12" parent="." unique_id=1148431127 instance=ExtResource("10_dlvn0")]
+position = Vector2(10164, -5539)
+
+[node name="Slime13" parent="." unique_id=438400710 instance=ExtResource("10_dlvn0")]
+position = Vector2(8713, -5918)
+
+[node name="Slime14" parent="." unique_id=572594671 instance=ExtResource("10_dlvn0")]
+position = Vector2(8713, -5504)
+
+[node name="Slime15" parent="." unique_id=1254738917 instance=ExtResource("10_dlvn0")]
+position = Vector2(8668, -6135)
+
+[node name="Slime16" parent="." unique_id=595732285 instance=ExtResource("10_dlvn0")]
+position = Vector2(11453, -4751)
+
+[node name="Slime17" parent="." unique_id=52148938 instance=ExtResource("10_dlvn0")]
+position = Vector2(11458, -4958)
+
+[node name="Slime18" parent="." unique_id=774813149 instance=ExtResource("10_dlvn0")]
+position = Vector2(11458, -5180)
+
+[node name="Slime19" parent="." unique_id=1756738732 instance=ExtResource("10_dlvn0")]
+position = Vector2(11453, -5387)
+
+[node name="Slime20" parent="." unique_id=1041652462 instance=ExtResource("10_dlvn0")]
+position = Vector2(11185, -4604)
+
+[node name="Slime21" parent="." unique_id=1771034372 instance=ExtResource("10_dlvn0")]
+position = Vector2(8961, -6120)
+
+[node name="Slime22" parent="." unique_id=1352496845 instance=ExtResource("10_dlvn0")]
+position = Vector2(8870, -6525)
+
+[node name="Slime23" parent="." unique_id=1181366659 instance=ExtResource("10_dlvn0")]
+position = Vector2(8875, -6004)
+
+[node name="Slime24" parent="." unique_id=490933107 instance=ExtResource("10_dlvn0")]
+position = Vector2(8956, -6636)
+
+[node name="SlidyBoi9" parent="." unique_id=1415614604 instance=ExtResource("7_dlvn0")]
+position = Vector2(9279, -4478)
+
+[node name="SlidyBoi10" parent="." unique_id=2002802657 instance=ExtResource("7_dlvn0")]
+position = Vector2(9729, -4478)
+
+[node name="SlidyBoi11" parent="." unique_id=1871963185 instance=ExtResource("7_dlvn0")]
+position = Vector2(10199, -4483)
+
+[node name="SlidyBoi12" parent="." unique_id=839024627 instance=ExtResource("7_dlvn0")]
+position = Vector2(10684, -4478)
+
+[node name="SlidyBoi13" parent="." unique_id=1339431277 instance=ExtResource("7_dlvn0")]
+position = Vector2(11164, -4478)
+
+[node name="Diver5" parent="." unique_id=489968419 instance=ExtResource("6_ovws3")]
+position = Vector2(9031, -5125)
+
+[node name="Diver6" parent="." unique_id=1302459193 instance=ExtResource("6_ovws3")]
+position = Vector2(9845, -5130)
+
+[node name="Diver7" parent="." unique_id=1696325647 instance=ExtResource("6_ovws3")]
+position = Vector2(9481, -5812)
+
+[node name="Diver8" parent="." unique_id=444806956 instance=ExtResource("6_ovws3")]
+position = Vector2(10871, -5807)
+
+[node name="Diver9" parent="." unique_id=1939200368 instance=ExtResource("6_ovws3")]
+position = Vector2(11281, -5802)
+
+[node name="Diver10" parent="." unique_id=1738115490 instance=ExtResource("6_ovws3")]
+position = Vector2(9795, -6434)
+
+[node name="Green3" parent="." unique_id=297855221 instance=ExtResource("4_pli0g")]

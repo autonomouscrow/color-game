@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_jfnis"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_ho2ax"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="6_dq8n7"]
+[ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="7_dq8n7"]
 
 [node name="Green3" type="Node2D" unique_id=297855221 groups=["Room"]]
 script = ExtResource("1_m87rl")
@@ -124,3 +125,96 @@ scale = Vector2(24.345991, -3.8599105)
 [node name="Box9" parent="." unique_id=1707219432 instance=ExtResource("4_ho2ax")]
 position = Vector2(5417.0005, -2711)
 scale = Vector2(1.2380953, 7.1649218)
+
+[node name="OutM3" parent="." unique_id=1528200271 instance=ExtResource("3_5ggvd")]
+position = Vector2(11294, -2894)
+scale = Vector2(34.64002, 1.2399969)
+target_room_id = "Blue1"
+target_door_id = "InD"
+
+[node name="InM3" type="Marker2D" parent="." unique_id=663648742]
+position = Vector2(11073, -2790)
+
+[node name="Box37" parent="." unique_id=1556728282 instance=ExtResource("4_ho2ax")]
+position = Vector2(11228, -2915)
+rotation = 3.1415927
+scale = Vector2(24.345991, -0.77991056)
+
+[node name="Box16" parent="." unique_id=1095926252 instance=ExtResource("4_ho2ax")]
+position = Vector2(10233, -1466)
+scale = Vector2(128.84406, 3.2400038)
+
+[node name="Box18" parent="." unique_id=65883634 instance=ExtResource("4_ho2ax")]
+position = Vector2(11492, -2173)
+scale = Vector2(1.8225856, 67.18591)
+
+[node name="DamageBlock3" parent="." unique_id=2105533923 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_ho2ax")]
+position = Vector2(8946, -1508)
+scale = Vector2(63.359997, 1)
+safeZone = NodePath("../DamageTP3")
+
+[node name="DamageTP3" parent="." unique_id=71072223 instance=ExtResource("6_dq8n7")]
+position = Vector2(8885, -1552)
+
+[node name="Box20" parent="." unique_id=1284322925 instance=ExtResource("4_ho2ax")]
+position = Vector2(9213, -1653)
+scale = Vector2(16.59999, 1)
+
+[node name="Box21" parent="." unique_id=1710281424 instance=ExtResource("4_ho2ax")]
+position = Vector2(9654, -2021.0001)
+scale = Vector2(1, 24.920002)
+
+[node name="Box23" parent="." unique_id=878853089 instance=ExtResource("4_ho2ax")]
+position = Vector2(10159, -2313)
+scale = Vector2(28.47999, 1)
+
+[node name="Box24" parent="." unique_id=396427576 instance=ExtResource("4_ho2ax")]
+position = Vector2(10873, -2116)
+scale = Vector2(26.24, 1)
+
+[node name="Box25" parent="." unique_id=1953470922 instance=ExtResource("4_ho2ax")]
+position = Vector2(11355, -2590.0002)
+scale = Vector2(1, 32.559998)
+
+[node name="DamageBlock4" parent="." unique_id=416811231 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_ho2ax")]
+position = Vector2(11442, -2800)
+scale = Vector2(1, 33.32)
+safeZone = NodePath("../DamageTP4")
+
+[node name="DamageTP4" parent="." unique_id=48477428 instance=ExtResource("6_dq8n7")]
+position = Vector2(11097, -2169)
+
+[node name="Slime" parent="." unique_id=316356887 instance=ExtResource("7_dq8n7")]
+position = Vector2(9096, -1687)
+
+[node name="Slime2" parent="." unique_id=1371205136 instance=ExtResource("7_dq8n7")]
+position = Vector2(9320, -1622)
+
+[node name="Slime3" parent="." unique_id=1709136327 instance=ExtResource("7_dq8n7")]
+position = Vector2(9282, -1687)
+
+[node name="Slime4" parent="." unique_id=914148433 instance=ExtResource("7_dq8n7")]
+position = Vector2(9696, -1850)
+spin = 1
+
+[node name="Slime5" parent="." unique_id=2016660242 instance=ExtResource("7_dq8n7")]
+position = Vector2(9612, -2177)
+spin = 1
+
+[node name="Slime8" parent="." unique_id=194462630 instance=ExtResource("7_dq8n7")]
+position = Vector2(10091, -2348)
+
+[node name="Slime9" parent="." unique_id=51171422 instance=ExtResource("7_dq8n7")]
+position = Vector2(10394, -2348)
+
+[node name="Slime10" parent="." unique_id=1561799094 instance=ExtResource("7_dq8n7")]
+position = Vector2(10170, -2283)
+
+[node name="Slime6" parent="." unique_id=1688206690 instance=ExtResource("7_dq8n7")]
+position = Vector2(10877, -2082)
+crawl_speed = 150.0
+
+[node name="Slime7" parent="." unique_id=2127322814 instance=ExtResource("7_dq8n7")]
+position = Vector2(10873, -2154)
+spin = 1
+crawl_speed = 150.0

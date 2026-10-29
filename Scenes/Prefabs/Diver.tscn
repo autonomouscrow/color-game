@@ -16,6 +16,7 @@ size = Vector2(32, 64)
 
 [node name="Diver" type="CharacterBody2D" unique_id=516101857 groups=["enemy"]]
 script = ExtResource("1_diver")
+contact_damage = 5
 max_health = 50
 
 [node name="Body" type="CollisionShape2D" parent="." unique_id=1231977735]
@@ -30,12 +31,14 @@ mouse_filter = 2
 color = Color(0, 0, 1, 1)
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=231342128]
+position = Vector2(0, -264)
 
 [node name="Rect" type="CollisionShape2D" parent="DetectionArea" unique_id=104946180]
 shape = SubResource("RectangleShape2D_detection")
 debug_color = Color(0, 0.6, 0.7, 0.1)
 
 [node name="JumpArea" type="Area2D" parent="." unique_id=1212160907]
+position = Vector2(0, -264)
 
 [node name="Rect" type="CollisionShape2D" parent="JumpArea" unique_id=1607442710]
 shape = SubResource("RectangleShape2D_jump")
