@@ -17,8 +17,8 @@ script = ExtResource("1_2vpxa")
 EnemyObjects = [NodePath("enemies/PaperAirplaneThrower"), NodePath("enemies/PaperAirplaneThrower2"), NodePath("enemies/Craw"), NodePath("enemies/Craw2"), NodePath("enemies/Craw3"), NodePath("enemies/Craw4"), NodePath("enemies/Slime"), NodePath("enemies/Slime2"), NodePath("enemies/Slime3"), NodePath("enemies/Slime4"), NodePath("enemies/Slime5"), NodePath("enemies/Slime6"), NodePath("enemies/Breakable Wall2"), NodePath("enemies/Breakable Wall"), NodePath("enemies/Slime7"), NodePath("enemies/Slime8"), NodePath("enemies/Slime9"), NodePath("enemies/Slime10"), NodePath("enemies/Slime11"), NodePath("enemies/Slime12"), NodePath("enemies/Slime13"), NodePath("enemies/Slime14"), NodePath("enemies/Slime15"), NodePath("enemies/Slime16"), NodePath("enemies/Slime17"), NodePath("enemies/Slime18"), NodePath("enemies/Slime19"), NodePath("enemies/Slime20"), NodePath("enemies/Slime21"), NodePath("enemies/Slime22"), NodePath("enemies/WallSitters"), NodePath("enemies/WallSitters2"), NodePath("enemies/PaperAirplaneThrower3"), NodePath("enemies/WallSitters3"), NodePath("enemies/WallSitters4"), NodePath("enemies/WallSitters5"), NodePath("enemies/WallSitters6")]
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_dyo1k")]
-position = Vector2(3642, -9007)
-scale = Vector2(206.06743, 232.84001)
+position = Vector2(3653, -9006)
+scale = Vector2(209.98743, 232.84001)
 
 [node name="OutD" parent="." unique_id=199470789 instance=ExtResource("2_xmy5j")]
 position = Vector2(4049, -6635)
@@ -34,7 +34,7 @@ position = Vector2(4040, -6618.9995)
 scale = Vector2(6.6399975, 1)
 
 [node name="Box68" parent="platforms" unique_id=339217702 instance=ExtResource("3_xmy5j")]
-position = Vector2(-380.57245, -1623)
+position = Vector2(-380.57242, -1623)
 scale = Vector2(0.15060246, 6.7199993)
 
 [node name="Box66" parent="platforms" unique_id=129107811 instance=ExtResource("3_xmy5j")]
@@ -444,10 +444,6 @@ scale = Vector2(5.4096403, 0.99999994)
 position = Vector2(-355.1206, -1680)
 scale = Vector2(1.072288, 1.5599998)
 
-[node name="Box64" parent="platforms" unique_id=1812007483 instance=ExtResource("3_xmy5j")]
-position = Vector2(-391.2652, -1560.0005)
-scale = Vector2(1.4277105, 0.99999994)
-
 [node name="Box65" parent="platforms" unique_id=490406627 instance=ExtResource("3_xmy5j")]
 position = Vector2(-310.09048, -1558.0005)
 scale = Vector2(0.8433738, 0.99999994)
@@ -509,6 +505,18 @@ safeZone = NodePath("../DropperTP")
 [node name="DropperTP" type="Marker2D" parent="platforms" unique_id=892443430]
 position = Vector2(-257.53024, -4271)
 scale = Vector2(0.15060246, 0.99999994)
+
+[node name="Box69" parent="platforms" unique_id=1788554876 instance=ExtResource("3_xmy5j")]
+position = Vector2(-91.26514, -1989)
+scale = Vector2(2.0722885, 0.99999994)
+
+[node name="Box70" parent="platforms" unique_id=1760036788 instance=ExtResource("3_xmy5j")]
+position = Vector2(-91.1145, -1697)
+scale = Vector2(2.0722885, 0.99999994)
+
+[node name="Box71" parent="platforms" unique_id=234316512 instance=ExtResource("3_xmy5j")]
+position = Vector2(-111.897644, -1855)
+scale = Vector2(0.15060246, 17.959978)
 
 [node name="enemies" type="Node2D" parent="." unique_id=949844764]
 position = Vector2(3970, -8623)
@@ -670,8 +678,10 @@ offset_bottom = -8498.0
 color = Color(0.6901961, 0, 1, 1)
 
 [node name="OutL" parent="." unique_id=1448498682 instance=ExtResource("2_xmy5j")]
-position = Vector2(1539, -8249)
-scale = Vector2(1, 9.959961)
+position = Vector2(1525, -8249)
+scale = Vector2(0.44000977, 9.959961)
+target_room_id = "yellow1"
+target_door_id = "InR"
 
 [node name="InL" type="Marker2D" parent="." unique_id=1153674813]
-position = Vector2(1563.2059, -8221.901)
+position = Vector2(1547, -8213)

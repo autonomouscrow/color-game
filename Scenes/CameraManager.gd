@@ -16,8 +16,9 @@ func set_room_limits(left: int, top: int, right: int, bottom: int) -> void:
 	current_camera.limit_right = right
 	current_camera.limit_bottom = bottom
 	
-	current_camera.force_update_scroll()
-	current_camera.reset_smoothing()
+	current_camera.align()                
+	current_camera.force_update_scroll()  
+	current_camera.reset_smoothing()      
 	await get_tree().physics_frame
 	await get_tree().process_frame
 	

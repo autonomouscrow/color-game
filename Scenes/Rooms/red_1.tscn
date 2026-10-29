@@ -16,7 +16,7 @@ script = ExtResource("1_lwl47")
 EnemyObjects = [NodePath("enemies/Slime3"), NodePath("enemies/Craw"), NodePath("enemies/Craw2"), NodePath("enemies/Slime"), NodePath("enemies/Slime2"), NodePath("enemies/Craw3"), NodePath("enemies/Craw4"), NodePath("enemies/Craw5"), NodePath("enemies/Craw6"), NodePath("enemies/Craw7"), NodePath("enemies/Slime4"), NodePath("enemies/PaperAirplaneThrower"), NodePath("enemies/Slime5"), NodePath("enemies/Breakable Wall"), NodePath("enemies/PaperAirplaneThrower2"), NodePath("enemies/PaperAirplaneThrower3"), NodePath("enemies/PaperAirplaneThrower4"), NodePath("enemies/PaperAirplaneThrower5"), NodePath("enemies/PaperAirplaneThrower6"), NodePath("enemies/PaperAirplaneThrower7"), NodePath("enemies/Craw8"), NodePath("enemies/Craw9"), NodePath("enemies/Craw10")]
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_w2i4l")]
-position = Vector2(5396.9995, -4687)
+position = Vector2(5400, -4687)
 scale = Vector2(293.6146, 181.91998)
 
 [node name="OutD" parent="." unique_id=199470789 instance=ExtResource("2_062ts")]

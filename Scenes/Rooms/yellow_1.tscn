@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://2r4ek7bam88m"]
+
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_pevpe"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="2_hg87o"]
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_411p2"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="4_ndrtu"]
+
+[node name="yellow1" type="Node2D" unique_id=529611210 groups=["Room"]]
+script = ExtResource("1_pevpe")
+
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_hg87o")]
+position = Vector2(633, -8234)
+scale = Vector2(82.04, 44.640003)
+
+[node name="OutR" parent="." unique_id=199470789 instance=ExtResource("3_411p2")]
+position = Vector2(1477, -8241)
+scale = Vector2(0.27999026, 6.3599997)
+target_room_id = "Red2"
+target_door_id = "InL"
+
+[node name="InR" type="Marker2D" parent="." unique_id=1723172432]
+position = Vector2(1455, -8202)
+
+[node name="platforms" type="Node2D" parent="." unique_id=163874463]
+position = Vector2(1427.1647, -8241.952)
+
+[node name="Box" parent="platforms" unique_id=1599687405 instance=ExtResource("4_ndrtu")]
+position = Vector2(71.83533, -18.04776)
+scale = Vector2(1, 10.76)
+
+[node name="Box" parent="." unique_id=1955202396 instance=ExtResource("4_ndrtu")]
+position = Vector2(1216, -8164)
+scale = Vector2(30.679996, 1)
+
+[node name="Box60" parent="." unique_id=245970112 instance=ExtResource("4_ndrtu")]
+position = Vector2(1268, -8306)
+scale = Vector2(36.19084, 0.99999994)
+
+[node name="OutL" parent="." unique_id=540996104 instance=ExtResource("3_411p2")]
+position = Vector2(1525, -8249)
+scale = Vector2(1, 9.959961)
+target_room_id = "yellow1"
+target_door_id = "InR"
+
+[node name="InL" type="Marker2D" parent="." unique_id=286349349]
+position = Vector2(1547, -8213)
