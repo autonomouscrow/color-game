@@ -14,7 +14,7 @@
 
 [node name="Red2" type="Node2D" unique_id=493293217 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_2vpxa")
-EnemyObjects = [NodePath("enemies/PaperAirplaneThrower"), NodePath("enemies/PaperAirplaneThrower2"), NodePath("enemies/Craw"), NodePath("enemies/Craw2"), NodePath("enemies/Craw3"), NodePath("enemies/Craw4"), NodePath("enemies/Slime"), NodePath("enemies/Slime2"), NodePath("enemies/Slime3"), NodePath("enemies/Slime4"), NodePath("enemies/Slime5"), NodePath("enemies/Slime6"), NodePath("enemies/Breakable Wall2"), NodePath("enemies/Breakable Wall"), NodePath("enemies/Slime7"), NodePath("enemies/Slime8"), NodePath("enemies/Slime9"), NodePath("enemies/Slime10"), NodePath("enemies/Slime11"), NodePath("enemies/Slime12"), NodePath("enemies/Slime13"), NodePath("enemies/Slime14"), NodePath("enemies/Slime15"), NodePath("enemies/Slime16"), NodePath("enemies/Slime17"), NodePath("enemies/Slime18"), NodePath("enemies/Slime19"), NodePath("enemies/Slime20"), NodePath("enemies/Slime21"), NodePath("enemies/Slime22"), NodePath("enemies/WallSitters"), NodePath("enemies/WallSitters2"), NodePath("enemies/PaperAirplaneThrower3")]
+EnemyObjects = [NodePath("enemies/PaperAirplaneThrower"), NodePath("enemies/PaperAirplaneThrower2"), NodePath("enemies/Craw"), NodePath("enemies/Craw2"), NodePath("enemies/Craw3"), NodePath("enemies/Craw4"), NodePath("enemies/Slime"), NodePath("enemies/Slime2"), NodePath("enemies/Slime3"), NodePath("enemies/Slime4"), NodePath("enemies/Slime5"), NodePath("enemies/Slime6"), NodePath("enemies/Breakable Wall2"), NodePath("enemies/Breakable Wall"), NodePath("enemies/Slime7"), NodePath("enemies/Slime8"), NodePath("enemies/Slime9"), NodePath("enemies/Slime10"), NodePath("enemies/Slime11"), NodePath("enemies/Slime12"), NodePath("enemies/Slime13"), NodePath("enemies/Slime14"), NodePath("enemies/Slime15"), NodePath("enemies/Slime16"), NodePath("enemies/Slime17"), NodePath("enemies/Slime18"), NodePath("enemies/Slime19"), NodePath("enemies/Slime20"), NodePath("enemies/Slime21"), NodePath("enemies/Slime22"), NodePath("enemies/WallSitters"), NodePath("enemies/WallSitters2"), NodePath("enemies/PaperAirplaneThrower3"), NodePath("enemies/WallSitters3"), NodePath("enemies/WallSitters4"), NodePath("enemies/WallSitters5"), NodePath("enemies/WallSitters6")]
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_dyo1k")]
 position = Vector2(3642, -9007)
@@ -636,13 +636,25 @@ spin = 1
 crawl_speed = 150.0
 
 [node name="WallSitters" parent="enemies" unique_id=1350810646 instance=ExtResource("10_58xyw")]
-position = Vector2(-675, -2296)
+position = Vector2(-678, -1914)
 
 [node name="WallSitters2" parent="enemies" unique_id=1068914781 instance=ExtResource("10_58xyw")]
-position = Vector2(-340, -2165)
+position = Vector2(-771, -2463)
 
 [node name="PaperAirplaneThrower3" parent="enemies" unique_id=1512256430 instance=ExtResource("6_f1ljr")]
 position = Vector2(-1498, -2264)
+
+[node name="WallSitters3" parent="enemies" unique_id=1949455408 instance=ExtResource("10_58xyw")]
+position = Vector2(-238, -2301)
+
+[node name="WallSitters4" parent="enemies" unique_id=2106061074 instance=ExtResource("10_58xyw")]
+position = Vector2(-108, -2358)
+
+[node name="WallSitters5" parent="enemies" unique_id=410739464 instance=ExtResource("10_58xyw")]
+position = Vector2(143, -1412)
+
+[node name="WallSitters6" parent="enemies" unique_id=1098908538 instance=ExtResource("10_58xyw")]
+position = Vector2(-35, -1401)
 
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("4_cjpqh")]
 position = Vector2(4032, -7675)

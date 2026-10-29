@@ -11,6 +11,9 @@ size = Vector2(38, 38)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i0tgi"]
 size = Vector2(40, 40)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
+size = Vector2(35, 44)
+
 [node name="WallSitters" type="CharacterBody2D" unique_id=1350810646]
 script = ExtResource("1_i0tgi")
 
@@ -35,5 +38,12 @@ shape = SubResource("RectangleShape2D_t53hv")
 position = Vector2(20, 20)
 shape = SubResource("RectangleShape2D_i0tgi")
 
+[node name="Head" type="Area2D" parent="." unique_id=291141803]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head" unique_id=868769140]
+position = Vector2(19.5, 20)
+shape = SubResource("RectangleShape2D_x3acn")
+
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_entered" from="Hitbox2" to="." method="_on_hitbox_2_body_entered"]
+[connection signal="body_entered" from="Head" to="." method="_on_head_body_entered"]
