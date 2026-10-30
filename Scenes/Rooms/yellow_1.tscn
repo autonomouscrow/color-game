@@ -44,3 +44,11 @@ target_door_id = "InR"
 
 [node name="InL" type="Marker2D" parent="." unique_id=286349349]
 position = Vector2(1547, -8213)
+
+[node name="______________________" parent="." unique_id=1934903037 instance=ExtResource("2_hg87o")]
+position = Vector2(7897, -9751.001)
+scale = Vector2(191.6626, 194.32309)
+
+[node name="-----------------------------" parent="." unique_id=1795297790 instance=ExtResource("2_hg87o")]
+position = Vector2(3653, -9006)
+scale = Vector2(209.98743, 232.84001)
