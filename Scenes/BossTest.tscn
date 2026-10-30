@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://hhdk7g45lsgg" path="res://Scenes/Hue.tscn" id="1_hue"]
+[ext_resource type="PackedScene" uid="uid://c4ub8bd6bn2by" path="res://Scenes/spawn_skeff.tscn" id="2_spawn"]
+[ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="3_rooms"]
+[ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/Rooms/ChromaArena.tscn" id="5_arena"]
+[ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="6_camera"]
+
+[node name="BossTest" type="Node2D"]
+
+[node name="RoomControl" parent="." node_paths=PackedStringArray("Hue", "spawnControl") groups=["RoomControl"] instance=ExtResource("3_rooms")]
+room_scenes = {
+"ChromaArena": "res://Scenes/Rooms/ChromaArena.tscn"
+}
+Hue = NodePath("../Hue")
+spawnControl = NodePath("../SpawnSkeff")
+
+[node name="SpawnSkeff" parent="." node_paths=PackedStringArray("RoomControl") groups=["spawnSkeff"] instance=ExtResource("2_spawn")]
+RoomControl = NodePath("../RoomControl")
+SpawnPoint = "Canvas"
+SpawnRoom = "ChromaArena"
+
+[node name="RoomContainer" type="Node2D" parent="."]
+
+[node name="ChromaArena" parent="RoomContainer" instance=ExtResource("5_arena")]
+
+[node name="Hue" parent="." groups=["Player"] instance=ExtResource("1_hue")]
+position = Vector2(200, 860)
+
+[node name="Camera2D" type="Camera2D" parent="Hue" groups=["Camera"]]
+position = Vector2(3, -38)
+process_callback = 0
+position_smoothing_speed = 40.0
+drag_vertical_enabled = true
+drag_left_margin = 0.0
+drag_top_margin = 0.04
+drag_right_margin = 0.0
+script = ExtResource("6_camera")
+
+[node name="HUD" parent="." node_paths=PackedStringArray("player") instance=ExtResource("4_hud")]
+player = NodePath("../Hue")

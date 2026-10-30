@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://b7mrfg0q1dqrb"]
+
+[ext_resource type="Script" uid="uid://ddgrf1ij75wyw" path="res://Scripts/lord_chroma.gd" id="1_chroma"]
+[ext_resource type="Script" uid="uid://doplgao7vu2x0" path="res://Scripts/chroma_airbrush.gd" id="2_airbrush"]
+[ext_resource type="Script" uid="uid://dh55yaj4sihao" path="res://Scripts/chroma_quarter_blast.gd" id="3_blast"]
+[ext_resource type="Script" path="res://Scripts/chroma_darts.gd" id="4_darts"]
+[ext_resource type="Script" path="res://Scripts/chroma_bullet_storm.gd" id="5_storm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(96, 192)
+
+[node name="LordChroma" type="CharacterBody2D" unique_id=1954131219 groups=["enemy"]]
+script = ExtResource("1_chroma")
+max_health = 600
+
+[node name="Body" type="CollisionShape2D" parent="." unique_id=1301227680]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Color" type="ColorRect" parent="." unique_id=2091150993]
+offset_left = -48.0
+offset_top = -96.0
+offset_right = 48.0
+offset_bottom = 96.0
+mouse_filter = 2
+
+[node name="Airbrush" type="Node2D" parent="." unique_id=2034713968]
+z_index = 1
+
+[node name="Color" type="ColorRect" parent="Airbrush" unique_id=1779151964]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 40.0
+offset_bottom = 8.0
+mouse_filter = 2
+color = Color(0.25, 0.25, 0.25, 1)
+
+[node name="Moves" type="Node" parent="." unique_id=1783072071]
+
+[node name="Airbrush" type="Node" parent="Moves" unique_id=1042139539]
+script = ExtResource("2_airbrush")
+cooldown = 2.0
+
+[node name="QuarterBlast" type="Node" parent="Moves" unique_id=1741958643]
+script = ExtResource("3_blast")
+ult = true
+dodge_mp = 4
+
+[node name="Darts" type="Node" parent="Moves"]
+script = ExtResource("4_darts")
+colors = 2
+wander_during = true
+
+[node name="BulletStorm" type="Node" parent="Moves"]
+script = ExtResource("5_storm")
+colors = 2
+ult = true
+dodge_mp = 5

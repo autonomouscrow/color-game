@@ -1,0 +1,671 @@
+class_name LordChroma
+extends enemy
+
+## The final boss. IDLE: waits idle_time, swaps color after every 1 or 2 standard attacks, then picks a move: an ult
+## when the shared ult timer is up, otherwise a standard attack. REPOSITION: runs, jumps onto platforms and drops off
+## them (or flies, in a flying color) until the move would hit, giving up after reposition_timeout. EXECUTE: runs it.
+## Chroma can't be hurt during an ult. If the player gets through an ult without being hit by any of Chroma's attacks,
+## they gain the ult's dodge_mp and Chroma is STUNNED: he drops to the floor and stands frozen for ult_stun_time.
+## Moves are the ChromaMove children of the Moves node; each one lists the colors it can be picked in.
+## The player walks through Chroma, and touching him does no damage; only his moves hurt.
+
+## Emitted whenever Chroma's color changes; the arena listens to this to swap its look
+signal color_changed(color: ChromaColor)
+signal defeated
+
+## Same order as Hue's HueColor enum, so the two can be compared directly
+enum ChromaColor { WHITE, RED, BLUE, YELLOW, GREEN }
+enum State { IDLE, REPOSITION, EXECUTE, STUNNED }
+var current_state: State = State.IDLE
+
+@export_group("Colors")
+@export var current_color := ChromaColor.WHITE:
+	set(value):
+		var changed := value != current_color
+		current_color = value
+		_apply_color()
+		_apply_flying()
+		if changed:
+			color_changed.emit(current_color)
+## Display colors for each ChromaColor; they match Hue's default colors
+@export var white_color := Color(1, 1, 1)
+@export var red_color := Color(0.9, 0.15, 0.15)
+@export var blue_color := Color(0.2, 0.4, 1.0)
+@export var yellow_color := Color(1.0, 0.85, 0.1)
+@export var green_color := Color(0.2, 0.8, 0.25)
+## Chroma swaps color after a random number of standard attacks between x and y; ults don't count
+@export var standard_attacks_per_color := Vector2i(3, 5)
+## Colors Chroma can swap to; it never swaps to the color it already is
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var swap_colors := 3
+
+@export_group("Ults")
+## Seconds into the fight before the first ult
+@export var ult_first_delay := 30.0
+## Seconds from the start of one ult until the next one is due; every ult shares this timer
+@export var ult_interval := 60.0
+## Seconds Chroma stands frozen on the floor after the player dodges a whole ult
+@export var ult_stun_time := 5.0
+
+@export_group("Flying")
+## Colors Chroma flies in instead of walking: no gravity, through platforms, wandering around the arena
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var flying_colors := 2
+@export var fly_speed := 250.0
+## Size of the area Chroma's center flies around in, centered on arena_center
+@export var fly_area_size := Vector2(1700, 700)
+
+@export_group("Movement")
+@export var walk_speed := 300.0
+@export var gravity := 1800.0
+@export var max_fall_speed := 1200.0
+## Close enough to a reposition target to stop walking
+@export var arrive_distance := 8.0
+## Seconds of moving before Chroma gives up on getting in position and picks again
+@export var reposition_timeout := 10.0
+## The middle of the arena, where Chroma teleports for moves like the quarter blast; the room sets it
+@export var arena_center: Node2D
+
+@export_group("Platforming")
+## Horizontal speed while in the air
+@export var air_speed := 350.0
+## Highest Chroma will jump to get onto a platform, measured from where his feet start to the platform's top
+@export var max_jump_height := 450.0
+## How far above a platform's top Chroma's jump peaks, so he clears its edge
+@export var jump_clearance := 60.0
+## Gap between Chroma's side and a platform's edge when he jumps up beside it
+@export var takeoff_gap := 12.0
+## Seconds Chroma ignores a one-way platform he drops through
+@export var drop_through_time := 0.4
+
+@export_group("Between Moves")
+## Seconds standing still between moves, picked at random between x and y each time
+@export var idle_time := Vector2(0.6, 1.2)
+## Chroma stays idle while the player is farther away than this
+@export var aggro_range := 2000.0
+
+@export_group("Airbrush Display")
+## How far from Chroma's center the airbrush is held
+@export var airbrush_distance := 56.0
+## Opacity of Chroma while it can't be hurt
+@export var invulnerable_alpha := 0.6
+
+@export_group("Health Bar")
+## Width of the bar as a fraction of the screen's width; it's centered horizontally
+@export_range(0.1, 1.0) var health_bar_width := 0.6
+@export var health_bar_height := 20.0
+## Distance from the top of the screen to the top of the bar
+@export var health_bar_top := 170.0
+@export var health_bar_border := 2.0
+@export var health_bar_border_color := Color(0.2, 0.2, 0.2)
+@export var health_bar_back_color := Color(0.5, 0.5, 0.5)
+@export var health_bar_fill_color := Color(0.85, 0.1, 0.1)
+
+@export_group("Debug")
+## 0 cycles Chroma's color, for testing the arena
+@export var debug_color_key := false
+@export_group("")
+
+@onready var color_rect: ColorRect = $Color
+@onready var airbrush: Node2D = $Airbrush
+
+var moves: Array[ChromaMove] = []
+var current_move: ChromaMove
+var player: Node2D
+## 1 when facing right, -1 when facing left
+var facing := 1.0
+var idle_left := 0.0
+var reposition_left := 0.0
+## Standard attacks left before the next color swap
+var attacks_until_swap := 1
+## Seconds until the next ult is due
+var ult_left := 0.0
+## Where Chroma is flying to while he wanders
+var wander_target := Vector2.ZERO
+var has_wander_target := false
+## Chroma's own collision mask; flying clears it so he passes through everything
+var ground_mask := 1
+var spawn_position := Vector2.ZERO
+var debug_key_held := false
+var health_bar_fill: ColorRect
+## True once any of Chroma's attacks has hurt the player during the ult running now
+var ult_hit := false
+var stun_left := 0.0
+## True while a move holds Chroma still in the air, with no gravity, like the quarter blast
+var frozen := false
+## Half of Chroma's body size, read from its shape
+var half_size := Vector2(48, 96)
+## Every floor and platform top in the level, rebuilt each time Chroma starts moving into position
+var surfaces: Array[Surface] = []
+## The platform Chroma is jumping up onto, so he can steer onto it once his feet clear its edge
+var jump_target: Surface
+var drop_body: PhysicsBody2D
+var drop_left := 0.0
+
+## The walkable top edge of one floor or platform
+class Surface:
+	## Range Chroma's center can stand in; it reaches past the rectangle by most of his half-width
+	var left: float
+	var right: float
+	## The rectangle's own edges
+	var rect_left: float
+	var rect_right: float
+	var rect_bottom: float
+	var top: float
+	var one_way: bool
+	var body: PhysicsBody2D
+## True while hits do nothing, like during the quarter blast's warning
+var invulnerable := false:
+	set(value):
+		invulnerable = value
+		modulate.a = invulnerable_alpha if invulnerable else 1.0
+
+func _ready() -> void:
+	for child in $Moves.get_children():
+		if child is ChromaMove:
+			child.boss = self
+			moves.append(child)
+	_apply_color()
+	hide_airbrush()
+	_build_health_bar()
+	var body_shape := $Body.shape as RectangleShape2D
+	if body_shape:
+		half_size = body_shape.size / 2
+	idle_left = randf_range(idle_time.x, idle_time.y)
+	ult_left = ult_first_delay
+	attacks_until_swap = randi_range(standard_attacks_per_color.x, standard_attacks_per_color.y)
+	ground_mask = collision_mask
+	spawn_position = global_position
+	_apply_flying()
+
+func _physics_process(delta: float) -> void:
+	var found := get_tree().get_first_node_in_group("Player") as Node2D
+	player = found if can_see(found) else null
+	_pass_through_player()
+	if debug_color_key and Input.is_physical_key_pressed(KEY_0) and not debug_key_held:
+		swap_color((current_color + 1) % ChromaColor.size())
+	debug_key_held = Input.is_physical_key_pressed(KEY_0)
+
+	for move in moves:
+		move.cooldown_left = maxf(move.cooldown_left - delta, 0.0)
+
+	var engaged := player != null and global_position.distance_to(player.global_position) <= aggro_range
+	# The ult timer runs through moves too, but the ult itself waits for the next pick
+	if engaged or current_state != State.IDLE:
+		ult_left -= delta
+
+	match current_state:
+		State.IDLE:
+			if is_flying():
+				_wander()
+			else:
+				velocity.x = 0.0
+			if engaged:
+				idle_left -= delta
+				if idle_left <= 0:
+					if attacks_until_swap <= 0:
+						_swap_to_random_color()
+					_pick_move()
+
+		State.REPOSITION:
+			if not player:
+				_end_move()
+			elif current_move.in_position(player) and (is_on_floor() or is_flying()):
+				velocity.x = 0.0
+				if is_flying():
+					velocity = Vector2.ZERO
+				face_toward(player.global_position.x)
+				if current_move.ult:
+					ult_left = ult_interval
+					ult_hit = false
+					invulnerable = true
+				current_move.times_used += 1
+				current_state = State.EXECUTE
+				current_move.start(player)
+			else:
+				reposition_left -= delta
+				if is_flying():
+					_fly_toward(current_move.reposition_point(player))
+				else:
+					_navigate(current_move.reposition_point(player))
+				if velocity.x != 0:
+					facing = signf(velocity.x)
+				else:
+					face_toward(player.global_position.x)
+				if reposition_left <= 0:
+					_end_move()
+
+		State.EXECUTE:
+			if is_flying():
+				if current_move.wander_during:
+					_wander()
+				else:
+					velocity = Vector2.ZERO
+			# Moves can't see a hidden player, but finish what they started
+			if current_move.tick(player, delta):
+				_end_move()
+
+		State.STUNNED:
+			velocity.x = 0.0
+			stun_left -= delta
+			if stun_left <= 0:
+				_apply_flying()
+				idle_left = randf_range(idle_time.x, idle_time.y)
+				current_state = State.IDLE
+
+	_update_drop_through(delta)
+	if frozen:
+		velocity = Vector2.ZERO
+		return
+	if is_flying() and current_state != State.STUNNED:
+		# Flying back up after a stun starts outside the area; he wanders back in rather than snapping there
+		var area := _fly_area().grow(arrive_distance)
+		var was_inside := area.has_point(global_position)
+		move_and_slide()
+		if was_inside:
+			global_position = global_position.clamp(area.position, area.end)
+		return
+	if is_on_floor() and velocity.y > 0:
+		velocity.y = 0.0
+	velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
+	move_and_slide()
+
+func _pick_move() -> void:
+	# A due ult goes first, and keeps its turn until it actually starts
+	if ult_left <= 0:
+		var ult := _pick_ult()
+		if ult:
+			current_move = ult
+			_start_reposition()
+			return
+	var options: Array[ChromaMove] = []
+	var total := 0.0
+	for move in moves:
+		if move.ult:
+			continue
+		if move.allowed_in(current_color) and move.cooldown_left <= 0 and move.weight > 0 and move.can_start(player):
+			options.append(move)
+			total += move.weight
+	if options.is_empty():
+		idle_left = randf_range(idle_time.x, idle_time.y)
+		return
+	var roll := randf() * total
+	current_move = options.back()
+	for move in options:
+		roll -= move.weight
+		if roll <= 0:
+			current_move = move
+			break
+	_start_reposition()
+
+func _start_reposition() -> void:
+	reposition_left = reposition_timeout
+	jump_target = null
+	_build_surfaces()
+	current_state = State.REPOSITION
+
+## An ult exclusive to Chroma's color that hasn't been used yet comes first; otherwise any ult allowed in his color
+func _pick_ult() -> ChromaMove:
+	var allowed: Array[ChromaMove] = []
+	var unused_exclusive: Array[ChromaMove] = []
+	for move in moves:
+		if move.ult and move.allowed_in(current_color) and move.can_start(player):
+			allowed.append(move)
+			if move.colors == 1 << current_color and move.times_used == 0:
+				unused_exclusive.append(move)
+	if not unused_exclusive.is_empty():
+		return unused_exclusive.pick_random()
+	return allowed.pick_random() if not allowed.is_empty() else null
+
+func _end_move() -> void:
+	var dodged := false
+	if current_move:
+		current_move.finish()
+		current_move.cooldown_left = current_move.cooldown
+		# Only a standard attack that actually went off counts toward the next color swap
+		if not current_move.ult and current_state == State.EXECUTE:
+			attacks_until_swap -= 1
+		dodged = current_move.ult and current_state == State.EXECUTE and not ult_hit
+		if dodged:
+			_reward_dodge(current_move.dodge_mp)
+	current_move = null
+	frozen = false
+	invulnerable = false
+	hide_airbrush()
+	velocity.x = 0.0
+	idle_left = randf_range(idle_time.x, idle_time.y)
+	current_state = State.IDLE
+	if dodged:
+		stun()
+
+## Call when one of Chroma's attacks takes health off the player, so a hit during an ult cancels the dodge reward
+func on_player_hurt(_body: Node2D = null) -> void:
+	if current_state == State.EXECUTE and current_move and current_move.ult:
+		ult_hit = true
+
+## MP for the player, the same way Hue gains it from kills
+func _reward_dodge(amount: int) -> void:
+	var found := get_tree().get_first_node_in_group("Player")
+	if found and "mp" in found:
+		found.mp += amount
+
+## Drops Chroma to the floor, even in a flying color, and holds him there for ult_stun_time; he can be hurt meanwhile
+func stun() -> void:
+	frozen = false
+	invulnerable = false
+	collision_mask = ground_mask
+	velocity = Vector2.ZERO
+	stun_left = ult_stun_time
+	current_state = State.STUNNED
+
+func swap_color(color: int) -> void:
+	current_color = color as ChromaColor
+	attacks_until_swap = randi_range(standard_attacks_per_color.x, standard_attacks_per_color.y)
+
+func _swap_to_random_color() -> void:
+	var options: Array[int] = []
+	for i in ChromaColor.size():
+		if i != current_color and swap_colors & (1 << i):
+			options.append(i)
+	if options.is_empty():
+		attacks_until_swap = randi_range(standard_attacks_per_color.x, standard_attacks_per_color.y)
+		return
+	swap_color(options.pick_random())
+
+func is_flying() -> bool:
+	return flying_colors & (1 << current_color) != 0
+
+## Flying passes through walls and platforms, kept inside the fly area instead
+func _apply_flying() -> void:
+	if not is_inside_tree():
+		return
+	collision_mask = 0 if is_flying() else ground_mask
+	has_wander_target = false
+	if not is_flying() and not frozen:
+		velocity = Vector2.ZERO
+
+func _fly_area() -> Rect2:
+	var center := arena_center.global_position if arena_center else spawn_position
+	return Rect2(center - fly_area_size / 2, fly_area_size)
+
+## Flies to random points around the fly area, one after another
+func _wander() -> void:
+	if not has_wander_target or global_position.distance_to(wander_target) <= arrive_distance:
+		var area := _fly_area()
+		wander_target = Vector2(randf_range(area.position.x, area.end.x), randf_range(area.position.y, area.end.y))
+		has_wander_target = true
+	_fly_toward(wander_target)
+
+func _fly_toward(goal: Vector2) -> void:
+	var to := goal - global_position
+	velocity = Vector2.ZERO if to.length() <= arrive_distance else to.normalized() * fly_speed
+
+func _apply_color() -> void:
+	if color_rect == null:
+		return
+	color_rect.color = [white_color, red_color, blue_color, yellow_color, green_color][current_color]
+
+func face_toward(x: float) -> void:
+	var side := signf(x - global_position.x)
+	if side != 0:
+		facing = side
+
+## Holds the airbrush out from Chroma's center toward dir; progress 0 to 1 grows it out, for the pull-out animation
+func show_airbrush(dir: Vector2, progress := 1.0) -> void:
+	airbrush.visible = true
+	airbrush.position = dir.normalized() * airbrush_distance
+	airbrush.rotation = dir.angle()
+	airbrush.scale = Vector2.ONE * clampf(progress, 0.0, 1.0)
+
+func hide_airbrush() -> void:
+	airbrush.visible = false
+
+## Middle of the player's hitbox, which follows Hue's squish
+func player_center(body: Node2D) -> Vector2:
+	var center := body.global_position
+	var hitbox = body.get("hitbox")
+	if hitbox:
+		center += hitbox.position
+	return center
+
+func take_damage(amount: float) -> void:
+	if invulnerable:
+		return
+	super(amount)
+	_update_health_bar()
+
+## Built in code on its own CanvasLayer so it stays put on screen while the camera moves; freed along with Chroma
+func _build_health_bar() -> void:
+	var layer := CanvasLayer.new()
+	add_child(layer)
+	var border := ColorRect.new()
+	border.color = health_bar_border_color
+	border.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	border.anchor_left = 0.5 - health_bar_width / 2
+	border.anchor_right = 0.5 + health_bar_width / 2
+	border.offset_top = health_bar_top
+	border.offset_bottom = health_bar_top + health_bar_height
+	layer.add_child(border)
+	var back := ColorRect.new()
+	back.color = health_bar_back_color
+	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	back.set_anchors_preset(Control.PRESET_FULL_RECT)
+	back.offset_left = health_bar_border
+	back.offset_top = health_bar_border
+	back.offset_right = -health_bar_border
+	back.offset_bottom = -health_bar_border
+	border.add_child(back)
+	health_bar_fill = ColorRect.new()
+	health_bar_fill.color = health_bar_fill_color
+	health_bar_fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	health_bar_fill.set_anchors_preset(Control.PRESET_FULL_RECT)
+	back.add_child(health_bar_fill)
+	_update_health_bar()
+
+## The red fill shrinks from the right as Chroma loses health
+func _update_health_bar() -> void:
+	if health_bar_fill:
+		health_bar_fill.anchor_right = float(health) / max_health if max_health > 0 else 0.0
+
+func die() -> void:
+	if current_move:
+		current_move.finish()
+	defeated.emit()
+	super()
+
+## Moves Chroma one step toward standing with his center at goal: running, jumping up onto a platform, or dropping off
+## one, planning the route across the level's floors and platforms again every frame
+func _navigate(goal: Vector2) -> void:
+	if not is_on_floor():
+		if jump_target:
+			# Jumping up beside a platform: hold still until his feet clear its top, then steer onto it
+			var feet := global_position.y + half_size.y
+			var beside := global_position.x + half_size.x <= jump_target.rect_left or global_position.x - half_size.x >= jump_target.rect_right
+			if feet > jump_target.top - 2 and beside and not jump_target.one_way:
+				velocity.x = 0.0
+			else:
+				velocity.x = _speed_toward(clampf(goal.x, jump_target.left, jump_target.right), air_speed)
+		else:
+			velocity.x = _speed_toward(goal.x, air_speed)
+		return
+	jump_target = null
+	var here := _surface_standing_on()
+	var there := surface_under(goal)
+	if here == null or there == null or here == there:
+		velocity.x = _speed_toward(goal.x, walk_speed)
+		return
+	var hop := _first_hop(here, there)
+	if hop.is_empty():
+		velocity.x = _speed_toward(goal.x, walk_speed)
+		return
+	var to: Surface = hop["to"]
+	var x: float = hop["x"]
+	match hop["kind"]:
+		"up":
+			if absf(x - global_position.x) <= arrive_distance:
+				velocity.x = 0.0
+				velocity.y = -sqrt(2.0 * gravity * (here.top - to.top + jump_clearance))
+				jump_target = to
+			else:
+				velocity.x = _speed_toward(x, walk_speed)
+		"drop":
+			if absf(x - global_position.x) <= arrive_distance:
+				velocity.x = 0.0
+				drop_body = here.body
+				drop_left = drop_through_time
+				add_collision_exception_with(drop_body)
+			else:
+				velocity.x = _speed_toward(x, walk_speed)
+		"off":
+			# x is past the edge, so running toward it takes Chroma off and he falls
+			velocity.x = _speed_toward(x, walk_speed)
+
+func _speed_toward(x: float, speed: float) -> float:
+	var dx := x - global_position.x
+	return signf(dx) * speed if absf(dx) > arrive_distance else 0.0
+
+## Breadth-first search over the surfaces; returns the first hop of the shortest route, as kind, to and x
+func _first_hop(from: Surface, to: Surface) -> Dictionary:
+	var first_hop := {from: {}}
+	var queue: Array[Surface] = [from]
+	while not queue.is_empty():
+		var a: Surface = queue.pop_front()
+		for b in surfaces:
+			if first_hop.has(b):
+				continue
+			var hop := _hop(a, b)
+			if hop.is_empty():
+				continue
+			first_hop[b] = hop if a == from else first_hop[a]
+			if b == to:
+				return first_hop[b]
+			queue.append(b)
+	return {}
+
+## How Chroma gets straight from surface a to surface b, or empty if he can't. x is where on a he starts the hop,
+## picked nearest to where he is now
+func _hop(a: Surface, b: Surface) -> Dictionary:
+	var rise := a.top - b.top
+	var options: Array[float] = []
+	if rise > 4 and rise <= max_jump_height:
+		# A one-way platform overhead can be jumped up through; anything else is jumped onto from beside its edge
+		if b.one_way:
+			var lo := maxf(a.left, b.left)
+			var hi := minf(a.right, b.right)
+			if lo <= hi:
+				var under := clampf(global_position.x, lo, hi)
+				if _headroom(under, a, b):
+					options.append(under)
+		# From beside b's edge, as close as a allows; the jump can carry him sideways onto b once his feet clear it
+		var reach := air_speed * 2.0 * sqrt(2.0 * jump_clearance / gravity) * 0.8
+		var from_left := minf(a.right, b.rect_left - half_size.x - takeoff_gap)
+		if from_left >= a.left and b.rect_left + 8 - half_size.x - from_left <= reach and _headroom(from_left, a, b):
+			options.append(from_left)
+		var from_right := maxf(a.left, b.rect_right + half_size.x + takeoff_gap)
+		if from_right <= a.right and from_right - (b.rect_right - 8 + half_size.x) <= reach and _headroom(from_right, a, b):
+			options.append(from_right)
+		return _nearest_hop("up", b, options)
+	if rise < -4:
+		if a.one_way:
+			var lo := maxf(a.left, b.left)
+			var hi := minf(a.right, b.right)
+			if lo <= hi:
+				options.append(clampf(global_position.x, lo, hi))
+				return _nearest_hop("drop", b, options)
+		# Running off either edge drops Chroma straight down past it
+		for x in [a.left - half_size.x - takeoff_gap, a.right + half_size.x + takeoff_gap]:
+			if x >= b.left and x <= b.right:
+				options.append(x)
+		return _nearest_hop("off", b, options)
+	return {}
+
+## True if nothing solid is in the way of a jump straight up at x, from standing on a to clearing the top of b
+func _headroom(x: float, a: Surface, b: Surface) -> bool:
+	var head_start := a.top - 2 * half_size.y
+	var head_peak := b.top - jump_clearance - 2 * half_size.y
+	for s in surfaces:
+		if s == a or s == b or s.one_way:
+			continue
+		var overlaps_x := s.rect_right > x - half_size.x and s.rect_left < x + half_size.x
+		if overlaps_x and s.rect_bottom <= head_start and s.rect_bottom > head_peak:
+			return false
+	return true
+
+func _nearest_hop(kind: String, to: Surface, options: Array[float]) -> Dictionary:
+	if options.is_empty():
+		return {}
+	var best := options[0]
+	for x in options:
+		if absf(x - global_position.x) < absf(best - global_position.x):
+			best = x
+	return {"kind": kind, "to": to, "x": best}
+
+## Collects the top of every visible, enabled rectangle in the level. left and right are the range Chroma's center can
+## stand in, which reaches past the rectangle by most of his half-width
+func _build_surfaces() -> void:
+	surfaces.clear()
+	var root := get_tree().current_scene
+	if root == null:
+		return
+	for body in root.find_children("*", "StaticBody2D", true, false):
+		if not (body.is_visible_in_tree() and body.can_process()):
+			continue
+		for child in body.get_children():
+			var shape_node := child as CollisionShape2D
+			if shape_node == null or shape_node.disabled or not (shape_node.shape is RectangleShape2D):
+				continue
+			var xform := shape_node.global_transform
+			var size: Vector2 = (shape_node.shape as RectangleShape2D).size * xform.get_scale().abs()
+			var surface := Surface.new()
+			surface.rect_left = xform.origin.x - size.x / 2
+			surface.rect_right = xform.origin.x + size.x / 2
+			surface.left = surface.rect_left - half_size.x + 8
+			surface.right = surface.rect_right + half_size.x - 8
+			surface.top = xform.origin.y - size.y / 2
+			surface.rect_bottom = xform.origin.y + size.y / 2
+			surface.one_way = shape_node.one_way_collision
+			surface.body = body
+			surfaces.append(surface)
+
+## The surface straight below pos, or null
+func surface_under(pos: Vector2) -> Surface:
+	var query := PhysicsRayQueryParameters2D.create(pos, pos + Vector2(0, 4000), ground_mask)
+	var exclude: Array[RID] = [get_rid()]
+	for node in get_tree().get_nodes_in_group("Player"):
+		if node is CollisionObject2D:
+			exclude.append(node.get_rid())
+	query.exclude = exclude
+	var hit := get_world_2d().direct_space_state.intersect_ray(query)
+	if hit.is_empty():
+		return null
+	return _surface_of(hit["collider"], hit["position"])
+
+func _surface_standing_on() -> Surface:
+	for i in get_slide_collision_count():
+		var collision := get_slide_collision(i)
+		if collision.get_normal().y < -0.5:
+			var surface := _surface_of(collision.get_collider(), collision.get_position())
+			if surface:
+				return surface
+	return surface_under(global_position)
+
+func _surface_of(body: Object, point: Vector2) -> Surface:
+	var best: Surface = null
+	for surface in surfaces:
+		if surface.body == body and (best == null or absf(surface.top - point.y) < absf(best.top - point.y)):
+			best = surface
+	return best
+
+## Stops ignoring a one-way platform once Chroma has dropped through it
+func _update_drop_through(delta: float) -> void:
+	if drop_left <= 0:
+		return
+	drop_left -= delta
+	if drop_left <= 0 and is_instance_valid(drop_body):
+		remove_collision_exception_with(drop_body)
+		drop_body = null
+
+## Chroma walks through the player both ways; re-added every frame since Hue's dash clears its exceptions when it ends
+func _pass_through_player() -> void:
+	for node in get_tree().get_nodes_in_group("Player"):
+		if node is PhysicsBody2D:
+			add_collision_exception_with(node)
+			node.add_collision_exception_with(self)
