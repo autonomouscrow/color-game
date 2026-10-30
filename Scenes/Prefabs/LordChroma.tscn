@@ -1,13 +1,15 @@
 [gd_scene format=3 uid="uid://b7mrfg0q1dqrb"]
 
-[ext_resource type="Script" uid="uid://ddgrf1ij75wyw" path="res://Scripts/lord_chroma.gd" id="1_chroma"]
-[ext_resource type="Script" uid="uid://doplgao7vu2x0" path="res://Scripts/chroma_airbrush.gd" id="2_airbrush"]
-[ext_resource type="Script" uid="uid://dh55yaj4sihao" path="res://Scripts/chroma_quarter_blast.gd" id="3_blast"]
-[ext_resource type="Script" path="res://Scripts/chroma_darts.gd" id="4_darts"]
-[ext_resource type="Script" path="res://Scripts/chroma_bullet_storm.gd" id="5_storm"]
+[ext_resource type="Script" uid="uid://ddgrf1ij75wyw" path="res://Scripts/LordChroma/lord_chroma.gd" id="1_chroma"]
+[ext_resource type="Script" uid="uid://doplgao7vu2x0" path="res://Scripts/LordChroma/chroma_airbrush.gd" id="2_airbrush"]
+[ext_resource type="Script" uid="uid://dh55yaj4sihao" path="res://Scripts/LordChroma/chroma_quarter_blast.gd" id="3_blast"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_darts.gd" id="4_darts"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_bullet_storm.gd" id="5_storm"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_dive.gd" id="6_dive"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_slide.gd" id="7_slide"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
-size = Vector2(96, 192)
+size = Vector2(80, 160)
 
 [node name="LordChroma" type="CharacterBody2D" unique_id=1954131219 groups=["enemy"]]
 script = ExtResource("1_chroma")
@@ -17,10 +19,10 @@ max_health = 600
 shape = SubResource("RectangleShape2D_body")
 
 [node name="Color" type="ColorRect" parent="." unique_id=2091150993]
-offset_left = -48.0
-offset_top = -96.0
-offset_right = 48.0
-offset_bottom = 96.0
+offset_left = -40.0
+offset_top = -80.0
+offset_right = 40.0
+offset_bottom = 80.0
 mouse_filter = 2
 
 [node name="Airbrush" type="Node2D" parent="." unique_id=2034713968]
@@ -55,3 +57,11 @@ script = ExtResource("5_storm")
 colors = 2
 ult = true
 dodge_mp = 5
+
+[node name="Dive" type="Node" parent="Moves"]
+script = ExtResource("6_dive")
+colors = 4
+
+[node name="Slide" type="Node" parent="Moves"]
+script = ExtResource("7_slide")
+colors = 4

@@ -60,7 +60,7 @@ func start(_player: Node2D) -> void:
 	boss.frozen = true
 	index = 0
 	phase = Phase.RAISE
-	timer = 45
+	timer = 0.0
 
 func tick(_player: Node2D, delta: float) -> bool:
 	timer += delta

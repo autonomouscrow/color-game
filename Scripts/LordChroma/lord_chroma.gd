@@ -36,7 +36,7 @@ var current_state: State = State.IDLE
 ## Chroma swaps color after a random number of standard attacks between x and y; ults don't count
 @export var standard_attacks_per_color := Vector2i(3, 5)
 ## Colors Chroma can swap to; it never swaps to the color it already is
-@export_flags("White", "Red", "Blue", "Yellow", "Green") var swap_colors := 3
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var swap_colors := 7
 
 @export_group("Ults")
 ## Seconds into the fight before the first ult
@@ -81,6 +81,12 @@ var current_state: State = State.IDLE
 @export var idle_time := Vector2(0.6, 1.2)
 ## Chroma stays idle while the player is farther away than this
 @export var aggro_range := 2000.0
+
+@export_group("Ult Camera")
+## Seconds the camera takes to zoom out over the whole arena when an ult starts, and again to go back after it
+@export var ult_camera_time := 0.3
+## Area the camera fits on screen during an ult, centered on arena_center; by default the arena with its walls
+@export var ult_camera_view := Vector2(2040, 1020)
 
 @export_group("Airbrush Display")
 ## How far from Chroma's center the airbrush is held
@@ -131,14 +137,23 @@ var ult_hit := false
 var stun_left := 0.0
 ## True while a move holds Chroma still in the air, with no gravity, like the quarter blast
 var frozen := false
+## True while a move sets Chroma's velocity itself, like the blue dive and slide; gravity is skipped
+var move_velocity := false
 ## Half of Chroma's body size, read from its shape
-var half_size := Vector2(48, 96)
+var half_size := Vector2(40, 80)
 ## Every floor and platform top in the level, rebuilt each time Chroma starts moving into position
 var surfaces: Array[Surface] = []
 ## The platform Chroma is jumping up onto, so he can steer onto it once his feet clear its edge
 var jump_target: Surface
 var drop_body: PhysicsBody2D
 var drop_left := 0.0
+## The camera the ult view is borrowing, and its zoom and offset from before, put back when the ult view ends
+var ult_camera: Camera2D
+var ult_camera_zoom := Vector2.ONE
+var ult_camera_offset := Vector2.ZERO
+## 0 is the camera's normal view following the player, 1 is the whole arena; tweened between the two
+var ult_camera_blend := 0.0
+var ult_camera_tween: Tween
 
 ## The walkable top edge of one floor or platform
 class Surface:
@@ -175,6 +190,12 @@ func _ready() -> void:
 	ground_mask = collision_mask
 	spawn_position = global_position
 	_apply_flying()
+
+func _process(_delta: float) -> void:
+	_update_ult_camera()
+
+func _exit_tree() -> void:
+	_release_ult_camera()
 
 func _physics_process(delta: float) -> void:
 	var found := get_tree().get_first_node_in_group("Player") as Node2D
@@ -217,6 +238,7 @@ func _physics_process(delta: float) -> void:
 					ult_left = ult_interval
 					ult_hit = false
 					invulnerable = true
+					_start_ult_camera()
 				current_move.times_used += 1
 				current_state = State.EXECUTE
 				current_move.start(player)
@@ -255,6 +277,9 @@ func _physics_process(delta: float) -> void:
 	if frozen:
 		velocity = Vector2.ZERO
 		return
+	if move_velocity:
+		move_and_slide()
+		return
 	if is_flying() and current_state != State.STUNNED:
 		# Flying back up after a stun starts outside the area; he wanders back in rather than snapping there
 		var area := _fly_area().grow(arrive_distance)
@@ -269,6 +294,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _pick_move() -> void:
+	# Moves can check the level's surfaces in can_start
+	_build_surfaces()
 	# A due ult goes first, and keeps its turn until it actually starts
 	if ult_left <= 0:
 		var ult := _pick_ult()
@@ -326,8 +353,11 @@ func _end_move() -> void:
 		dodged = current_move.ult and current_state == State.EXECUTE and not ult_hit
 		if dodged:
 			_reward_dodge(current_move.dodge_mp)
+		if current_move.ult:
+			_end_ult_camera()
 	current_move = null
 	frozen = false
+	move_velocity = false
 	invulnerable = false
 	hide_airbrush()
 	velocity.x = 0.0
@@ -350,6 +380,7 @@ func _reward_dodge(amount: int) -> void:
 ## Drops Chroma to the floor, even in a flying color, and holds him there for ult_stun_time; he can be hurt meanwhile
 func stun() -> void:
 	frozen = false
+	move_velocity = false
 	invulnerable = false
 	collision_mask = ground_mask
 	velocity = Vector2.ZERO
@@ -426,11 +457,79 @@ func player_center(body: Node2D) -> Vector2:
 		center += hitbox.position
 	return center
 
+## True if Chroma's body, moved from center by motion, wouldn't touch anything solid. Unlike test_move, one-way
+## platforms count as solid whichever way he's going
+func sweep_clear(center: Vector2, motion: Vector2) -> bool:
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = $Body.shape
+	query.transform = Transform2D(0, center)
+	query.motion = motion
+	query.collision_mask = ground_mask
+	var exclude: Array[RID] = [get_rid()]
+	for node in get_tree().get_nodes_in_group("Player"):
+		if node is CollisionObject2D:
+			exclude.append(node.get_rid())
+	query.exclude = exclude
+	return get_world_2d().direct_space_state.cast_motion(query)[0] >= 1.0
+
+## Top middle of the player's hitbox
+func player_head(body: Node2D) -> Vector2:
+	var head := player_center(body)
+	var hitbox = body.get("hitbox")
+	if hitbox is CollisionShape2D and hitbox.shape is RectangleShape2D:
+		head.y -= hitbox.shape.size.y * absf(hitbox.global_scale.y) / 2
+	return head
+
 func take_damage(amount: float) -> void:
 	if invulnerable:
 		return
 	super(amount)
 	_update_health_bar()
+
+## Zooms the camera out to fit ult_camera_view and centers it on the arena, over ult_camera_time
+func _start_ult_camera() -> void:
+	if ult_camera == null:
+		ult_camera = get_viewport().get_camera_2d()
+		if ult_camera == null:
+			return
+		ult_camera_zoom = ult_camera.zoom
+		ult_camera_offset = ult_camera.offset
+	_tween_ult_camera(1.0)
+
+## Puts the camera back to following the player, over ult_camera_time
+func _end_ult_camera() -> void:
+	if ult_camera:
+		_tween_ult_camera(0.0)
+
+func _tween_ult_camera(to: float) -> void:
+	if ult_camera_tween:
+		ult_camera_tween.kill()
+	ult_camera_tween = create_tween()
+	ult_camera_tween.tween_property(self, "ult_camera_blend", to, ult_camera_time)
+	if to <= 0.0:
+		ult_camera_tween.tween_callback(_release_ult_camera)
+
+## Blends zoom and offset between the camera's own view and the arena view. The camera keeps following the player
+## underneath; the offset cancels that out, and an offset isn't held in by the camera's room limits
+func _update_ult_camera() -> void:
+	if not is_instance_valid(ult_camera):
+		ult_camera = null
+		return
+	var screen := get_viewport_rect().size
+	var fit := minf(screen.x / ult_camera_view.x, screen.y / ult_camera_view.y)
+	ult_camera.zoom = ult_camera_zoom.lerp(Vector2.ONE * fit, ult_camera_blend)
+	var center := arena_center.global_position if arena_center else spawn_position
+	var normal := ult_camera.get_screen_center_position() - ult_camera.offset
+	ult_camera.offset = ult_camera_offset.lerp(center - normal, ult_camera_blend)
+
+func _release_ult_camera() -> void:
+	if ult_camera_tween:
+		ult_camera_tween.kill()
+	ult_camera_blend = 0.0
+	if is_instance_valid(ult_camera):
+		ult_camera.zoom = ult_camera_zoom
+		ult_camera.offset = ult_camera_offset
+	ult_camera = null
 
 ## Built in code on its own CanvasLayer so it stays put on screen while the camera moves; freed along with Chroma
 func _build_health_bar() -> void:
