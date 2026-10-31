@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://c4ub8bd6bn2by" path="res://Scenes/spawn_skeff.tscn" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
-[ext_resource type="PackedScene" uid="uid://c0xq4i4ejw31r" path="res://gauntlet.tscn" id="3_v1gob"]
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://cj21ahglvgpf8" path="res://Scenes/Rooms/start.tscn" id="13_5jffn"]
 
 [node name="Main" type="Node2D" unique_id=396947077]
 
@@ -20,10 +20,12 @@ SpawnRoom = "Start"
 
 [node name="RoomContainer" type="Node2D" parent="." unique_id=311234013]
 
-[node name="Gauntlet" parent="RoomContainer" unique_id=1701499376 instance=ExtResource("3_v1gob")]
+[node name="Start" parent="RoomContainer" unique_id=118567636 instance=ExtResource("13_5jffn")]
 
 [node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
-position = Vector2(1047, 275)
+position = Vector2(-2848, 561)
+health = 70.0
+mp = 6
 
 [node name="Camera2D" type="Camera2D" parent="Hue" unique_id=1716874876 groups=["Camera"]]
 position = Vector2(3, -38)
