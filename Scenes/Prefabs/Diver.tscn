@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://qwq2dgsgx5d2"]
 
 [ext_resource type="Script" uid="uid://b0voyayrgn8t7" path="res://Scripts/diver.gd" id="1_diver"]
+[ext_resource type="Texture2D" uid="uid://p1fi6bwbolxw" path="res://Diver.png" id="2_cdy4c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(30, 62)
@@ -14,6 +15,42 @@ size = Vector2(1280, 720)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
 size = Vector2(32, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_71pjq"]
+atlas = ExtResource("2_cdy4c")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxv4m"]
+atlas = ExtResource("2_cdy4c")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rq3x"]
+atlas = ExtResource("2_cdy4c")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6g8x"]
+atlas = ExtResource("2_cdy4c")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3acn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71pjq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxv4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rq3x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6g8x")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Diver" type="CharacterBody2D" unique_id=516101857 groups=["enemy"]]
 script = ExtResource("1_diver")
 contact_damage = 5
@@ -23,6 +60,7 @@ max_health = 50
 shape = SubResource("RectangleShape2D_body")
 
 [node name="Color" type="ColorRect" parent="." unique_id=540170603]
+visible = false
 offset_left = -16.0
 offset_top = -32.0
 offset_right = 16.0
@@ -51,6 +89,12 @@ one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1728827470]
 shape = SubResource("RectangleShape2D_contact")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=497904892]
+position = Vector2(-2, -6)
+scale = Vector2(1.4799984, 1.4799984)
+sprite_frames = SubResource("SpriteFrames_x3acn")
+autoplay = "default"
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_body_exited"]

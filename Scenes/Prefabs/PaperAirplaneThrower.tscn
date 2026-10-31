@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ctaww7bptkekr"]
 
 [ext_resource type="Script" uid="uid://cws3j3jx4uba0" path="res://Scripts/paper_airplane_thrower.gd" id="1_thrower"]
+[ext_resource type="Texture2D" uid="uid://8n1lu2nsgtvc" path="res://PaperAirplaineThrower.png" id="2_irvdt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_thrower"]
 size = Vector2(30, 62)
@@ -17,6 +18,42 @@ size = Vector2(768, 720)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 size = Vector2(32, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_a01tq"]
+atlas = ExtResource("2_irvdt")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ma4o"]
+atlas = ExtResource("2_irvdt")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qv30s"]
+atlas = ExtResource("2_irvdt")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4r4fs"]
+atlas = ExtResource("2_irvdt")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3acn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a01tq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ma4o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qv30s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4r4fs")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="PaperAirplaneThrower" type="CharacterBody2D" unique_id=499016071 groups=["enemy"]]
 script = ExtResource("1_thrower")
 max_health = 50
@@ -25,6 +62,7 @@ max_health = 50
 shape = SubResource("RectangleShape2D_thrower")
 
 [node name="Color" type="ColorRect" parent="." unique_id=1067138784]
+visible = false
 offset_left = -16.0
 offset_top = -32.0
 offset_right = 16.0
@@ -57,6 +95,12 @@ one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=924123149]
 shape = SubResource("RectangleShape2D_x3acn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1464095690]
+position = Vector2(8, -25)
+scale = Vector2(2.3199995, 2.3199995)
+sprite_frames = SubResource("SpriteFrames_x3acn")
+autoplay = "default"
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_body_exited"]

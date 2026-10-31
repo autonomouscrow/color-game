@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c5h4o4wir0f08"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_6x4te"]
+[ext_resource type="Texture2D" uid="uid://bqqpy5unxkh5s" path="res://blue1.png" id="2_8bakv"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_dox6h"]
 [ext_resource type="PackedScene" uid="uid://qwq2dgsgx5d2" path="res://Scenes/Prefabs/Diver.tscn" id="6_ovws3"]
 [ext_resource type="PackedScene" uid="uid://bg20reqytwww4" path="res://Scenes/Prefabs/slidy_boi.tscn" id="7_dlvn0"]
@@ -17,6 +18,11 @@
 [node name="Blue1" type="Node2D" unique_id=1167361679 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_6x4te")
 EnemyObjects = [NodePath("Diver"), NodePath("SlidyBoi"), NodePath("SlidyBoi2"), NodePath("Diver2"), NodePath("Diver3"), NodePath("Diver4"), NodePath("SlidyBoi3"), NodePath("SlidyBoi4"), NodePath("SlidyBoi5"), NodePath("SlidyBoi6"), NodePath("SlidyBoi7"), NodePath("SlidyBoi8"), NodePath("Slime"), NodePath("Slime2"), NodePath("Slime3"), NodePath("Slime4"), NodePath("Slime5"), NodePath("Slime6"), NodePath("Slime7"), NodePath("Slime8"), NodePath("Slime9"), NodePath("Slime10"), NodePath("Slime11"), NodePath("WallSitters"), NodePath("WallSitters2"), NodePath("WallSitters3"), NodePath("Slime12"), NodePath("Slime13"), NodePath("Slime14"), NodePath("Slime15"), NodePath("Slime16"), NodePath("Slime17"), NodePath("Slime18"), NodePath("Slime19"), NodePath("Slime20"), NodePath("Slime21"), NodePath("Slime22"), NodePath("Slime23"), NodePath("Slime24"), NodePath("SlidyBoi9"), NodePath("SlidyBoi10"), NodePath("SlidyBoi11"), NodePath("SlidyBoi12"), NodePath("SlidyBoi13"), NodePath("Diver5"), NodePath("Diver6"), NodePath("Diver7"), NodePath("Diver8"), NodePath("Diver9"), NodePath("Diver10")]
+
+[node name="Blue1" type="Sprite2D" parent="." unique_id=490938604]
+position = Vector2(9564, -5161)
+scale = Vector2(1, 1.013)
+texture = ExtResource("2_8bakv")
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("8_x6fen")]
 position = Vector2(10109, -5272)

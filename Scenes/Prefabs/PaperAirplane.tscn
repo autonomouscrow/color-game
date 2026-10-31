@@ -1,9 +1,25 @@
 [gd_scene format=3 uid="uid://clgdbgwdxlmio"]
 
 [ext_resource type="Script" uid="uid://dm1fckrwju30f" path="res://Scripts/paper_airplane.gd" id="1_plane"]
+[ext_resource type="Texture2D" uid="uid://c75uqq7p7u4bf" path="res://PaperAirplaine.png" id="2_vwn3c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_plane"]
 size = Vector2(20, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hmxc"]
+atlas = ExtResource("2_vwn3c")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3acn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hmxc")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="PaperAirplane" type="Area2D" unique_id=1670774133]
 script = ExtResource("1_plane")
@@ -12,9 +28,16 @@ script = ExtResource("1_plane")
 shape = SubResource("RectangleShape2D_plane")
 
 [node name="Color" type="ColorRect" parent="." unique_id=19807216]
+visible = false
 offset_left = -10.0
 offset_top = -5.0
 offset_right = 10.0
 offset_bottom = 5.0
 mouse_filter = 2
 color = Color(0.95, 0.95, 0.9, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1195814099]
+position = Vector2(-1.0000001, 5)
+scale = Vector2(-2.36, 2.36)
+sprite_frames = SubResource("SpriteFrames_x3acn")
+autoplay = "default"

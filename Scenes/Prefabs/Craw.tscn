@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bvbkoiedl4jtg"]
 
 [ext_resource type="Script" uid="uid://du60s5p8qjtr1" path="res://Scripts/craw.gd" id="1_g60cy"]
+[ext_resource type="Texture2D" uid="uid://dhte5oqt32a4t" path="res://Craw.png" id="2_3oq41"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x3acn"]
 radius = 231.03462
@@ -9,10 +10,47 @@ radius = 231.03462
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t53hv"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvulv"]
+atlas = ExtResource("2_3oq41")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lu7nn"]
+atlas = ExtResource("2_3oq41")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfjt2"]
+atlas = ExtResource("2_3oq41")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gkcf6"]
+atlas = ExtResource("2_3oq41")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3acn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvulv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lu7nn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfjt2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gkcf6")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Craw" type="CharacterBody2D" unique_id=2060975062 groups=["enemy"]]
 script = ExtResource("1_g60cy")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=663994427]
+visible = false
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
@@ -32,12 +70,17 @@ one_shot = true
 [node name="Hitbox2" type="Area2D" parent="." unique_id=243738800]
 
 [node name="Hitbox" type="CollisionShape2D" parent="Hitbox2" unique_id=847005788]
-scale = Vector2(1.8411453, 1.8411453)
+scale = Vector2(4.0411463, 1.8411453)
 shape = SubResource("RectangleShape2D_x3acn")
 
 [node name="Body" type="CollisionShape2D" parent="." unique_id=401692203]
 scale = Vector2(1.6800008, 1.6800008)
 shape = SubResource("CircleShape2D_t53hv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1463601267]
+scale = Vector2(1.7398641, 1.7398641)
+sprite_frames = SubResource("SpriteFrames_x3acn")
+autoplay = "default"
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_body_exited"]

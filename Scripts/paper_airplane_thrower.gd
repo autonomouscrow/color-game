@@ -43,6 +43,11 @@ func _ready() -> void:
 	throw_timer.wait_time = throw_cooldown
 
 func _physics_process(delta: float) -> void:
+	if detected_player != null:
+		if detected_player.global_position.x > global_position.x:
+			$AnimatedSprite2D.flip_h = true
+		else:
+			$AnimatedSprite2D.flip_h = false
 	var seen_player: Node2D = detected_player if can_see(detected_player) else null
 	if seen_player != player:
 		player = seen_player
@@ -65,6 +70,7 @@ func _physics_process(delta: float) -> void:
 				side = 1.0
 			if in_too_close_area:
 				velocity.x = side * move_speed
+				$AnimatedSprite2D.flip_h = not $AnimatedSprite2D.flip_h
 			elif not in_throw_area:
 				velocity.x = -side * move_speed
 			else:
