@@ -1,7 +1,8 @@
 extends ChromaMove
 
 ## Fires count homing darts one after another, each starting straight at the player. They turn slowly toward the
-## player, steer away from walls ahead of them, and break on hitting one. Chroma first flies to the player's side,
+## player, steer away from platforms ahead of them, and break on hitting one or the arena's edge. Chroma first flies to
+## the player's side,
 ## distance_multiple times as far from them as he gets for the airbrush.
 
 @export var count := 4
@@ -25,6 +26,8 @@ extends ChromaMove
 ## Seconds before a dart that hasn't hit anything disappears
 @export var lifetime := 10.0
 @export var dart_color := Color(1, 0.3, 0.3)
+## Area centered on the arena's middle; darts disappear on reaching its edge
+@export var arena_size := Vector2(1920, 900)
 
 var fired := 0
 var timer := 0.0
@@ -77,6 +80,7 @@ func _fire(player: Node2D) -> void:
 	dart.turn_rate = turn_rate
 	dart.avoid_distance = avoid_distance
 	dart.target = player
+	dart.bounds = Rect2(boss.arena_middle() - arena_size / 2, arena_size)
 	dart.hurt_player.connect(boss.on_player_hurt)
 	dart.direction = boss.global_position.direction_to(boss.player_center(player)) if player else Vector2(boss.facing, 0)
 	boss.show_airbrush(dart.direction)

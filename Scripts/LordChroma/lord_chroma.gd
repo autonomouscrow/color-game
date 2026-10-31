@@ -5,13 +5,16 @@ extends enemy
 ## when the shared ult timer is up, otherwise a standard attack. REPOSITION: runs, jumps onto platforms and drops off
 ## them (or flies, in a flying color) until the move would hit, giving up after reposition_timeout. EXECUTE: runs it.
 ## Swapping color freezes Chroma in place, unhurtable, for swap_freeze_time, and he can't pick a move until
-## swap_attack_delay after the swap.
+## swap_attack_delay after the swap. Swapping into a color that doesn't fly while inside one of the new color's blocks
+## teleports him to the middle of the arena.
 ## In a teleporting color, while idle or moving into position, Chroma rolls every teleport_check_interval seconds to
 ## teleport to a random spot in another quarter of the fly area; the farther the player, the likelier it is.
 ## Chroma can't be hurt during an ult. If the player gets through an ult without being hit by any of Chroma's attacks,
 ## they gain the ult's dodge_mp and Chroma is STUNNED: he drops to the floor and stands frozen for ult_stun_time.
 ## Moves are the ChromaMove children of the Moves node; each one lists the colors it can be picked in.
 ## The player walks through Chroma, and touching him does no damage; only his moves hurt.
+## In a ceiling color, Chroma's gravity points up: he walks along the ceiling as if it were the floor, hopping down past
+## anything hanging lower that's in his way.
 
 ## Emitted whenever Chroma's color changes; the arena listens to this to swap its look
 signal color_changed(color: ChromaColor)
@@ -40,7 +43,7 @@ var current_state: State = State.IDLE
 ## Chroma swaps color after a random number of standard attacks between x and y; ults don't count
 @export var standard_attacks_per_color := Vector2i(3, 5)
 ## Colors Chroma can swap to; it never swaps to the color it already is
-@export_flags("White", "Red", "Blue", "Yellow", "Green") var swap_colors := 15
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var swap_colors := 31
 ## Seconds Chroma hangs frozen in place, and can't be hurt, after swapping color between moves
 @export var swap_freeze_time := 0.5
 ## Seconds after a color swap before Chroma can pick his next move
@@ -62,6 +65,12 @@ var current_state: State = State.IDLE
 @export var yellow_fly_speed := 150.0
 ## Size of the area Chroma's center flies around in, centered on arena_center
 @export var fly_area_size := Vector2(1700, 700)
+
+@export_group("Ceiling")
+## Colors where Chroma's gravity points up and he walks along the ceiling
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var ceiling_colors := 16
+## How far down from the ceiling Chroma hops when something hanging lower blocks his way along it
+@export var ceiling_hop_height := 260.0
 
 @export_group("Teleporting")
 ## Colors where Chroma can teleport to a random spot in one of the other three quarters of the fly area
@@ -165,6 +174,8 @@ var ult_hit := false
 var stun_left := 0.0
 ## True while a move holds Chroma still in the air, with no gravity, like the quarter blast
 var frozen := false
+## 1 or -1 while a move points Chroma's gravity down or up whatever his color, like the green wave dive; 0 otherwise
+var gravity_override := 0.0
 ## True while a move sets Chroma's velocity itself, like the blue dive and slide; gravity is skipped
 var move_velocity := false
 ## Half of Chroma's body size, read from its shape
@@ -311,6 +322,8 @@ func _physics_process(delta: float) -> void:
 				current_state = State.IDLE
 
 	_update_drop_through(delta)
+	# Along the ceiling, "down" is up, and the ceiling counts as his floor
+	up_direction = Vector2(0, -gravity_sign())
 	if frozen:
 		velocity = Vector2.ZERO
 		return
@@ -325,9 +338,10 @@ func _physics_process(delta: float) -> void:
 		if was_inside:
 			global_position = global_position.clamp(area.position, area.end)
 		return
-	if is_on_floor() and velocity.y > 0:
+	var down := gravity_sign()
+	if is_on_floor() and velocity.y * down > 0:
 		velocity.y = 0.0
-	velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
+	velocity.y = down * minf(velocity.y * down + gravity * delta, max_fall_speed)
 	move_and_slide()
 
 func _pick_move() -> void:
@@ -411,6 +425,7 @@ func _end_move() -> void:
 	current_move = null
 	frozen = false
 	move_velocity = false
+	gravity_override = 0.0
 	invulnerable = false
 	hide_airbrush()
 	velocity.x = 0.0
@@ -442,6 +457,8 @@ func stun() -> void:
 
 func swap_color(color: int) -> void:
 	current_color = color as ChromaColor
+	if not is_flying() and _inside_block():
+		teleport_to(arena_middle())
 	attacks_until_swap = randi_range(standard_attacks_per_color.x, standard_attacks_per_color.y)
 	swap_attack_left = swap_attack_delay
 	# Only between moves; a swap in the middle of one (the debug key) doesn't freeze him
@@ -449,6 +466,18 @@ func swap_color(color: int) -> void:
 		swap_freeze_left = swap_freeze_time
 		frozen = true
 		invulnerable = true
+
+## True if Chroma's body overlaps a visible, solid floor, platform or wall; just touching one doesn't count
+func _inside_block() -> bool:
+	_build_surfaces()
+	var body := Rect2(global_position - half_size, half_size * 2).grow(-2)
+	for s in surfaces:
+		if s.one_way:
+			continue
+		var rect := Rect2(s.rect_left, s.top, s.rect_right - s.rect_left, s.rect_bottom - s.top)
+		if body.intersects(rect):
+			return true
+	return false
 
 func _swap_to_random_color() -> void:
 	var options: Array[int] = []
@@ -459,6 +488,15 @@ func _swap_to_random_color() -> void:
 		attacks_until_swap = randi_range(standard_attacks_per_color.x, standard_attacks_per_color.y)
 		return
 	swap_color(options.pick_random())
+
+func on_ceiling() -> bool:
+	return ceiling_colors & (1 << current_color) != 0
+
+## 1 when gravity pulls Chroma down, -1 when it pulls him up onto the ceiling
+func gravity_sign() -> float:
+	if gravity_override != 0:
+		return gravity_override
+	return -1.0 if on_ceiling() else 1.0
 
 func is_flying() -> bool:
 	return flying_colors & (1 << current_color) != 0
@@ -679,6 +717,9 @@ func die() -> void:
 ## Moves Chroma one step toward standing with his center at goal: running, jumping up onto a platform, or dropping off
 ## one, planning the route across the level's floors and platforms again every frame
 func _navigate(goal: Vector2) -> void:
+	if on_ceiling():
+		_navigate_ceiling(goal)
+		return
 	if not is_on_floor():
 		if jump_target:
 			# Jumping up beside a platform: hold still until his feet clear its top, then steer onto it
@@ -722,6 +763,16 @@ func _navigate(goal: Vector2) -> void:
 		"off":
 			# x is past the edge, so running toward it takes Chroma off and he falls
 			velocity.x = _speed_toward(x, walk_speed)
+
+## Walks along the ceiling toward goal's x. Something hanging lower in the way stops him against its side, so he hops
+## down off the ceiling, keeps pushing toward it, and falls back up onto its underside once he's past its edge
+func _navigate_ceiling(goal: Vector2) -> void:
+	if not is_on_floor():
+		velocity.x = _speed_toward(goal.x, air_speed)
+		return
+	velocity.x = _speed_toward(goal.x, walk_speed)
+	if velocity.x != 0 and is_on_wall() and signf(get_wall_normal().x) == -signf(velocity.x):
+		velocity.y = sqrt(2.0 * gravity * ceiling_hop_height)
 
 func _speed_toward(x: float, speed: float) -> float:
 	var dx := x - global_position.x

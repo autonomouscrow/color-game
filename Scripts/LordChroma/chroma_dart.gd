@@ -2,7 +2,9 @@ class_name ChromaDart
 extends Area2D
 
 ## A dart shot by Lord Chroma. Flies straight, or turns toward target at up to turn_rate while steering away from walls
-## ahead of it. Hurts the player once and disappears; also disappears on hitting a wall, unless it passes through them.
+## ahead of it. Hurts the player once and disappears; also disappears on hitting a wall, unless it passes through them,
+## and on leaving bounds. Walls at or past the edge of bounds aren't steered around, so a homing dart flies into the
+## arena's edge and disappears rather than circling along it.
 
 ## Emitted when the dart takes health off a player; a hit that the player's i-frames ignore doesn't count
 signal hurt_player(body: Node2D)
@@ -83,7 +85,9 @@ func _clear_distance(dir: Vector2) -> float:
 			exclude.append(node.get_rid())
 	query.exclude = exclude
 	var hit := get_world_2d().direct_space_state.intersect_ray(query)
-	return avoid_distance if hit.is_empty() else global_position.distance_to(hit["position"])
+	if hit.is_empty() or (bounds.has_area() and not bounds.grow(-1).has_point(hit["position"])):
+		return avoid_distance
+	return global_position.distance_to(hit["position"])
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

@@ -330,6 +330,9 @@ var knockback: Vector2 = Vector2.ZERO
 var color_zones := []
 ## Seconds since Hue last spent MP; starts high so a zone hides Hue right away
 var time_since_mp_spent := INF
+## Multiplier on walking, gliding and post-dash running speed from hazards like Lord Chroma's slime; 1 is full speed
+var slow_factor := 1.0
+var slow_left := 0.0
 
 func _ready() -> void:
 	# Own copy of the shape so resizing it doesn't affect other Hue instances
@@ -343,6 +346,9 @@ func _physics_process(delta: float) -> void:
 		_debug_stats(delta)
 	queue_redraw()
 	time_since_mp_spent += delta
+	slow_left = maxf(slow_left - delta, 0.0)
+	if slow_left <= 0:
+		slow_factor = 1.0
 	color_rect.modulate.a = hidden_alpha if is_hidden() else 1.0
 	if exploded:
 		_try_revive()
@@ -733,17 +739,17 @@ func _update_walk(direction: float, dash_held: bool, delta: float) -> void:
 	if clinging:
 		velocity.x = 0
 	elif gliding:
-		velocity.x = direction * glide_speed
+		velocity.x = direction * glide_speed * slow_factor
 	elif dash_carrying:
-		velocity.x = dash_direction * dash_run_speed
+		velocity.x = dash_direction * dash_run_speed * slow_factor
 	elif speed_easing:
 		# Extra speed eases down to walking speed, or to a stop if no arrows are held
-		var target_speed := direction * speed
+		var target_speed := direction * speed * slow_factor
 		velocity.x = move_toward(velocity.x, target_speed, speed_ease_rate * delta)
 		if velocity.x == target_speed:
 			speed_easing = false
 	else:
-		velocity.x = direction * speed
+		velocity.x = direction * speed * slow_factor
 
 ## Grabs a wall while cling_color (Green) and airborne when an arrow toward it and a touch of it line up, within the buffer and coyote times;
 ## lets go on landing, leaving the wall, or pushing away
@@ -1254,6 +1260,11 @@ func SetKnockback(force: Vector2) -> void:
 	if in_crisis:
 		_end_crisis()
 	knockback = force
+
+## Slows Hue to factor of its usual speed for the next duration seconds; the strongest slow running wins
+func apply_slow(factor: float, duration: float) -> void:
+	slow_factor = factor if slow_left <= 0 else minf(slow_factor, factor)
+	slow_left = maxf(slow_left, duration)
 
 func GetDamaged(damage: int) -> void:
 	if _invincible():

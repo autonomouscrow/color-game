@@ -22,8 +22,9 @@ extends ChromaMove
 @export var knockback := Vector2(300, -300)
 ## Seconds before a dart disappears; long enough to cross the arena
 @export var lifetime := 12.0
-## Darts disappear on leaving this area, centered where Chroma fires from; the move ends once they're all gone
-@export var clear_area_size := Vector2(2000, 1200)
+## Darts disappear on reaching the edge of this area, centered on the arena's middle; the move ends once they're all
+## gone
+@export var clear_area_size := Vector2(1920, 900)
 ## Seconds Chroma stays frozen after the last wave fires, before his next move
 @export var recover_time := 0.6
 @export var dart_color := Color(1, 0.3, 0.3)
@@ -84,7 +85,7 @@ func _release() -> void:
 		dart.color = dart_color
 		dart.lifetime = lifetime
 		dart.pass_through_walls = true
-		dart.bounds = Rect2(boss.global_position - clear_area_size / 2, clear_area_size)
+		dart.bounds = Rect2(boss.arena_middle() - clear_area_size / 2, clear_area_size)
 		dart.hurt_player.connect(boss.on_player_hurt)
 		darts.append(dart)
 		boss.get_parent().add_child(dart)

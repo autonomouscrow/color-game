@@ -14,10 +14,10 @@ extends ChromaMove
 ## Seconds between the last warning going away and the first blast
 @export var pause_time := 2.0
 ## Fans in each of the first uses of this move, in order
-@export var blast_counts: Array[int] = [8, 4, 6, 8]
+@export var blast_counts: Array[int] = [2, 4, 6]
 ## Fans in each later use: a random count from min_blasts to max_blasts
-@export_range(1, 8) var min_blasts := 4
-@export_range(1, 8) var max_blasts := 8
+@export_range(1, 8) var min_blasts := 6
+@export_range(1, 8) var max_blasts := 6
 ## Seconds each blast's hitbox stays out; the next blast starts when it ends
 @export var blast_time := 1.5
 ## Seconds Chroma stands still after the last blast before its next move

@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_oad2v"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_boundry"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="5_canvas"]
+[ext_resource type="Script" uid="uid://befvtvrll4a6p" path="res://Scripts/LordChroma/chroma_pillars.gd" id="6_pillars"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_10"]
 size = Vector2(1920, 60)
@@ -22,6 +23,10 @@ size = Vector2(2040, 60)
 [node name="ChromaArena" type="Node2D" unique_id=118053342 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_room")
 EnemyObjects = [NodePath("LordChroma")]
+
+[node name="RoomBoundry" parent="." unique_id=2073751978 instance=ExtResource("4_boundry")]
+position = Vector2(960, 480)
+scale = Vector2(96, 48)
 
 [node name="Variants" type="Node2D" parent="." unique_id=11313029 node_paths=PackedStringArray("boss")]
 script = ExtResource("2_arena")
@@ -149,6 +154,9 @@ offset_bottom = 900.0
 mouse_filter = 2
 color = Color(0.2, 0.8, 0.25, 0.12)
 
+[node name="Pillars" type="Node2D" parent="Variants/Green" unique_id=166367444]
+script = ExtResource("6_pillars")
+
 [node name="Floor" type="StaticBody2D" parent="." unique_id=2061882646]
 position = Vector2(960, 930)
 
@@ -205,10 +213,6 @@ offset_bottom = 30.0
 mouse_filter = 2
 color = Color(0.15, 0.15, 0.15, 1)
 
-[node name="RoomBoundry" parent="." unique_id=2073751978 instance=ExtResource("4_boundry")]
-position = Vector2(960, 480)
-scale = Vector2(96, 48)
-
 [node name="LeftDoor" type="Marker2D" parent="." unique_id=529497060]
 position = Vector2(150, 860)
 
@@ -220,6 +224,4 @@ position = Vector2(960, 450)
 
 [node name="LordChroma" parent="." unique_id=312795924 node_paths=PackedStringArray("arena_center") instance=ExtResource("3_chroma")]
 position = Vector2(1500, 804)
-current_color = 2
-swap_colors = 4
 arena_center = NodePath("../ArenaCenter")

@@ -10,6 +10,10 @@
 [ext_resource type="Script" path="res://Scripts/LordChroma/chroma_dash.gd" id="8_dash"]
 [ext_resource type="Script" path="res://Scripts/LordChroma/chroma_clone_pierce.gd" id="9_pierce"]
 [ext_resource type="Script" path="res://Scripts/LordChroma/chroma_depth_charge.gd" id="10_depth"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_slime_shots.gd" id="11_slime"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_earth_wave.gd" id="12_earth"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_wave_dive.gd" id="13_wavedive"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_omnicrush.gd" id="14_omnicrush"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(80, 160)
@@ -43,11 +47,13 @@ color = Color(0.25, 0.25, 0.25, 1)
 
 [node name="Airbrush" type="Node" parent="Moves" unique_id=1042139539]
 script = ExtResource("2_airbrush")
+colors = 15
 fixed_chance_colors = 30
 cooldown = 2.0
 
 [node name="QuarterBlast" type="Node" parent="Moves" unique_id=1741958643]
 script = ExtResource("3_blast")
+colors = 15
 ult = true
 dodge_mp = 4
 
@@ -85,3 +91,24 @@ script = ExtResource("10_depth")
 colors = 4
 ult = true
 dodge_mp = 5
+
+[node name="SlimeShots" type="Node" parent="Moves"]
+script = ExtResource("11_slime")
+colors = 16
+cooldown = 2.0
+
+[node name="EarthWave" type="Node" parent="Moves"]
+script = ExtResource("12_earth")
+colors = 16
+cooldown = 4.0
+
+[node name="WaveDive" type="Node" parent="Moves"]
+script = ExtResource("13_wavedive")
+colors = 16
+cooldown = 3.0
+
+[node name="Omnicrush" type="Node" parent="Moves"]
+script = ExtResource("14_omnicrush")
+colors = 16
+ult = true
+dodge_mp = 6
