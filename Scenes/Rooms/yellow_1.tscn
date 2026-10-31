@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="5_ndrtu"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Dasher.tscn" id="6_411p2"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="8_xq887"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="9_riagq"]
 
 [node name="yellow1" type="Node2D" unique_id=529611210 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_pevpe")
@@ -377,3 +378,6 @@ position = Vector2(1240, -8360)
 
 [node name="Canvas2" parent="." unique_id=1168452420 instance=ExtResource("8_xq887")]
 position = Vector2(8126, -11827)
+
+[node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("9_riagq")]
+position = Vector2(597, -11850)

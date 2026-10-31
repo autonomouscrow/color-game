@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://Scenes/Prefabs/wall_sitters.tscn" id="6_qhm1r"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="7_gok3t"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="8_1haui"]
+[ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://color_crystal.tscn" id="9_1haui"]
 
 [node name="Green2" type="Node2D" unique_id=1525656117 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_gey60")
@@ -274,7 +275,7 @@ rotation = 3.1415927
 scale = Vector2(1.4836735, -15.909128)
 
 [node name="OutM1" parent="." unique_id=1702948120 instance=ExtResource("3_mupk5")]
-position = Vector2(10771, 650)
+position = Vector2(10768, 792.00006)
 scale = Vector2(34.64002, 1.2399969)
 target_room_id = "Green1"
 target_door_id = "InR1"
@@ -304,3 +305,7 @@ scale = Vector2(24.345991, -3.8599105)
 [node name="Box37" parent="." unique_id=1716904531 instance=ExtResource("4_niq6w")]
 position = Vector2(4981, -510)
 scale = Vector2(41.26023, 38.53505)
+
+[node name="ColorCrystal" parent="." unique_id=1691775424 instance=ExtResource("9_1haui")]
+position = Vector2(10755, 604)
+color = 4

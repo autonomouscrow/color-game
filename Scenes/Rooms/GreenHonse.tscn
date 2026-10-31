@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_dq0vl"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="4_gop86"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_slyfa"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="5_u5oj7"]
 
 [node name="GreenHonse" type="Node2D" unique_id=2046928556 groups=["Room"]]
 script = ExtResource("1_slyfa")
@@ -33,3 +34,6 @@ scale = Vector2(63.372536, 1.477747)
 [node name="Box2" parent="." unique_id=2113618482 instance=ExtResource("4_gop86")]
 position = Vector2(12926, -97)
 scale = Vector2(1.4739314, 34.994972)
+
+[node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("5_u5oj7")]
+position = Vector2(12278, 223)

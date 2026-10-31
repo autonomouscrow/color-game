@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://wgfe6wtvypdf"]
+
+[ext_resource type="Script" uid="uid://bw4xqiw13rvl" path="res://color_crystal.gd" id="1_mc5bv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x3acn"]
+
+[node name="ColorCrystal" type="Node2D" unique_id=1691775424]
+script = ExtResource("1_mc5bv")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=922206711]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1485135161]
+scale = Vector2(7.4799995, 7.4799995)
+shape = SubResource("CircleShape2D_x3acn")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=983824293]
+offset_left = -20.0
+offset_top = -19.0
+offset_right = 20.0
+offset_bottom = 21.0
+color = Color(1, 0, 1, 1)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

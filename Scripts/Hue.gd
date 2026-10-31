@@ -5,6 +5,8 @@ enum HueColor { WHITE, RED, BLUE, YELLOW, GREEN }
 const BURST_SHOCKWAVE_SCRIPT := preload("res://Scripts/BurstShockwave.gd")
 const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow", "color_green"]  ## Input action for each color, in HueColor order
 
+@export var CanColor: Array = [ true, false, false, false, false ]
+
 @export_group("Walk")
 @export var speed := 300.0
 
@@ -195,7 +197,7 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var health := 100.0:
 	set(value):
 		health = clampf(value, 0.0, max_health)
-@export var max_mp := 80:
+@export var max_mp := 6:
 	set(value):
 		max_mp = maxi(value, 0)
 		mp = mini(mp, max_mp)
@@ -1196,8 +1198,9 @@ func _can_stand() -> bool:
 func _update_color_swap(delta: float) -> void:
 	for i in COLOR_ACTIONS.size():
 		if Input.is_action_just_pressed(COLOR_ACTIONS[i]):
-			buffered_color = i as HueColor
-			color_buffer_timer = color_buffer_time
+			if CanColor[i]:
+				buffered_color = i as HueColor
+				color_buffer_timer = color_buffer_time
 	if color_buffer_timer <= 0:
 		return
 	color_buffer_timer -= delta
@@ -1298,3 +1301,9 @@ func die() -> void:
 	health = 100
 	mp = 0
 	respawning = false
+
+func unlockColor(o: int) -> void:
+	CanColor[o] = true
+
+func moreCrystal(o: int) -> void:
+	max_mp += o

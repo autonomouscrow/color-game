@@ -145,4 +145,4 @@ target_room_id = "Start"
 target_door_id = "InU"
 
 [node name="InU" type="Marker2D" parent="." unique_id=1013967555]
-position = Vector2(487, -1778)
+position = Vector2(564, -7936)

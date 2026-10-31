@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://btcp03ywrwyyn"]
+
+[ext_resource type="Script" uid="uid://c051u6kibx0ma" path="res://ancestors.gd" id="1_m8clt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x3acn"]
+radius = 64.0
+
+[node name="ancestors" type="Node2D" unique_id=1961041996]
+script = ExtResource("1_m8clt")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=38215048]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(0, 1, 0.63529414, 1)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=850234627]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=471397108]
+shape = SubResource("CircleShape2D_x3acn")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

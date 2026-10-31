@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="10_dlvn0"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="10_rudwg"]
 [ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://Scenes/Prefabs/wall_sitters.tscn" id="11_jpjf8"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="12_pli0g"]
 
 [node name="Blue1" type="Node2D" unique_id=1167361679 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_6x4te")
@@ -416,3 +417,6 @@ position = Vector2(9795, -6434)
 [node name="Box45" parent="." unique_id=710656399 instance=ExtResource("10_rudwg")]
 position = Vector2(8695, -7724)
 scale = Vector2(15.12002, 1)
+
+[node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("12_pli0g")]
+position = Vector2(11203, -3946)

@@ -11,7 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="12_3vkun"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="12_bei0t"]
 [ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://Scenes/Prefabs/wall_sitters.tscn" id="12_gogsg"]
+[ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://color_crystal.tscn" id="13_bei0t"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="13_pf7uk"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="14_pf7uk"]
 
 [node name="Blue2" type="Node2D" unique_id=458252390 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_m3txl")
@@ -628,3 +630,19 @@ target_door_id = "InD"
 
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("12_3vkun")]
 position = Vector2(9015, -7970)
+
+[node name="ColorCrystal" parent="." unique_id=1691775424 instance=ExtResource("13_bei0t")]
+position = Vector2(8442, -10569)
+color = 2
+
+[node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("14_pf7uk")]
+position = Vector2(6277, -8937)
+
+[node name="ancestors2" parent="." unique_id=1076020955 instance=ExtResource("14_pf7uk")]
+position = Vector2(8755, -9521)
+
+[node name="ancestors3" parent="." unique_id=860406649 instance=ExtResource("14_pf7uk")]
+position = Vector2(9153, -10418)
+
+[node name="ancestors4" parent="." unique_id=515844414 instance=ExtResource("14_pf7uk")]
+position = Vector2(9617, -11140)

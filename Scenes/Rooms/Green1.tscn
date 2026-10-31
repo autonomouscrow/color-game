@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="5_qautl"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="6_wgraa"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="7_sawut"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="8_sawut"]
 
 [node name="Green1" type="Node2D" unique_id=1491857186 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_7vu7n")
@@ -137,10 +138,5 @@ scale = Vector2(10.600005, 1)
 position = Vector2(4565, -306)
 scale = Vector2(1, 18.960003)
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=224559308]
-offset_left = 3981.0
-offset_top = -227.0
-offset_right = 4021.0
-offset_bottom = -187.0
-scale = Vector2(3.053636, 3.048267)
-color = Color(0.4509804, 0, 1, 1)
+[node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("8_sawut")]
+position = Vector2(4034, -132)

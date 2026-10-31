@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="4_ig2bl"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_ickob"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="6_ig2bl"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="7_4ba2h"]
 
 [node name="Gauntlet" type="Node2D" unique_id=1701499376 groups=["Room"]]
 script = ExtResource("1_m0dvp")
@@ -388,13 +389,6 @@ scale = Vector2(0.11848344, 4.64762)
 position = Vector2(143.24646, -1303.3334)
 scale = Vector2(2.4691947, 0.23809524)
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1004287865]
-offset_left = 963.0
-offset_top = -16544.0
-offset_right = 1003.0
-offset_bottom = -16504.0
-color = Color(0.5921569, 0, 1, 1)
-
 [node name="Canvas" parent="." unique_id=518473249 instance=ExtResource("6_ig2bl")]
 position = Vector2(1232, -17537)
 
@@ -404,3 +398,6 @@ scale = Vector2(1, 13.44002)
 
 [node name="InU" type="Marker2D" parent="." unique_id=980151846]
 position = Vector2(1359.3478, -20360.625)
+
+[node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("7_4ba2h")]
+position = Vector2(984, -16525)
