@@ -5,9 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="2_qn1rc"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="3_1n0d2"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_y5hus"]
+[ext_resource type="PackedScene" uid="uid://dlaq8kmhddk8v" path="res://text.tscn" id="6_p74js"]
+[ext_resource type="PackedScene" uid="uid://c5i7skmtn3i2o" path="res://Scenes/Prefabs/breakable_wall.tscn" id="7_h331w"]
 
-[node name="Start" type="Node2D" unique_id=118567636 groups=["Room"]]
+[node name="Start" type="Node2D" unique_id=118567636 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_oiuna")
+EnemyObjects = [NodePath("Breakable Wall"), NodePath("Breakable Wall2"), NodePath("Breakable Wall3"), NodePath("Breakable Wall4")]
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_y5hus")]
 visible = false
@@ -24,7 +27,7 @@ target_door_id = "InL"
 position = Vector2(1254, 456.16577)
 
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("3_1n0d2")]
-position = Vector2(659, 596)
+position = Vector2(-2465, 554)
 hide = true
 
 [node name="InU" type="Marker2D" parent="." unique_id=273608030]
@@ -71,3 +74,55 @@ scale = Vector2(1, 20.200003)
 [node name="Box11" parent="platforms" unique_id=1530195320 instance=ExtResource("2_qn1rc")]
 position = Vector2(-841.99994, 165)
 scale = Vector2(219.40001, 1)
+
+[node name="Jump" parent="." unique_id=252815897 instance=ExtResource("6_p74js")]
+position = Vector2(-2666, 536)
+write = "[A] to Jump"
+
+[node name="text" parent="." unique_id=1916310028 instance=ExtResource("6_p74js")]
+position = Vector2(-2911, 488)
+write = "[<] & [>] to Move"
+
+[node name="Breakable Wall" parent="." unique_id=485390736 instance=ExtResource("7_h331w")]
+position = Vector2(-1747, 171)
+scale = Vector2(1, 11.32)
+
+[node name="text2" parent="." unique_id=569120063 instance=ExtResource("6_p74js")]
+position = Vector2(-1904, 482)
+write = "[s] to Attack"
+
+[node name="Breakable Wall2" parent="." unique_id=178901199 instance=ExtResource("7_h331w")]
+position = Vector2(-1084, 177)
+
+[node name="Breakable Wall3" parent="." unique_id=2145108683 instance=ExtResource("7_h331w")]
+position = Vector2(-724, 177)
+
+[node name="Breakable Wall4" parent="." unique_id=652510560 instance=ExtResource("7_h331w")]
+position = Vector2(-1447, 176)
+
+[node name="text3" parent="." unique_id=1673803842 instance=ExtResource("6_p74js")]
+position = Vector2(-1162, 489)
+write = "Hold [Arrow] & Press [D] to shoot (Cost 1 Crystal))"
+
+[node name="text4" parent="." unique_id=827234758 instance=ExtResource("6_p74js")]
+position = Vector2(-321, 498)
+write = "Regain Crystals by killing enemies or by {Mental Health Crisis}"
+
+[node name="text5" parent="." unique_id=1064225017 instance=ExtResource("6_p74js")]
+position = Vector2(17, 496)
+write = "Hold [Z] to {Mental Health Crisis} (not for too long)"
+
+[node name="text6" parent="." unique_id=1577913814 instance=ExtResource("6_p74js")]
+position = Vector2(325, 530)
+write = "Hold [X] to Heal (Cost 5 Crystal)"
+
+[node name="text7" parent="." unique_id=2011565535 instance=ExtResource("6_p74js")]
+position = Vector2(917, 514)
+write = "Good Luck"
+
+[node name="text8" parent="." unique_id=1349026880 instance=ExtResource("6_p74js")]
+position = Vector2(621, 516)
+write = "Press [Space] to Interact"
+
+[node name="Canvas2" parent="." unique_id=228737956 instance=ExtResource("3_1n0d2")]
+position = Vector2(623, 606)

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dlaq8kmhddk8v"]
+
+[ext_resource type="Script" uid="uid://bl0rvjul4ibb6" path="res://text.gd" id="1_aohfb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t53hv"]
+
+[node name="text" type="Node2D" unique_id=252815897]
+script = ExtResource("1_aohfb")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1990131929]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1551017926]
+scale = Vector2(14.5199995, 8.988572)
+shape = SubResource("CircleShape2D_t53hv")
+
+[node name="Label" type="Label" parent="." unique_id=827397242]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

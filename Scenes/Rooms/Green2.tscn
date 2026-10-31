@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="7_gok3t"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="8_1haui"]
 [ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://color_crystal.tscn" id="9_1haui"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="10_dxi85"]
 
 [node name="Green2" type="Node2D" unique_id=1525656117 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_gey60")
@@ -309,3 +310,6 @@ scale = Vector2(41.26023, 38.53505)
 [node name="ColorCrystal" parent="." unique_id=1691775424 instance=ExtResource("9_1haui")]
 position = Vector2(10755, 604)
 color = 4
+
+[node name="ColorZone" parent="." unique_id=1746566238 instance=ExtResource("10_dxi85")]
+position = Vector2(7057, -27)

@@ -8,14 +8,16 @@
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="6_wgraa"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="7_sawut"]
 [ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="8_sawut"]
+[ext_resource type="PackedScene" uid="uid://dlaq8kmhddk8v" path="res://text.tscn" id="9_y22up"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="10_ig6al"]
 
 [node name="Green1" type="Node2D" unique_id=1491857186 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_7vu7n")
 EnemyObjects = [NodePath("Slime"), NodePath("Node2D/Slime"), NodePath("Node2D/Slime2"), NodePath("Node2D/Slime3")]
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("5_qautl")]
-position = Vector2(3066, -147)
-scale = Vector2(165.77728, 80.82508)
+position = Vector2(3050, -147)
+scale = Vector2(162.89728, 80.82508)
 
 [node name="OutL" parent="." unique_id=199470789 instance=ExtResource("2_2gly8")]
 position = Vector2(1369, -159)
@@ -116,15 +118,6 @@ scale = Vector2(39.479992, 7.9199996)
 position = Vector2(2223, 381)
 scale = Vector2(61.358383, -1.948254)
 
-[node name="OutR2" parent="." unique_id=792090010 instance=ExtResource("2_2gly8")]
-position = Vector2(4687, -647)
-scale = Vector2(1, 15.039998)
-target_room_id = "GreenS1"
-target_door_id = "InL1"
-
-[node name="InR2" type="Marker2D" parent="." unique_id=2141342410]
-position = Vector2(4645, -544)
-
 [node name="Box3" parent="." unique_id=437018317 instance=ExtResource("3_qautl")]
 position = Vector2(4710, -664)
 rotation = 3.1415927
@@ -140,3 +133,38 @@ scale = Vector2(1, 18.960003)
 
 [node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("8_sawut")]
 position = Vector2(4034, -132)
+
+[node name="text" parent="ancestors" unique_id=252815897 instance=ExtResource("9_y22up")]
+position = Vector2(-168, 13)
+write = "Help Me"
+
+[node name="Box" parent="ancestors" unique_id=746072735 instance=ExtResource("3_qautl")]
+position = Vector2(-345, 344)
+scale = Vector2(13.19999, 5.359999)
+
+[node name="text" parent="." unique_id=462300394 instance=ExtResource("9_y22up")]
+position = Vector2(1628, 321)
+write = "Help, please find my 12 missing Ancestors before my Mom finds out they are missing!"
+
+[node name="text2" parent="." unique_id=712692231 instance=ExtResource("9_y22up")]
+position = Vector2(1919, 319)
+write = "I promise they will help you on your journy"
+
+[node name="ColorZone" parent="." unique_id=1294043327 instance=ExtResource("10_ig6al")]
+position = Vector2(2534, -9)
+
+[node name="text3" parent="." unique_id=1207018984 instance=ExtResource("9_y22up")]
+position = Vector2(2408, -98)
+write = "Hide from enemies in Color zones"
+
+[node name="Box6" parent="." unique_id=961051331 instance=ExtResource("3_qautl")]
+position = Vector2(1273, -646)
+scale = Vector2(1, 84.76)
+
+[node name="Box7" parent="." unique_id=2118287978 instance=ExtResource("3_qautl")]
+position = Vector2(2989, -865)
+scale = Vector2(227.76, 1)
+
+[node name="text4" parent="." unique_id=2140543235 instance=ExtResource("9_y22up")]
+position = Vector2(2407, -39)
+write = "You must be the same color to hide"

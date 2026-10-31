@@ -420,3 +420,19 @@ scale = Vector2(15.12002, 1)
 
 [node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("12_pli0g")]
 position = Vector2(11203, -3946)
+
+[node name="ColorZone2" parent="." unique_id=2139348645 instance=ExtResource("9_ovws3")]
+position = Vector2(10950, -3058)
+zone_color = 4
+
+[node name="ColorZone3" parent="." unique_id=2070765016 instance=ExtResource("9_ovws3")]
+position = Vector2(9032, -4510)
+
+[node name="ColorZone4" parent="." unique_id=1008862160 instance=ExtResource("9_ovws3")]
+position = Vector2(11221, -4631)
+
+[node name="ColorZone5" parent="." unique_id=716837285 instance=ExtResource("9_ovws3")]
+position = Vector2(9206, -5827)
+
+[node name="ColorZone6" parent="." unique_id=750771619 instance=ExtResource("9_ovws3")]
+position = Vector2(11021, -5832)

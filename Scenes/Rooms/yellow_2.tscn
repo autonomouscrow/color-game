@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="7_2d22j"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="8_2d22j"]
 [ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://color_crystal.tscn" id="9_3w672"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="10_mpbch"]
 
 [node name="Yellow2" type="Node2D" unique_id=719130131 groups=["Room"]]
 script = ExtResource("1_lbndr")
@@ -155,3 +156,9 @@ position = Vector2(5583, -14025)
 [node name="ColorCrystal" parent="." unique_id=1691775424 instance=ExtResource("9_3w672")]
 position = Vector2(5071, -14520)
 color = 3
+
+[node name="ColorZone" parent="." unique_id=200570987 instance=ExtResource("10_mpbch")]
+position = Vector2(3487, -14775)
+
+[node name="ColorZone2" parent="." unique_id=1090436383 instance=ExtResource("10_mpbch")]
+position = Vector2(1972, -14974)

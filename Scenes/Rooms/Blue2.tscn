@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://color_crystal.tscn" id="13_bei0t"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="13_pf7uk"]
 [ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="14_pf7uk"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="15_ibn1c"]
 
 [node name="Blue2" type="Node2D" unique_id=458252390 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_m3txl")
@@ -646,3 +647,16 @@ position = Vector2(9153, -10418)
 
 [node name="ancestors4" parent="." unique_id=515844414 instance=ExtResource("14_pf7uk")]
 position = Vector2(9617, -11140)
+
+[node name="ColorZone" parent="." unique_id=1286886070 instance=ExtResource("15_ibn1c")]
+position = Vector2(8319, -8327)
+
+[node name="ColorZone2" parent="." unique_id=1590932847 instance=ExtResource("15_ibn1c")]
+position = Vector2(8575, -8327)
+
+[node name="ColorZone3" parent="." unique_id=106321730 instance=ExtResource("15_ibn1c")]
+position = Vector2(8731, -9556)
+zone_color = 2
+
+[node name="ColorZone4" parent="." unique_id=1124837558 instance=ExtResource("15_ibn1c")]
+position = Vector2(7880, -9205)

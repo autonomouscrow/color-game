@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Dasher.tscn" id="6_411p2"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="8_xq887"]
 [ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="9_riagq"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="10_o0go0"]
 
 [node name="yellow1" type="Node2D" unique_id=529611210 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_pevpe")
@@ -381,3 +382,23 @@ position = Vector2(8126, -11827)
 
 [node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("9_riagq")]
 position = Vector2(597, -11850)
+
+[node name="ColorZone" parent="." unique_id=1219498093 instance=ExtResource("10_o0go0")]
+position = Vector2(7731, -11822)
+zone_color = 2
+
+[node name="ColorZone2" parent="." unique_id=2041657905 instance=ExtResource("10_o0go0")]
+position = Vector2(1230, -8381)
+zone_color = 1
+
+[node name="ColorZone3" parent="." unique_id=1656366370 instance=ExtResource("10_o0go0")]
+position = Vector2(1217, -11491)
+
+[node name="ColorZone4" parent="." unique_id=1041365987 instance=ExtResource("10_o0go0")]
+position = Vector2(1969, -11618)
+
+[node name="ColorZone5" parent="." unique_id=1652429529 instance=ExtResource("10_o0go0")]
+position = Vector2(5709, -12438)
+
+[node name="ColorZone6" parent="." unique_id=1436693893 instance=ExtResource("10_o0go0")]
+position = Vector2(4302, -12588)
