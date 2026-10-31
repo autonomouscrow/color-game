@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c3esrxtwcjlfa"]
 
 [ext_resource type="Script" uid="uid://b0kbuh0f3b0ff" path="res://Scripts/wall_sitters.gd" id="1_i0tgi"]
+[ext_resource type="Texture2D" uid="uid://bg7l1ynaq3mgj" path="res://wallJumper.png" id="2_ca1wb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tkjrr"]
 radius = 226.73553
@@ -14,6 +15,40 @@ size = Vector2(40, 40)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 size = Vector2(35, 44)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqkda"]
+atlas = ExtResource("2_ca1wb")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f53if"]
+atlas = ExtResource("2_ca1wb")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjr43"]
+atlas = ExtResource("2_ca1wb")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3acn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqkda")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f53if")
+}],
+"loop": 1,
+"name": &"Run",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjr43")
+}],
+"loop": 1,
+"name": &"Sit",
+"speed": 5.0
+}]
+
 [node name="WallSitters" type="CharacterBody2D" unique_id=1350810646]
 script = ExtResource("1_i0tgi")
 
@@ -24,6 +59,7 @@ position = Vector2(20, 20)
 shape = SubResource("CircleShape2D_tkjrr")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=808330228]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 color = Color(0, 1, 0, 1)
@@ -43,6 +79,13 @@ shape = SubResource("RectangleShape2D_i0tgi")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head" unique_id=868769140]
 position = Vector2(19.5, 20)
 shape = SubResource("RectangleShape2D_x3acn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=854507506]
+position = Vector2(25, 18.999998)
+scale = Vector2(4.5200005, 4.5200005)
+sprite_frames = SubResource("SpriteFrames_x3acn")
+animation = &"Run"
+autoplay = "Run"
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_entered" from="Hitbox2" to="." method="_on_hitbox_2_body_entered"]

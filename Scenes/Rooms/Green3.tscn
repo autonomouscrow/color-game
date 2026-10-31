@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://u53ev8iw1am2"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_m87rl"]
+[ext_resource type="Texture2D" uid="uid://dcnmh4k4hwpi3" path="res://green3.png" id="2_07n74"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_5ggvd"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="4_ho2ax"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_jfnis"]
@@ -12,7 +13,13 @@
 script = ExtResource("1_m87rl")
 EnemyObjects = [NodePath("Slime"), NodePath("Slime2"), NodePath("Slime3"), NodePath("Slime4"), NodePath("Slime5"), NodePath("Slime8"), NodePath("Slime9"), NodePath("Slime10"), NodePath("Slime6"), NodePath("Slime7")]
 
+[node name="Green3" type="Sprite2D" parent="." unique_id=1394277146]
+position = Vector2(8450, -2001.0001)
+scale = Vector2(1.058, 1.08)
+texture = ExtResource("2_07n74")
+
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_jfnis")]
+visible = false
 position = Vector2(8200, -1966.9999)
 scale = Vector2(337.57724, 80.82508)
 
@@ -71,7 +78,7 @@ position = Vector2(6109, -1807)
 scale = Vector2(-1.4520297, 16.2174)
 
 [node name="Box12" parent="." unique_id=1114000465 instance=ExtResource("4_ho2ax")]
-position = Vector2(5660, -1617)
+position = Vector2(5660, -1605)
 scale = Vector2(20.81142, 1.8158499)
 
 [node name="Box13" parent="." unique_id=1457766983 instance=ExtResource("4_ho2ax")]
@@ -79,19 +86,24 @@ position = Vector2(5405, -1935)
 scale = Vector2(1.251386, 18.73171)
 
 [node name="Box14" parent="." unique_id=1666613572 instance=ExtResource("4_ho2ax")]
-position = Vector2(5584, -2080)
+position = Vector2(5587, -2079.9998)
+scale = Vector2(1.4000391, 1.4000391)
 
 [node name="Box15" parent="." unique_id=1130613737 instance=ExtResource("4_ho2ax")]
-position = Vector2(5739, -2218)
+position = Vector2(5744, -2219)
+scale = Vector2(1.4800196, 1.4800196)
 
 [node name="Box17" parent="." unique_id=1375183836 instance=ExtResource("4_ho2ax")]
-position = Vector2(5722, -2387)
+position = Vector2(5725, -2390)
+scale = Vector2(1.4800391, 1.4800391)
 
 [node name="Box19" parent="." unique_id=1266000459 instance=ExtResource("4_ho2ax")]
-position = Vector2(5508, -2515)
+position = Vector2(5510, -2524)
+scale = Vector2(1.44, 1.44)
 
 [node name="Box22" parent="." unique_id=1192174256 instance=ExtResource("4_ho2ax")]
-position = Vector2(5439, -2644)
+position = Vector2(5439, -2652)
+scale = Vector2(1.64, 1)
 
 [node name="DamageBlock" parent="." unique_id=2136408807 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_ho2ax")]
 position = Vector2(5264, -1511)
@@ -158,8 +170,8 @@ safeZone = NodePath("../DamageTP3")
 position = Vector2(8885, -1552)
 
 [node name="Box20" parent="." unique_id=1284322925 instance=ExtResource("4_ho2ax")]
-position = Vector2(9213, -1653)
-scale = Vector2(16.59999, 1)
+position = Vector2(9213, -1643.9999)
+scale = Vector2(16.59999, 1.2242707)
 
 [node name="Box21" parent="." unique_id=1710281424 instance=ExtResource("4_ho2ax")]
 position = Vector2(9654, -2021.0001)
@@ -186,13 +198,13 @@ safeZone = NodePath("../DamageTP4")
 position = Vector2(11097, -2169)
 
 [node name="Slime" parent="." unique_id=316356887 instance=ExtResource("7_dq8n7")]
-position = Vector2(9096, -1687)
+position = Vector2(9096, -1675)
 
 [node name="Slime2" parent="." unique_id=1371205136 instance=ExtResource("7_dq8n7")]
-position = Vector2(9320, -1622)
+position = Vector2(9320, -1611)
 
 [node name="Slime3" parent="." unique_id=1709136327 instance=ExtResource("7_dq8n7")]
-position = Vector2(9282, -1687)
+position = Vector2(9282, -1674)
 
 [node name="Slime4" parent="." unique_id=914148433 instance=ExtResource("7_dq8n7")]
 position = Vector2(9696, -1850)

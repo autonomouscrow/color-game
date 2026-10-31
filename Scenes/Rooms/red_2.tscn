@@ -14,12 +14,14 @@
 [ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://color_crystal.tscn" id="12_rmh61"]
 [ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="13_iyu5w"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="14_3mawc"]
+[ext_resource type="Texture2D" uid="uid://xd7vfkcooch0" path="res://Hue_White_Spritesheet.png" id="15_j2m38"]
 
 [node name="Red2" type="Node2D" unique_id=493293217 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_2vpxa")
 EnemyObjects = [NodePath("enemies/PaperAirplaneThrower"), NodePath("enemies/PaperAirplaneThrower2"), NodePath("enemies/Craw"), NodePath("enemies/Craw2"), NodePath("enemies/Craw3"), NodePath("enemies/Craw4"), NodePath("enemies/Slime"), NodePath("enemies/Slime2"), NodePath("enemies/Slime3"), NodePath("enemies/Slime4"), NodePath("enemies/Slime5"), NodePath("enemies/Slime6"), NodePath("enemies/Breakable Wall2"), NodePath("enemies/Breakable Wall"), NodePath("enemies/Slime7"), NodePath("enemies/Slime8"), NodePath("enemies/Slime9"), NodePath("enemies/Slime10"), NodePath("enemies/Slime11"), NodePath("enemies/Slime12"), NodePath("enemies/Slime13"), NodePath("enemies/Slime14"), NodePath("enemies/Slime15"), NodePath("enemies/Slime16"), NodePath("enemies/Slime17"), NodePath("enemies/Slime18"), NodePath("enemies/Slime19"), NodePath("enemies/Slime20"), NodePath("enemies/Slime21"), NodePath("enemies/Slime22"), NodePath("enemies/WallSitters"), NodePath("enemies/WallSitters2"), NodePath("enemies/PaperAirplaneThrower3"), NodePath("enemies/WallSitters3"), NodePath("enemies/WallSitters4"), NodePath("enemies/WallSitters5"), NodePath("enemies/WallSitters6")]
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_dyo1k")]
+visible = false
 position = Vector2(3653, -9006)
 scale = Vector2(209.98743, 232.84001)
 
@@ -522,6 +524,7 @@ position = Vector2(-111.897644, -1855)
 scale = Vector2(0.15060246, 17.959978)
 
 [node name="enemies" type="Node2D" parent="." unique_id=949844764]
+visible = false
 position = Vector2(3970, -8623)
 
 [node name="PaperAirplaneThrower" parent="enemies" unique_id=499016071 instance=ExtResource("6_f1ljr")]
@@ -721,3 +724,7 @@ position = Vector2(3410, -11001)
 
 [node name="ColorZone6" parent="." unique_id=1043433047 instance=ExtResource("14_3mawc")]
 position = Vector2(3152, -10915)
+
+[node name="HueWhiteSpritesheet" type="Sprite2D" parent="." unique_id=1932007130]
+position = Vector2(2648, -6762)
+texture = ExtResource("15_j2m38")

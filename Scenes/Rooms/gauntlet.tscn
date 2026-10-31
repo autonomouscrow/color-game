@@ -12,6 +12,7 @@
 script = ExtResource("1_m0dvp")
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_gvou5")]
+visible = false
 position = Vector2(501.00003, -17218.002)
 scale = Vector2(86.03377, 341.2028)
 
@@ -30,6 +31,10 @@ position = Vector2(489.00003, -13717)
 scale = Vector2(66.8, 1)
 target_room_id = "Fall"
 target_door_id = "InU"
+
+[node name="Canvas2" parent="." unique_id=1299036508 instance=ExtResource("6_ig2bl")]
+position = Vector2(1170, -15073)
+scale = Vector2(0.99999994, 0.99999994)
 
 [node name="platforms" type="Node2D" parent="." unique_id=1876562292]
 position = Vector2(305, -14821.998)
@@ -109,10 +114,6 @@ position = Vector2(-8.112981, 110)
 position = Vector2(-24.644554, -513.8095)
 scale = Vector2(1.9715642, 0.23809524)
 safeZone = NodePath("../DamageBlock15/B")
-
-[node name="Canvas" parent="platforms" unique_id=1299036508 instance=ExtResource("6_ig2bl")]
-position = Vector2(102.488174, -60.714302)
-scale = Vector2(0.11848344, 0.23809524)
 
 [node name="Box22" parent="platforms" unique_id=2085186147 instance=ExtResource("4_ig2bl")]
 position = Vector2(12.2038, -539.5238)
@@ -390,7 +391,7 @@ position = Vector2(143.24646, -1303.3334)
 scale = Vector2(2.4691947, 0.23809524)
 
 [node name="Canvas" parent="." unique_id=518473249 instance=ExtResource("6_ig2bl")]
-position = Vector2(1232, -17537)
+position = Vector2(1240, -17521)
 
 [node name="OutU" parent="." unique_id=2092961125 instance=ExtResource("3_ickob")]
 position = Vector2(1394, -20406)

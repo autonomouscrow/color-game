@@ -630,7 +630,7 @@ target_room_id = "yellow1"
 target_door_id = "InD"
 
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("12_3vkun")]
-position = Vector2(9015, -7970)
+position = Vector2(9014, -7959)
 
 [node name="ColorCrystal" parent="." unique_id=1691775424 instance=ExtResource("13_bei0t")]
 position = Vector2(8442, -10569)

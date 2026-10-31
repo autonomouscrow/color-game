@@ -378,7 +378,7 @@ position = Vector2(1336, -12123)
 position = Vector2(1240, -8360)
 
 [node name="Canvas2" parent="." unique_id=1168452420 instance=ExtResource("8_xq887")]
-position = Vector2(8126, -11827)
+position = Vector2(8126, -11822)
 
 [node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("9_riagq")]
 position = Vector2(597, -11850)

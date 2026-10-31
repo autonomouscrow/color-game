@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="10_rudwg"]
 [ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://Scenes/Prefabs/wall_sitters.tscn" id="11_jpjf8"]
 [ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="12_pli0g"]
+[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="13_2sgry"]
 
 [node name="Blue1" type="Node2D" unique_id=1167361679 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_6x4te")
@@ -436,3 +437,6 @@ position = Vector2(9206, -5827)
 
 [node name="ColorZone6" parent="." unique_id=750771619 instance=ExtResource("9_ovws3")]
 position = Vector2(11021, -5832)
+
+[node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("13_2sgry")]
+position = Vector2(11535, -3040)

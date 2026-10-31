@@ -151,7 +151,7 @@ position = Vector2(3445, -15206)
 position = Vector2(2603, -14903)
 
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("8_2d22j")]
-position = Vector2(5583, -14025)
+position = Vector2(5589, -14006)
 
 [node name="ColorCrystal" parent="." unique_id=1691775424 instance=ExtResource("9_3w672")]
 position = Vector2(5071, -14520)

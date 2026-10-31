@@ -10,6 +10,7 @@ position = Vector2(-0.0390625, 0.421875)
 shape = SubResource("RectangleShape2D_x3acn")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=467515650]
+visible = false
 offset_left = -10.0
 offset_top = -9.999998
 offset_right = 30.0

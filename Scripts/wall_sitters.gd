@@ -19,7 +19,10 @@ var has_left_ground: bool = false
 var dash_timer: float = 0.0
 
 @onready var detection_area: Area2D = $DetectionArea
+@onready var animated_sprite = $AnimatedSprite2D
 
+func _ready() -> void:
+	animated_sprite.play("Sit")
 
 func _physics_process(delta: float) -> void:
 	# 1. Apply gravity when active
@@ -80,6 +83,7 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 
 
 func start_jump() -> void:
+	animated_sprite.play("Run")
 	current_state = State.JUMPING
 	has_left_ground = not is_on_floor()
 

@@ -1,9 +1,46 @@
 [gd_scene format=3 uid="uid://d0y5ggtqv3vyv"]
 
 [ext_resource type="Script" uid="uid://7t85mmrkq0h3" path="res://Scripts/slime.gd" id="1_slime"]
+[ext_resource type="Texture2D" uid="uid://dc24w7wg7tyq6" path="res://slime.png" id="2_740om"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(50, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc56l"]
+atlas = ExtResource("2_740om")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n474w"]
+atlas = ExtResource("2_740om")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jm76j"]
+atlas = ExtResource("2_740om")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idwli"]
+atlas = ExtResource("2_740om")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3acn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc56l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n474w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jm76j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idwli")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
 size = Vector2(52, 32)
@@ -11,7 +48,6 @@ size = Vector2(52, 32)
 [node name="Slime" type="CharacterBody2D" unique_id=316356887 groups=["enemy"]]
 motion_mode = 1
 script = ExtResource("1_slime")
-crawl_speed = 50.0
 max_health = 50
 
 [node name="Body" type="CollisionShape2D" parent="." unique_id=2146220191]
@@ -19,7 +55,14 @@ shape = SubResource("RectangleShape2D_body")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1917475492]
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=67917572]
+position = Vector2(-6.999999, -1.0000001)
+scale = Vector2(1.9200015, 1.9200015)
+sprite_frames = SubResource("SpriteFrames_x3acn")
+autoplay = "default"
+
 [node name="Color" type="ColorRect" parent="Visual" unique_id=484001906]
+visible = false
 offset_left = -25.0
 offset_top = -15.0
 offset_right = 25.0

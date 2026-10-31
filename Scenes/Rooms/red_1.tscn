@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_lwl47"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="2_062ts"]
+[ext_resource type="Texture2D" uid="uid://o4nplgbi6m2p" path="res://red1.png" id="2_xip4s"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_062ts"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_w2i4l"]
 [ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="5_mraq4"]
@@ -17,7 +18,13 @@
 script = ExtResource("1_lwl47")
 EnemyObjects = [NodePath("enemies/Slime3"), NodePath("enemies/Craw"), NodePath("enemies/Craw2"), NodePath("enemies/Slime"), NodePath("enemies/Slime2"), NodePath("enemies/Craw3"), NodePath("enemies/Craw4"), NodePath("enemies/Craw5"), NodePath("enemies/Craw6"), NodePath("enemies/Craw7"), NodePath("enemies/Slime4"), NodePath("enemies/PaperAirplaneThrower"), NodePath("enemies/Slime5"), NodePath("enemies/Breakable Wall"), NodePath("enemies/PaperAirplaneThrower2"), NodePath("enemies/PaperAirplaneThrower3"), NodePath("enemies/PaperAirplaneThrower4"), NodePath("enemies/PaperAirplaneThrower5"), NodePath("enemies/PaperAirplaneThrower6"), NodePath("enemies/PaperAirplaneThrower7"), NodePath("enemies/Craw8"), NodePath("enemies/Craw9"), NodePath("enemies/Craw10")]
 
+[node name="Red1" type="Sprite2D" parent="." unique_id=1188456105]
+position = Vector2(5612, -4652)
+scale = Vector2(1.01, 1.01)
+texture = ExtResource("2_xip4s")
+
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_w2i4l")]
+visible = false
 position = Vector2(5400, -4687)
 scale = Vector2(293.6146, 181.91998)
 
@@ -413,7 +420,7 @@ position = Vector2(824, -500)
 [node name="Craw10" parent="enemies" unique_id=2089927646 instance=ExtResource("5_yplr5")]
 
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("10_rdn0l")]
-position = Vector2(4821, -3104)
+position = Vector2(4821, -3092)
 
 [node name="Box" parent="." unique_id=1157402427 instance=ExtResource("3_062ts")]
 position = Vector2(4034, -6599)
