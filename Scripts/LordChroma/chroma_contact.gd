@@ -1,13 +1,15 @@
 class_name ChromaContact
 extends Area2D
 
-## A rectangle around Lord Chroma's body that hurts the player on touch while active; the blue dive and slide switch it
+## A rectangle (or circle) around Lord Chroma's body that hurts the player on touch while active; the blue dive and slide switch it
 ## on while Chroma is moving. Turning it on again lets it hit the same player again.
 
 ## Emitted when the contact takes health off a player; a hit that the player's i-frames ignore doesn't count
 signal hurt_player(body: Node2D)
 
 var size := Vector2(80, 160)
+## Above 0, the contact is a circle of this radius instead of a size rectangle
+var radius := 0.0
 var damage := 20
 var knockback := Vector2(600, -400)
 var active := false:
@@ -19,10 +21,15 @@ var active := false:
 var hit_bodies: Array[Node] = []
 
 func _ready() -> void:
-	var shape := RectangleShape2D.new()
-	shape.size = size
 	var shape_node := CollisionShape2D.new()
-	shape_node.shape = shape
+	if radius > 0:
+		var circle := CircleShape2D.new()
+		circle.radius = radius
+		shape_node.shape = circle
+	else:
+		var rect := RectangleShape2D.new()
+		rect.size = size
+		shape_node.shape = rect
 	add_child(shape_node)
 	monitorable = false
 

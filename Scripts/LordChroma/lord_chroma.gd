@@ -4,6 +4,10 @@ extends enemy
 ## The final boss. IDLE: waits idle_time, swaps color after every 1 or 2 standard attacks, then picks a move: an ult
 ## when the shared ult timer is up, otherwise a standard attack. REPOSITION: runs, jumps onto platforms and drops off
 ## them (or flies, in a flying color) until the move would hit, giving up after reposition_timeout. EXECUTE: runs it.
+## Swapping color freezes Chroma in place, unhurtable, for swap_freeze_time, and he can't pick a move until
+## swap_attack_delay after the swap.
+## In a teleporting color, while idle or moving into position, Chroma rolls every teleport_check_interval seconds to
+## teleport to a random spot in another quarter of the fly area; the farther the player, the likelier it is.
 ## Chroma can't be hurt during an ult. If the player gets through an ult without being hit by any of Chroma's attacks,
 ## they gain the ult's dodge_mp and Chroma is STUNNED: he drops to the floor and stands frozen for ult_stun_time.
 ## Moves are the ChromaMove children of the Moves node; each one lists the colors it can be picked in.
@@ -36,7 +40,11 @@ var current_state: State = State.IDLE
 ## Chroma swaps color after a random number of standard attacks between x and y; ults don't count
 @export var standard_attacks_per_color := Vector2i(3, 5)
 ## Colors Chroma can swap to; it never swaps to the color it already is
-@export_flags("White", "Red", "Blue", "Yellow", "Green") var swap_colors := 7
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var swap_colors := 15
+## Seconds Chroma hangs frozen in place, and can't be hurt, after swapping color between moves
+@export var swap_freeze_time := 0.5
+## Seconds after a color swap before Chroma can pick his next move
+@export var swap_attack_delay := 0.5
 
 @export_group("Ults")
 ## Seconds into the fight before the first ult
@@ -48,10 +56,24 @@ var current_state: State = State.IDLE
 
 @export_group("Flying")
 ## Colors Chroma flies in instead of walking: no gravity, through platforms, wandering around the arena
-@export_flags("White", "Red", "Blue", "Yellow", "Green") var flying_colors := 2
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var flying_colors := 10
 @export var fly_speed := 250.0
+## Fly speed in yellow; every other flying color uses fly_speed
+@export var yellow_fly_speed := 150.0
 ## Size of the area Chroma's center flies around in, centered on arena_center
 @export var fly_area_size := Vector2(1700, 700)
+
+@export_group("Teleporting")
+## Colors where Chroma can teleport to a random spot in one of the other three quarters of the fly area
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var teleport_colors := 8
+## Seconds between rolls to teleport, while idle or moving into position
+@export var teleport_check_interval := 2.0
+## Teleport chance with the player at teleport_near_distance or closer
+@export_range(0, 1) var teleport_min_chance := 0.0
+## Teleport chance with the player at teleport_far_distance or farther; it climbs in a straight line between the two
+@export_range(0, 1) var teleport_max_chance := 0.8
+@export var teleport_near_distance := 200.0
+@export var teleport_far_distance := 1200.0
 
 @export_group("Movement")
 @export var walk_speed := 300.0
@@ -84,7 +106,7 @@ var current_state: State = State.IDLE
 
 @export_group("Ult Camera")
 ## Seconds the camera takes to zoom out over the whole arena when an ult starts, and again to go back after it
-@export var ult_camera_time := 0.3
+@export var ult_camera_time := 0.5
 ## Area the camera fits on screen during an ult, centered on arena_center; by default the arena with its walls
 @export var ult_camera_view := Vector2(2040, 1020)
 
@@ -127,6 +149,12 @@ var ult_left := 0.0
 ## Where Chroma is flying to while he wanders
 var wander_target := Vector2.ZERO
 var has_wander_target := false
+## Seconds left of the freeze after a color swap
+var swap_freeze_left := 0.0
+## Seconds left before Chroma can pick a move after a color swap
+var swap_attack_left := 0.0
+## Seconds until the next teleport roll
+var teleport_check_left := 0.0
 ## Chroma's own collision mask; flying clears it so he passes through everything
 var ground_mask := 1
 var spawn_position := Vector2.ZERO
@@ -207,6 +235,12 @@ func _physics_process(delta: float) -> void:
 
 	for move in moves:
 		move.cooldown_left = maxf(move.cooldown_left - delta, 0.0)
+	swap_attack_left = maxf(swap_attack_left - delta, 0.0)
+	if swap_freeze_left > 0:
+		swap_freeze_left -= delta
+		if swap_freeze_left <= 0:
+			frozen = false
+			invulnerable = false
 
 	var engaged := player != null and global_position.distance_to(player.global_position) <= aggro_range
 	# The ult timer runs through moves too, but the ult itself waits for the next pick
@@ -215,6 +249,7 @@ func _physics_process(delta: float) -> void:
 
 	match current_state:
 		State.IDLE:
+			_update_teleport(delta)
 			if is_flying():
 				_wander()
 			else:
@@ -224,7 +259,8 @@ func _physics_process(delta: float) -> void:
 				if idle_left <= 0:
 					if attacks_until_swap <= 0:
 						_swap_to_random_color()
-					_pick_move()
+					if swap_attack_left <= 0 and swap_freeze_left <= 0:
+						_pick_move()
 
 		State.REPOSITION:
 			if not player:
@@ -244,6 +280,7 @@ func _physics_process(delta: float) -> void:
 				current_move.start(player)
 			else:
 				reposition_left -= delta
+				_update_teleport(delta)
 				if is_flying():
 					_fly_toward(current_move.reposition_point(player))
 				else:
@@ -304,22 +341,38 @@ func _pick_move() -> void:
 			_start_reposition()
 			return
 	var options: Array[ChromaMove] = []
-	var total := 0.0
 	for move in moves:
 		if move.ult:
 			continue
 		if move.allowed_in(current_color) and move.cooldown_left <= 0 and move.weight > 0 and move.can_start(player):
 			options.append(move)
-			total += move.weight
 	if options.is_empty():
 		idle_left = randf_range(idle_time.x, idle_time.y)
 		return
+	# Moves with a fixed chance in this color take exactly that much; the rest share what's left by weight. With only
+	# fixed-chance moves, or only weighted ones, plain weights decide
+	var fixed_share := 0.0
+	var free_total := 0.0
+	for move in options:
+		if move.has_fixed_chance(current_color):
+			fixed_share += move.fixed_chance
+		else:
+			free_total += move.weight
+	var use_fixed := fixed_share > 0 and free_total > 0
+	var weights: Array[float] = []
+	var total := 0.0
+	for move in options:
+		var w := move.weight
+		if use_fixed:
+			w = move.fixed_chance if move.has_fixed_chance(current_color) else move.weight / free_total * maxf(1.0 - fixed_share, 0.0)
+		weights.append(w)
+		total += w
 	var roll := randf() * total
 	current_move = options.back()
-	for move in options:
-		roll -= move.weight
+	for i in options.size():
+		roll -= weights[i]
 		if roll <= 0:
-			current_move = move
+			current_move = options[i]
 			break
 	_start_reposition()
 
@@ -390,6 +443,12 @@ func stun() -> void:
 func swap_color(color: int) -> void:
 	current_color = color as ChromaColor
 	attacks_until_swap = randi_range(standard_attacks_per_color.x, standard_attacks_per_color.y)
+	swap_attack_left = swap_attack_delay
+	# Only between moves; a swap in the middle of one (the debug key) doesn't freeze him
+	if current_state == State.IDLE and swap_freeze_time > 0:
+		swap_freeze_left = swap_freeze_time
+		frozen = true
+		invulnerable = true
 
 func _swap_to_random_color() -> void:
 	var options: Array[int] = []
@@ -410,6 +469,7 @@ func _apply_flying() -> void:
 		return
 	collision_mask = 0 if is_flying() else ground_mask
 	has_wander_target = false
+	teleport_check_left = teleport_check_interval
 	if not is_flying() and not frozen:
 		velocity = Vector2.ZERO
 
@@ -427,7 +487,53 @@ func _wander() -> void:
 
 func _fly_toward(goal: Vector2) -> void:
 	var to := goal - global_position
-	velocity = Vector2.ZERO if to.length() <= arrive_distance else to.normalized() * fly_speed
+	velocity = Vector2.ZERO if to.length() <= arrive_distance else to.normalized() * current_fly_speed()
+
+func current_fly_speed() -> float:
+	return yellow_fly_speed if current_color == ChromaColor.YELLOW else fly_speed
+
+func can_teleport() -> bool:
+	return teleport_colors & (1 << current_color) != 0
+
+## Every teleport_check_interval seconds, rolls to teleport into another quarter, likelier the farther the player is
+func _update_teleport(delta: float) -> void:
+	if not can_teleport() or player == null or swap_freeze_left > 0:
+		return
+	teleport_check_left -= delta
+	if teleport_check_left > 0:
+		return
+	teleport_check_left = teleport_check_interval
+	var distance := global_position.distance_to(player_center(player))
+	var t := clampf(inverse_lerp(teleport_near_distance, teleport_far_distance, distance), 0.0, 1.0)
+	if randf() < lerpf(teleport_min_chance, teleport_max_chance, t):
+		teleport_to(random_point_in_quadrant(_random_other_quadrant()))
+
+## Center of the arena, which splits it into quarters
+func arena_middle() -> Vector2:
+	return arena_center.global_position if arena_center else spawn_position
+
+## Quarter of the arena pos is in: bit 1 set means the right half, bit 2 set means the bottom half. So q ^ 1 is the
+## quarter beside q, q ^ 2 the one above or below it, and q ^ 3 the one diagonally opposite
+func quadrant_of(pos: Vector2) -> int:
+	var middle := arena_middle()
+	return (1 if pos.x >= middle.x else 0) | (2 if pos.y >= middle.y else 0)
+
+## A random spot in quarter q of the fly area, so Chroma's whole body stays where he can fly
+func random_point_in_quadrant(q: int) -> Vector2:
+	var area := _fly_area()
+	var middle := arena_middle().clamp(area.position, area.end)
+	var x_range := Vector2(middle.x, area.end.x) if q & 1 else Vector2(area.position.x, middle.x)
+	var y_range := Vector2(middle.y, area.end.y) if q & 2 else Vector2(area.position.y, middle.y)
+	return Vector2(randf_range(x_range.x, x_range.y), randf_range(y_range.x, y_range.y))
+
+func _random_other_quadrant() -> int:
+	return (quadrant_of(global_position) + randi_range(1, 3)) % 4
+
+## Moves Chroma straight to pos and forgets where he was wandering to
+func teleport_to(pos: Vector2) -> void:
+	global_position = pos
+	velocity = Vector2.ZERO
+	has_wander_target = false
 
 func _apply_color() -> void:
 	if color_rect == null:

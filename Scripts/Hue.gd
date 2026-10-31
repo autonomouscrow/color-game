@@ -35,11 +35,11 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var slide_jump_unsquish_time := 0.05  ## Seconds to unsquish when jumping out of a slide with A
 @export var slide_jump_slowdown_time := 0.2  ## Seconds for leftover slide speed above walking speed to ease off after jumping out of a slide
 
-@export_group("Glide")  ## Pressing A in mid-air (outside coyote time) starts a glide that lasts while A is held
+@export_group("Glide")  ## Pressing A in mid-air (outside coyote time) or Shift in mid-air starts a glide that lasts while A or Shift is held
 @export var glide_gravity := 150.0
 @export var glide_max_fall_speed := 300.0
 @export var glide_speed := 300.0  ## Horizontal speed while gliding; any dash speed being carried is dropped when the glide starts
-@export var glide_cooldown := 0.5  ## Seconds from the start of one glide until A can start another
+@export var glide_cooldown := 0.5  ## Seconds from the start of one glide until A or Shift can start another
 
 @export_group("Slam")
 @export var slam_speed := 1500.0  ## Downward speed of the mid-air Shift slam and dive (Blue)
@@ -88,14 +88,8 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var heal_shake_max_distance := 1.5  ## How far the color rectangle and copies can jump from the hitbox at the peak, in multiples of Hue's size
 @export_subgroup("")
 
-@export_group("MP Costs")  ## MP spent to start each move; a move can't start without enough MP
-@export var dash_mp_cost := 1
-@export var slide_mp_cost := 1
-@export var slam_mp_cost := 1
-@export var dive_mp_cost := 1
-@export var glide_mp_cost := 1  ## MP spent to start a glide
-@export var glide_mp_drain := 1  ## MP spent every glide_mp_drain_interval seconds while gliding; the glide ends when there isn't enough
-@export var glide_mp_drain_interval := 2.0
+@export_group("MP Costs")  ## Movement is free; only the gun, heal and a dash that hits something cost MP
+@export var dash_mp_cost := 1  ## Spent when a dash ends, only if it hit at least one enemy; a dash started with less than this still goes, but passes through enemies without damaging them
 @export var heal_mp_cost := 5  ## Needed to start a heal; drained one point at a time at an even rate over heal_time, with no refund on cancel
 
 @export_group("MP Gain")
@@ -253,11 +247,9 @@ var squat_timer := 0.0
 var squat_amount := 0.0
 var squish := 0.0
 var coyote_timer := 0.0
-## True while A is held after a mid-air press; ends on release, landing, dash, slam, dive, punch or uppercut
+## True while A or Shift is held after a mid-air press of either; ends on releasing both, landing, dash, slam, dive, punch or uppercut
 var gliding := false
 var glide_cooldown_timer := 0.0
-## Seconds of gliding left until the next glide_mp_drain is spent
-var glide_drain_timer := 0.0
 var jump_buffer_timer := 0.0
 var hitbox_shape: RectangleShape2D
 var stand_size: Vector2
@@ -385,7 +377,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	# A dash would stand Hue up, so it can't start from a slide under a low ceiling
-	if Input.is_action_just_pressed("dash") and current_color == dash_color and not dashing and dash_cooldown_timer <= 0 and mp >= dash_mp_cost and (can_stand_up or not sliding):
+	if Input.is_action_just_pressed("dash") and current_color == dash_color and not dashing and dash_cooldown_timer <= 0 and (can_stand_up or not sliding):
 		# Dashing off a wall always goes away from it
 		_start_dash(-cling_wall_dir if clinging else direction)
 	if dashing:
@@ -660,7 +652,7 @@ func _apply_knockback(delta: float) -> void:
 		squish = move_toward(squish, 0, delta / slide_squish_time)
 		_apply_squish()
 
-## A: wall jumps, buffered and coyote jumps, starting and draining a glide, and cutting a jump short on release
+## A: wall jumps, buffered and coyote jumps, starting and ending a glide (Shift can start one too), and cutting a jump short on release
 func _update_jump(direction: float, delta: float) -> void:
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer = jump_buffer_time
@@ -678,13 +670,14 @@ func _update_jump(direction: float, delta: float) -> void:
 		jump_buffer_timer = 0
 		coyote_timer = 0
 	# A mid-air press that didn't jump starts a glide
-	elif Input.is_action_just_pressed("jump") and current_color == glide_color and not is_on_floor() and not slamming and not sliding and glide_cooldown_timer <= 0 and mp >= glide_mp_cost:
+	elif Input.is_action_just_pressed("jump") and current_color == glide_color and not is_on_floor() and not slamming and not sliding and glide_cooldown_timer <= 0:
 		_start_glide()
-	# Letting go of A falls as normal
-	if gliding and not Input.is_action_pressed("jump"):
+	# Shift in mid-air also starts a glide, unless the glide color also has the slam, which keeps Shift
+	elif Input.is_action_just_pressed("slide") and current_color == glide_color and current_color != slide_color and not is_on_floor() and not clinging and not slamming and not sliding and glide_cooldown_timer <= 0:
+		_start_glide()
+	# Letting go of both A and Shift falls as normal
+	if gliding and not Input.is_action_pressed("jump") and not Input.is_action_pressed("slide"):
 		gliding = false
-	if gliding:
-		_drain_glide(delta)
 	# Letting go of A while still rising cuts the jump short
 	if Input.is_action_just_released("jump") and velocity.y < 0:
 		velocity.y *= jump_release_cut
@@ -692,40 +685,26 @@ func _update_jump(direction: float, delta: float) -> void:
 ## Falling stops and any carried dash speed is dropped
 func _start_glide() -> void:
 	gliding = true
-	mp -= glide_mp_cost
-	glide_drain_timer = glide_mp_drain_interval
 	glide_cooldown_timer = glide_cooldown
 	velocity.y = 0
 	dash_carrying = false
 	speed_easing = false
 
-## Gliding keeps costing MP, and ends when Hue can't pay
-func _drain_glide(delta: float) -> void:
-	glide_drain_timer -= delta
-	if glide_drain_timer <= 0:
-		if mp >= glide_mp_drain:
-			mp -= glide_mp_drain
-			glide_drain_timer += glide_mp_drain_interval
-		else:
-			gliding = false
-
 ## Shift slides on the ground at walking speed or faster, and slams or dives in the air
 func _update_slide_input() -> void:
 	if Input.is_action_just_pressed("slide") and current_color == slide_color and not sliding:
 		if is_on_floor():
-			if absf(velocity.x) >= speed and mp >= slide_mp_cost:
-				mp -= slide_mp_cost
+			if absf(velocity.x) >= speed:
 				slide_direction = signf(velocity.x)
 				# Slides start at least at slide_min_speed; faster slides keep their speed
 				if absf(velocity.x) < slide_min_speed:
 					velocity.x = slide_direction * slide_min_speed
 				_start_slide(slide_squish_time)
-		elif not slamming and mp >= (slam_mp_cost if velocity.x == 0 else dive_mp_cost):
+		elif not slamming:
 			_start_slam()
 
 ## Straight down is a slam; with sideways speed it's a dive
 func _start_slam() -> void:
-	mp -= slam_mp_cost if velocity.x == 0 else dive_mp_cost
 	# Clinging has no sideways speed, so Shift on the wall is a straight-down slam
 	_end_cling()
 	_cancel_burst_charge()
@@ -904,7 +883,6 @@ func _ease_from_dash(direction: float) -> void:
 func _start_dash(direction: float) -> void:
 	dashing = true
 	_cancel_burst_charge()
-	mp -= dash_mp_cost
 	dash_timer = dash_time
 	dash_cooldown_timer = dash_cooldown
 	dash_direction = direction if direction != 0 else facing
@@ -922,10 +900,12 @@ func _start_dash(direction: float) -> void:
 	jump_buffer_timer = 0
 	_pass_through_enemies()
 	_remove_hitbox(dash_hitbox)
-	dash_hitbox = dash_hitbox_scene.instantiate()
-	dash_hitbox.damage = dash_damage
-	add_child(dash_hitbox)
-	_update_attack_hitboxes()
+	# Without enough MP to pay for a hit, the dash just passes through enemies and does no damage
+	if mp >= dash_mp_cost:
+		dash_hitbox = dash_hitbox_scene.instantiate()
+		dash_hitbox.damage = dash_damage
+		add_child(dash_hitbox)
+		_update_attack_hitboxes()
 
 func _dash(direction: float, delta: float) -> void:
 	# Straight across at dash speed with no gravity, until dash_time runs out
@@ -948,6 +928,9 @@ func _end_dash(direction: float) -> void:
 		velocity.x = dash_direction * dash_run_speed
 	else:
 		_ease_from_dash(direction)
+	# The dash only costs MP if its hitbox touched an enemy at any point
+	if is_instance_valid(dash_hitbox) and not dash_hitbox.hit_enemies.is_empty():
+		mp -= dash_mp_cost
 	_remove_hitbox(dash_hitbox)
 	_restore_enemy_collisions()
 

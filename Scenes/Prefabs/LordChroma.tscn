@@ -7,6 +7,9 @@
 [ext_resource type="Script" path="res://Scripts/LordChroma/chroma_bullet_storm.gd" id="5_storm"]
 [ext_resource type="Script" path="res://Scripts/LordChroma/chroma_dive.gd" id="6_dive"]
 [ext_resource type="Script" path="res://Scripts/LordChroma/chroma_slide.gd" id="7_slide"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_dash.gd" id="8_dash"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_clone_pierce.gd" id="9_pierce"]
+[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_depth_charge.gd" id="10_depth"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(80, 160)
@@ -40,6 +43,7 @@ color = Color(0.25, 0.25, 0.25, 1)
 
 [node name="Airbrush" type="Node" parent="Moves" unique_id=1042139539]
 script = ExtResource("2_airbrush")
+fixed_chance_colors = 30
 cooldown = 2.0
 
 [node name="QuarterBlast" type="Node" parent="Moves" unique_id=1741958643]
@@ -65,3 +69,19 @@ colors = 4
 [node name="Slide" type="Node" parent="Moves"]
 script = ExtResource("7_slide")
 colors = 4
+
+[node name="Dash" type="Node" parent="Moves"]
+script = ExtResource("8_dash")
+colors = 8
+
+[node name="ClonePierce" type="Node" parent="Moves"]
+script = ExtResource("9_pierce")
+colors = 8
+ult = true
+dodge_mp = 6
+
+[node name="DepthCharge" type="Node" parent="Moves"]
+script = ExtResource("10_depth")
+colors = 4
+ult = true
+dodge_mp = 5

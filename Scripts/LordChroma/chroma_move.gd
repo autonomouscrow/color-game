@@ -10,6 +10,10 @@ extends Node
 @export_flags("White", "Red", "Blue", "Yellow", "Green") var colors := 31
 ## Chance of being picked, relative to the other moves allowed right now
 @export var weight := 1.0
+## In these colors, this move is picked with exactly fixed_chance whenever another standard move could be picked too;
+## the other moves split the rest by their weights
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var fixed_chance_colors := 0
+@export_range(0, 1) var fixed_chance := 0.25
 ## Seconds after this move ends before Chroma can pick it again
 @export var cooldown := 0.0
 ## Ults are only picked when Chroma's shared ult timer is up, and don't count toward color swaps. An ult whose only
@@ -28,6 +32,9 @@ var times_used := 0
 
 func allowed_in(color: int) -> bool:
 	return colors & (1 << color) != 0
+
+func has_fixed_chance(color: int) -> bool:
+	return fixed_chance_colors & (1 << color) != 0
 
 ## Extra conditions for picking this move, on top of color and cooldown
 func can_start(_player: Node2D) -> bool:
