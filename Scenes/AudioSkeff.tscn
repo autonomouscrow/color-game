@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/audio_skeff.gd" id="1_audio"]
+[ext_resource type="AudioStream" uid="uid://cto4whwsoh0e8" path="res://Audio/attack1.mp3" id="2_attack"]
+
+[node name="AudioSkeff" type="Node" groups=["AudioSkeff"]]
+script = ExtResource("1_audio")
+attack_sound = ExtResource("2_attack")

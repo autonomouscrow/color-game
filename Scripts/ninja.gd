@@ -74,11 +74,11 @@ func _start_jump() -> void:
 	current_state = State.JUMPING
 	velocity.y = jump_velocity
 	velocity.x = patrol_direction * jump_forward_speed
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.1, false).timeout
 	throw(Vector2(1*patrol_direction, 1))
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.1, false).timeout
 	throw(Vector2(0, 1))
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.1, false).timeout
 	throw(Vector2(-1*patrol_direction, 1))
 	
 
@@ -98,7 +98,7 @@ func _end_jump() -> void:
 	current_state = State.COOLDOWN
 	
 	# Wait for cooldown before allowing another jump
-	await get_tree().create_timer(jump_cooldown_time).timeout
+	await get_tree().create_timer(jump_cooldown_time, false).timeout
 	
 	# Only return to RUNNING if we are still in COOLDOWN
 	if current_state == State.COOLDOWN:

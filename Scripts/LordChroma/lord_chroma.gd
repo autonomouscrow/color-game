@@ -467,10 +467,12 @@ func swap_color(color: int) -> void:
 		frozen = true
 		invulnerable = true
 
-## True if Chroma's body overlaps a visible, solid floor, platform or wall; just touching one doesn't count
+## True if Chroma's body overlaps a visible, solid floor, platform or wall by any amount; just touching one, like the
+## platform he's standing on, doesn't count. Even a pixel counts, since standing on one platform with his head a pixel
+## into another wedges him in
 func _inside_block() -> bool:
 	_build_surfaces()
-	var body := Rect2(global_position - half_size, half_size * 2).grow(-2)
+	var body := Rect2(global_position - half_size, half_size * 2).grow(-0.5)
 	for s in surfaces:
 		if s.one_way:
 			continue

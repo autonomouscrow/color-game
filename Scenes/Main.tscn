@@ -6,6 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://cj21ahglvgpf8" path="res://Scenes/Rooms/start.tscn" id="13_5jffn"]
+[ext_resource type="PackedScene" path="res://Scenes/AudioSkeff.tscn" id="5_audio"]
+[ext_resource type="AudioStream" uid="uid://b3jves70hxuwm" path="res://Audio/hurt sounds/01._damage_grunt_male.wav" id="8_frkhe"]
+[ext_resource type="AudioStream" uid="uid://bvatliyte3p48" path="res://Audio/hurt sounds/02._damage_grunt_male.wav" id="9_1p5hy"]
+[ext_resource type="AudioStream" uid="uid://3v1cj4du1h6k" path="res://Audio/hurt sounds/03._damage_grunt_male.wav" id="10_h1m7h"]
+[ext_resource type="AudioStream" uid="uid://hohj07g3rtm1" path="res://Audio/hurt sounds/04._damage_grunt_male.wav" id="11_erwvk"]
+[ext_resource type="AudioStream" uid="uid://csdededo4ttxu" path="res://Audio/hurt sounds/05._damage_grunt_male.wav" id="12_2w5on"]
+[ext_resource type="AudioStream" uid="uid://c88ouus5gjrd" path="res://Audio/hurt sounds/06._damage_grunt_male.wav" id="13_346fj"]
+[ext_resource type="AudioStream" uid="uid://brgj83oqd3kdx" path="res://Audio/dash.mp3" id="14_1p5hy"]
+[ext_resource type="AudioStream" uid="uid://edpswq5r7vnr" path="res://Audio/gun.mp3" id="15_h1m7h"]
+[ext_resource type="AudioStream" uid="uid://csr2otelp48rl" path="res://Audio/color change.mp3" id="16_erwvk"]
 
 [node name="Main" type="Node2D" unique_id=396947077]
 
@@ -39,3 +49,15 @@ script = ExtResource("4_pbw6q")
 
 [node name="HUD" parent="." unique_id=1967454570 node_paths=PackedStringArray("player") instance=ExtResource("3_hud")]
 player = NodePath("../Hue")
+
+[node name="AudioSkeff" parent="." unique_id=639938854 instance=ExtResource("5_audio")]
+attack_sound_db_offset = -20
+attack_pitch_variation = 0.05
+hurt_sounds = Array[AudioStream]([ExtResource("8_frkhe"), ExtResource("9_1p5hy"), ExtResource("10_h1m7h"), ExtResource("11_erwvk"), ExtResource("12_2w5on"), ExtResource("13_346fj")])
+hurt_sound_db_offset = -13.0
+dash_sounds = Array[AudioStream]([ExtResource("14_1p5hy")])
+dash_db_offset = -5.0
+gun_sounds = Array[AudioStream]([ExtResource("15_h1m7h")])
+gun_db_offset = -5.0
+color_swap_sounds = Array[AudioStream]([ExtResource("16_erwvk")])
+color_swap_db_offset = -5.0

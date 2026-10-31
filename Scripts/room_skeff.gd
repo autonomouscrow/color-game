@@ -15,9 +15,9 @@ extends Node2D
 	"Blue2": "res://Scenes/Rooms/Blue2.tscn",
 	"yellow1": "res://Scenes/Rooms/yellow_1.tscn",
 	"Yellow2": "res://Scenes/Rooms/yellow_2.tscn",
-	"gauntlet": "res://Scenes/Rooms/gauntlet.tscn",
-	"Fall": "res://Scenes/Rooms/fall.tscn"
-	
+	"Gauntlet": "res://Scenes/Rooms/gauntlet.tscn",
+	"Fall": "res://Scenes/Rooms/fall.tscn",
+	"ChromaArena": "res://Scenes/Rooms/ChromaArena.tscn"
 	
 }
 @export var Hue: CharacterBody2D

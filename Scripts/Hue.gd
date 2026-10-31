@@ -69,12 +69,12 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var crisis_mp_interval_factor := 0.5
 @export var crisis_shrink_scale := Vector2(0.8, 0.6)  ## Hue's size while in a crisis, as a fraction of its normal width and height
 @export var crisis_shrink_time := 0.1  ## Seconds to shrink when a crisis starts, and to grow back when it ends
-@export var crisis_explode_time := 2.999  ## Seconds into the crisis that Hue explodes
+@export var crisis_death_time := 2.999  ## Seconds into the crisis that Hue dies
 @export_subgroup("Shake")
 @export var crisis_shake_start_time := 0.5  ## Seconds into the crisis that Hue starts shaking
-@export var crisis_shake_ramp := 2.0  ## Higher values keep the shaking gentle for longer before it ramps up near the explosion
-@export var crisis_shake_start_interval := 0.15  ## Seconds between shake jumps when shaking starts; shrinks to one jump per frame by the explosion
-@export var crisis_shake_max_distance := 1.5  ## How far the color rectangle can jump from the hitbox by the explosion, in multiples of Hue's size
+@export var crisis_shake_ramp := 2.0  ## Higher values keep the shaking gentle for longer before it ramps up near crisis_death_time
+@export var crisis_shake_start_interval := 0.15  ## Seconds between shake jumps when shaking starts; shrinks to one jump per frame by crisis_death_time
+@export var crisis_shake_max_distance := 1.5  ## How far the color rectangle can jump from the hitbox by crisis_death_time, in multiples of Hue's size
 
 @export_group("Healing")  ## Hold X on the ground to heal; any other input cancels it, keeping whatever MP was already drained
 @export var heal_time := 2.0  ## Seconds X must be held for the heal to finish
@@ -181,6 +181,7 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var slide_color := HueColor.BLUE  ## Also covers the mid-air slam and dive
 @export var cling_color := HueColor.GREEN  ## Cling grip and wall jumps; swapping away from it lets go of the wall
 @export_subgroup("")
+@export var color_swap_pause_time := 0.6  ## Seconds the whole game freezes on a color swap; presses during it still count afterwards. 0 turns it off
 @export var color_buffer_time := 0.1  ## Seconds a color press is remembered while swapping is blocked; matches jump_buffer_time for now
 
 @export_group("Color Zones")
@@ -262,6 +263,9 @@ var debug_mp_timer := 0.0
 ## Color pressed while swapping was blocked, applied once it's allowed if color_buffer_timer hasn't run out
 var buffered_color := HueColor.WHITE
 var color_buffer_timer := 0.0
+## Actions pressed or released during the last color swap pause; they count as just pressed or released on the first frame after it
+var buffered_presses: Array = []
+var buffered_releases: Array = []
 var in_crisis := false
 ## Z has to be released and pressed again after a crisis ends
 var crisis_locked := false
@@ -274,7 +278,6 @@ var shake_offset := Vector2.ZERO
 var crisis_copies: Array[ColorRect] = []
 ## 0 is normal size, 1 is fully shrunk into crisis_shrink_scale
 var crisis_shrink := 0.0
-var exploded := false
 ## True from death until Hue has been placed at the checkpoint; knockback stays at zero and can't be set meanwhile
 var respawning := false
 var healing := false
@@ -342,6 +345,9 @@ func _ready() -> void:
 	_apply_color()
 
 func _physics_process(delta: float) -> void:
+	var buffered: Dictionary = Pause.take_buffered_inputs()
+	buffered_presses = buffered.pressed
+	buffered_releases = buffered.released
 	if debug_stat_keys:
 		_debug_stats(delta)
 	queue_redraw()
@@ -350,9 +356,6 @@ func _physics_process(delta: float) -> void:
 	if slow_left <= 0:
 		slow_factor = 1.0
 	color_rect.modulate.a = hidden_alpha if is_hidden() else 1.0
-	if exploded:
-		_try_revive()
-		return
 	can_stand_up = _can_stand()
 	_update_color_swap(delta)
 	_drop_moves_outside_color()
@@ -385,7 +388,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	# A dash would stand Hue up, so it can't start from a slide under a low ceiling
-	if Input.is_action_just_pressed("dash") and current_color == dash_color and not dashing and dash_cooldown_timer <= 0 and (can_stand_up or not sliding):
+	if _just_pressed("dash") and current_color == dash_color and not dashing and dash_cooldown_timer <= 0 and (can_stand_up or not sliding):
 		# Dashing off a wall always goes away from it
 		_start_dash(-cling_wall_dir if clinging else direction)
 	if dashing:
@@ -416,14 +419,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	_update_cling(direction, delta)
 
-## Raising health again (1 debug key) brings Hue back after exploding
-func _try_revive() -> void:
-	if health > 0:
-		exploded = false
-		color_rect.visible = true
-		crisis_locked = Input.is_action_pressed("crisis")
-		heal_locked = Input.is_action_pressed("heal")
-
 ## Ends whichever moves don't belong to the current color
 func _drop_moves_outside_color() -> void:
 	# Changing to a color without the slide stands Hue up out of a slide or squat over the normal stopping time, once there's room
@@ -443,22 +438,42 @@ func _drop_moves_outside_color() -> void:
 ## S punches, or uppercuts with up held
 func _update_punch(delta: float) -> void:
 	punch_cooldown_timer -= delta
-	if Input.is_action_just_pressed("punch") and punch_cooldown_timer <= 0:
+	if _just_pressed("punch") and punch_cooldown_timer <= 0:
 		if Input.is_action_pressed("move_up"):
 			_uppercut()
 		else:
 			_punch()
+		_play_attack_sound()
+
+func _play_attack_sound() -> void:
+	var audio := get_tree().get_first_node_in_group("AudioSkeff")
+	if audio:
+		audio.play_attack()
+
+## Plays one of AudioSkeff's ability sounds, e.g. _play_sound(&"gun"); ignore_pause keeps it playing while the game is paused
+func _play_sound(ability: StringName, ignore_pause := false) -> void:
+	var audio := get_tree().get_first_node_in_group("AudioSkeff")
+	if audio:
+		audio.play_ability(ability, ignore_pause)
+
+## Like Input.is_action_just_pressed, but also true for a press made during the last color swap pause
+func _just_pressed(action: StringName) -> bool:
+	return Input.is_action_just_pressed(action) or action in buffered_presses
+
+func _just_released(action: StringName) -> bool:
+	return Input.is_action_just_released(action) or action in buffered_releases
 
 ## D shoots a bullet toward the arrows held, or the way Hue faces with none held
 func _update_gun(delta: float) -> void:
 	gun_cooldown_timer -= delta
-	if not Input.is_action_just_pressed("shoot") or gun_cooldown_timer > 0 or mp < gun_mp_cost:
+	if not _just_pressed("shoot") or gun_cooldown_timer > 0 or mp < gun_mp_cost:
 		return
 	var aim := Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).sign()
 	if aim == Vector2.ZERO:
 		aim = Vector2(facing, 0)
 	gun_cooldown_timer = gun_cooldown
 	mp -= gun_mp_cost
+	_play_sound(&"gun")
 	var bullet := bullet_scene.instantiate()
 	bullet.direction = aim.normalized()
 	bullet.speed = bullet_speed
@@ -477,6 +492,7 @@ func _update_heal(heal_held: bool, other_input: bool, delta: float) -> bool:
 		_end_heal()
 	elif not bursting and not healing and not in_crisis and heal_held and not heal_locked and not other_input and is_on_floor() and not sliding and not slamming and not dashing and squish == 0 and mp >= heal_mp_cost:
 		healing = true
+		_play_sound(&"heal")
 		dash_carrying = false
 		speed_easing = false
 		heal_time_elapsed = 0.0
@@ -502,6 +518,7 @@ func _update_crisis(crisis_held: bool, other_input: bool, delta: float) -> bool:
 		_end_crisis()
 	elif not bursting and not in_crisis and crisis_held and not crisis_locked and not other_input and is_on_floor() and not sliding and not slamming and not dashing and squish == 0:
 		in_crisis = true
+		_play_sound(&"crisis")
 		dash_carrying = false
 		speed_easing = false
 		crisis_time = 0.0
@@ -535,7 +552,7 @@ func _update_burst(delta: float) -> bool:
 		return true
 	if burst_charging and not Input.is_action_pressed("burst"):
 		burst_charging = false
-	elif not burst_charging and Input.is_action_just_pressed("burst") and burst_cooldown_timer <= 0 and _has_burst_health() and not dashing and not sliding and not slamming:
+	elif not burst_charging and _just_pressed("burst") and burst_cooldown_timer <= 0 and _has_burst_health() and not dashing and not sliding and not slamming:
 		burst_charging = true
 		burst_charge_timer = 0.0
 	if burst_charging:
@@ -559,6 +576,7 @@ func _fire_burst() -> void:
 	burst_charging = false
 	bursting = true
 	burst_freeze_timer = burst_freeze_time
+	_play_sound(&"burst")
 	burst_cooldown_timer = burst_cooldown
 	# A burst that would drain Hue to 0 leaves it at 1 instead
 	if health <= max_health * burst_health_cost:
@@ -662,13 +680,13 @@ func _apply_knockback(delta: float) -> void:
 
 ## A: wall jumps, buffered and coyote jumps, starting and ending a glide (Shift can start one too), and cutting a jump short on release
 func _update_jump(direction: float, delta: float) -> void:
-	if Input.is_action_just_pressed("jump"):
+	if _just_pressed("jump"):
 		jump_buffer_timer = jump_buffer_time
 	else:
 		jump_buffer_timer -= delta
 	# A on the wall, or just after letting go of it, jumps off it at wall_jump_angle
 	var can_wall_jump := clinging or (wall_jump_coyote_timer > 0 and current_color == cling_color and not is_on_floor() and not slamming)
-	if can_wall_jump and Input.is_action_just_pressed("jump"):
+	if can_wall_jump and _just_pressed("jump"):
 		_wall_jump(direction)
 	# A buffered press jumps as soon as Hue is on the floor, or just walked off it; a slide under a low ceiling can't jump out
 	elif jump_buffer_timer > 0 and coyote_timer > 0 and not slamming and (can_stand_up or not sliding):
@@ -678,16 +696,16 @@ func _update_jump(direction: float, delta: float) -> void:
 		jump_buffer_timer = 0
 		coyote_timer = 0
 	# A mid-air press that didn't jump starts a glide
-	elif Input.is_action_just_pressed("jump") and current_color == glide_color and not is_on_floor() and not slamming and not sliding and glide_cooldown_timer <= 0:
+	elif _just_pressed("jump") and current_color == glide_color and not is_on_floor() and not slamming and not sliding and glide_cooldown_timer <= 0:
 		_start_glide()
 	# Shift in mid-air also starts a glide, unless the glide color also has the slam, which keeps Shift
-	elif Input.is_action_just_pressed("slide") and current_color == glide_color and current_color != slide_color and not is_on_floor() and not clinging and not slamming and not sliding and glide_cooldown_timer <= 0:
+	elif _just_pressed("slide") and current_color == glide_color and current_color != slide_color and not is_on_floor() and not clinging and not slamming and not sliding and glide_cooldown_timer <= 0:
 		_start_glide()
 	# Letting go of both A and Shift falls as normal
 	if gliding and not Input.is_action_pressed("jump") and not Input.is_action_pressed("slide"):
 		gliding = false
 	# Letting go of A while still rising cuts the jump short
-	if Input.is_action_just_released("jump") and velocity.y < 0:
+	if _just_released("jump") and velocity.y < 0:
 		velocity.y *= jump_release_cut
 
 ## Falling stops and any carried dash speed is dropped
@@ -700,7 +718,7 @@ func _start_glide() -> void:
 
 ## Shift slides on the ground at walking speed or faster, and slams or dives in the air
 func _update_slide_input() -> void:
-	if Input.is_action_just_pressed("slide") and current_color == slide_color and not sliding:
+	if _just_pressed("slide") and current_color == slide_color and not sliding:
 		if is_on_floor():
 			if absf(velocity.x) >= speed:
 				slide_direction = signf(velocity.x)
@@ -859,7 +877,7 @@ func _uppercut() -> void:
 	uppercut.damage = uppercut_damage
 	# Starts from Hue's top edge, even when Hue is squished
 	uppercut.position = Vector2(hitbox.position.x, hitbox.position.y - hitbox_shape.size.y / 2)
-	uppercut.fully_extended.connect(func(): uppercut_extended_msec = Time.get_ticks_msec())
+	uppercut.fully_extended.connect(func(): uppercut_extended_msec = Pause.game_msec())
 	add_child(uppercut)
 	current_punch = uppercut
 
@@ -890,6 +908,7 @@ func _ease_from_dash(direction: float) -> void:
 
 func _start_dash(direction: float) -> void:
 	dashing = true
+	_play_sound(&"dash")
 	_cancel_burst_charge()
 	dash_timer = dash_time
 	dash_cooldown_timer = dash_cooldown
@@ -970,7 +989,7 @@ func _slide(direction: float, delta: float) -> void:
 		if blocked:
 			slide_stopping = false
 		# Shift during a squat stands Hue straight up and hands control back (A is handled by the jump); in Blue, Shift is the slide key, so it does nothing here
-		if Input.is_action_just_pressed("dash") and current_color != slide_color and not blocked:
+		if _just_pressed("dash") and current_color != slide_color and not blocked:
 			sliding = false
 			return
 		if direction != 0:
@@ -1068,23 +1087,24 @@ func _remove_hitbox(attack_hitbox) -> void:
 		attack_hitbox.queue_free()
 
 func _draw() -> void:
-	if not exploded:
-		draw_rect(Rect2(hitbox.position - hitbox_shape.size / 2, hitbox_shape.size), hitbox_color)
+	draw_rect(Rect2(hitbox.position - hitbox_shape.size / 2, hitbox_shape.size), hitbox_color)
 
 func _crisis(delta: float) -> void:
 	crisis_time += delta
 	# MP comes in faster and faster: 1.5s, then 0.75s more, then 0.375s more...
-	while crisis_time >= crisis_next_mp_time and crisis_next_mp_time < crisis_explode_time and crisis_mp_interval > 0:
+	while crisis_time >= crisis_next_mp_time and crisis_next_mp_time < crisis_death_time and crisis_mp_interval > 0:
 		mp += 1
 		_add_crisis_copy()
 		crisis_mp_interval *= crisis_mp_interval_factor
 		crisis_next_mp_time += crisis_mp_interval
-	if crisis_time >= crisis_explode_time:
-		_explode()
+	if crisis_time >= crisis_death_time:
+		# Holding the crisis too long kills Hue
+		_end_crisis()
+		die()
 		return
 	if crisis_time >= crisis_shake_start_time:
-		# Shake jumps get more frequent and farther apart as the explosion nears
-		var progress := pow(inverse_lerp(crisis_shake_start_time, crisis_explode_time, crisis_time), crisis_shake_ramp)
+		# Shake jumps get more frequent and farther apart as death nears
+		var progress := pow(inverse_lerp(crisis_shake_start_time, crisis_death_time, crisis_time), crisis_shake_ramp)
 		shake_timer -= delta
 		if shake_timer <= 0:
 			shake_timer = lerpf(crisis_shake_start_interval, 0.0, progress)
@@ -1169,18 +1189,6 @@ func _end_heal() -> void:
 	heal_copies.clear()
 	_apply_squish()
 
-func _explode() -> void:
-	_end_crisis()
-	exploded = true
-	crisis_shrink = 0.0
-	_apply_squish()
-	health = 0
-	velocity = Vector2.ZERO
-	# Hue simply vanishes; _draw stops drawing the hitbox too
-	color_rect.visible = false
-	# Failing the crisis kills Hue; raising health on respawn brings it back through _try_revive
-	die()
-
 ## True when the space Hue's standing hitbox would grow into above its current top edge is clear of anything solid; enemies don't count
 func _can_stand() -> bool:
 	# Standing, the hitbox sits at Hue's origin; only the part above the current hitbox is checked, so slopes and walls Hue is already touching don't block it
@@ -1203,7 +1211,7 @@ func _can_stand() -> bool:
 ## Q/W/E/R/F presses are buffered for color_buffer_time, so a press during a dash, slam, dive or burst freeze, or under a low ceiling, swaps right after it
 func _update_color_swap(delta: float) -> void:
 	for i in COLOR_ACTIONS.size():
-		if Input.is_action_just_pressed(COLOR_ACTIONS[i]):
+		if _just_pressed(COLOR_ACTIONS[i]):
 			if CanColor[i]:
 				buffered_color = i as HueColor
 				color_buffer_timer = color_buffer_time
@@ -1213,8 +1221,13 @@ func _update_color_swap(delta: float) -> void:
 	# Slamming covers both the straight-down slam and the dive; a swap mid-slide is fine as long as Hue has room to stand,
 	# since a color without the slide stands Hue up
 	if not dashing and not slamming and not bursting and can_stand_up:
+		var swapped := current_color != buffered_color
 		current_color = buffered_color
 		color_buffer_timer = 0.0
+		if swapped:
+			# The sound plays through the pause, which starts right after the new color shows
+			_play_sound(&"color_swap", true)
+			Pause.hitstop(color_swap_pause_time)
 
 func _apply_color() -> void:
 	if color_rect == null:
@@ -1271,12 +1284,15 @@ func GetDamaged(damage: int) -> void:
 		return
 	_cancel_burst_charge()
 	health -= damage
+	var audio := get_tree().get_first_node_in_group("AudioSkeff")
+	if audio:
+		audio.play_hurt()
 	if health <= 0:
 		die()
 
 ## True if an uppercut reached full size within the last window seconds; a Diver's dive that hits Hue then is parried
 func parried_within(window: float) -> bool:
-	return uppercut_extended_msec >= 0 and Time.get_ticks_msec() - uppercut_extended_msec <= window * 1000.0
+	return uppercut_extended_msec >= 0 and Pause.game_msec() - uppercut_extended_msec <= window * 1000.0
 
 ## Called by Attack each time one of Hue's hitboxes kills an enemy; gaining MP never breaks color zone hiding
 func on_attack_kill() -> void:
@@ -1291,8 +1307,6 @@ func exit_color_zone(zone: Area2D) -> void:
 
 ## True while Hue overlaps a color zone of its own color and hasn't spent MP within that zone's reveal_time; enemies ignore Hue then
 func is_hidden() -> bool:
-	if exploded:
-		return false
 	for zone in color_zones:
 		if is_instance_valid(zone) and zone.zone_color == current_color and time_since_mp_spent >= zone.reveal_time:
 			return true
@@ -1303,6 +1317,7 @@ func die() -> void:
 	if respawning:
 		return
 	respawning = true
+	_play_sound(&"death")
 	knockback = Vector2.ZERO
 	velocity = Vector2.ZERO
 	var skeff = get_tree().get_first_node_in_group("spawnSkeff")

@@ -3,7 +3,7 @@ extends enemy
 @export var speed: float = 500.0
 
 func _ready() -> void:
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(2.0, false).timeout
 	queue_free()
 
 func _process(delta: float) -> void:

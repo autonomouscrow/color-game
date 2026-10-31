@@ -64,7 +64,7 @@ func _start_windup() -> void:
 		slide_direction = 1
 
 
-	await get_tree().create_timer(windup_time).timeout
+	await get_tree().create_timer(windup_time, false).timeout
 	_start_slide()
 
 func _start_slide() -> void:
@@ -83,7 +83,7 @@ func _end_slide() -> void:
 	hitbox_shape.disabled = true
 	current_state = State.COOLDOWN
 	
-	await get_tree().create_timer(cooldown_time).timeout
+	await get_tree().create_timer(cooldown_time, false).timeout
 
 	if can_see(player_target):
 		_start_windup()
