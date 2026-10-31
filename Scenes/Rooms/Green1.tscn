@@ -12,14 +12,18 @@
 script = ExtResource("1_7vu7n")
 EnemyObjects = [NodePath("Slime"), NodePath("Node2D/Slime"), NodePath("Node2D/Slime2"), NodePath("Node2D/Slime3")]
 
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("5_qautl")]
+position = Vector2(3066, -147)
+scale = Vector2(165.77728, 80.82508)
+
 [node name="OutL" parent="." unique_id=199470789 instance=ExtResource("2_2gly8")]
-position = Vector2(1298, -161)
-scale = Vector2(1, 61.320004)
+position = Vector2(1369, -159)
+scale = Vector2(0.5200025, 61.320004)
 target_room_id = "Start"
 target_door_id = "rightExit"
 
 [node name="InL" type="Marker2D" parent="." unique_id=525671204]
-position = Vector2(1323, 391)
+position = Vector2(1400, 393)
 
 [node name="Box" parent="." unique_id=1599687405 instance=ExtResource("3_qautl")]
 position = Vector2(1272, 393)
@@ -110,10 +114,6 @@ scale = Vector2(39.479992, 7.9199996)
 [node name="Box13" parent="Node2D" unique_id=294582250 instance=ExtResource("3_qautl")]
 position = Vector2(2223, 381)
 scale = Vector2(61.358383, -1.948254)
-
-[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("5_qautl")]
-position = Vector2(2993, -147)
-scale = Vector2(162.17728, 80.82508)
 
 [node name="OutR2" parent="." unique_id=792090010 instance=ExtResource("2_2gly8")]
 position = Vector2(4687, -647)

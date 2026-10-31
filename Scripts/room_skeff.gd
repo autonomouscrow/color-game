@@ -13,7 +13,12 @@ extends Node2D
 	"Red2": "res://Scenes/Rooms/red_2.tscn",
 	"Blue1": "res://Scenes/Rooms/Blue1.tscn",
 	"Blue2": "res://Scenes/Rooms/Blue2.tscn",
-	"yellow1": "res://Scenes/Rooms/yellow_1.tscn"
+	"yellow1": "res://Scenes/Rooms/yellow_1.tscn",
+	"Yellow2": "res://Scenes/Rooms/yellow_2.tscn",
+	"gauntlet": "res://Scenes/Rooms/gauntlet.tscn",
+	"Fall": "res://Scenes/Rooms/fall.tscn"
+	
+	
 }
 @export var Hue: CharacterBody2D
 @export var spawnControl: Node2D

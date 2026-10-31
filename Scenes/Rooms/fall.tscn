@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://7d8op5k4nmyk"]
+
+[ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_je0wp"]
+[ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="2_6qewu"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_xo1kr"]
+[ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="4_cj8p8"]
+[ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="5_no0dr"]
+
+[node name="Fall" type="Node2D" unique_id=756265261 groups=["Room"]]
+script = ExtResource("1_je0wp")
+
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_6qewu")]
+position = Vector2(562, -7140)
+scale = Vector2(86.03377, 682.8827)
+
+[node name="platforms" type="Node2D" parent="." unique_id=1373208686]
+position = Vector2(0, -335.9995)
+
+[node name="Box" parent="platforms" unique_id=1599687405 instance=ExtResource("3_xo1kr")]
+position = Vector2(-115, -7224.001)
+scale = Vector2(1, 764.0801)
+
+[node name="Box2" parent="platforms" unique_id=1348309499 instance=ExtResource("3_xo1kr")]
+position = Vector2(1044, -7152)
+scale = Vector2(1, 764.0801)
+
+[node name="Box3" parent="platforms" unique_id=1009507987 instance=ExtResource("3_xo1kr")]
+position = Vector2(561.99994, 139)
+scale = Vector2(95.08, 1)
+
+[node name="DamageBlock" parent="platforms" unique_id=2136408807 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1017, -14702)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock2" parent="platforms" unique_id=1481609397 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1013, -13340.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock3" parent="platforms" unique_id=852904769 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1017, -11928)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock4" parent="platforms" unique_id=1933971961 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1013, -10566.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock5" parent="platforms" unique_id=540657427 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1012, -9222)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock6" parent="platforms" unique_id=1956996632 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1008, -7860.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock7" parent="platforms" unique_id=270888908 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1012, -6448)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock8" parent="platforms" unique_id=341230326 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1008, -5086.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock9" parent="platforms" unique_id=1799781349 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1004, -3700)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock10" parent="platforms" unique_id=627334041 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1000, -2338.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock11" parent="platforms" unique_id=1689968642 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(1004, -926)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock12" parent="platforms" unique_id=552357084 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-94, -14702)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock13" parent="platforms" unique_id=1420909255 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-98, -13340.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock14" parent="platforms" unique_id=2082984984 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-94, -11928)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock15" parent="platforms" unique_id=1907373731 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-98, -10566.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock16" parent="platforms" unique_id=1969795147 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-99, -9222)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock17" parent="platforms" unique_id=1671542819 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-103, -7860.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock18" parent="platforms" unique_id=330758503 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-99, -6448)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock19" parent="platforms" unique_id=1884321335 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-103, -5086.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock20" parent="platforms" unique_id=711093003 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-107, -3700)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock21" parent="platforms" unique_id=981481802 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-111, -2338.999)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="DamageBlock22" parent="platforms" unique_id=490219986 node_paths=PackedStringArray("safeZone") instance=ExtResource("4_cj8p8")]
+position = Vector2(-107, -926)
+scale = Vector2(1, 31.760002)
+safeZone = NodePath("../../InU")
+
+[node name="OutD" parent="." unique_id=199470789 instance=ExtResource("5_no0dr")]
+position = Vector2(451, -221.99951)
+scale = Vector2(41.199997, 1)
+target_room_id = "Start"
+target_door_id = "InU"
+
+[node name="InU" type="Marker2D" parent="." unique_id=1013967555]
+position = Vector2(487, -1778)

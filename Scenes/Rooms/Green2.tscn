@@ -13,6 +13,10 @@
 script = ExtResource("1_gey60")
 EnemyObjects = [NodePath("Slime"), NodePath("Slime2"), NodePath("WallSitters"), NodePath("WallSitters2"), NodePath("WallSitters3"), NodePath("WallSitters4"), NodePath("WallSitters5"), NodePath("WallSitters6"), NodePath("WallSitters7"), NodePath("Slime3"), NodePath("Slime4"), NodePath("Slime6"), NodePath("Slime7"), NodePath("Slime8"), NodePath("Slime9"), NodePath("Slime10"), NodePath("Slime11"), NodePath("Slime12"), NodePath("Slime13"), NodePath("WallSitters8"), NodePath("WallSitters9"), NodePath("WallSitters10"), NodePath("WallSitters11"), NodePath("WallSitters12")]
 
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("5_niq6w")]
+position = Vector2(8200, -147)
+scale = Vector2(337.57724, 80.82508)
+
 [node name="OutL1" parent="." unique_id=199470789 instance=ExtResource("3_mupk5")]
 position = Vector2(4775, 112)
 scale = Vector2(1, 15.039998)
@@ -53,10 +57,6 @@ position = Vector2(6403, 56)
 [node name="Slime2" parent="." unique_id=833719316 instance=ExtResource("4_mupk5")]
 position = Vector2(6180, 63)
 crawl_speed = 100.0
-
-[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("5_niq6w")]
-position = Vector2(8200, -147)
-scale = Vector2(337.57724, 80.82508)
 
 [node name="Box4" parent="." unique_id=134018732 instance=ExtResource("4_niq6w")]
 position = Vector2(6956, 61)

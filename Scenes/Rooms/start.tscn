@@ -6,56 +6,53 @@
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="3_1n0d2"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_y5hus"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
-
 [node name="Start" type="Node2D" unique_id=118567636 groups=["Room"]]
 script = ExtResource("1_oiuna")
 
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_y5hus")]
+position = Vector2(493.00003, 184.16577)
+scale = Vector2(77.39998, 52.44)
+
 [node name="Exit" parent="." unique_id=199470789 instance=ExtResource("1_ots34")]
-position = Vector2(1272, 394)
-scale = Vector2(1, 15.039998)
+position = Vector2(1289, 394.16574)
+scale = Vector2(0.48000002, 15.039998)
 target_room_id = "Green1"
 target_door_id = "InL"
 
 [node name="rightExit" type="Marker2D" parent="." unique_id=62011328]
-position = Vector2(1243, 392)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=128731402]
-position = Vector2(1338, 386)
-scale = Vector2(1, 15.039998)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2037355453]
-position = Vector2(-47, 0.46542558)
-shape = SubResource("RectangleShape2D_x3acn")
+position = Vector2(1254, 456.16577)
 
 [node name="Box" parent="." unique_id=1599687405 instance=ExtResource("2_qn1rc")]
-position = Vector2(631, 665)
+position = Vector2(664, 665.1658)
 scale = Vector2(42.24, 1)
 
 [node name="Box2" parent="." unique_id=2104926722 instance=ExtResource("2_qn1rc")]
-position = Vector2(200, 645)
+position = Vector2(233, 645.1658)
 scale = Vector2(7.9999995, 1)
 
 [node name="Box3" parent="." unique_id=277372887 instance=ExtResource("2_qn1rc")]
-position = Vector2(1066, 645)
+position = Vector2(1099, 645.1658)
 scale = Vector2(7.9999995, 1)
 
 [node name="Box4" parent="." unique_id=1514885839 instance=ExtResource("2_qn1rc")]
-position = Vector2(1105, 616)
+position = Vector2(1138, 616.1658)
 scale = Vector2(7.9999995, 3.12)
 
 [node name="Box5" parent="." unique_id=1539496219 instance=ExtResource("2_qn1rc")]
-position = Vector2(1189, 563)
+position = Vector2(1222, 563.1658)
 scale = Vector2(10.600009, 3.12)
 
 [node name="Box6" parent="." unique_id=1804923726 instance=ExtResource("2_qn1rc")]
-position = Vector2(117, 406)
+position = Vector2(150, 406.16577)
 scale = Vector2(1, 23)
 
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("3_1n0d2")]
-position = Vector2(243, 605)
+position = Vector2(276, 605.1658)
 hide = true
 
-[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_y5hus")]
-position = Vector2(631, 357)
-scale = Vector2(58.399994, 35.68)
+[node name="InU" type="Marker2D" parent="." unique_id=273608030]
+position = Vector2(656.78784, -150)
+
+[node name="Box7" parent="." unique_id=74059077 instance=ExtResource("2_qn1rc")]
+position = Vector2(1321, 379.16577)
+scale = Vector2(1, 18.56)

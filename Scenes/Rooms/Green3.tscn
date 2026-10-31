@@ -12,6 +12,10 @@
 script = ExtResource("1_m87rl")
 EnemyObjects = [NodePath("Slime"), NodePath("Slime2"), NodePath("Slime3"), NodePath("Slime4"), NodePath("Slime5"), NodePath("Slime8"), NodePath("Slime9"), NodePath("Slime10"), NodePath("Slime6"), NodePath("Slime7")]
 
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_jfnis")]
+position = Vector2(8200, -1966.9999)
+scale = Vector2(337.57724, 80.82508)
+
 [node name="OutM1" parent="." unique_id=199470789 instance=ExtResource("3_5ggvd")]
 position = Vector2(8396, -1078)
 scale = Vector2(34.64002, 1.2399969)
@@ -37,10 +41,6 @@ scale = Vector2(25.388165, 12.683817)
 [node name="Box3" parent="." unique_id=1900085827 instance=ExtResource("4_ho2ax")]
 position = Vector2(8730, -1246)
 scale = Vector2(21.462557, 25.186945)
-
-[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_jfnis")]
-position = Vector2(8200, -1966.9999)
-scale = Vector2(337.57724, 80.82508)
 
 [node name="Box4" parent="." unique_id=1977660247 instance=ExtResource("4_ho2ax")]
 position = Vector2(5263, -2173)

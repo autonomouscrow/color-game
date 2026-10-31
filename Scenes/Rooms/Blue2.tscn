@@ -497,7 +497,7 @@ scale = Vector2(15.64001, 1)
 
 [node name="Box65" parent="platforms" unique_id=816086541 instance=ExtResource("11_43rxf")]
 position = Vector2(8232, -11663)
-scale = Vector2(6.24, 19.36)
+scale = Vector2(1.0799809, 19.36)
 
 [node name="Box66" parent="platforms" unique_id=1072970468 instance=ExtResource("11_43rxf")]
 position = Vector2(8075, -11635)
@@ -621,9 +621,9 @@ position = Vector2(7655, -10522)
 position = Vector2(8334, -11702)
 
 [node name="Exit" parent="." unique_id=1381020251 instance=ExtResource("10_sw8ec")]
-position = Vector2(8332, -11747)
+position = Vector2(8303, -11744)
 scale = Vector2(5.24, 1)
-target_room_id = "Yellow1"
+target_room_id = "yellow1"
 target_door_id = "InD"
 
 [node name="Canvas" parent="." unique_id=1299036508 instance=ExtResource("12_3vkun")]

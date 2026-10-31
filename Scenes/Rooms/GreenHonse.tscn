@@ -8,6 +8,10 @@
 [node name="GreenHonse" type="Node2D" unique_id=2046928556 groups=["Room"]]
 script = ExtResource("1_slyfa")
 
+[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_slyfa")]
+position = Vector2(12297, -10)
+scale = Vector2(57.989933, -67.33202)
+
 [node name="OutL" parent="." unique_id=199470789 instance=ExtResource("3_dq0vl")]
 position = Vector2(11672, 112)
 scale = Vector2(1, 15.039998)
@@ -29,7 +33,3 @@ scale = Vector2(63.372536, 1.477747)
 [node name="Box2" parent="." unique_id=2113618482 instance=ExtResource("4_gop86")]
 position = Vector2(12926, -97)
 scale = Vector2(1.4739314, 34.994972)
-
-[node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_slyfa")]
-position = Vector2(12297, -10)
-scale = Vector2(57.989933, -67.33202)
