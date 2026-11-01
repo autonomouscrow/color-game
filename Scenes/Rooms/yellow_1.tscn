@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="4_ndrtu"]
 [ext_resource type="PackedScene" uid="uid://butbrp11dq2nx" path="res://Scenes/Prefabs/ninja.tscn" id="5_hg87o"]
 [ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="5_ndrtu"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Dasher.tscn" id="6_411p2"]
+[ext_resource type="PackedScene" uid="uid://cm55gamptkieg" path="res://Scenes/Prefabs/Dasher.tscn" id="6_411p2"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="8_xq887"]
 [ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://Scenes/Prefabs/ancestors.tscn" id="9_riagq"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="10_o0go0"]
@@ -310,7 +310,6 @@ position = Vector2(5144, -13430)
 scale = Vector2(19.24, 1)
 
 [node name="enemies" type="Node2D" parent="." unique_id=1733346520]
-visible = false
 
 [node name="Slime" parent="enemies" unique_id=316356887 instance=ExtResource("5_ndrtu")]
 position = Vector2(1253, -10177)

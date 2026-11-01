@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bcvtbm13l15kk"]
+
+[ext_resource type="Texture2D" uid="uid://bt80xt7cvabrg" path="res://Tutorial Green.png" id="1_0fbet"]
+[ext_resource type="Script" uid="uid://ccpenngucv3yt" path="res://control.gd" id="1_kbped"]
+[ext_resource type="Texture2D" uid="uid://d7vjm4etykcl" path="res://Tutorial Blue.png" id="2_ee4bf"]
+[ext_resource type="Texture2D" uid="uid://crlax6jjkewyh" path="res://Tutorial Red.png" id="3_kbped"]
+[ext_resource type="Texture2D" uid="uid://wgrk8k71ol04" path="res://Tutorial Yellow.png" id="4_fj5cn"]
+
+[node name="Green" type="Control" unique_id=635701149 groups=["Instructions"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kbped")
+G = ExtResource("1_0fbet")
+R = ExtResource("3_kbped")
+B = ExtResource("2_ee4bf")
+Y = ExtResource("4_fj5cn")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=911012535]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -40.0
+scale = Vector2(34.56, 20.760002)
+color = Color(0, 0, 0, 1)

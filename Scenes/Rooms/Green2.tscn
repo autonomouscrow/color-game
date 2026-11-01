@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="8_1haui"]
 [ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://Scenes/Prefabs/color_crystal.tscn" id="9_1haui"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="10_dxi85"]
+[ext_resource type="Texture2D" uid="uid://bt80xt7cvabrg" path="res://Tutorial Green.png" id="11_a2lnf"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="12_7fj1w"]
 [ext_resource type="Texture2D" uid="uid://bj2am0fu5gb7k" path="res://sprites/ColorCrystalG.png" id="13_i62e3"]
 
@@ -352,6 +353,7 @@ scale = Vector2(41.26023, 38.53505)
 [node name="ColorCrystal" parent="." unique_id=1691775424 instance=ExtResource("9_1haui")]
 position = Vector2(10755, 604)
 color = 4
+tutorial = ExtResource("11_a2lnf")
 
 [node name="ColorZone" parent="." unique_id=1746566238 instance=ExtResource("10_dxi85")]
 position = Vector2(7057, -27)
