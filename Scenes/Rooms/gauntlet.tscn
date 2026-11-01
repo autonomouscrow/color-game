@@ -408,4 +408,5 @@ scale = Vector2(1, 13.44002)
 position = Vector2(1359.3478, -20360.625)
 
 [node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("7_4ba2h")]
-position = Vector2(984, -16525)
+position = Vector2(1009, -16512)
+scale = Vector2(-1, 1)
