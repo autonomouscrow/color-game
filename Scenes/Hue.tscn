@@ -2,8 +2,799 @@
 
 [ext_resource type="Script" uid="uid://cl5jbihvjv8ca" path="res://Scripts/Hue.gd" id="1_wn31x"]
 
+[ext_resource type="Shader" path="res://Shaders/palette_swap.gdshader" id="2_palette"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_palette"]
+shader = ExtResource("2_palette")
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hb1x"]
 size = Vector2(32, 64)
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = &"idle"
+length = 1.0
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_run"]
+resource_name = &"run"
+length = 0.6
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_jump"]
+resource_name = &"jump"
+length = 0.3
+
+[sub_resource type="Animation" id="Animation_fall"]
+resource_name = &"fall"
+length = 0.4
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_land"]
+resource_name = &"land"
+length = 0.15
+
+[sub_resource type="Animation" id="Animation_glide"]
+resource_name = &"glide"
+length = 0.6
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_cling"]
+resource_name = &"cling"
+length = 0.6
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_slide"]
+resource_name = &"slide"
+length = 0.4
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_squat"]
+resource_name = &"squat"
+length = 0.4
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_slam"]
+resource_name = &"slam"
+length = 0.3
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_dive"]
+resource_name = &"dive"
+length = 0.3
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_dash"]
+resource_name = &"dash"
+length = 0.2
+
+[sub_resource type="Animation" id="Animation_punch"]
+resource_name = &"punch"
+length = 0.3
+
+[sub_resource type="Animation" id="Animation_uppercut"]
+resource_name = &"uppercut"
+length = 0.3
+
+[sub_resource type="Animation" id="Animation_gun"]
+resource_name = &"gun"
+length = 0.25
+
+[sub_resource type="Animation" id="Animation_burst_charge"]
+resource_name = &"burst_charge"
+length = 0.15
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_burst"]
+resource_name = &"burst"
+length = 0.25
+
+[sub_resource type="Animation" id="Animation_heal"]
+resource_name = &"heal"
+length = 2.0
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_crisis"]
+resource_name = &"crisis"
+length = 3.0
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hue"]
+_data = {
+&"idle": SubResource("Animation_idle"),
+&"run": SubResource("Animation_run"),
+&"jump": SubResource("Animation_jump"),
+&"fall": SubResource("Animation_fall"),
+&"land": SubResource("Animation_land"),
+&"glide": SubResource("Animation_glide"),
+&"cling": SubResource("Animation_cling"),
+&"slide": SubResource("Animation_slide"),
+&"squat": SubResource("Animation_squat"),
+&"slam": SubResource("Animation_slam"),
+&"dive": SubResource("Animation_dive"),
+&"dash": SubResource("Animation_dash"),
+&"punch": SubResource("Animation_punch"),
+&"uppercut": SubResource("Animation_uppercut"),
+&"gun": SubResource("Animation_gun"),
+&"burst_charge": SubResource("Animation_burst_charge"),
+&"burst": SubResource("Animation_burst"),
+&"heal": SubResource("Animation_heal"),
+&"crisis": SubResource("Animation_crisis")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_idle"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_run"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_jump"]
+animation = &"jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_fall"]
+animation = &"fall"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_land"]
+animation = &"land"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_glide"]
+animation = &"glide"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_cling"]
+animation = &"cling"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_slide"]
+animation = &"slide"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_squat"]
+animation = &"squat"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_slam"]
+animation = &"slam"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_dive"]
+animation = &"dive"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_dash"]
+animation = &"dash"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_punch"]
+animation = &"punch"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_uppercut"]
+animation = &"uppercut"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_gun"]
+animation = &"gun"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_burst_charge"]
+animation = &"burst_charge"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_burst"]
+animation = &"burst"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_heal"]
+animation = &"heal"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_crisis"]
+animation = &"crisis"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_start"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_0"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_1"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_2"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_3"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_4"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_5"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_6"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_7"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_8"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_9"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_10"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_11"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_12"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_13"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_14"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_15"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_16"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_17"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_18"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_19"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_20"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_21"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_22"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_23"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_24"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_25"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_26"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_27"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_28"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_29"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_30"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_31"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_32"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_33"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_34"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_35"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_36"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_37"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_38"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_39"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_40"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_41"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_42"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_43"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_44"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_45"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_46"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_47"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_48"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_49"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_50"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_51"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_52"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_53"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_54"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_55"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_56"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_57"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_58"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_59"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_60"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_61"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_62"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_63"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_64"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_65"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_66"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_67"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_68"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_69"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_70"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_71"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_72"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_73"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_74"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_75"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_76"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_77"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_78"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_79"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_80"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_81"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_82"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_83"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_84"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_85"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_86"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_87"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_88"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_89"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_90"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_91"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_92"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_93"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_94"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_95"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_96"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_97"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_98"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_99"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_100"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_101"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_102"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_103"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_104"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_105"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_106"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_107"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_108"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_109"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_110"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_111"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_112"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_113"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_114"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_115"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_116"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_117"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_118"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_119"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_120"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_121"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_122"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_123"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_124"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_125"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_126"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_127"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_128"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_129"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_130"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_131"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_132"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_133"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_134"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_135"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_136"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_137"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_138"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_139"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_140"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_141"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_142"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_143"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_144"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_145"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_146"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_147"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_148"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_149"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_150"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_151"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_152"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_153"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_154"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_155"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_156"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_157"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_158"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_159"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_160"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_161"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_162"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_163"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_164"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_165"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_166"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_167"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_168"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_169"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_170"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_171"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_172"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_173"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_174"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_175"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_176"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_177"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_hue"]
+states/End/position = Vector2(1150, 900)
+states/Start/position = Vector2(100, 150)
+states/idle/node = SubResource("AnimNode_idle")
+states/idle/position = Vector2(350, 400)
+states/run/node = SubResource("AnimNode_run")
+states/run/position = Vector2(350, 600)
+states/jump/node = SubResource("AnimNode_jump")
+states/jump/position = Vector2(750, 200)
+states/fall/node = SubResource("AnimNode_fall")
+states/fall/position = Vector2(750, 400)
+states/land/node = SubResource("AnimNode_land")
+states/land/position = Vector2(550, 500)
+states/glide/node = SubResource("AnimNode_glide")
+states/glide/position = Vector2(1000, 200)
+states/cling/node = SubResource("AnimNode_cling")
+states/cling/position = Vector2(1000, 400)
+states/slide/node = SubResource("AnimNode_slide")
+states/slide/position = Vector2(550, 750)
+states/squat/node = SubResource("AnimNode_squat")
+states/squat/position = Vector2(350, 800)
+states/slam/node = SubResource("AnimNode_slam")
+states/slam/position = Vector2(1000, 600)
+states/dive/node = SubResource("AnimNode_dive")
+states/dive/position = Vector2(1000, 750)
+states/dash/node = SubResource("AnimNode_dash")
+states/dash/position = Vector2(750, 900)
+states/punch/node = SubResource("AnimNode_punch")
+states/punch/position = Vector2(100, 100)
+states/uppercut/node = SubResource("AnimNode_uppercut")
+states/uppercut/position = Vector2(350, 100)
+states/gun/node = SubResource("AnimNode_gun")
+states/gun/position = Vector2(550, 100)
+states/burst_charge/node = SubResource("AnimNode_burst_charge")
+states/burst_charge/position = Vector2(100, 600)
+states/burst/node = SubResource("AnimNode_burst")
+states/burst/position = Vector2(100, 800)
+states/heal/node = SubResource("AnimNode_heal")
+states/heal/position = Vector2(100, 350)
+states/crisis/node = SubResource("AnimNode_crisis")
+states/crisis/position = Vector2(100, 500)
+transitions = ["Start", "idle", SubResource("Trans_start"), "idle", "run", SubResource("Trans_0"), "idle", "jump", SubResource("Trans_1"), "idle", "fall", SubResource("Trans_2"), "idle", "land", SubResource("Trans_3"), "idle", "slide", SubResource("Trans_4"), "idle", "dash", SubResource("Trans_5"), "idle", "heal", SubResource("Trans_6"), "idle", "crisis", SubResource("Trans_7"), "idle", "burst_charge", SubResource("Trans_8"), "idle", "punch", SubResource("Trans_9"), "idle", "uppercut", SubResource("Trans_10"), "idle", "gun", SubResource("Trans_11"), "run", "idle", SubResource("Trans_12"), "run", "jump", SubResource("Trans_13"), "run", "fall", SubResource("Trans_14"), "run", "slide", SubResource("Trans_15"), "run", "dash", SubResource("Trans_16"), "run", "burst_charge", SubResource("Trans_17"), "run", "punch", SubResource("Trans_18"), "run", "uppercut", SubResource("Trans_19"), "run", "gun", SubResource("Trans_20"), "jump", "fall", SubResource("Trans_21"), "jump", "land", SubResource("Trans_22"), "jump", "glide", SubResource("Trans_23"), "jump", "cling", SubResource("Trans_24"), "jump", "slam", SubResource("Trans_25"), "jump", "dive", SubResource("Trans_26"), "jump", "dash", SubResource("Trans_27"), "jump", "burst_charge", SubResource("Trans_28"), "jump", "punch", SubResource("Trans_29"), "jump", "uppercut", SubResource("Trans_30"), "jump", "gun", SubResource("Trans_31"), "fall", "jump", SubResource("Trans_32"), "fall", "land", SubResource("Trans_33"), "fall", "glide", SubResource("Trans_34"), "fall", "cling", SubResource("Trans_35"), "fall", "slam", SubResource("Trans_36"), "fall", "dive", SubResource("Trans_37"), "fall", "dash", SubResource("Trans_38"), "fall", "burst_charge", SubResource("Trans_39"), "fall", "punch", SubResource("Trans_40"), "fall", "uppercut", SubResource("Trans_41"), "fall", "gun", SubResource("Trans_42"), "glide", "fall", SubResource("Trans_43"), "glide", "land", SubResource("Trans_44"), "glide", "cling", SubResource("Trans_45"), "glide", "slam", SubResource("Trans_46"), "glide", "dive", SubResource("Trans_47"), "glide", "dash", SubResource("Trans_48"), "glide", "burst_charge", SubResource("Trans_49"), "glide", "punch", SubResource("Trans_50"), "glide", "uppercut", SubResource("Trans_51"), "glide", "gun", SubResource("Trans_52"), "land", "idle", SubResource("Trans_53"), "land", "run", SubResource("Trans_54"), "land", "jump", SubResource("Trans_55"), "land", "fall", SubResource("Trans_56"), "land", "slide", SubResource("Trans_57"), "land", "dash", SubResource("Trans_58"), "land", "burst_charge", SubResource("Trans_59"), "land", "punch", SubResource("Trans_60"), "land", "uppercut", SubResource("Trans_61"), "land", "gun", SubResource("Trans_62"), "cling", "jump", SubResource("Trans_63"), "cling", "fall", SubResource("Trans_64"), "cling", "land", SubResource("Trans_65"), "cling", "idle", SubResource("Trans_66"), "cling", "slam", SubResource("Trans_67"), "cling", "dash", SubResource("Trans_68"), "cling", "punch", SubResource("Trans_69"), "cling", "uppercut", SubResource("Trans_70"), "cling", "gun", SubResource("Trans_71"), "slide", "idle", SubResource("Trans_72"), "slide", "run", SubResource("Trans_73"), "slide", "squat", SubResource("Trans_74"), "slide", "jump", SubResource("Trans_75"), "slide", "fall", SubResource("Trans_76"), "slide", "dash", SubResource("Trans_77"), "slide", "punch", SubResource("Trans_78"), "slide", "uppercut", SubResource("Trans_79"), "slide", "gun", SubResource("Trans_80"), "squat", "slide", SubResource("Trans_81"), "squat", "idle", SubResource("Trans_82"), "squat", "run", SubResource("Trans_83"), "squat", "dash", SubResource("Trans_84"), "slam", "squat", SubResource("Trans_85"), "slam", "slide", SubResource("Trans_86"), "slam", "dash", SubResource("Trans_87"), "slam", "punch", SubResource("Trans_88"), "slam", "uppercut", SubResource("Trans_89"), "slam", "gun", SubResource("Trans_90"), "dive", "slide", SubResource("Trans_91"), "dive", "squat", SubResource("Trans_92"), "dive", "dash", SubResource("Trans_93"), "dive", "punch", SubResource("Trans_94"), "dive", "uppercut", SubResource("Trans_95"), "dive", "gun", SubResource("Trans_96"), "dash", "idle", SubResource("Trans_97"), "dash", "run", SubResource("Trans_98"), "dash", "fall", SubResource("Trans_99"), "dash", "jump", SubResource("Trans_100"), "dash", "glide", SubResource("Trans_101"), "dash", "cling", SubResource("Trans_102"), "dash", "slide", SubResource("Trans_103"), "dash", "punch", SubResource("Trans_104"), "dash", "uppercut", SubResource("Trans_105"), "dash", "gun", SubResource("Trans_106"), "burst_charge", "burst", SubResource("Trans_107"), "burst_charge", "idle", SubResource("Trans_108"), "burst_charge", "run", SubResource("Trans_109"), "burst_charge", "jump", SubResource("Trans_110"), "burst_charge", "fall", SubResource("Trans_111"), "burst_charge", "slide", SubResource("Trans_112"), "burst_charge", "slam", SubResource("Trans_113"), "burst_charge", "dive", SubResource("Trans_114"), "burst_charge", "dash", SubResource("Trans_115"), "burst_charge", "punch", SubResource("Trans_116"), "burst_charge", "uppercut", SubResource("Trans_117"), "burst_charge", "gun", SubResource("Trans_118"), "heal", "idle", SubResource("Trans_119"), "heal", "run", SubResource("Trans_120"), "heal", "jump", SubResource("Trans_121"), "heal", "fall", SubResource("Trans_122"), "heal", "dash", SubResource("Trans_123"), "crisis", "idle", SubResource("Trans_124"), "crisis", "run", SubResource("Trans_125"), "crisis", "jump", SubResource("Trans_126"), "crisis", "fall", SubResource("Trans_127"), "crisis", "dash", SubResource("Trans_128"), "punch", "uppercut", SubResource("Trans_129"), "punch", "gun", SubResource("Trans_130"), "punch", "dash", SubResource("Trans_131"), "punch", "burst", SubResource("Trans_132"), "punch", "idle", SubResource("Trans_133"), "punch", "run", SubResource("Trans_134"), "punch", "jump", SubResource("Trans_135"), "punch", "fall", SubResource("Trans_136"), "punch", "land", SubResource("Trans_137"), "punch", "glide", SubResource("Trans_138"), "punch", "cling", SubResource("Trans_139"), "punch", "slide", SubResource("Trans_140"), "punch", "squat", SubResource("Trans_141"), "punch", "slam", SubResource("Trans_142"), "punch", "dive", SubResource("Trans_143"), "uppercut", "punch", SubResource("Trans_144"), "uppercut", "gun", SubResource("Trans_145"), "uppercut", "dash", SubResource("Trans_146"), "uppercut", "burst", SubResource("Trans_147"), "uppercut", "idle", SubResource("Trans_148"), "uppercut", "run", SubResource("Trans_149"), "uppercut", "jump", SubResource("Trans_150"), "uppercut", "fall", SubResource("Trans_151"), "uppercut", "land", SubResource("Trans_152"), "uppercut", "glide", SubResource("Trans_153"), "uppercut", "cling", SubResource("Trans_154"), "uppercut", "slide", SubResource("Trans_155"), "uppercut", "squat", SubResource("Trans_156"), "uppercut", "slam", SubResource("Trans_157"), "uppercut", "dive", SubResource("Trans_158"), "gun", "punch", SubResource("Trans_159"), "gun", "uppercut", SubResource("Trans_160"), "gun", "dash", SubResource("Trans_161"), "gun", "burst", SubResource("Trans_162"), "gun", "idle", SubResource("Trans_163"), "gun", "run", SubResource("Trans_164"), "gun", "jump", SubResource("Trans_165"), "gun", "fall", SubResource("Trans_166"), "gun", "land", SubResource("Trans_167"), "gun", "glide", SubResource("Trans_168"), "gun", "cling", SubResource("Trans_169"), "gun", "slide", SubResource("Trans_170"), "gun", "squat", SubResource("Trans_171"), "gun", "slam", SubResource("Trans_172"), "gun", "dive", SubResource("Trans_173"), "burst", "idle", SubResource("Trans_174"), "burst", "fall", SubResource("Trans_175"), "burst", "jump", SubResource("Trans_176"), "burst", "run", SubResource("Trans_177")]
+graph_offset = Vector2(0, 0)
 
 [node name="Hue" type="CharacterBody2D" unique_id=1902301394]
 script = ExtResource("1_wn31x")
@@ -19,3 +810,16 @@ offset_left = -16.0
 offset_top = -32.0
 offset_right = 16.0
 offset_bottom = 32.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_palette")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_hue")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+callback_mode_process = 0
+tree_root = SubResource("AnimationNodeStateMachine_hue")
+anim_player = NodePath("../AnimationPlayer")
