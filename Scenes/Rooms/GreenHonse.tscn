@@ -1,26 +1,49 @@
 [gd_scene format=3 uid="uid://ntjwn162y8of"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_slyfa"]
+[ext_resource type="Texture2D" uid="uid://dqqycsf5jelis" path="res://sprites/grey.png" id="2_x1syw"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_dq0vl"]
+[ext_resource type="Texture2D" uid="uid://c2w3x7gnkb5j5" path="res://sprites/Color splotch G.png" id="3_o2nvf"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="4_gop86"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_slyfa"]
+[ext_resource type="Texture2D" uid="uid://dabxdv8tegir6" path="res://sprites/gray.png" id="4_uxxdb"]
 [ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://Scenes/Prefabs/ancestors.tscn" id="5_u5oj7"]
+[ext_resource type="Texture2D" uid="uid://c5icxeaqgkec7" path="res://sprites/gluehonse.png" id="9_uxxdb"]
+[ext_resource type="PackedScene" uid="uid://dlaq8kmhddk8v" path="res://Scenes/Prefabs/text.tscn" id="10_5ouxi"]
 
 [node name="GreenHonse" type="Node2D" unique_id=2046928556 groups=["Room"]]
 script = ExtResource("1_slyfa")
 
+[node name="Grey" type="Sprite2D" parent="." unique_id=1113355459]
+position = Vector2(12275, -58)
+scale = Vector2(1.6000097, 2.4800003)
+texture = ExtResource("2_x1syw")
+
+[node name="ColorSplotchG" type="Sprite2D" parent="Grey" unique_id=2083484438]
+position = Vector2(356.87256, 137.49997)
+rotation = -0.8014069
+scale = Vector2(0.47604564, 0.5714821)
+skew = -0.38619637
+texture = ExtResource("3_o2nvf")
+
+[node name="Gray" type="Sprite2D" parent="Grey" unique_id=776640774]
+position = Vector2(439.37207, -10.0806465)
+scale = Vector2(0.07499956, 0.40322575)
+texture = ExtResource("4_uxxdb")
+
+[node name="Gray2" type="Sprite2D" parent="Grey" unique_id=1314149447]
+position = Vector2(49.375, 171.37094)
+scale = Vector2(0.8249951, 0.12903239)
+texture = ExtResource("4_uxxdb")
+
+[node name="ColorSplotchG2" type="Sprite2D" parent="Grey" unique_id=1066379643]
+position = Vector2(-258.12354, -120.56451)
+scale = Vector2(0.62499624, 0.40322575)
+texture = ExtResource("3_o2nvf")
+
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("4_slyfa")]
-position = Vector2(12297, -10)
-scale = Vector2(57.989933, -67.33202)
-
-[node name="OutL" parent="." unique_id=199470789 instance=ExtResource("3_dq0vl")]
-position = Vector2(11672, 112)
-scale = Vector2(1, 15.039998)
-target_room_id = "Green2"
-target_door_id = "InR1"
-
-[node name="InL" type="Marker2D" parent="." unique_id=1612901271]
-position = Vector2(11700, 215)
+position = Vector2(12310, -10)
+scale = Vector2(61.509933, -67.33202)
 
 [node name="Box38" parent="." unique_id=1599687405 instance=ExtResource("4_gop86")]
 position = Vector2(11647, 95)
@@ -36,4 +59,25 @@ position = Vector2(12926, -97)
 scale = Vector2(1.4739314, 34.994972)
 
 [node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("5_u5oj7")]
-position = Vector2(12278, 223)
+position = Vector2(12351, 226)
+
+[node name="Box3" parent="." unique_id=1568172694 instance=ExtResource("4_gop86")]
+position = Vector2(12800, -534)
+scale = Vector2(13.753953, 10.394972)
+
+[node name="Gluehonse" type="Sprite2D" parent="." unique_id=1560956580]
+position = Vector2(12487, 229)
+texture = ExtResource("9_uxxdb")
+
+[node name="text" parent="." unique_id=252815897 instance=ExtResource("10_5ouxi")]
+position = Vector2(12285, 170)
+write = "Take good care of him"
+
+[node name="OutL" parent="." unique_id=199470789 instance=ExtResource("3_dq0vl")]
+position = Vector2(11672, 112)
+scale = Vector2(1, 15.039998)
+target_room_id = "Green2"
+target_door_id = "InR1"
+
+[node name="InL" type="Marker2D" parent="." unique_id=1612901271]
+position = Vector2(11700, 215)

@@ -1,15 +1,284 @@
 [gd_scene format=3 uid="uid://7d8op5k4nmyk"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_je0wp"]
+[ext_resource type="Texture2D" uid="uid://dqqycsf5jelis" path="res://sprites/grey.png" id="2_2yswb"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="2_6qewu"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="3_xo1kr"]
+[ext_resource type="Texture2D" uid="uid://dabxdv8tegir6" path="res://sprites/gray.png" id="3_yh28u"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="4_cj8p8"]
+[ext_resource type="Texture2D" uid="uid://c2w3x7gnkb5j5" path="res://sprites/Color splotch G.png" id="5_5jtnl"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="5_no0dr"]
+[ext_resource type="Texture2D" uid="uid://cme7aajqbbfn" path="res://sprites/Color splotch R.png" id="6_nyme2"]
+[ext_resource type="Texture2D" uid="uid://bs1ju3b3uebvu" path="res://sprites/Color splotch Y.png" id="7_nrff6"]
+[ext_resource type="Texture2D" uid="uid://64gj4c5elv0d" path="res://sprites/Color splotch B.png" id="8_iy7yb"]
+[ext_resource type="Texture2D" uid="uid://culojj63643r0" path="res://sprites/Crystals.png" id="8_yh28u"]
 
 [node name="Fall" type="Node2D" unique_id=756265261 groups=["Room"]]
 script = ExtResource("1_je0wp")
 
+[node name="Grey" type="Sprite2D" parent="." unique_id=350808314]
+position = Vector2(463, -8102)
+scale = Vector2(1, 26.000002)
+texture = ExtResource("2_2yswb")
+
+[node name="Gray" type="Sprite2D" parent="Grey" unique_id=1896803509]
+position = Vector2(-639, 22.615387)
+scale = Vector2(0.120000035, 0.856923)
+texture = ExtResource("3_yh28u")
+
+[node name="Gray2" type="Sprite2D" parent="Grey" unique_id=96730202]
+position = Vector2(645, 26.192291)
+scale = Vector2(0.120000035, 0.856923)
+texture = ExtResource("3_yh28u")
+
+[node name="Crystals" type="Sprite2D" parent="Grey" unique_id=1735937811]
+position = Vector2(-545, -256.61536)
+scale = Vector2(1, 0.038461536)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals" unique_id=555545161]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals3" type="Sprite2D" parent="Grey/Crystals" unique_id=1209706619]
+position = Vector2(0, 1427)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals3" unique_id=2010575213]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals4" type="Sprite2D" parent="Grey/Crystals" unique_id=1371749187]
+position = Vector2(0, 2852)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals4" unique_id=31780327]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals5" type="Sprite2D" parent="Grey/Crystals" unique_id=2108636379]
+position = Vector2(0, 4273)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals5" unique_id=1751708547]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals6" type="Sprite2D" parent="Grey/Crystals" unique_id=2056522245]
+position = Vector2(0, 5716)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals6" unique_id=1958795725]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals7" type="Sprite2D" parent="Grey/Crystals" unique_id=899162392]
+position = Vector2(0, 7143)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals7" unique_id=897981649]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals8" type="Sprite2D" parent="Grey/Crystals" unique_id=1558557576]
+position = Vector2(0, 8568)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals8" unique_id=949840112]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals9" type="Sprite2D" parent="Grey/Crystals" unique_id=627526368]
+position = Vector2(0, 9989)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals9" unique_id=590719896]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals10" type="Sprite2D" parent="Grey/Crystals" unique_id=1336841744]
+position = Vector2(0, 11445)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals10" unique_id=700966998]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals11" type="Sprite2D" parent="Grey/Crystals" unique_id=1236905341]
+position = Vector2(0, 12872)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals11" unique_id=1755677532]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals12" type="Sprite2D" parent="Grey/Crystals" unique_id=545788622]
+position = Vector2(0, 14297)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals/Crystals12" unique_id=2113566802]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey" unique_id=988081150]
+position = Vector2(579, -256.46152)
+rotation = 3.1415927
+scale = Vector2(1, -0.038461536)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2" unique_id=778336646]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals3" type="Sprite2D" parent="Grey/Crystals2" unique_id=1975662220]
+position = Vector2(0, 1427)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals3" unique_id=418513186]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals4" type="Sprite2D" parent="Grey/Crystals2" unique_id=1022282598]
+position = Vector2(0, 2852)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals4" unique_id=1679467385]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals5" type="Sprite2D" parent="Grey/Crystals2" unique_id=1554039850]
+position = Vector2(0, 4273)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals5" unique_id=1108133415]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals6" type="Sprite2D" parent="Grey/Crystals2" unique_id=283889501]
+position = Vector2(0, 5716)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals6" unique_id=900152590]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals7" type="Sprite2D" parent="Grey/Crystals2" unique_id=1831802663]
+position = Vector2(0, 7143)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals7" unique_id=1509617981]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals8" type="Sprite2D" parent="Grey/Crystals2" unique_id=424901388]
+position = Vector2(0, 8568)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals8" unique_id=780647769]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals9" type="Sprite2D" parent="Grey/Crystals2" unique_id=1334522948]
+position = Vector2(0, 9989)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals9" unique_id=1731553484]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals10" type="Sprite2D" parent="Grey/Crystals2" unique_id=1183226607]
+position = Vector2(0, 11445)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals10" unique_id=1928595823]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals11" type="Sprite2D" parent="Grey/Crystals2" unique_id=479205375]
+position = Vector2(0, 12872)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals11" unique_id=1657330173]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals12" type="Sprite2D" parent="Grey/Crystals2" unique_id=473765768]
+position = Vector2(0, 14297)
+texture = ExtResource("8_yh28u")
+
+[node name="Crystals2" type="Sprite2D" parent="Grey/Crystals2/Crystals12" unique_id=130220240]
+position = Vector2(4, 681.001)
+texture = ExtResource("8_yh28u")
+
+[node name="ColorSplotchG" type="Sprite2D" parent="Grey" unique_id=1659777579]
+position = Vector2(-213, 42.076904)
+scale = Vector2(1, 0.038461536)
+texture = ExtResource("5_5jtnl")
+
+[node name="ColorSplotchG2" type="Sprite2D" parent="Grey" unique_id=424211351]
+position = Vector2(190, 150.49998)
+rotation = 0.09127315
+scale = Vector2(0.38902307, 0.92203057)
+skew = 1.4633621
+texture = ExtResource("5_5jtnl")
+
+[node name="ColorSplotchG3" type="Sprite2D" parent="Grey" unique_id=740593369]
+position = Vector2(-162.00043, 266.1923)
+rotation = -3.1079488
+scale = Vector2(0.7529771, 0.6591698)
+skew = 1.4932286
+texture = ExtResource("5_5jtnl")
+
+[node name="ColorSplotchR" type="Sprite2D" parent="Grey" unique_id=1913240022]
+position = Vector2(-215, 124.076904)
+scale = Vector2(1, 0.038461536)
+texture = ExtResource("6_nyme2")
+
+[node name="ColorSplotchR2" type="Sprite2D" parent="Grey" unique_id=1457089122]
+position = Vector2(315, 232.15382)
+rotation = 0.18208252
+scale = Vector2(0.20791523, 0.9789027)
+skew = 1.3806797
+texture = ExtResource("6_nyme2")
+
+[node name="ColorSplotchY" type="Sprite2D" parent="Grey" unique_id=1271946518]
+position = Vector2(244, 20.538452)
+scale = Vector2(1, 0.038461536)
+texture = ExtResource("7_nrff6")
+
+[node name="ColorSplotchY2" type="Sprite2D" parent="Grey" unique_id=1686787419]
+position = Vector2(-74.99994, 204.11536)
+rotation = 0.12541576
+scale = Vector2(0.29409727, 0.95654905)
+skew = 1.4336478
+texture = ExtResource("7_nrff6")
+
+[node name="ColorSplotchY3" type="Sprite2D" parent="Grey" unique_id=1582768076]
+position = Vector2(239, 302.99997)
+scale = Vector2(1, 0.038461536)
+texture = ExtResource("7_nrff6")
+
+[node name="ColorSplotchB" type="Sprite2D" parent="Grey" unique_id=369785365]
+position = Vector2(226, 57.923065)
+scale = Vector2(1, 0.038461536)
+texture = ExtResource("8_iy7yb")
+
+[node name="ColorSplotchB2" type="Sprite2D" parent="Grey" unique_id=698585673]
+position = Vector2(-214, 156.69229)
+rotation = 0.09154767
+scale = Vector2(0.38803515, 0.9224468)
+skew = 1.4631368
+texture = ExtResource("8_iy7yb")
+
+[node name="ColorSplotchB3" type="Sprite2D" parent="Grey" unique_id=831425813]
+position = Vector2(243, 275.23074)
+rotation = -3.1384368
+scale = Vector2(0.99665564, 0.09031469)
+skew = 1.1293026
+texture = ExtResource("8_iy7yb")
+
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_6qewu")]
+visible = false
 position = Vector2(562, -7140)
 scale = Vector2(86.03377, 682.8827)
 
