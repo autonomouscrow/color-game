@@ -52,7 +52,7 @@ animations = [{
 
 [node name="Green2" type="Node2D" unique_id=1525656117 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_gey60")
-EnemyObjects = [NodePath("Slime"), NodePath("Slime2"), NodePath("WallSitters"), NodePath("WallSitters2"), NodePath("WallSitters3"), NodePath("WallSitters4"), NodePath("WallSitters5"), NodePath("WallSitters6"), NodePath("WallSitters7"), NodePath("Slime3"), NodePath("Slime4"), NodePath("Slime6"), NodePath("Slime7"), NodePath("Slime8"), NodePath("Slime9"), NodePath("Slime10"), NodePath("Slime11"), NodePath("Slime12"), NodePath("Slime13"), NodePath("WallSitters8"), NodePath("WallSitters9"), NodePath("WallSitters10"), NodePath("WallSitters11"), NodePath("WallSitters12")]
+EnemyObjects = [NodePath("Slime"), NodePath("Slime2"), NodePath("WallSitters"), NodePath("WallSitters2"), NodePath("WallSitters3"), NodePath("WallSitters4"), NodePath("WallSitters5"), NodePath("WallSitters6"), NodePath("WallSitters7"), NodePath("Slime3"), NodePath("Slime4"), NodePath("Slime6"), NodePath("Slime7"), NodePath("Slime8"), NodePath("Slime9"), NodePath("Slime10"), NodePath("Slime11"), NodePath("Slime12"), NodePath("Slime13"), NodePath("WallSitters8"), NodePath("WallSitters9"), NodePath("WallSitters10"), NodePath("WallSitters11")]
 
 [node name="Green2" type="Sprite2D" parent="." unique_id=1604030003]
 position = Vector2(8260, -211)
@@ -299,11 +299,8 @@ position = Vector2(7769, -466)
 [node name="WallSitters11" parent="." unique_id=1368897480 instance=ExtResource("6_qhm1r")]
 position = Vector2(8466, -460)
 
-[node name="WallSitters12" parent="." unique_id=368843288 instance=ExtResource("6_qhm1r")]
-position = Vector2(8563, -458)
-
 [node name="Box33" parent="." unique_id=1521338261 instance=ExtResource("4_niq6w")]
-position = Vector2(11299, 268)
+position = Vector2(11311, 269)
 scale = Vector2(33.039963, 1.52)
 
 [node name="OutR1" parent="." unique_id=892660372 instance=ExtResource("3_mupk5")]

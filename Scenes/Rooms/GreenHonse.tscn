@@ -17,7 +17,7 @@ scale = Vector2(57.989933, -67.33202)
 position = Vector2(11672, 112)
 scale = Vector2(1, 15.039998)
 target_room_id = "Green2"
-target_door_id = "InR"
+target_door_id = "InR1"
 
 [node name="InL" type="Marker2D" parent="." unique_id=1612901271]
 position = Vector2(11700, 215)

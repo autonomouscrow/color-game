@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_pevpe"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="2_hg87o"]
+[ext_resource type="Texture2D" uid="uid://rnb8o7nqv6ks" path="res://sprites/Yellow1.png" id="2_j3dln"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_411p2"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="4_ndrtu"]
 [ext_resource type="PackedScene" uid="uid://butbrp11dq2nx" path="res://Scenes/Prefabs/ninja.tscn" id="5_hg87o"]
@@ -14,6 +15,11 @@
 [node name="yellow1" type="Node2D" unique_id=529611210 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_pevpe")
 EnemyObjects = [NodePath("enemies/Slime"), NodePath("enemies/Slime2"), NodePath("enemies/Slime3"), NodePath("enemies/Slime4"), NodePath("enemies/Slime5"), NodePath("enemies/Slime6"), NodePath("enemies/Slime7"), NodePath("enemies/Slime8"), NodePath("enemies/Dasher"), NodePath("enemies/Dasher2"), NodePath("enemies/Dasher3"), NodePath("enemies/Dasher4"), NodePath("enemies/Ninja"), NodePath("enemies/Ninja2"), NodePath("enemies/Ninja3"), NodePath("enemies/Ninja4"), NodePath("enemies/Ninja5"), NodePath("enemies/Ninja6"), NodePath("enemies/Ninja7"), NodePath("enemies/Ninja8"), NodePath("enemies/Ninja9"), NodePath("enemies/Ninja10")]
+
+[node name="Yellow1" type="Sprite2D" parent="." unique_id=1676493596]
+position = Vector2(4529.0005, -10913)
+scale = Vector2(1.003, 1.035)
+texture = ExtResource("2_j3dln")
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_hg87o")]
 visible = false
@@ -304,6 +310,7 @@ position = Vector2(5144, -13430)
 scale = Vector2(19.24, 1)
 
 [node name="enemies" type="Node2D" parent="." unique_id=1733346520]
+visible = false
 
 [node name="Slime" parent="enemies" unique_id=316356887 instance=ExtResource("5_ndrtu")]
 position = Vector2(1253, -10177)
