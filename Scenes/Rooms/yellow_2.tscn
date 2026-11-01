@@ -2,15 +2,17 @@
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_lbndr"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="2_qqbhw"]
+[ext_resource type="Texture2D" uid="uid://ccbcxqejtl1dt" path="res://sprites/yellow2.png" id="2_wr34o"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_ksxh1"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="4_2d22j"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_3w672"]
-[ext_resource type="PackedScene" uid="uid://cm55gamptkieg" path="res://Scenes/Prefabs/Dasher.tscn" id="6_ksxh1"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Dasher.tscn" id="6_ksxh1"]
 [ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="7_2d22j"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="8_2d22j"]
 [ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://Scenes/Prefabs/color_crystal.tscn" id="9_3w672"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="10_mpbch"]
 [ext_resource type="Texture2D" uid="uid://cfrhuwyn0ey85" path="res://sprites/ColorCrystalY.png" id="11_1iguh"]
+[ext_resource type="Texture2D" uid="uid://xd7vfkcooch0" path="res://sprites/Hue_White_Spritesheet.png" id="13_s4u3t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s4u3t"]
 atlas = ExtResource("11_1iguh")
@@ -51,7 +53,13 @@ animations = [{
 [node name="Yellow2" type="Node2D" unique_id=719130131 groups=["Room"]]
 script = ExtResource("1_lbndr")
 
+[node name="Yellow2" type="Sprite2D" parent="." unique_id=142258869]
+position = Vector2(3565.95, -14902.185)
+scale = Vector2(1.03, 1.036)
+texture = ExtResource("2_wr34o")
+
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_qqbhw")]
+visible = false
 position = Vector2(3813.0002, -14621)
 scale = Vector2(227.96, 99.88001)
 
@@ -66,13 +74,13 @@ position = Vector2(5421.2734, -13706.98)
 scale = Vector2(19.24, 1)
 
 [node name="OutL" parent="." unique_id=1476490728 instance=ExtResource("3_ksxh1")]
-position = Vector2(1472, -15143)
+position = Vector2(1472, -15154)
 scale = Vector2(1, 9.8)
 target_room_id = "gauntlet"
 target_door_id = "InR"
 
 [node name="InL" type="Marker2D" parent="." unique_id=1443929056]
-position = Vector2(1517, -15102)
+position = Vector2(1517, -15113)
 scale = Vector2(1, 9.8)
 
 [node name="platforms" type="Node2D" parent="." unique_id=2077442444]
@@ -91,7 +99,7 @@ position = Vector2(6014, -13854)
 scale = Vector2(1, 32.11999)
 
 [node name="Box4" parent="platforms" unique_id=1079166052 instance=ExtResource("4_2d22j")]
-position = Vector2(3897, -14062)
+position = Vector2(3894, -14062)
 scale = Vector2(1, 51.399998)
 
 [node name="Box5" parent="platforms" unique_id=18841411 instance=ExtResource("4_2d22j")]
@@ -131,23 +139,23 @@ safeZone = NodePath("Marker2D")
 position = Vector2(43.032806, -322.82617)
 
 [node name="Box12" parent="platforms" unique_id=2052659781 instance=ExtResource("4_2d22j")]
-position = Vector2(3064, -14564)
-scale = Vector2(84.44, 1)
+position = Vector2(3057, -14573)
+scale = Vector2(85.28, 1)
 
 [node name="Box13" parent="platforms" unique_id=1337070388 instance=ExtResource("4_2d22j")]
-position = Vector2(2019, -14765)
+position = Vector2(2019, -14773)
 scale = Vector2(18.280003, 1)
 
 [node name="Box14" parent="platforms" unique_id=235509984 instance=ExtResource("4_2d22j")]
-position = Vector2(2208, -14659.001)
+position = Vector2(2201, -14669.001)
 scale = Vector2(1, 11.5600195)
 
 [node name="Box15" parent="platforms" unique_id=2112340445 instance=ExtResource("4_2d22j")]
-position = Vector2(1610, -14906)
+position = Vector2(1617, -14917)
 scale = Vector2(22.56, 1)
 
 [node name="Box16" parent="platforms" unique_id=9806268 instance=ExtResource("4_2d22j")]
-position = Vector2(1837, -14835)
+position = Vector2(1830, -14835.001)
 scale = Vector2(1, 8.159922)
 
 [node name="Box17" parent="platforms" unique_id=1463371677 instance=ExtResource("4_2d22j")]
@@ -171,6 +179,7 @@ position = Vector2(5160.9995, -13563)
 scale = Vector2(28.32, 1)
 
 [node name="enemies" type="Node2D" parent="." unique_id=803735037]
+visible = false
 
 [node name="Dasher" parent="enemies" unique_id=1922705482 instance=ExtResource("6_ksxh1")]
 position = Vector2(3024, -14776)
@@ -191,17 +200,22 @@ position = Vector2(2603, -14903)
 position = Vector2(5589, -14006)
 
 [node name="ColorCrystal" parent="." unique_id=1691775424 instance=ExtResource("9_3w672")]
+visible = false
 position = Vector2(5071, -14520)
 color = 3
 
 [node name="ColorZone" parent="." unique_id=200570987 instance=ExtResource("10_mpbch")]
-position = Vector2(3487, -14775)
+position = Vector2(3488, -14788)
 
 [node name="ColorZone2" parent="." unique_id=1090436383 instance=ExtResource("10_mpbch")]
-position = Vector2(1972, -14974)
+position = Vector2(1973, -14987)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2063442216]
 position = Vector2(5070.0005, -14508.001)
 scale = Vector2(2.760078, 2.760078)
 sprite_frames = SubResource("SpriteFrames_4droo")
 autoplay = "default"
+
+[node name="HueWhiteSpritesheet" type="Sprite2D" parent="." unique_id=1790104036]
+position = Vector2(1581, -14613)
+texture = ExtResource("13_s4u3t")
