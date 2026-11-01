@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c0xq4i4ejw31r"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_m0dvp"]
+[ext_resource type="Texture2D" uid="uid://cujxalm0g8e" path="res://sprites/gauntlet.png" id="2_4otgb"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="2_gvou5"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_ickob"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="4_ig2bl"]
@@ -10,6 +11,12 @@
 
 [node name="Gauntlet" type="Node2D" unique_id=1701499376 groups=["Room"]]
 script = ExtResource("1_m0dvp")
+
+[node name="Gauntlet" type="Sprite2D" parent="." unique_id=163793777]
+position = Vector2(377.00003, -17058.002)
+rotation = -1.5707964
+scale = Vector2(1.027, 1.03)
+texture = ExtResource("2_4otgb")
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_gvou5")]
 visible = false
@@ -51,7 +58,7 @@ scale = Vector2(0.11848344, 2.238095)
 safeZone = NodePath("../DamageBlock19/F")
 
 [node name="Box34" parent="platforms" unique_id=1834439066 instance=ExtResource("4_ig2bl")]
-position = Vector2(34.241726, -875.7143)
+position = Vector2(34.83413, -875.7148)
 scale = Vector2(2.8767776, 0.23809524)
 
 [node name="DamageBlock19" parent="platforms" unique_id=137544146 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_ickob")]
@@ -63,7 +70,7 @@ safeZone = NodePath("F")
 position = Vector2(10.802473, -987.47034)
 
 [node name="Box35" parent="platforms" unique_id=1392711248 instance=ExtResource("4_ig2bl")]
-position = Vector2(96.44551, -911.6667)
+position = Vector2(96.91946, -911.6672)
 scale = Vector2(0.13499685, 9.745704)
 
 [node name="Box36" parent="platforms" unique_id=421423818 instance=ExtResource("4_ig2bl")]
@@ -71,7 +78,7 @@ position = Vector2(21.090052, -765.00006)
 scale = Vector2(1.881517, 0.23809524)
 
 [node name="Box37" parent="platforms" unique_id=519673850 instance=ExtResource("4_ig2bl")]
-position = Vector2(79.3839, -756.42865)
+position = Vector2(79.857834, -756.42914)
 scale = Vector2(0.8815168, 0.23809524)
 
 [node name="DamageBlock20" parent="platforms" unique_id=964152335 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_ickob")]
@@ -99,7 +106,7 @@ position = Vector2(-35.426548, -541.4286)
 scale = Vector2(1.1563984, 0.85533696)
 
 [node name="Box21" parent="platforms" unique_id=1222544502 instance=ExtResource("4_ig2bl")]
-position = Vector2(62.67773, -527.6191)
+position = Vector2(63.033195, -527.1434)
 scale = Vector2(0.85904336, 0.9602593)
 
 [node name="DamageBlock15" parent="platforms" unique_id=1058333379 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_ickob")]
@@ -340,7 +347,7 @@ safeZone = NodePath("g")
 position = Vector2(-4.794544, 240.98389)
 
 [node name="Box40" parent="platforms" unique_id=1923922638 instance=ExtResource("4_ig2bl")]
-position = Vector2(35.782, -950.7143)
+position = Vector2(35.900486, -950.4767)
 scale = Vector2(0.7677727, 0.23809524)
 
 [node name="DamageBlock24" parent="platforms" unique_id=237304051 node_paths=PackedStringArray("safeZone") instance=ExtResource("5_ickob")]
@@ -371,7 +378,7 @@ position = Vector2(6.279625, -1242.6191)
 scale = Vector2(0.8530807, 0.23809524)
 
 [node name="Box42" parent="platforms" unique_id=1609113854 instance=ExtResource("4_ig2bl")]
-position = Vector2(91.232254, -1245.2382)
+position = Vector2(91.58771, -1245.2386)
 scale = Vector2(2.7251189, 0.23809524)
 
 [node name="Box43" parent="platforms" unique_id=1674948476 instance=ExtResource("4_ig2bl")]
@@ -383,11 +390,11 @@ position = Vector2(65.40286, -1355.4762)
 scale = Vector2(7.2037935, 0.23809524)
 
 [node name="Box45" parent="platforms" unique_id=779199959 instance=ExtResource("4_ig2bl")]
-position = Vector2(119.668274, -1259.2858)
+position = Vector2(120.14221, -1259.2867)
 scale = Vector2(0.11848344, 4.64762)
 
 [node name="Box46" parent="platforms" unique_id=139196230 instance=ExtResource("4_ig2bl")]
-position = Vector2(143.24646, -1303.3334)
+position = Vector2(143.60191, -1303.3339)
 scale = Vector2(2.4691947, 0.23809524)
 
 [node name="Canvas" parent="." unique_id=518473249 instance=ExtResource("6_ig2bl")]
