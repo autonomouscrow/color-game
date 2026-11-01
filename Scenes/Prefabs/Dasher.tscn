@@ -1,6 +1,7 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cm55gamptkieg"]
 
-[ext_resource type="Script" path="res://Scripts/dasher.gd" id="1_dasher"]
+[ext_resource type="Script" uid="uid://cvdwlmtmklfkt" path="res://Scripts/dasher.gd" id="1_dasher"]
+[ext_resource type="Texture2D" uid="uid://cilry4vexqw4x" path="res://Dasher.png" id="2_c8ns3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(30, 62)
@@ -14,15 +15,52 @@ size = Vector2(1280, 1280)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
 size = Vector2(32, 64)
 
-[node name="Dasher" type="CharacterBody2D" groups=["enemy"]]
+[sub_resource type="AtlasTexture" id="AtlasTexture_rna4r"]
+atlas = ExtResource("2_c8ns3")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qprty"]
+atlas = ExtResource("2_c8ns3")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbyt4"]
+atlas = ExtResource("2_c8ns3")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jc7n1"]
+atlas = ExtResource("2_c8ns3")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3acn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rna4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qprty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qbyt4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jc7n1")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="Dasher" type="CharacterBody2D" unique_id=771888743 groups=["enemy"]]
 motion_mode = 1
 script = ExtResource("1_dasher")
 max_health = 50
 
-[node name="Body" type="CollisionShape2D" parent="."]
+[node name="Body" type="CollisionShape2D" parent="." unique_id=550285386]
 shape = SubResource("RectangleShape2D_body")
 
-[node name="Color" type="ColorRect" parent="."]
+[node name="Color" type="ColorRect" parent="." unique_id=358729364]
+visible = false
 offset_left = -16.0
 offset_top = -32.0
 offset_right = 16.0
@@ -30,25 +68,31 @@ offset_bottom = 32.0
 mouse_filter = 2
 color = Color(1, 0.9, 0, 1)
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1337781504]
 
-[node name="Rect" type="CollisionShape2D" parent="DetectionArea"]
+[node name="Rect" type="CollisionShape2D" parent="DetectionArea" unique_id=1652191404]
 shape = SubResource("RectangleShape2D_detection")
 debug_color = Color(0, 0.6, 0.7, 0.1)
 
-[node name="AggroArea" type="Area2D" parent="."]
+[node name="AggroArea" type="Area2D" parent="." unique_id=1334721795]
 
-[node name="Rect" type="CollisionShape2D" parent="AggroArea"]
+[node name="Rect" type="CollisionShape2D" parent="AggroArea" unique_id=2007135484]
 shape = SubResource("RectangleShape2D_aggro")
 debug_color = Color(0.2, 0.8, 0.2, 0.1)
 
-[node name="AttackTimer" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="." unique_id=422142747]
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1832853291]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1630125274]
 shape = SubResource("RectangleShape2D_contact")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1690054055]
+position = Vector2(5, 6.0000005)
+scale = Vector2(2.0400002, 2.0400002)
+sprite_frames = SubResource("SpriteFrames_x3acn")
+autoplay = "default"
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_body_exited"]

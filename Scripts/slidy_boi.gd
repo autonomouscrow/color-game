@@ -25,6 +25,11 @@ func _ready() -> void:
 	hitbox_shape.disabled = true 
 
 func _physics_process(delta: float) -> void:
+	if velocity.x >= 0:
+		$AnimatedSprite2D.flip_h = true
+	else:
+		$AnimatedSprite2D.flip_h = false
+		
 	if not is_on_floor():
 		velocity.y += gravity * delta
 

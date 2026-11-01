@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bg20reqytwww4"]
 
 [ext_resource type="Script" uid="uid://cpl2j5dxpntco" path="res://Scripts/slidy_boi.gd" id="1_2blm0"]
+[ext_resource type="Texture2D" uid="uid://blswirdjue17e" path="res://SlidyBoi.png" id="2_tqtsa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2blm0"]
 size = Vector2(15.197781, 84.44095)
@@ -11,11 +12,48 @@ size = Vector2(69.09532, 59.765305)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t53hv"]
 size = Vector2(45.17779, 24.186893)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_khhpy"]
+atlas = ExtResource("2_tqtsa")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojpe8"]
+atlas = ExtResource("2_tqtsa")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvjj3"]
+atlas = ExtResource("2_tqtsa")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ckxw7"]
+atlas = ExtResource("2_tqtsa")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3acn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_khhpy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojpe8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvjj3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ckxw7")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 20.0
+}]
+
 [node name="SlidyBoi" type="CharacterBody2D" unique_id=1609698959]
 script = ExtResource("1_2blm0")
 max_health = 20
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1503958340]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 scale = Vector2(0.80000055, 0.55999994)
@@ -46,6 +84,12 @@ scale = Vector2(1.1339712, 1.3082393)
 position = Vector2(-14.109701, -0.3821926)
 scale = Vector2(0.66366947, 0.66366965)
 shape = SubResource("RectangleShape2D_t53hv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1982937392]
+position = Vector2(16, 4)
+scale = Vector2(1.6, 1.6)
+sprite_frames = SubResource("SpriteFrames_x3acn")
+autoplay = "default"
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

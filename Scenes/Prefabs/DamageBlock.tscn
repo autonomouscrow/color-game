@@ -9,6 +9,7 @@ size = Vector2(40, 40)
 script = ExtResource("1_mtvk6")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=139579704]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 color = Color(1, 0.56078434, 0, 1)
