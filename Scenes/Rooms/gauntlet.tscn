@@ -403,6 +403,8 @@ position = Vector2(1240, -17521)
 [node name="OutU" parent="." unique_id=2092961125 instance=ExtResource("3_ickob")]
 position = Vector2(1394, -20406)
 scale = Vector2(1, 13.44002)
+target_room_id = "ChromaArena"
+target_door_id = "In"
 
 [node name="InU" type="Marker2D" parent="." unique_id=980151846]
 position = Vector2(1359.3478, -20360.625)

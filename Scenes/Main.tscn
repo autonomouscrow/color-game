@@ -1,10 +1,9 @@
 [gd_scene format=3 uid="uid://b3v1edmqhqd75"]
 
-[ext_resource type="PackedScene" uid="uid://bcvtbm13l15kk" path="res://control.tscn" id="1_346fj"]
 [ext_resource type="PackedScene" uid="uid://hhdk7g45lsgg" path="res://Scenes/Hue.tscn" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://c4ub8bd6bn2by" path="res://Scenes/spawn_skeff.tscn" id="2_grg3l"]
 [ext_resource type="PackedScene" uid="uid://castvwqi4rwud" path="res://Scenes/RoomSkeff.tscn" id="2_kln2b"]
-[ext_resource type="PackedScene" uid="uid://yl0sk6eld766" path="res://Scenes/Rooms/Green2.tscn" id="3_2w5on"]
+[ext_resource type="PackedScene" uid="uid://c0xq4i4ejw31r" path="res://Scenes/Rooms/gauntlet.tscn" id="3_2w5on"]
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
 [ext_resource type="PackedScene" path="res://Scenes/AudioSkeff.tscn" id="5_audio"]
@@ -32,13 +31,12 @@ SpawnRoom = "Start"
 
 [node name="RoomContainer" type="Node2D" parent="." unique_id=311234013]
 
-[node name="Green2" parent="RoomContainer" unique_id=1525656117 instance=ExtResource("3_2w5on")]
+[node name="Gauntlet" parent="RoomContainer" unique_id=1701499376 instance=ExtResource("3_2w5on")]
 
 [node name="Start" parent="RoomContainer" unique_id=118567636 instance=ExtResource("13_5jffn")]
-position = Vector2(1099.5557, -6421.58)
 
 [node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
-position = Vector2(10662, -144)
+position = Vector2(1312, -20364)
 health = 70.0
 mp = 6
 
@@ -66,9 +64,3 @@ gun_sounds = Array[AudioStream]([ExtResource("15_h1m7h")])
 gun_db_offset = -5.0
 color_swap_sounds = Array[AudioStream]([ExtResource("16_erwvk")])
 color_swap_db_offset = -5.0
-
-[node name="Instructions" parent="." unique_id=635701149 instance=ExtResource("1_346fj")]
-offset_left = 10025.0
-offset_top = -542.0
-offset_right = 10025.0
-offset_bottom = -542.0
