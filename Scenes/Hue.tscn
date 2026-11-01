@@ -1,182 +1,681 @@
-[gd_scene format=3 uid="uid://hhdk7g45lsgg"]
+[gd_scene format=4 uid="uid://hhdk7g45lsgg"]
 
 [ext_resource type="Script" uid="uid://cl5jbihvjv8ca" path="res://Scripts/Hue.gd" id="1_wn31x"]
-
-[ext_resource type="Shader" path="res://Shaders/palette_swap.gdshader" id="2_palette"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_palette"]
-shader = ExtResource("2_palette")
+[ext_resource type="Shader" uid="uid://c70qla4dibwa1" path="res://Shaders/palette_swap.gdshader" id="2_palette"]
+[ext_resource type="Texture2D" uid="uid://cxjkr5k8pdok7" path="res://sprites/Hue/Hue_All_Colours_trimmed_decolored.png" id="3_c5exg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hb1x"]
 size = Vector2(32, 64)
 
-[sub_resource type="Animation" id="Animation_idle"]
-resource_name = &"idle"
-length = 1.0
-loop_mode = 1
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_palette"]
+shader = ExtResource("2_palette")
+shader_parameter/color_count = 0
+shader_parameter/source_colors = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/target_colors = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/tolerance = 0.02
 
-[sub_resource type="Animation" id="Animation_run"]
-resource_name = &"run"
-length = 0.6
-loop_mode = 1
-
-[sub_resource type="Animation" id="Animation_jump"]
-resource_name = &"jump"
-length = 0.3
-
-[sub_resource type="Animation" id="Animation_fall"]
-resource_name = &"fall"
-length = 0.4
-loop_mode = 1
-
-[sub_resource type="Animation" id="Animation_land"]
-resource_name = &"land"
-length = 0.15
-
-[sub_resource type="Animation" id="Animation_glide"]
-resource_name = &"glide"
-length = 0.6
-loop_mode = 1
-
-[sub_resource type="Animation" id="Animation_cling"]
-resource_name = &"cling"
-length = 0.6
-loop_mode = 1
-
-[sub_resource type="Animation" id="Animation_slide"]
-resource_name = &"slide"
-length = 0.4
-loop_mode = 1
-
-[sub_resource type="Animation" id="Animation_squat"]
-resource_name = &"squat"
-length = 0.4
-loop_mode = 1
-
-[sub_resource type="Animation" id="Animation_slam"]
-resource_name = &"slam"
-length = 0.3
-loop_mode = 1
-
-[sub_resource type="Animation" id="Animation_dive"]
-resource_name = &"dive"
-length = 0.3
-loop_mode = 1
-
-[sub_resource type="Animation" id="Animation_dash"]
-resource_name = &"dash"
-length = 0.2
-
-[sub_resource type="Animation" id="Animation_punch"]
-resource_name = &"punch"
-length = 0.3
-
-[sub_resource type="Animation" id="Animation_uppercut"]
-resource_name = &"uppercut"
-length = 0.3
-
-[sub_resource type="Animation" id="Animation_gun"]
-resource_name = &"gun"
-length = 0.25
-
-[sub_resource type="Animation" id="Animation_burst_charge"]
-resource_name = &"burst_charge"
-length = 0.15
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_c5exg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -2.15)]
+}
 
 [sub_resource type="Animation" id="Animation_burst"]
-resource_name = &"burst"
+resource_name = "burst"
 length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.16666667, 0.20000002),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [45, 44, 43, 42]
+}
 
-[sub_resource type="Animation" id="Animation_heal"]
-resource_name = &"heal"
-length = 2.0
+[sub_resource type="Animation" id="Animation_burst_charge"]
+resource_name = "burst_charge"
+length = 0.15
 loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.10000001, 0.13333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [42, 43, 44, 45, 46]
+}
+
+[sub_resource type="Animation" id="Animation_cling"]
+resource_name = "cling"
+length = 0.16666667
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083333336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [48, 49]
+}
+
+[sub_resource type="Animation" id="Animation_cling_end"]
+resource_name = "cling_end"
+length = 0.083333336
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [50]
+}
+
+[sub_resource type="Animation" id="Animation_color_change_end"]
+resource_name = "color_change_end"
+length = 0.25
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083333336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [14, 12]
+}
+
+[sub_resource type="Animation" id="Animation_color_change_start"]
+resource_name = "color_change_start"
+length = 0.41666666
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08333334, 0.16666669, 0.25, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [9, 10, 12, 13, 14]
+}
 
 [sub_resource type="Animation" id="Animation_crisis"]
-resource_name = &"crisis"
-length = 3.0
+resource_name = "crisis_1"
+length = 0.5
 loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [38, 39, 38]
+}
+
+[sub_resource type="Animation" id="Animation_crisis_2"]
+resource_name = "crisis_2"
+length = 0.5
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [40, 39, 39]
+}
+
+[sub_resource type="Animation" id="Animation_crisis_3"]
+resource_name = "crisis_3"
+length = 0.5
+loop_mode = 1
+step = 0.083333336
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.041666668, 0.083333336, 0.125, 0.16666667, 0.20833334, 0.25, 0.2916667, 0.33333334, 0.375, 0.4166667, 0.45833334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [39, 40, 39, 40, 39, 40, 40, 39, 40, 39, 40, 39]
+}
+
+[sub_resource type="Animation" id="Animation_dash"]
+resource_name = "dash"
+length = 0.16666667
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083333336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [56, 57]
+}
+
+[sub_resource type="Animation" id="Animation_dash_end"]
+resource_name = "dash_end"
+length = 0.083333336
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [58]
+}
+
+[sub_resource type="Animation" id="Animation_dash_start"]
+resource_name = "dash_start"
+length = 0.083333336
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [55]
+}
+
+[sub_resource type="Animation" id="Animation_dive"]
+resource_name = "dive"
+length = 0.083333336
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+
+[sub_resource type="Animation" id="Animation_fall"]
+resource_name = "fall"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+
+[sub_resource type="Animation" id="Animation_glide"]
+resource_name = "glide"
+length = 0.16666667
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083333336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [52, 53]
+}
+
+[sub_resource type="Animation" id="Animation_glide_end"]
+resource_name = "glide_end"
+length = 0.083333336
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [18]
+}
+
+[sub_resource type="Animation" id="Animation_gun"]
+resource_name = "gun"
+length = 0.3
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083333336, 0.16666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [28, 29, 30]
+}
+
+[sub_resource type="Animation" id="Animation_heal_finish"]
+resource_name = "heal"
+length = 0.3
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [35, 36]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(0, -2.15), Vector2(0, -0.26)]
+}
+
+[sub_resource type="Animation" id="Animation_heal"]
+resource_name = "heal_charge"
+length = 2.0
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.1666666, 1.3333334, 1.4166666, 1.5, 1.5833334, 1.6666667, 1.75, 1.8333334, 1.9166667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [33, 34, 35, 34, 35, 34, 35, 34, 35, 34, 35, 34, 35, 34]
+}
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = "idle"
+length = 1.25
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 3, 2, 0]
+}
+
+[sub_resource type="Animation" id="Animation_jump"]
+resource_name = "jump"
+length = 0.5
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [16, 17]
+}
+
+[sub_resource type="Animation" id="Animation_land"]
+resource_name = "land"
+length = 0.41666666
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083333336, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [17, 18, 15]
+}
+
+[sub_resource type="Animation" id="Animation_land_run"]
+resource_name = "land_run"
+length = 0.083333336
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [18]
+}
+
+[sub_resource type="Animation" id="Animation_punch"]
+resource_name = "punch"
+length = 0.1
+step = 0.0278
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.027777778, 0.055555556),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [20, 21, 22]
+}
+
+[sub_resource type="Animation" id="Animation_run"]
+resource_name = "run"
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_slam"]
+resource_name = "slam"
+length = 0.083333336
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+
+[sub_resource type="Animation" id="Animation_slide"]
+resource_name = "slide"
+length = 0.16666667
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.083333336),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [61, 60]
+}
+
+[sub_resource type="Animation" id="Animation_slide_end"]
+resource_name = "slide_end"
+length = 0.083333336
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [62]
+}
+
+[sub_resource type="Animation" id="Animation_uppercut"]
+resource_name = "uppercut"
+length = 0.1
+step = 0.0278
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.027777778, 0.055555556),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [24, 25, 26]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hue"]
 _data = {
-&"idle": SubResource("Animation_idle"),
-&"run": SubResource("Animation_run"),
-&"jump": SubResource("Animation_jump"),
-&"fall": SubResource("Animation_fall"),
-&"land": SubResource("Animation_land"),
-&"glide": SubResource("Animation_glide"),
-&"cling": SubResource("Animation_cling"),
-&"slide": SubResource("Animation_slide"),
-&"squat": SubResource("Animation_squat"),
-&"slam": SubResource("Animation_slam"),
-&"dive": SubResource("Animation_dive"),
-&"dash": SubResource("Animation_dash"),
-&"punch": SubResource("Animation_punch"),
-&"uppercut": SubResource("Animation_uppercut"),
-&"gun": SubResource("Animation_gun"),
-&"burst_charge": SubResource("Animation_burst_charge"),
+&"RESET": SubResource("Animation_c5exg"),
 &"burst": SubResource("Animation_burst"),
-&"heal": SubResource("Animation_heal"),
-&"crisis": SubResource("Animation_crisis")
+&"burst_charge": SubResource("Animation_burst_charge"),
+&"cling": SubResource("Animation_cling"),
+&"cling_end": SubResource("Animation_cling_end"),
+&"color_change_end": SubResource("Animation_color_change_end"),
+&"color_change_start": SubResource("Animation_color_change_start"),
+&"crisis_1": SubResource("Animation_crisis"),
+&"crisis_2": SubResource("Animation_crisis_2"),
+&"crisis_3": SubResource("Animation_crisis_3"),
+&"dash": SubResource("Animation_dash"),
+&"dash_end": SubResource("Animation_dash_end"),
+&"dash_start": SubResource("Animation_dash_start"),
+&"dive": SubResource("Animation_dive"),
+&"fall": SubResource("Animation_fall"),
+&"glide": SubResource("Animation_glide"),
+&"glide_end": SubResource("Animation_glide_end"),
+&"gun": SubResource("Animation_gun"),
+&"heal": SubResource("Animation_heal_finish"),
+&"heal_charge": SubResource("Animation_heal"),
+&"idle": SubResource("Animation_idle"),
+&"jump": SubResource("Animation_jump"),
+&"land": SubResource("Animation_land"),
+&"land_run": SubResource("Animation_land_run"),
+&"punch": SubResource("Animation_punch"),
+&"run": SubResource("Animation_run"),
+&"slam": SubResource("Animation_slam"),
+&"slide": SubResource("Animation_slide"),
+&"slide_end": SubResource("Animation_slide_end"),
+&"uppercut": SubResource("Animation_uppercut")
 }
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_idle"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_run"]
-animation = &"run"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_jump"]
-animation = &"jump"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_fall"]
-animation = &"fall"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_land"]
-animation = &"land"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_glide"]
-animation = &"glide"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_cling"]
-animation = &"cling"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_slide"]
-animation = &"slide"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_squat"]
-animation = &"squat"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_slam"]
-animation = &"slam"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_dive"]
-animation = &"dive"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_dash"]
-animation = &"dash"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_punch"]
-animation = &"punch"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_uppercut"]
-animation = &"uppercut"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_gun"]
-animation = &"gun"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_burst_charge"]
-animation = &"burst_charge"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimNode_burst"]
 animation = &"burst"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimNode_heal"]
-animation = &"heal"
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_burst_charge"]
+animation = &"burst_charge"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_cling"]
+animation = &"cling"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_cling_end"]
+animation = &"cling_end"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_color_change_end"]
+animation = &"color_change_end"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_color_change_start"]
+animation = &"color_change_start"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimNode_crisis"]
-animation = &"crisis"
+animation = &"crisis_1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_crisis_2"]
+animation = &"crisis_2"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_crisis_3"]
+animation = &"crisis_3"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_dash"]
+animation = &"dash"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_dash_end"]
+animation = &"dash_end"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_dash_start"]
+animation = &"dash_start"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_dive"]
+animation = &"dive"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_fall"]
+animation = &"fall"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_glide"]
+animation = &"glide"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_glide_end"]
+animation = &"glide_end"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_gun"]
+animation = &"gun"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_heal_finish"]
+animation = &"heal"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_heal"]
+animation = &"heal_charge"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_idle"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_jump"]
+animation = &"jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_land"]
+animation = &"land"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_land_run"]
+animation = &"land_run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_punch"]
+animation = &"punch"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_run"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_slam"]
+animation = &"slam"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_slide"]
+animation = &"slide"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_slide_end"]
+animation = &"slide_end"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_uppercut"]
+animation = &"uppercut"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_start"]
 advance_mode = 2
@@ -403,9 +902,6 @@ xfade_time = 0.05
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_73"]
 xfade_time = 0.05
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_74"]
-xfade_time = 0.05
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_75"]
 xfade_time = 0.05
 
@@ -424,21 +920,6 @@ xfade_time = 0.05
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_80"]
 xfade_time = 0.05
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_81"]
-xfade_time = 0.05
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_82"]
-xfade_time = 0.05
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_83"]
-xfade_time = 0.05
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_84"]
-xfade_time = 0.05
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_85"]
-xfade_time = 0.05
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_86"]
 xfade_time = 0.05
 
@@ -455,9 +936,6 @@ xfade_time = 0.05
 xfade_time = 0.05
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_91"]
-xfade_time = 0.05
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_92"]
 xfade_time = 0.05
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_93"]
@@ -612,10 +1090,6 @@ switch_mode = 2
 xfade_time = 0.05
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_141"]
-xfade_time = 0.05
-switch_mode = 2
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_142"]
 xfade_time = 0.05
 switch_mode = 2
@@ -665,10 +1139,6 @@ xfade_time = 0.05
 switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_155"]
-xfade_time = 0.05
-switch_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_156"]
 xfade_time = 0.05
 switch_mode = 2
 
@@ -724,10 +1194,6 @@ switch_mode = 2
 xfade_time = 0.05
 switch_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_171"]
-xfade_time = 0.05
-switch_mode = 2
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="Trans_172"]
 xfade_time = 0.05
 switch_mode = 2
@@ -752,74 +1218,537 @@ switch_mode = 2
 xfade_time = 0.05
 switch_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_0"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_1"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_2"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_3"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_4"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_5"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_6"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_7"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_9"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_10"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_11"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_12"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_13"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_14"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_15"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_16"]
+xfade_time = 0.05
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_17"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_18"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_19"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_20"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_21"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_22"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_23"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_24"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_26"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_27"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_28"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCC_29"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransHeal_0"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransHeal_1"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransHeal_2"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransHeal_3"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransHeal_4"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransHeal_5"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransHeal_6"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_0"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_1"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_2"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_3"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_4"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_5"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_6"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_7"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_8"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_9"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_10"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_11"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_12"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransCrisis_13"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_0"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_1"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_2"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_3"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_4"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_5"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_6"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_7"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_9"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_10"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_11"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_12"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_13"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_14"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_15"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_16"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_17"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_18"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_19"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_20"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_21"]
+xfade_time = 0.05
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_22"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_23"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_24"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_25"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_26"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_27"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_28"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_29"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_30"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_31"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_32"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_33"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_34"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_35"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransDash_36"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_0"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_1"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_2"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_4"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_5"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_6"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_7"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_8"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_9"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_10"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_11"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_12"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_13"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_14"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_15"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_16"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_17"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_18"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_19"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_20"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_21"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_22"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_23"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_24"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_25"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_26"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_27"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_28"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_29"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_30"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransExit_31"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_0"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_1"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_2"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_3"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_4"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_5"]
+xfade_time = 0.05
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_6"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_7"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_8"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_9"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_10"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_11"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="TransLandRun_12"]
+xfade_time = 0.05
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_hue"]
 states/End/position = Vector2(1150, 900)
 states/Start/position = Vector2(100, 150)
-states/idle/node = SubResource("AnimNode_idle")
-states/idle/position = Vector2(350, 400)
-states/run/node = SubResource("AnimNode_run")
-states/run/position = Vector2(350, 600)
-states/jump/node = SubResource("AnimNode_jump")
-states/jump/position = Vector2(750, 200)
-states/fall/node = SubResource("AnimNode_fall")
-states/fall/position = Vector2(750, 400)
-states/land/node = SubResource("AnimNode_land")
-states/land/position = Vector2(550, 500)
-states/glide/node = SubResource("AnimNode_glide")
-states/glide/position = Vector2(1000, 200)
-states/cling/node = SubResource("AnimNode_cling")
-states/cling/position = Vector2(1000, 400)
-states/slide/node = SubResource("AnimNode_slide")
-states/slide/position = Vector2(550, 750)
-states/squat/node = SubResource("AnimNode_squat")
-states/squat/position = Vector2(350, 800)
-states/slam/node = SubResource("AnimNode_slam")
-states/slam/position = Vector2(1000, 600)
-states/dive/node = SubResource("AnimNode_dive")
-states/dive/position = Vector2(1000, 750)
-states/dash/node = SubResource("AnimNode_dash")
-states/dash/position = Vector2(750, 900)
-states/punch/node = SubResource("AnimNode_punch")
-states/punch/position = Vector2(100, 100)
-states/uppercut/node = SubResource("AnimNode_uppercut")
-states/uppercut/position = Vector2(350, 100)
-states/gun/node = SubResource("AnimNode_gun")
-states/gun/position = Vector2(550, 100)
-states/burst_charge/node = SubResource("AnimNode_burst_charge")
-states/burst_charge/position = Vector2(100, 600)
 states/burst/node = SubResource("AnimNode_burst")
 states/burst/position = Vector2(100, 800)
-states/heal/node = SubResource("AnimNode_heal")
-states/heal/position = Vector2(100, 350)
-states/crisis/node = SubResource("AnimNode_crisis")
-states/crisis/position = Vector2(100, 500)
-transitions = ["Start", "idle", SubResource("Trans_start"), "idle", "run", SubResource("Trans_0"), "idle", "jump", SubResource("Trans_1"), "idle", "fall", SubResource("Trans_2"), "idle", "land", SubResource("Trans_3"), "idle", "slide", SubResource("Trans_4"), "idle", "dash", SubResource("Trans_5"), "idle", "heal", SubResource("Trans_6"), "idle", "crisis", SubResource("Trans_7"), "idle", "burst_charge", SubResource("Trans_8"), "idle", "punch", SubResource("Trans_9"), "idle", "uppercut", SubResource("Trans_10"), "idle", "gun", SubResource("Trans_11"), "run", "idle", SubResource("Trans_12"), "run", "jump", SubResource("Trans_13"), "run", "fall", SubResource("Trans_14"), "run", "slide", SubResource("Trans_15"), "run", "dash", SubResource("Trans_16"), "run", "burst_charge", SubResource("Trans_17"), "run", "punch", SubResource("Trans_18"), "run", "uppercut", SubResource("Trans_19"), "run", "gun", SubResource("Trans_20"), "jump", "fall", SubResource("Trans_21"), "jump", "land", SubResource("Trans_22"), "jump", "glide", SubResource("Trans_23"), "jump", "cling", SubResource("Trans_24"), "jump", "slam", SubResource("Trans_25"), "jump", "dive", SubResource("Trans_26"), "jump", "dash", SubResource("Trans_27"), "jump", "burst_charge", SubResource("Trans_28"), "jump", "punch", SubResource("Trans_29"), "jump", "uppercut", SubResource("Trans_30"), "jump", "gun", SubResource("Trans_31"), "fall", "jump", SubResource("Trans_32"), "fall", "land", SubResource("Trans_33"), "fall", "glide", SubResource("Trans_34"), "fall", "cling", SubResource("Trans_35"), "fall", "slam", SubResource("Trans_36"), "fall", "dive", SubResource("Trans_37"), "fall", "dash", SubResource("Trans_38"), "fall", "burst_charge", SubResource("Trans_39"), "fall", "punch", SubResource("Trans_40"), "fall", "uppercut", SubResource("Trans_41"), "fall", "gun", SubResource("Trans_42"), "glide", "fall", SubResource("Trans_43"), "glide", "land", SubResource("Trans_44"), "glide", "cling", SubResource("Trans_45"), "glide", "slam", SubResource("Trans_46"), "glide", "dive", SubResource("Trans_47"), "glide", "dash", SubResource("Trans_48"), "glide", "burst_charge", SubResource("Trans_49"), "glide", "punch", SubResource("Trans_50"), "glide", "uppercut", SubResource("Trans_51"), "glide", "gun", SubResource("Trans_52"), "land", "idle", SubResource("Trans_53"), "land", "run", SubResource("Trans_54"), "land", "jump", SubResource("Trans_55"), "land", "fall", SubResource("Trans_56"), "land", "slide", SubResource("Trans_57"), "land", "dash", SubResource("Trans_58"), "land", "burst_charge", SubResource("Trans_59"), "land", "punch", SubResource("Trans_60"), "land", "uppercut", SubResource("Trans_61"), "land", "gun", SubResource("Trans_62"), "cling", "jump", SubResource("Trans_63"), "cling", "fall", SubResource("Trans_64"), "cling", "land", SubResource("Trans_65"), "cling", "idle", SubResource("Trans_66"), "cling", "slam", SubResource("Trans_67"), "cling", "dash", SubResource("Trans_68"), "cling", "punch", SubResource("Trans_69"), "cling", "uppercut", SubResource("Trans_70"), "cling", "gun", SubResource("Trans_71"), "slide", "idle", SubResource("Trans_72"), "slide", "run", SubResource("Trans_73"), "slide", "squat", SubResource("Trans_74"), "slide", "jump", SubResource("Trans_75"), "slide", "fall", SubResource("Trans_76"), "slide", "dash", SubResource("Trans_77"), "slide", "punch", SubResource("Trans_78"), "slide", "uppercut", SubResource("Trans_79"), "slide", "gun", SubResource("Trans_80"), "squat", "slide", SubResource("Trans_81"), "squat", "idle", SubResource("Trans_82"), "squat", "run", SubResource("Trans_83"), "squat", "dash", SubResource("Trans_84"), "slam", "squat", SubResource("Trans_85"), "slam", "slide", SubResource("Trans_86"), "slam", "dash", SubResource("Trans_87"), "slam", "punch", SubResource("Trans_88"), "slam", "uppercut", SubResource("Trans_89"), "slam", "gun", SubResource("Trans_90"), "dive", "slide", SubResource("Trans_91"), "dive", "squat", SubResource("Trans_92"), "dive", "dash", SubResource("Trans_93"), "dive", "punch", SubResource("Trans_94"), "dive", "uppercut", SubResource("Trans_95"), "dive", "gun", SubResource("Trans_96"), "dash", "idle", SubResource("Trans_97"), "dash", "run", SubResource("Trans_98"), "dash", "fall", SubResource("Trans_99"), "dash", "jump", SubResource("Trans_100"), "dash", "glide", SubResource("Trans_101"), "dash", "cling", SubResource("Trans_102"), "dash", "slide", SubResource("Trans_103"), "dash", "punch", SubResource("Trans_104"), "dash", "uppercut", SubResource("Trans_105"), "dash", "gun", SubResource("Trans_106"), "burst_charge", "burst", SubResource("Trans_107"), "burst_charge", "idle", SubResource("Trans_108"), "burst_charge", "run", SubResource("Trans_109"), "burst_charge", "jump", SubResource("Trans_110"), "burst_charge", "fall", SubResource("Trans_111"), "burst_charge", "slide", SubResource("Trans_112"), "burst_charge", "slam", SubResource("Trans_113"), "burst_charge", "dive", SubResource("Trans_114"), "burst_charge", "dash", SubResource("Trans_115"), "burst_charge", "punch", SubResource("Trans_116"), "burst_charge", "uppercut", SubResource("Trans_117"), "burst_charge", "gun", SubResource("Trans_118"), "heal", "idle", SubResource("Trans_119"), "heal", "run", SubResource("Trans_120"), "heal", "jump", SubResource("Trans_121"), "heal", "fall", SubResource("Trans_122"), "heal", "dash", SubResource("Trans_123"), "crisis", "idle", SubResource("Trans_124"), "crisis", "run", SubResource("Trans_125"), "crisis", "jump", SubResource("Trans_126"), "crisis", "fall", SubResource("Trans_127"), "crisis", "dash", SubResource("Trans_128"), "punch", "uppercut", SubResource("Trans_129"), "punch", "gun", SubResource("Trans_130"), "punch", "dash", SubResource("Trans_131"), "punch", "burst", SubResource("Trans_132"), "punch", "idle", SubResource("Trans_133"), "punch", "run", SubResource("Trans_134"), "punch", "jump", SubResource("Trans_135"), "punch", "fall", SubResource("Trans_136"), "punch", "land", SubResource("Trans_137"), "punch", "glide", SubResource("Trans_138"), "punch", "cling", SubResource("Trans_139"), "punch", "slide", SubResource("Trans_140"), "punch", "squat", SubResource("Trans_141"), "punch", "slam", SubResource("Trans_142"), "punch", "dive", SubResource("Trans_143"), "uppercut", "punch", SubResource("Trans_144"), "uppercut", "gun", SubResource("Trans_145"), "uppercut", "dash", SubResource("Trans_146"), "uppercut", "burst", SubResource("Trans_147"), "uppercut", "idle", SubResource("Trans_148"), "uppercut", "run", SubResource("Trans_149"), "uppercut", "jump", SubResource("Trans_150"), "uppercut", "fall", SubResource("Trans_151"), "uppercut", "land", SubResource("Trans_152"), "uppercut", "glide", SubResource("Trans_153"), "uppercut", "cling", SubResource("Trans_154"), "uppercut", "slide", SubResource("Trans_155"), "uppercut", "squat", SubResource("Trans_156"), "uppercut", "slam", SubResource("Trans_157"), "uppercut", "dive", SubResource("Trans_158"), "gun", "punch", SubResource("Trans_159"), "gun", "uppercut", SubResource("Trans_160"), "gun", "dash", SubResource("Trans_161"), "gun", "burst", SubResource("Trans_162"), "gun", "idle", SubResource("Trans_163"), "gun", "run", SubResource("Trans_164"), "gun", "jump", SubResource("Trans_165"), "gun", "fall", SubResource("Trans_166"), "gun", "land", SubResource("Trans_167"), "gun", "glide", SubResource("Trans_168"), "gun", "cling", SubResource("Trans_169"), "gun", "slide", SubResource("Trans_170"), "gun", "squat", SubResource("Trans_171"), "gun", "slam", SubResource("Trans_172"), "gun", "dive", SubResource("Trans_173"), "burst", "idle", SubResource("Trans_174"), "burst", "fall", SubResource("Trans_175"), "burst", "jump", SubResource("Trans_176"), "burst", "run", SubResource("Trans_177")]
-graph_offset = Vector2(0, 0)
+states/burst_charge/node = SubResource("AnimNode_burst_charge")
+states/burst_charge/position = Vector2(100, 600)
+states/cling/node = SubResource("AnimNode_cling")
+states/cling/position = Vector2(1000, 400)
+states/cling_end/node = SubResource("AnimNode_cling_end")
+states/cling_end/position = Vector2(1150, 750)
+states/color_change_end/node = SubResource("AnimNode_color_change_end")
+states/color_change_end/position = Vector2(1250, 400)
+states/color_change_start/node = SubResource("AnimNode_color_change_start")
+states/color_change_start/position = Vector2(1250, 200)
+states/crisis_1/node = SubResource("AnimNode_crisis")
+states/crisis_1/position = Vector2(100, 500)
+states/crisis_2/node = SubResource("AnimNode_crisis_2")
+states/crisis_2/position = Vector2(-100, 500)
+states/crisis_3/node = SubResource("AnimNode_crisis_3")
+states/crisis_3/position = Vector2(-300, 500)
+states/dash/node = SubResource("AnimNode_dash")
+states/dash/position = Vector2(750, 900)
+states/dash_end/node = SubResource("AnimNode_dash_end")
+states/dash_end/position = Vector2(950, 900)
+states/dash_start/node = SubResource("AnimNode_dash_start")
+states/dash_start/position = Vector2(550, 900)
+states/dive/node = SubResource("AnimNode_dive")
+states/dive/position = Vector2(1000, 750)
+states/fall/node = SubResource("AnimNode_fall")
+states/fall/position = Vector2(750, 400)
+states/glide/node = SubResource("AnimNode_glide")
+states/glide/position = Vector2(1000, 200)
+states/glide_end/node = SubResource("AnimNode_glide_end")
+states/glide_end/position = Vector2(1150, 600)
+states/gun/node = SubResource("AnimNode_gun")
+states/gun/position = Vector2(550, 100)
+states/heal/node = SubResource("AnimNode_heal_finish")
+states/heal/position = Vector2(-100, 350)
+states/heal_charge/node = SubResource("AnimNode_heal")
+states/heal_charge/position = Vector2(100, 350)
+states/idle/node = SubResource("AnimNode_idle")
+states/idle/position = Vector2(350, 400)
+states/jump/node = SubResource("AnimNode_jump")
+states/jump/position = Vector2(750, 200)
+states/land/node = SubResource("AnimNode_land")
+states/land/position = Vector2(550, 500)
+states/land_run/node = SubResource("AnimNode_land_run")
+states/land_run/position = Vector2(450, 550)
+states/punch/node = SubResource("AnimNode_punch")
+states/punch/position = Vector2(100, 100)
+states/run/node = SubResource("AnimNode_run")
+states/run/position = Vector2(350, 600)
+states/slam/node = SubResource("AnimNode_slam")
+states/slam/position = Vector2(1000, 600)
+states/slide/node = SubResource("AnimNode_slide")
+states/slide/position = Vector2(550, 750)
+states/slide_end/node = SubResource("AnimNode_slide_end")
+states/slide_end/position = Vector2(550, 1050)
+states/uppercut/node = SubResource("AnimNode_uppercut")
+states/uppercut/position = Vector2(350, 100)
+transitions = ["Start", "idle", SubResource("Trans_start"), "idle", "run", SubResource("Trans_0"), "idle", "jump", SubResource("Trans_1"), "idle", "fall", SubResource("Trans_2"), "idle", "land", SubResource("Trans_3"), "idle", "slide", SubResource("Trans_4"), "idle", "dash", SubResource("Trans_5"), "idle", "heal_charge", SubResource("Trans_6"), "idle", "crisis_1", SubResource("Trans_7"), "idle", "burst_charge", SubResource("Trans_8"), "idle", "punch", SubResource("Trans_9"), "idle", "uppercut", SubResource("Trans_10"), "idle", "gun", SubResource("Trans_11"), "run", "idle", SubResource("Trans_12"), "run", "jump", SubResource("Trans_13"), "run", "fall", SubResource("Trans_14"), "run", "slide", SubResource("Trans_15"), "run", "dash", SubResource("Trans_16"), "run", "burst_charge", SubResource("Trans_17"), "run", "punch", SubResource("Trans_18"), "run", "uppercut", SubResource("Trans_19"), "run", "gun", SubResource("Trans_20"), "jump", "fall", SubResource("Trans_21"), "jump", "land", SubResource("Trans_22"), "jump", "glide", SubResource("Trans_23"), "jump", "cling", SubResource("Trans_24"), "jump", "slam", SubResource("Trans_25"), "jump", "dive", SubResource("Trans_26"), "jump", "dash", SubResource("Trans_27"), "jump", "burst_charge", SubResource("Trans_28"), "jump", "punch", SubResource("Trans_29"), "jump", "uppercut", SubResource("Trans_30"), "jump", "gun", SubResource("Trans_31"), "fall", "jump", SubResource("Trans_32"), "fall", "land", SubResource("Trans_33"), "fall", "glide", SubResource("Trans_34"), "fall", "cling", SubResource("Trans_35"), "fall", "slam", SubResource("Trans_36"), "fall", "dive", SubResource("Trans_37"), "fall", "dash", SubResource("Trans_38"), "fall", "burst_charge", SubResource("Trans_39"), "fall", "punch", SubResource("Trans_40"), "fall", "uppercut", SubResource("Trans_41"), "fall", "gun", SubResource("Trans_42"), "glide", "fall", SubResource("Trans_43"), "glide", "land", SubResource("Trans_44"), "glide", "cling", SubResource("Trans_45"), "glide", "slam", SubResource("Trans_46"), "glide", "dive", SubResource("Trans_47"), "glide", "dash", SubResource("Trans_48"), "glide", "burst_charge", SubResource("Trans_49"), "glide", "punch", SubResource("Trans_50"), "glide", "uppercut", SubResource("Trans_51"), "glide", "gun", SubResource("Trans_52"), "land", "idle", SubResource("Trans_53"), "land", "run", SubResource("Trans_54"), "land", "jump", SubResource("Trans_55"), "land", "fall", SubResource("Trans_56"), "land", "slide", SubResource("Trans_57"), "land", "dash", SubResource("Trans_58"), "land", "burst_charge", SubResource("Trans_59"), "land", "punch", SubResource("Trans_60"), "land", "uppercut", SubResource("Trans_61"), "land", "gun", SubResource("Trans_62"), "cling", "jump", SubResource("Trans_63"), "cling", "fall", SubResource("Trans_64"), "cling", "land", SubResource("Trans_65"), "cling", "idle", SubResource("Trans_66"), "cling", "slam", SubResource("Trans_67"), "cling", "dash", SubResource("Trans_68"), "cling", "punch", SubResource("Trans_69"), "cling", "uppercut", SubResource("Trans_70"), "cling", "gun", SubResource("Trans_71"), "slide", "idle", SubResource("Trans_72"), "slide", "run", SubResource("Trans_73"), "slide", "jump", SubResource("Trans_75"), "slide", "fall", SubResource("Trans_76"), "slide", "dash", SubResource("Trans_77"), "slide", "punch", SubResource("Trans_78"), "slide", "uppercut", SubResource("Trans_79"), "slide", "gun", SubResource("Trans_80"), "slam", "slide", SubResource("Trans_86"), "slam", "dash", SubResource("Trans_87"), "slam", "punch", SubResource("Trans_88"), "slam", "uppercut", SubResource("Trans_89"), "slam", "gun", SubResource("Trans_90"), "dive", "slide", SubResource("Trans_91"), "dive", "dash", SubResource("Trans_93"), "dive", "punch", SubResource("Trans_94"), "dive", "uppercut", SubResource("Trans_95"), "dive", "gun", SubResource("Trans_96"), "dash", "idle", SubResource("Trans_97"), "dash", "run", SubResource("Trans_98"), "dash", "fall", SubResource("Trans_99"), "dash", "jump", SubResource("Trans_100"), "dash", "glide", SubResource("Trans_101"), "dash", "cling", SubResource("Trans_102"), "dash", "slide", SubResource("Trans_103"), "dash", "punch", SubResource("Trans_104"), "dash", "uppercut", SubResource("Trans_105"), "dash", "gun", SubResource("Trans_106"), "burst_charge", "burst", SubResource("Trans_107"), "burst_charge", "idle", SubResource("Trans_108"), "burst_charge", "run", SubResource("Trans_109"), "burst_charge", "jump", SubResource("Trans_110"), "burst_charge", "fall", SubResource("Trans_111"), "burst_charge", "slide", SubResource("Trans_112"), "burst_charge", "slam", SubResource("Trans_113"), "burst_charge", "dive", SubResource("Trans_114"), "burst_charge", "dash", SubResource("Trans_115"), "burst_charge", "punch", SubResource("Trans_116"), "burst_charge", "uppercut", SubResource("Trans_117"), "burst_charge", "gun", SubResource("Trans_118"), "heal_charge", "idle", SubResource("Trans_119"), "heal_charge", "run", SubResource("Trans_120"), "heal_charge", "jump", SubResource("Trans_121"), "heal_charge", "fall", SubResource("Trans_122"), "heal_charge", "dash", SubResource("Trans_123"), "crisis_1", "idle", SubResource("Trans_124"), "crisis_1", "run", SubResource("Trans_125"), "crisis_1", "jump", SubResource("Trans_126"), "crisis_1", "fall", SubResource("Trans_127"), "crisis_1", "dash", SubResource("Trans_128"), "punch", "uppercut", SubResource("Trans_129"), "punch", "gun", SubResource("Trans_130"), "punch", "dash", SubResource("Trans_131"), "punch", "burst", SubResource("Trans_132"), "punch", "idle", SubResource("Trans_133"), "punch", "run", SubResource("Trans_134"), "punch", "jump", SubResource("Trans_135"), "punch", "fall", SubResource("Trans_136"), "punch", "land", SubResource("Trans_137"), "punch", "glide", SubResource("Trans_138"), "punch", "cling", SubResource("Trans_139"), "punch", "slide", SubResource("Trans_140"), "punch", "slam", SubResource("Trans_142"), "punch", "dive", SubResource("Trans_143"), "uppercut", "punch", SubResource("Trans_144"), "uppercut", "gun", SubResource("Trans_145"), "uppercut", "dash", SubResource("Trans_146"), "uppercut", "burst", SubResource("Trans_147"), "uppercut", "idle", SubResource("Trans_148"), "uppercut", "run", SubResource("Trans_149"), "uppercut", "jump", SubResource("Trans_150"), "uppercut", "fall", SubResource("Trans_151"), "uppercut", "land", SubResource("Trans_152"), "uppercut", "glide", SubResource("Trans_153"), "uppercut", "cling", SubResource("Trans_154"), "uppercut", "slide", SubResource("Trans_155"), "uppercut", "slam", SubResource("Trans_157"), "uppercut", "dive", SubResource("Trans_158"), "gun", "punch", SubResource("Trans_159"), "gun", "uppercut", SubResource("Trans_160"), "gun", "dash", SubResource("Trans_161"), "gun", "burst", SubResource("Trans_162"), "gun", "idle", SubResource("Trans_163"), "gun", "run", SubResource("Trans_164"), "gun", "jump", SubResource("Trans_165"), "gun", "fall", SubResource("Trans_166"), "gun", "land", SubResource("Trans_167"), "gun", "glide", SubResource("Trans_168"), "gun", "cling", SubResource("Trans_169"), "gun", "slide", SubResource("Trans_170"), "gun", "slam", SubResource("Trans_172"), "gun", "dive", SubResource("Trans_173"), "burst", "idle", SubResource("Trans_174"), "burst", "fall", SubResource("Trans_175"), "burst", "jump", SubResource("Trans_176"), "burst", "run", SubResource("Trans_177"), "idle", "color_change_start", SubResource("TransCC_0"), "run", "color_change_start", SubResource("TransCC_1"), "jump", "color_change_start", SubResource("TransCC_2"), "fall", "color_change_start", SubResource("TransCC_3"), "land", "color_change_start", SubResource("TransCC_4"), "glide", "color_change_start", SubResource("TransCC_5"), "cling", "color_change_start", SubResource("TransCC_6"), "slide", "color_change_start", SubResource("TransCC_7"), "burst_charge", "color_change_start", SubResource("TransCC_9"), "heal_charge", "color_change_start", SubResource("TransCC_10"), "crisis_1", "color_change_start", SubResource("TransCC_11"), "punch", "color_change_start", SubResource("TransCC_12"), "uppercut", "color_change_start", SubResource("TransCC_13"), "gun", "color_change_start", SubResource("TransCC_14"), "color_change_end", "color_change_start", SubResource("TransCC_15"), "color_change_start", "color_change_end", SubResource("TransCC_16"), "color_change_end", "idle", SubResource("TransCC_17"), "color_change_end", "run", SubResource("TransCC_18"), "color_change_end", "jump", SubResource("TransCC_19"), "color_change_end", "fall", SubResource("TransCC_20"), "color_change_end", "land", SubResource("TransCC_21"), "color_change_end", "glide", SubResource("TransCC_22"), "color_change_end", "cling", SubResource("TransCC_23"), "color_change_end", "slide", SubResource("TransCC_24"), "color_change_end", "dash", SubResource("TransCC_26"), "color_change_end", "punch", SubResource("TransCC_27"), "color_change_end", "uppercut", SubResource("TransCC_28"), "color_change_end", "gun", SubResource("TransCC_29"), "heal_charge", "heal", SubResource("TransHeal_0"), "heal", "dash", SubResource("TransHeal_1"), "heal", "color_change_start", SubResource("TransHeal_2"), "heal", "idle", SubResource("TransHeal_3"), "heal", "run", SubResource("TransHeal_4"), "heal", "jump", SubResource("TransHeal_5"), "heal", "fall", SubResource("TransHeal_6"), "crisis_1", "crisis_2", SubResource("TransCrisis_0"), "crisis_2", "crisis_3", SubResource("TransCrisis_1"), "crisis_2", "idle", SubResource("TransCrisis_2"), "crisis_2", "run", SubResource("TransCrisis_3"), "crisis_2", "jump", SubResource("TransCrisis_4"), "crisis_2", "fall", SubResource("TransCrisis_5"), "crisis_2", "dash", SubResource("TransCrisis_6"), "crisis_2", "color_change_start", SubResource("TransCrisis_7"), "crisis_3", "idle", SubResource("TransCrisis_8"), "crisis_3", "run", SubResource("TransCrisis_9"), "crisis_3", "jump", SubResource("TransCrisis_10"), "crisis_3", "fall", SubResource("TransCrisis_11"), "crisis_3", "dash", SubResource("TransCrisis_12"), "crisis_3", "color_change_start", SubResource("TransCrisis_13"), "idle", "dash_start", SubResource("TransDash_0"), "run", "dash_start", SubResource("TransDash_1"), "jump", "dash_start", SubResource("TransDash_2"), "fall", "dash_start", SubResource("TransDash_3"), "glide", "dash_start", SubResource("TransDash_4"), "land", "dash_start", SubResource("TransDash_5"), "cling", "dash_start", SubResource("TransDash_6"), "slide", "dash_start", SubResource("TransDash_7"), "slam", "dash_start", SubResource("TransDash_9"), "dive", "dash_start", SubResource("TransDash_10"), "burst_charge", "dash_start", SubResource("TransDash_11"), "heal_charge", "dash_start", SubResource("TransDash_12"), "crisis_1", "dash_start", SubResource("TransDash_13"), "punch", "dash_start", SubResource("TransDash_14"), "uppercut", "dash_start", SubResource("TransDash_15"), "gun", "dash_start", SubResource("TransDash_16"), "color_change_end", "dash_start", SubResource("TransDash_17"), "heal", "dash_start", SubResource("TransDash_18"), "crisis_2", "dash_start", SubResource("TransDash_19"), "crisis_3", "dash_start", SubResource("TransDash_20"), "dash_start", "dash", SubResource("TransDash_21"), "dash", "dash_end", SubResource("TransDash_22"), "dash_end", "dash_start", SubResource("TransDash_23"), "dash_end", "color_change_start", SubResource("TransDash_24"), "dash_end", "burst", SubResource("TransDash_25"), "dash_end", "idle", SubResource("TransDash_26"), "dash_end", "run", SubResource("TransDash_27"), "dash_end", "jump", SubResource("TransDash_28"), "dash_end", "fall", SubResource("TransDash_29"), "dash_end", "land", SubResource("TransDash_30"), "dash_end", "glide", SubResource("TransDash_31"), "dash_end", "cling", SubResource("TransDash_32"), "dash_end", "slide", SubResource("TransDash_33"), "dash_end", "punch", SubResource("TransDash_34"), "dash_end", "uppercut", SubResource("TransDash_35"), "dash_end", "gun", SubResource("TransDash_36"), "glide", "glide_end", SubResource("TransExit_0"), "cling", "cling_end", SubResource("TransExit_1"), "slide", "slide_end", SubResource("TransExit_2"), "glide_end", "idle", SubResource("TransExit_4"), "glide_end", "run", SubResource("TransExit_5"), "glide_end", "fall", SubResource("TransExit_6"), "glide_end", "jump", SubResource("TransExit_7"), "glide_end", "dash_start", SubResource("TransExit_8"), "glide_end", "color_change_start", SubResource("TransExit_9"), "glide_end", "burst_charge", SubResource("TransExit_10"), "glide_end", "punch", SubResource("TransExit_11"), "glide_end", "uppercut", SubResource("TransExit_12"), "glide_end", "gun", SubResource("TransExit_13"), "cling_end", "jump", SubResource("TransExit_14"), "cling_end", "fall", SubResource("TransExit_15"), "cling_end", "dash_start", SubResource("TransExit_16"), "cling_end", "color_change_start", SubResource("TransExit_17"), "cling_end", "burst_charge", SubResource("TransExit_18"), "cling_end", "punch", SubResource("TransExit_19"), "cling_end", "uppercut", SubResource("TransExit_20"), "cling_end", "gun", SubResource("TransExit_21"), "slide_end", "idle", SubResource("TransExit_22"), "slide_end", "run", SubResource("TransExit_23"), "slide_end", "jump", SubResource("TransExit_24"), "slide_end", "fall", SubResource("TransExit_25"), "slide_end", "dash_start", SubResource("TransExit_26"), "slide_end", "color_change_start", SubResource("TransExit_27"), "slide_end", "burst_charge", SubResource("TransExit_28"), "slide_end", "punch", SubResource("TransExit_29"), "slide_end", "uppercut", SubResource("TransExit_30"), "slide_end", "gun", SubResource("TransExit_31"), "fall", "land_run", SubResource("TransLandRun_0"), "glide", "land_run", SubResource("TransLandRun_1"), "land_run", "run", SubResource("TransLandRun_2"), "land_run", "idle", SubResource("TransLandRun_3"), "land_run", "jump", SubResource("TransLandRun_4"), "land_run", "fall", SubResource("TransLandRun_5"), "land_run", "dash_start", SubResource("TransLandRun_6"), "land_run", "slide", SubResource("TransLandRun_7"), "land_run", "color_change_start", SubResource("TransLandRun_8"), "land_run", "burst_charge", SubResource("TransLandRun_9"), "land_run", "punch", SubResource("TransLandRun_10"), "land_run", "uppercut", SubResource("TransLandRun_11"), "land_run", "gun", SubResource("TransLandRun_12")]
+graph_offset = Vector2(-306.84747, 100.76151)
 
 [node name="Hue" type="CharacterBody2D" unique_id=1902301394]
 script = ExtResource("1_wn31x")
+palette_source = PackedColorArray(0.752941, 0.792157, 0.796078, 1, 0.807843, 0.854902, 0.858823, 1, 0.858823, 0.909804, 0.917647, 1, 1, 1, 1, 1, 0.898039, 0.941176, 0.94902, 1)
+palette_red = PackedColorArray(0.560784, 0.180392, 0.152941, 1, 0.682353, 0.227451, 0.192157, 1, 0.74902, 0.239216, 0.203922, 1, 0.858823, 0.203922, 0.156863, 1, 0.74902, 0.239216, 0.203922, 1)
+palette_blue = PackedColorArray(0.0862745, 0.0862745, 0.494118, 1, 0.109804, 0.105882, 0.662745, 1, 0.105882, 0.0980392, 0.784314, 1, 0.054902, 0.0470588, 0.94902, 1, 0.105882, 0.0980392, 0.784314, 1)
+palette_yellow = PackedColorArray(0.627451, 0.498039, 0.105882, 1, 0.705882, 0.592157, 0.0980392, 1, 0.803922, 0.737255, 0.0862745, 1, 0.92549, 0.847059, 0.054902, 1, 0.803922, 0.737255, 0.0862745, 1)
+palette_green = PackedColorArray(0.0705882, 0.360784, 0.0666667, 1, 0.101961, 0.403922, 0.0941176, 1, 0.160784, 0.482353, 0.152941, 1, 0.184314, 0.596078, 0.172549, 1, 0.160784, 0.482353, 0.152941, 1)
 
 [node name="Animation" type="AnimatedSprite2D" parent="." unique_id=1177540707]
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=736195284]
+visible = false
 shape = SubResource("RectangleShape2D_hb1x")
 debug_color = Color(0.6, 0.2, 1, 0.4)
 
 [node name="Color" type="ColorRect" parent="." unique_id=1592846307]
+visible = false
 offset_left = -16.0
 offset_top = -32.0
 offset_right = 16.0
 offset_bottom = 32.0
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=2025411958]
 material = SubResource("ShaderMaterial_palette")
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("3_c5exg")
+offset = Vector2(0, -2.15)
+hframes = 8
+vframes = 8
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_hue")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=522148552]
+libraries/ = SubResource("AnimationLibrary_hue")
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=969498213]
+active = false
 callback_mode_process = 0
 tree_root = SubResource("AnimationNodeStateMachine_hue")
 anim_player = NodePath("../AnimationPlayer")

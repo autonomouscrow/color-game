@@ -11,9 +11,9 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var speed := 300.0
 
 @export_group("Dash")
-@export var dash_speed := 1200.0  ## Horizontal speed for the whole dash; vertical speed stays at zero
+@export var dash_speed := 780.0  ## Horizontal speed for the whole dash; vertical speed stays at zero
 @export var dash_run_speed := 600.0  ## Horizontal speed kept after the dash ends while Shift is still held, on the ground and in the air
-@export var dash_time := 0.2  ## Seconds a dash lasts; it can't be cancelled, and Hue has i-frames and passes through enemies the whole time
+@export var dash_time := 0.33  ## Seconds a dash lasts; it can't be cancelled, and Hue has i-frames and passes through enemies the whole time
 @export var dash_cooldown := 1  ## Seconds from the start of one dash until Shift can dash again
 @export var dash_release_time := 0.2  ## Seconds to ease down to walking speed when Shift is released after a dash with an arrow held
 
@@ -75,20 +75,17 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var crisis_shake_ramp := 2.0  ## Higher values keep the shaking gentle for longer before it ramps up near crisis_death_time
 @export var crisis_shake_start_interval := 0.15  ## Seconds between shake jumps when shaking starts; shrinks to one jump per frame by crisis_death_time
 @export var crisis_shake_max_distance := 1.5  ## How far the color rectangle can jump from the hitbox by crisis_death_time, in multiples of Hue's size
+@export_subgroup("Copies")  ## Thin bars that appear with each MP gained in the last stretch of the crisis (the crisis_3 animation), fading to black as death nears
+@export var crisis_copy_height := 3.0  ## Height of each bar in pixels; its width matches Hue's
+@export var crisis_copy_color := Color8(236, 46, 212)  ## Bar color at the start of the last stretch; the same pink as the effects in Hue's sprite
+@export var crisis_copy_end_color := Color(0, 0, 0)  ## Bar color right at crisis_death_time
+@export_subgroup("")
 
 @export_group("Healing")  ## Hold X on the ground to heal; any other input cancels it, keeping whatever MP was already drained
 @export var heal_time := 2.0  ## Seconds X must be held for the heal to finish
 @export var heal_fraction := 1.0 / 3.0  ## Fraction of max_health restored when the heal finishes
 @export var heal_squash_scale := Vector2(1.2, 0.6)  ## Hue's size while healing, as a fraction of its normal width and height; the bottom edge stays put
 @export var heal_squash_time := 0.15  ## Seconds to squash down when a heal starts, and to stand back up when it ends
-@export_subgroup("Shake")  ## A sped-up crisis shake that builds up over heal_build_time, then plays backwards for the rest of the heal
-@export var heal_build_time := 0.5  ## Seconds for the copies to pile up and spread out to their peak; they pull back in and get absorbed over the rest of heal_time
-@export var heal_copy_count := 12  ## Copies of Hue around it at the peak; the last one is absorbed as the heal finishes
-@export var heal_copy_ramp := 2.0  ## Higher values hold back the copies for longer near the start and end, crowding them around the peak
-@export var heal_shake_ramp := 2.0  ## Higher values keep the shaking gentle for longer near the start and end, and wilder only around the peak
-@export var heal_shake_calm_interval := 0.15  ## Seconds between shake jumps at the very start and end of the heal; it's one jump per frame at the peak
-@export var heal_shake_max_distance := 1.5  ## How far the color rectangle and copies can jump from the hitbox at the peak, in multiples of Hue's size
-@export_subgroup("")
 
 @export_group("MP Costs")  ## Movement is free; only the gun, heal and a dash that hits something cost MP
 @export var dash_mp_cost := 1  ## Spent when a dash ends, only if it hit at least one enemy; a dash started with less than this still goes, but passes through enemies without damaging them
@@ -105,6 +102,7 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var punch_hold_time := 0.05  ## Seconds the punch stays at full size before disappearing
 @export var punch_damage := 15.0
 @export var punch_cooldown := 0.3  ## Seconds after punching or uppercutting before S can attack again
+@export var punch_hitbox_delay := 0.0833  ## Seconds from pressing S until the punch or uppercut hitbox comes out, to match the wind-up in the animation
 
 @export_group("Uppercut Attack")
 @export var uppercut_scene: PackedScene = preload("res://Scenes/Prefabs/UppercutAttack.tscn")
@@ -134,8 +132,7 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var burst_bullet_speed := 1500.0
 @export var burst_bullet_lifetime := 0.3  ## Seconds before a burst projectile that hasn't hit anything disappears
 @export var burst_damage := 15.0  ## Damage per projectile
-@export var burst_health_cost := 0.2  ## Fraction of max_health drained when the burst goes off; at or below this much health, it leaves Hue at 1 health instead
-@export var burst_min_health := 0.05  ## Fraction of max_health Hue needs to start or fire a burst
+@export var burst_mp_cost := 3  ## Needed to start a charge and spent when the burst goes off; with less than this, Ctrl does nothing
 @export var burst_cooldown := 2.0  ## Seconds from one burst going off until Ctrl can start another charge
 @export_subgroup("Shockwave")  ## A ring that grows from Hue with the projectile front and hits each enemy it reaches once
 @export var burst_shockwave_radius := 500.0  ## Pixels from Hue's center that the shockwave reaches
@@ -210,11 +207,12 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 		mp = clampi(value, 0, max_mp)
 
 @export_group("Animation")  ## The AnimationTree state machine is driven from _update_animation(); see the state names there
-@export var anim_xfade_time := 0.05  ## Crossfade seconds used by every transition when anim_override_xfade is on
+@export var anim_xfade_time := 0.0  ## Crossfade seconds used by every transition when anim_override_xfade is on; keep at 0 for frame-by-frame art, since a fade blends frame numbers and flashes unrelated cells
 @export var anim_override_xfade := true  ## Turn off to use each transition's own Xfade Time set in the AnimationTree editor instead
 @export var anim_run_threshold := 10.0  ## Horizontal speed on the ground above which the run animation plays instead of idle
 @export var anim_flip_with_facing := true  ## Mirrors the Sprite when Hue faces left; turn off if the art handles facing itself
 @export var anim_sprite_faces_right := true  ## Which way the Sprite's frames are drawn facing
+@export var color_change_anim := true  ## A color swap plays color_change_start then color_change_end through the swap pause; the new palette shows when color_change_end starts
 
 @export_group("Palette Swap")  ## Recolors the Sprite's art for each color mode, so one set of animations works in every color
 @export var palette_source := PackedColorArray()  ## The colors the art is drawn with, as they appear in the sprite sheet (up to 16)
@@ -239,11 +237,15 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @onready var anim_playback: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 ## Attacks and hits that play once and can't be cut off by movement; only ANIM_INTERRUPTS (or another attack) can cut them short
-const ANIM_ONE_SHOTS: Array[StringName] = [&"punch", &"uppercut", &"gun", &"burst"]
+const ANIM_ONE_SHOTS: Array[StringName] = [&"punch", &"uppercut", &"gun", &"burst", &"heal", &"color_change_start", &"color_change_end", &"dash_start", &"dash_end", &"glide_end", &"cling_end", &"slide_end", &"land_run"]
 const ANIM_INTERRUPTS: Array[StringName] = [&"dash", &"burst"]
 ## One-shot animation asked for this frame by an event (punch, uppercut, gun); _update_animation() plays it and clears it
 var anim_request: StringName = &""
 var anim_was_on_floor := true
+## Last frame's state from _anim_base_state(), used to spot moves ending so their exit frame can play
+var anim_prev_base: StringName = &""
+## True from a color swap until color_change_end starts; the Sprite keeps the old palette meanwhile
+var palette_hold := false
 
 var dashing := false
 var dash_direction := 1.0
@@ -313,8 +315,6 @@ var heal_locked := false
 var heal_time_elapsed := 0.0
 ## MP drained so far this heal
 var heal_mp_spent := 0
-## Copies of the color rectangle scattered around Hue this heal; freed one by one as they're absorbed
-var heal_copies: Array[ColorRect] = []
 ## 0 is normal size, 1 is fully squashed into heal_squash_scale
 var heal_squash := 0.0
 ## True while Green Hue grips a wall in mid-air
@@ -347,6 +347,9 @@ var burst_cooldown_timer := 0.0
 ## 0 is normal size, 1 is fully shrunk into burst_shrink_scale
 var burst_shrink := 0.0
 var current_punch: Node2D
+## A punch or uppercut whose hitbox is waiting out punch_hitbox_delay, or empty
+var punch_pending: StringName = &""
+var punch_pending_timer := 0.0
 ## Engine time in msec when the last uppercut reached full size; -1 before the first one. A Diver's dive is parried within its window after this
 var uppercut_extended_msec := -1
 var slide_hitbox: Node2D
@@ -374,6 +377,7 @@ func _ready() -> void:
 		for i in anim_state_machine.get_transition_count():
 			anim_state_machine.get_transition(i).xfade_time = anim_xfade_time
 	animation_tree.active = true
+	animation_tree.animation_started.connect(_on_animation_started)
 
 func _physics_process(delta: float) -> void:
 	_physics_step(delta)
@@ -475,6 +479,15 @@ func _drop_moves_outside_color() -> void:
 ## S punches, or uppercuts with up held
 func _update_punch(delta: float) -> void:
 	punch_cooldown_timer -= delta
+	# The hitbox of a punch or uppercut comes out punch_hitbox_delay after the press
+	if punch_pending != &"":
+		punch_pending_timer -= delta
+		if punch_pending_timer <= 0:
+			if punch_pending == &"uppercut":
+				_spawn_uppercut()
+			else:
+				_spawn_punch()
+			punch_pending = &""
 	if _just_pressed("punch") and punch_cooldown_timer <= 0:
 		if Input.is_action_pressed("move_up"):
 			_uppercut()
@@ -519,7 +532,6 @@ func _update_gun(delta: float) -> void:
 	bullet.bullet_size = bullet_size
 	bullet.damage = bullet_damage
 	bullet.shooter = self
-	bullet.get_node("Color").color = color_rect.color
 	# Added to the world rather than Hue, so it doesn't move with Hue; starts from Hue's center plus bullet_spawn_offset, even when Hue is squished
 	get_parent().add_child(bullet)
 	bullet.global_position = hitbox.global_position + bullet_spawn_offset
@@ -535,7 +547,6 @@ func _update_heal(heal_held: bool, other_input: bool, delta: float) -> bool:
 		speed_easing = false
 		heal_time_elapsed = 0.0
 		heal_mp_spent = 0
-		shake_timer = 0.0
 	if healing:
 		velocity.x = 0
 		heal_squash = move_toward(heal_squash, 1, delta / heal_squash_time)
@@ -590,7 +601,7 @@ func _update_burst(delta: float) -> bool:
 		return true
 	if burst_charging and not Input.is_action_pressed("burst"):
 		burst_charging = false
-	elif not burst_charging and _just_pressed("burst") and burst_cooldown_timer <= 0 and _has_burst_health() and not dashing and not sliding and not slamming:
+	elif not burst_charging and _just_pressed("burst") and burst_cooldown_timer <= 0 and _has_burst_mp() and not dashing and not sliding and not slamming:
 		burst_charging = true
 		burst_charge_timer = 0.0
 	if burst_charging:
@@ -599,7 +610,7 @@ func _update_burst(delta: float) -> bool:
 		_apply_squish()
 		burst_charge_timer += delta
 		if burst_charge_timer >= burst_charge_time:
-			if not _has_burst_health():
+			if not _has_burst_mp():
 				burst_charging = false
 				return false
 			_fire_burst()
@@ -609,18 +620,14 @@ func _update_burst(delta: float) -> bool:
 		_apply_squish()
 	return false
 
-## Fires burst_bullet_count projectiles and a shockwave all around, drains health, turns Hue white and starts the freeze
+## Fires burst_bullet_count projectiles and a shockwave all around, spends MP, turns Hue white and starts the freeze
 func _fire_burst() -> void:
 	burst_charging = false
 	bursting = true
 	burst_freeze_timer = burst_freeze_time
 	_play_sound(&"burst")
 	burst_cooldown_timer = burst_cooldown
-	# A burst that would drain Hue to 0 leaves it at 1 instead
-	if health <= max_health * burst_health_cost:
-		health = 1.0
-	else:
-		health -= max_health * burst_health_cost
+	mp -= burst_mp_cost
 	current_color = HueColor.WHITE
 	color_buffer_timer = 0.0
 	_end_cling()
@@ -638,7 +645,6 @@ func _fire_burst() -> void:
 		bullet.bullet_size = burst_bullet_size
 		bullet.damage = burst_damage
 		bullet.shooter = self
-		bullet.get_node("Color").color = color_rect.color
 		# Added to the world rather than Hue, starting from the center of Hue's hitbox
 		get_parent().add_child(bullet)
 		bullet.global_position = hitbox.global_position
@@ -653,9 +659,9 @@ func _fire_burst() -> void:
 	get_parent().add_child(shockwave)
 	shockwave.global_position = hitbox.global_position
 
-## Below burst_min_health, Hue can't start or fire a burst
-func _has_burst_health() -> bool:
-	return health >= max_health * burst_min_health
+## Below burst_mp_cost, Hue can't start or fire a burst
+func _has_burst_mp() -> bool:
+	return mp >= burst_mp_cost
 
 ## Getting hit, dashing, sliding or slamming during the charge cancels it; Hue grows back to normal size
 func _cancel_burst_charge() -> void:
@@ -888,6 +894,27 @@ func _punch() -> void:
 	punch_cooldown_timer = punch_cooldown
 	# Attacking ends a glide; A has to be pressed again to glide again
 	gliding = false
+	anim_request = &"punch"
+	_queue_punch_hitbox(&"punch")
+
+func _uppercut() -> void:
+	# Shares the punch's cooldown, and replaces a punch or uppercut that's still out
+	punch_cooldown_timer = punch_cooldown
+	gliding = false
+	anim_request = &"uppercut"
+	_queue_punch_hitbox(&"uppercut")
+
+func _queue_punch_hitbox(kind: StringName) -> void:
+	punch_pending = kind
+	punch_pending_timer = punch_hitbox_delay
+	if punch_pending_timer <= 0:
+		if kind == &"uppercut":
+			_spawn_uppercut()
+		else:
+			_spawn_punch()
+		punch_pending = &""
+
+func _spawn_punch() -> void:
 	# Only one punch at a time: a new punch replaces one that's still out
 	if is_instance_valid(current_punch):
 		current_punch.queue_free()
@@ -900,12 +927,8 @@ func _punch() -> void:
 	punch.position = Vector2(facing * punch_offset.x, punch_offset.y)
 	add_child(punch)
 	current_punch = punch
-	anim_request = &"punch"
 
-func _uppercut() -> void:
-	# Shares the punch's cooldown, and replaces a punch or uppercut that's still out
-	punch_cooldown_timer = punch_cooldown
-	gliding = false
+func _spawn_uppercut() -> void:
 	if is_instance_valid(current_punch):
 		current_punch.queue_free()
 	var uppercut := uppercut_scene.instantiate()
@@ -919,7 +942,6 @@ func _uppercut() -> void:
 	uppercut.fully_extended.connect(func(): uppercut_extended_msec = Pause.game_msec())
 	add_child(uppercut)
 	current_punch = uppercut
-	anim_request = &"uppercut"
 
 func _start_slide(squish_time: float) -> void:
 	sliding = true
@@ -948,6 +970,7 @@ func _ease_from_dash(direction: float) -> void:
 
 func _start_dash(direction: float) -> void:
 	dashing = true
+	anim_request = &"dash_start"
 	_play_sound(&"dash")
 	_cancel_burst_charge()
 	dash_timer = dash_time
@@ -988,6 +1011,7 @@ func _dash(direction: float, delta: float) -> void:
 
 func _end_dash(direction: float) -> void:
 	dashing = false
+	anim_request = &"dash_end"
 	velocity.y = 0
 	# Holding Shift keeps running at dash_run_speed after the dash; letting go with an arrow held eases down to walking speed
 	if Input.is_action_pressed("dash"):
@@ -1134,7 +1158,9 @@ func _crisis(delta: float) -> void:
 	# MP comes in faster and faster: 1.5s, then 0.75s more, then 0.375s more...
 	while crisis_time >= crisis_next_mp_time and crisis_next_mp_time < crisis_death_time and crisis_mp_interval > 0:
 		mp += 1
-		_add_crisis_copy()
+		# Copies only show up in the last stretch, after the first MP
+		if crisis_time >= _crisis_last_stretch_time():
+			_add_crisis_copy()
 		crisis_mp_interval *= crisis_mp_interval_factor
 		crisis_next_mp_time += crisis_mp_interval
 	if crisis_time >= crisis_death_time:
@@ -1142,6 +1168,10 @@ func _crisis(delta: float) -> void:
 		_end_crisis()
 		die()
 		return
+	# Copies fade from crisis_copy_color to crisis_copy_end_color over the last stretch
+	var fade := clampf(inverse_lerp(_crisis_last_stretch_time(), crisis_death_time, crisis_time), 0.0, 1.0)
+	for copy in crisis_copies:
+		copy.color = crisis_copy_color.lerp(crisis_copy_end_color, fade)
 	if crisis_time >= crisis_shake_start_time:
 		# Shake jumps get more frequent and farther apart as death nears
 		var progress := pow(inverse_lerp(crisis_shake_start_time, crisis_death_time, crisis_time), crisis_shake_ramp)
@@ -1158,11 +1188,15 @@ func _crisis(delta: float) -> void:
 
 func _add_crisis_copy() -> void:
 	var copy := ColorRect.new()
-	copy.color = color_rect.color
-	copy.size = color_rect.size
-	copy.position = color_rect.position
+	copy.color = crisis_copy_color
+	copy.size = Vector2(color_rect.size.x, crisis_copy_height)
+	copy.position = hitbox.position - copy.size / 2
 	add_child(copy)
 	crisis_copies.append(copy)
+
+## Seconds into the crisis that the last stretch (crisis_3) starts: halfway from the first MP to death
+func _crisis_last_stretch_time() -> float:
+	return (crisis_first_mp_time + crisis_death_time) / 2.0
 
 func _end_crisis() -> void:
 	in_crisis = false
@@ -1175,18 +1209,6 @@ func _end_crisis() -> void:
 
 func _heal(delta: float) -> void:
 	heal_time_elapsed += delta
-	# Rises from 0 to 1 over heal_build_time, then falls back to 0 as the heal finishes
-	var intensity := 1.0
-	if heal_time_elapsed < heal_build_time:
-		intensity = heal_time_elapsed / heal_build_time
-	elif heal_time > heal_build_time:
-		intensity = 1.0 - clampf((heal_time_elapsed - heal_build_time) / (heal_time - heal_build_time), 0.0, 1.0)
-	# Copies pile up like a crisis, then get absorbed one by one in reverse
-	var copies_wanted := ceili(heal_copy_count * pow(intensity, heal_copy_ramp))
-	while heal_copies.size() < copies_wanted:
-		_add_heal_copy()
-	while heal_copies.size() > copies_wanted:
-		heal_copies.pop_back().queue_free()
 	# MP drains at a steady rate: with 5 MP over 2s, one point every 0.4s
 	while heal_mp_spent < heal_mp_cost and heal_time_elapsed >= heal_time * (heal_mp_spent + 1) / heal_mp_cost:
 		if mp < 1:
@@ -1197,36 +1219,12 @@ func _heal(delta: float) -> void:
 	if heal_time_elapsed >= heal_time:
 		health += max_health * heal_fraction
 		_end_heal()
+		anim_request = &"heal"
 		return
-	# Shake jumps get faster and farther apart up to the peak, then slow down and close in on the hitbox
-	var progress := pow(intensity, heal_shake_ramp)
-	shake_timer -= delta
-	if shake_timer <= 0:
-		shake_timer = lerpf(heal_shake_calm_interval, 0.0, progress)
-		var reach := stand_size * heal_shake_max_distance * progress
-		shake_offset = Vector2(randf_range(-reach.x, reach.x), randf_range(-reach.y, reach.y))
-		_apply_squish()
-		# Each copy jumps to its own spot around the hitbox
-		for copy in heal_copies:
-			copy.size = color_rect.size
-			var copy_offset := Vector2(randf_range(-reach.x, reach.x), randf_range(-reach.y, reach.y))
-			copy.position = hitbox.position - copy.size / 2 + copy_offset
-
-func _add_heal_copy() -> void:
-	var copy := ColorRect.new()
-	copy.color = color_rect.color
-	copy.size = color_rect.size
-	copy.position = color_rect.position
-	add_child(copy)
-	heal_copies.append(copy)
 
 func _end_heal() -> void:
 	healing = false
 	heal_locked = Input.is_action_pressed("heal")
-	shake_offset = Vector2.ZERO
-	for copy in heal_copies:
-		copy.queue_free()
-	heal_copies.clear()
 	_apply_squish()
 
 ## True when the space Hue's standing hitbox would grow into above its current top edge is clear of anything solid; enemies don't count
@@ -1262,18 +1260,23 @@ func _update_color_swap(delta: float) -> void:
 	# since a color without the slide stands Hue up
 	if not dashing and not slamming and not bursting and can_stand_up:
 		var swapped := current_color != buffered_color
+		# The Sprite keeps the old palette until color_change_end starts
+		palette_hold = swapped and color_change_anim
 		current_color = buffered_color
 		color_buffer_timer = 0.0
 		if swapped:
 			# The sound plays through the pause, which starts right after the new color shows
 			_play_sound(&"color_swap", true)
 			Pause.hitstop(color_swap_pause_time)
+			if color_change_anim:
+				anim_request = &"color_change_start"
 
 func _apply_color() -> void:
 	if color_rect == null:
 		return
 	color_rect.color = [white_color, red_color, blue_color, yellow_color, green_color][current_color]
-	_apply_palette()
+	if not palette_hold:
+		_apply_palette()
 
 ## Points the Sprite's palette swap shader at the current color's palette
 func _apply_palette() -> void:
@@ -1396,14 +1399,22 @@ func moreCrystal(o: int) -> void:
 ## Transitions drawn in the AnimationTree editor are used when they exist (with their xfade and switch mode);
 ## a jump between two states with no transition drawn snaps straight across.
 func _update_animation() -> void:
+	_pick_animation()
+	_update_color_change_processing()
+
+func _pick_animation() -> void:
 	var on_floor := is_on_floor()
 	var target := _anim_base_state()
+	var exit_anim := _anim_exit(anim_prev_base, target)
+	anim_prev_base = target
 	var just_landed := on_floor and not anim_was_on_floor
 	anim_was_on_floor = on_floor
 	# Attacks asked for this frame play over movement, but not over a dash or burst
 	var requested := anim_request
 	anim_request = &""
-	if requested != &"" and target not in [&"burst", &"dash"]:
+	if requested == &"":
+		requested = exit_anim
+	if requested != &"" and (target not in [&"burst", &"dash"] or requested == &"dash_start"):
 		target = requested
 	elif just_landed and target == &"idle":
 		target = &"land"
@@ -1415,6 +1426,9 @@ func _update_animation() -> void:
 	var current_done := anim_playback.get_current_play_position() >= anim_playback.get_current_length()
 	# A one-shot that's still playing holds until it ends, unless something important cuts in
 	if current in ANIM_ONE_SHOTS and not current_done and requested == &"" and target not in ANIM_INTERRUPTS:
+		return
+	# dash_start hands off to the dash loop by itself when it ends
+	if current == &"dash_start" and target == &"dash":
 		return
 	# Landing plays out unless Hue starts doing something else
 	if current == &"land" and not current_done and target == &"idle":
@@ -1429,21 +1443,54 @@ func _update_animation() -> void:
 	else:
 		anim_playback.start(target, true)
 
+## The color change plays while the swap pause freezes the game, so the AnimationTree keeps running through it
+func _update_color_change_processing() -> void:
+	var current := anim_playback.get_current_node()
+	var changing := palette_hold or current == &"color_change_end"
+	animation_tree.process_mode = Node.PROCESS_MODE_ALWAYS if changing and Pause.in_hitstop() else Node.PROCESS_MODE_INHERIT
+	# Anything that cuts the color change short shows the new palette right away
+	if palette_hold and not Pause.in_hitstop() and current not in [&"color_change_start", &"color_change_end"]:
+		palette_hold = false
+		_apply_palette()
+
+func _on_animation_started(anim_name: StringName) -> void:
+	if anim_name == &"color_change_end" and palette_hold:
+		palette_hold = false
+		_apply_palette()
+
+## The one-frame exit animation to play when Hue goes from one state to another, or none
+func _anim_exit(from: StringName, to: StringName) -> StringName:
+	if from in [&"glide", &"fall"] and to == &"run":
+		return &"land_run"
+	if from == &"glide" and to == &"idle":
+		return &"glide_end"
+	if from == &"cling" and to == &"jump":
+		return &"cling_end"
+	if from == &"slide" and to in [&"idle", &"run", &"jump"]:
+		return &"slide_end"
+	return &""
+
 ## The looping or held state for what Hue is doing, before one-shot attacks and landing are layered on
 func _anim_base_state() -> StringName:
 	if bursting:
 		return &"burst"
 	if in_crisis:
-		return &"crisis"
+		# crisis_1 until the first MP, crisis_2 for the first half of the time left, crisis_3 until death
+		if crisis_time < crisis_first_mp_time:
+			return &"crisis_1"
+		if crisis_time < _crisis_last_stretch_time():
+			return &"crisis_2"
+		return &"crisis_3"
 	if healing:
-		return &"heal"
+		return &"heal_charge"
 	if dashing:
 		return &"dash"
 	if slamming:
 		# A straight-down slam has a slam hitbox; one with sideways speed is a dive
 		return &"slam" if is_instance_valid(slam_hitbox) else &"dive"
 	if sliding:
-		return &"squat" if squatting else &"slide"
+		# Squatting uses the slide animation too
+		return &"slide"
 	if clinging:
 		return &"cling"
 	if burst_charging:
