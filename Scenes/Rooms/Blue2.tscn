@@ -705,7 +705,7 @@ zone_color = 2
 position = Vector2(7880, -9205)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1046841789]
-position = Vector2(8441.001, -10554.001)
+position = Vector2(8441, -10559.001)
 scale = Vector2(2.760078, 2.760078)
 sprite_frames = SubResource("SpriteFrames_43rxf")
 autoplay = "default"

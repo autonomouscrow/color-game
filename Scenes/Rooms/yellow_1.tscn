@@ -16,6 +16,7 @@ script = ExtResource("1_pevpe")
 EnemyObjects = [NodePath("enemies/Slime"), NodePath("enemies/Slime2"), NodePath("enemies/Slime3"), NodePath("enemies/Slime4"), NodePath("enemies/Slime5"), NodePath("enemies/Slime6"), NodePath("enemies/Slime7"), NodePath("enemies/Slime8"), NodePath("enemies/Dasher"), NodePath("enemies/Dasher2"), NodePath("enemies/Dasher3"), NodePath("enemies/Dasher4"), NodePath("enemies/Ninja"), NodePath("enemies/Ninja2"), NodePath("enemies/Ninja3"), NodePath("enemies/Ninja4"), NodePath("enemies/Ninja5"), NodePath("enemies/Ninja6"), NodePath("enemies/Ninja7"), NodePath("enemies/Ninja8"), NodePath("enemies/Ninja9"), NodePath("enemies/Ninja10")]
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("2_hg87o")]
+visible = false
 position = Vector2(4258, -10755)
 scale = Vector2(430.03995, 268.81107)
 

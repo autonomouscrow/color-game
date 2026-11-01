@@ -767,7 +767,7 @@ position = Vector2(3410, -11001)
 position = Vector2(3152, -10915)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=18863770]
-position = Vector2(3269, -9885)
+position = Vector2(3269, -9893)
 scale = Vector2(2.760078, 2.760078)
 sprite_frames = SubResource("SpriteFrames_a13qn")
 autoplay = "default"
