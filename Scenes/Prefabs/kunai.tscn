@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b0k6k586msx4o"]
 
 [ext_resource type="Script" uid="uid://d1jwa0c3ox0sf" path="res://Scripts/kunai.gd" id="1_drug5"]
+[ext_resource type="Texture2D" uid="uid://dyb3y0hdkl34e" path="res://sprites/kunai.png" id="2_bot5r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bmxlf"]
 size = Vector2(8.5, 3.5)
@@ -10,6 +11,7 @@ script = ExtResource("1_drug5")
 max_health = 5
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1705548108]
+visible = false
 offset_top = -3.9999998
 offset_right = 40.0
 offset_bottom = 36.0
@@ -20,5 +22,10 @@ scale = Vector2(0.482598, 0.20996572)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=282298619]
 position = Vector2(9.75, 0.25)
 shape = SubResource("RectangleShape2D_bmxlf")
+
+[node name="Kunai" type="Sprite2D" parent="Area2D" unique_id=1960795072]
+position = Vector2(8, 2)
+scale = Vector2(1.3024997, 1.3024997)
+texture = ExtResource("2_bot5r")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
