@@ -209,6 +209,22 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 			time_since_mp_spent = 0.0
 		mp = clampi(value, 0, max_mp)
 
+@export_group("Animation")  ## The AnimationTree state machine is driven from _update_animation(); see the state names there
+@export var anim_xfade_time := 0.05  ## Crossfade seconds used by every transition when anim_override_xfade is on
+@export var anim_override_xfade := true  ## Turn off to use each transition's own Xfade Time set in the AnimationTree editor instead
+@export var anim_run_threshold := 10.0  ## Horizontal speed on the ground above which the run animation plays instead of idle
+@export var anim_flip_with_facing := true  ## Mirrors the Sprite when Hue faces left; turn off if the art handles facing itself
+@export var anim_sprite_faces_right := true  ## Which way the Sprite's frames are drawn facing
+
+@export_group("Palette Swap")  ## Recolors the Sprite's art for each color mode, so one set of animations works in every color
+@export var palette_source := PackedColorArray()  ## The colors the art is drawn with, as they appear in the sprite sheet (up to 16)
+@export var palette_white := PackedColorArray()  ## Replacements for palette_source in White, in the same order; leave empty to keep the art's own colors
+@export var palette_red := PackedColorArray()
+@export var palette_blue := PackedColorArray()
+@export var palette_yellow := PackedColorArray()
+@export var palette_green := PackedColorArray()
+@export var palette_tolerance := 0.02  ## How close a pixel must be to a palette_source color to be swapped; raise it if some pixels don't change
+
 @export_group("Debug")
 @export var debug_stat_keys := true  ## 1/2 raise/lower health and 3/4 raise/lower MP while held, for testing the HUD
 @export var debug_health_rate := 50.0  ## Health per second gained or lost while 1 or 2 is held
@@ -217,6 +233,17 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 
 @onready var hitbox: CollisionShape2D = $Hitbox
 @onready var color_rect: ColorRect = $Color
+@onready var sprite: Sprite2D = $Sprite
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var anim_state_machine: AnimationNodeStateMachine = animation_tree.tree_root
+@onready var anim_playback: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
+
+## Attacks and hits that play once and can't be cut off by movement; only ANIM_INTERRUPTS (or another attack) can cut them short
+const ANIM_ONE_SHOTS: Array[StringName] = [&"punch", &"uppercut", &"gun", &"burst"]
+const ANIM_INTERRUPTS: Array[StringName] = [&"dash", &"burst"]
+## One-shot animation asked for this frame by an event (punch, uppercut, gun); _update_animation() plays it and clears it
+var anim_request: StringName = &""
+var anim_was_on_floor := true
 
 var dashing := false
 var dash_direction := 1.0
@@ -343,8 +370,17 @@ func _ready() -> void:
 	hitbox.shape = hitbox_shape
 	stand_size = hitbox_shape.size
 	_apply_color()
+	if anim_override_xfade:
+		for i in anim_state_machine.get_transition_count():
+			anim_state_machine.get_transition(i).xfade_time = anim_xfade_time
+	animation_tree.active = true
 
 func _physics_process(delta: float) -> void:
+	_physics_step(delta)
+	_update_animation()
+
+## Everything Hue does each physics frame; split from _physics_process so its early returns still let _update_animation() run
+func _physics_step(delta: float) -> void:
 	var buffered: Dictionary = Pause.take_buffered_inputs()
 	buffered_presses = buffered.pressed
 	buffered_releases = buffered.released
@@ -356,6 +392,7 @@ func _physics_process(delta: float) -> void:
 	if slow_left <= 0:
 		slow_factor = 1.0
 	color_rect.modulate.a = hidden_alpha if is_hidden() else 1.0
+	sprite.modulate.a = color_rect.modulate.a
 	can_stand_up = _can_stand()
 	_update_color_swap(delta)
 	_drop_moves_outside_color()
@@ -474,6 +511,7 @@ func _update_gun(delta: float) -> void:
 	gun_cooldown_timer = gun_cooldown
 	mp -= gun_mp_cost
 	_play_sound(&"gun")
+	anim_request = &"gun"
 	var bullet := bullet_scene.instantiate()
 	bullet.direction = aim.normalized()
 	bullet.speed = bullet_speed
@@ -862,6 +900,7 @@ func _punch() -> void:
 	punch.position = Vector2(facing * punch_offset.x, punch_offset.y)
 	add_child(punch)
 	current_punch = punch
+	anim_request = &"punch"
 
 func _uppercut() -> void:
 	# Shares the punch's cooldown, and replaces a punch or uppercut that's still out
@@ -880,6 +919,7 @@ func _uppercut() -> void:
 	uppercut.fully_extended.connect(func(): uppercut_extended_msec = Pause.game_msec())
 	add_child(uppercut)
 	current_punch = uppercut
+	anim_request = &"uppercut"
 
 func _start_slide(squish_time: float) -> void:
 	sliding = true
@@ -1233,6 +1273,24 @@ func _apply_color() -> void:
 	if color_rect == null:
 		return
 	color_rect.color = [white_color, red_color, blue_color, yellow_color, green_color][current_color]
+	_apply_palette()
+
+## Points the Sprite's palette swap shader at the current color's palette
+func _apply_palette() -> void:
+	var sprite_node := get_node_or_null("Sprite") as Sprite2D
+	if sprite_node == null or not sprite_node.material is ShaderMaterial:
+		return
+	var target: PackedColorArray = [palette_white, palette_red, palette_blue, palette_yellow, palette_green][current_color]
+	var count := mini(mini(palette_source.size(), target.size()), 16)
+	var sources := palette_source.duplicate()
+	var targets := target.duplicate()
+	sources.resize(16)
+	targets.resize(16)
+	var mat := sprite_node.material as ShaderMaterial
+	mat.set_shader_parameter("color_count", count)
+	mat.set_shader_parameter("source_colors", sources)
+	mat.set_shader_parameter("target_colors", targets)
+	mat.set_shader_parameter("tolerance", palette_tolerance)
 
 func _debug_stats(delta: float) -> void:
 	var health_direction := float(Input.is_physical_key_pressed(KEY_1)) - float(Input.is_physical_key_pressed(KEY_2))
@@ -1333,3 +1391,66 @@ func unlockColor(o: int) -> void:
 
 func moreCrystal(o: int) -> void:
 	max_mp += o
+
+## Picks the animation state from what Hue is doing this frame and moves the AnimationTree there.
+## Transitions drawn in the AnimationTree editor are used when they exist (with their xfade and switch mode);
+## a jump between two states with no transition drawn snaps straight across.
+func _update_animation() -> void:
+	var on_floor := is_on_floor()
+	var target := _anim_base_state()
+	var just_landed := on_floor and not anim_was_on_floor
+	anim_was_on_floor = on_floor
+	# Attacks asked for this frame play over movement, but not over a dash or burst
+	var requested := anim_request
+	anim_request = &""
+	if requested != &"" and target not in [&"burst", &"dash"]:
+		target = requested
+	elif just_landed and target == &"idle":
+		target = &"land"
+
+	if anim_flip_with_facing:
+		sprite.flip_h = (facing < 0) == anim_sprite_faces_right
+
+	var current := anim_playback.get_current_node()
+	var current_done := anim_playback.get_current_play_position() >= anim_playback.get_current_length()
+	# A one-shot that's still playing holds until it ends, unless something important cuts in
+	if current in ANIM_ONE_SHOTS and not current_done and requested == &"" and target not in ANIM_INTERRUPTS:
+		return
+	# Landing plays out unless Hue starts doing something else
+	if current == &"land" and not current_done and target == &"idle":
+		return
+	if target == current:
+		# The same attack again restarts it
+		if requested == target:
+			anim_playback.start(target, true)
+		return
+	if anim_state_machine.has_transition(current, target):
+		anim_playback.travel(target)
+	else:
+		anim_playback.start(target, true)
+
+## The looping or held state for what Hue is doing, before one-shot attacks and landing are layered on
+func _anim_base_state() -> StringName:
+	if bursting:
+		return &"burst"
+	if in_crisis:
+		return &"crisis"
+	if healing:
+		return &"heal"
+	if dashing:
+		return &"dash"
+	if slamming:
+		# A straight-down slam has a slam hitbox; one with sideways speed is a dive
+		return &"slam" if is_instance_valid(slam_hitbox) else &"dive"
+	if sliding:
+		return &"squat" if squatting else &"slide"
+	if clinging:
+		return &"cling"
+	if burst_charging:
+		return &"burst_charge"
+	if not is_on_floor():
+		if gliding:
+			return &"glide"
+		# Wall jumps and knockback pops share the jump; the top of the arc turns into the fall
+		return &"jump" if velocity.y < 0 else &"fall"
+	return &"run" if absf(velocity.x) > anim_run_threshold else &"idle"
