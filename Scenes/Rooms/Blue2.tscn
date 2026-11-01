@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bb572vj63lbl0"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_m3txl"]
+[ext_resource type="Texture2D" uid="uid://tx0fn2f0nvum" path="res://sprites/blue2.png" id="2_i0lql"]
 [ext_resource type="PackedScene" uid="uid://c5i7skmtn3i2o" path="res://Scenes/Prefabs/breakable_wall.tscn" id="7_4d4hf"]
 [ext_resource type="PackedScene" uid="uid://qwq2dgsgx5d2" path="res://Scenes/Prefabs/Diver.tscn" id="8_3vkun"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="9_8qc2n"]
@@ -56,6 +57,11 @@ animations = [{
 [node name="Blue2" type="Node2D" unique_id=458252390 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_m3txl")
 EnemyObjects = [NodePath("enemies/Breakable Wall"), NodePath("enemies/Diver"), NodePath("enemies/SlidyBoi"), NodePath("enemies/SlidyBoi2"), NodePath("enemies/SlidyBoi3"), NodePath("enemies/SlidyBoi4"), NodePath("enemies/SlidyBoi5"), NodePath("enemies/Slime"), NodePath("enemies/WallSitters"), NodePath("enemies/WallSitters2"), NodePath("enemies/WallSitters3"), NodePath("enemies/WallSitters4"), NodePath("enemies/WallSitters5"), NodePath("enemies/Slime2"), NodePath("enemies/Slime3"), NodePath("enemies/Slime4"), NodePath("enemies/Slime5"), NodePath("enemies/Slime6"), NodePath("enemies/Slime7"), NodePath("enemies/Slime8"), NodePath("enemies/Diver2"), NodePath("enemies/Diver3"), NodePath("enemies/Diver4"), NodePath("enemies/SlidyBoi6"), NodePath("enemies/SlidyBoi7"), NodePath("enemies/SlidyBoi8"), NodePath("enemies/SlidyBoi10"), NodePath("enemies/SlidyBoi12"), NodePath("enemies/WallSitters6")]
+
+[node name="Blue2" type="Sprite2D" parent="." unique_id=2030813323]
+position = Vector2(7825.0005, -9934)
+scale = Vector2(1.01, 1.009)
+texture = ExtResource("2_i0lql")
 
 [node name="RoomBoundry" parent="." unique_id=2141509462 instance=ExtResource("9_8qc2n")]
 visible = false
