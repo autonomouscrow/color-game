@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dety7yohacqxa"
-path="res://.godot/imported/green2.png-bdc86ab6295b92e6f5f5eceb46cacfe1.ctex"
+uid="uid://bj2am0fu5gb7k"
+path="res://.godot/imported/ColorCrystalG.png-96ba61db2d4fd613d00f3b2a12e7d251.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://green2.png"
-dest_files=["res://.godot/imported/green2.png-bdc86ab6295b92e6f5f5eceb46cacfe1.ctex"]
+source_file="res://sprites/ColorCrystalG.png"
+dest_files=["res://.godot/imported/ColorCrystalG.png-96ba61db2d4fd613d00f3b2a12e7d251.ctex"]
 
 [params]
 

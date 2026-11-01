@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cefcc0alwgjf8"
-path="res://.godot/imported/Ninja.png-c6f65f5a2909757bf7c5aa98292636f8.ctex"
+uid="uid://cilry4vexqw4x"
+path="res://.godot/imported/Dasher.png-854c1480086dd652b9b133b22cdd0773.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Ninja.png"
-dest_files=["res://.godot/imported/Ninja.png-c6f65f5a2909757bf7c5aa98292636f8.ctex"]
+source_file="res://sprites/Dasher.png"
+dest_files=["res://.godot/imported/Dasher.png-854c1480086dd652b9b133b22cdd0773.ctex"]
 
 [params]
 

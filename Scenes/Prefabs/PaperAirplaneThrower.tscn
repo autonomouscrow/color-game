@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ctaww7bptkekr"]
 
 [ext_resource type="Script" uid="uid://cws3j3jx4uba0" path="res://Scripts/paper_airplane_thrower.gd" id="1_thrower"]
-[ext_resource type="Texture2D" uid="uid://8n1lu2nsgtvc" path="res://PaperAirplaineThrower.png" id="2_irvdt"]
+[ext_resource type="Texture2D" uid="uid://8n1lu2nsgtvc" path="res://sprites/PaperAirplaineThrower.png" id="2_irvdt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_thrower"]
 size = Vector2(30, 62)

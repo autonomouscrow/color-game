@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://clgdbgwdxlmio"]
 
 [ext_resource type="Script" uid="uid://dm1fckrwju30f" path="res://Scripts/paper_airplane.gd" id="1_plane"]
-[ext_resource type="Texture2D" uid="uid://c75uqq7p7u4bf" path="res://PaperAirplaine.png" id="2_vwn3c"]
+[ext_resource type="Texture2D" uid="uid://c75uqq7p7u4bf" path="res://sprites/PaperAirplaine.png" id="2_vwn3c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_plane"]
 size = Vector2(20, 10)

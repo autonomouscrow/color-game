@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p1fi6bwbolxw"
-path="res://.godot/imported/Diver.png-1d864a8b486a77e11fd501e1a61b28cf.ctex"
+uid="uid://xd7vfkcooch0"
+path="res://.godot/imported/Hue_White_Spritesheet.png-65a941586e995972ba3ec56a6aa43b9d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Diver.png"
-dest_files=["res://.godot/imported/Diver.png-1d864a8b486a77e11fd501e1a61b28cf.ctex"]
+source_file="res://sprites/Hue_White_Spritesheet.png"
+dest_files=["res://.godot/imported/Hue_White_Spritesheet.png-65a941586e995972ba3ec56a6aa43b9d.ctex"]
 
 [params]
 

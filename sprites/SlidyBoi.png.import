@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dc24w7wg7tyq6"
-path="res://.godot/imported/slime.png-9d614d234157d841fd715094a50092e8.ctex"
+uid="uid://blswirdjue17e"
+path="res://.godot/imported/SlidyBoi.png-09632f8a1d90d8b2240eb4a57fa5b5dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://slime.png"
-dest_files=["res://.godot/imported/slime.png-9d614d234157d841fd715094a50092e8.ctex"]
+source_file="res://sprites/SlidyBoi.png"
+dest_files=["res://.godot/imported/SlidyBoi.png-09632f8a1d90d8b2240eb4a57fa5b5dc.ctex"]
 
 [params]
 

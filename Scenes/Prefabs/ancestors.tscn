@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btcp03ywrwyyn"]
 
-[ext_resource type="Script" uid="uid://c051u6kibx0ma" path="res://ancestors.gd" id="1_m8clt"]
-[ext_resource type="Texture2D" uid="uid://5p1ah2mibuv4" path="res://leafSheep.png" id="2_vuirq"]
+[ext_resource type="Script" uid="uid://c051u6kibx0ma" path="res://Scripts/ancestors.gd" id="1_m8clt"]
+[ext_resource type="Texture2D" uid="uid://7a0102k4xkcf" path="res://sprites/leafSheep.png" id="2_vuirq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x3acn"]
 radius = 64.0

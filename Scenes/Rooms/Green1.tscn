@@ -2,16 +2,16 @@
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_7vu7n"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="2_2gly8"]
-[ext_resource type="Texture2D" uid="uid://dg4e1n1sy65s3" path="res://green1.png" id="2_rrh6n"]
-[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="3_qautl"]
+[ext_resource type="Texture2D" uid="uid://dg4e1n1sy65s3" path="res://sprites/green1.png" id="2_rrh6n"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="3_qautl"]
 [ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="4_2gly8"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="5_qautl"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="6_wgraa"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="7_sawut"]
-[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="8_sawut"]
-[ext_resource type="PackedScene" uid="uid://dlaq8kmhddk8v" path="res://text.tscn" id="9_y22up"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://Scenes/Prefabs/ancestors.tscn" id="8_sawut"]
+[ext_resource type="PackedScene" uid="uid://dlaq8kmhddk8v" path="res://Scenes/Prefabs/text.tscn" id="9_y22up"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="10_ig6al"]
-[ext_resource type="Texture2D" uid="uid://5p1ah2mibuv4" path="res://leafSheep.png" id="12_rrh6n"]
+[ext_resource type="Texture2D" uid="uid://7a0102k4xkcf" path="res://sprites/leafSheep.png" id="12_rrh6n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_commf"]
 atlas = ExtResource("12_rrh6n")

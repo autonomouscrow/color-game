@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://qwq2dgsgx5d2"]
 
 [ext_resource type="Script" uid="uid://b0voyayrgn8t7" path="res://Scripts/diver.gd" id="1_diver"]
-[ext_resource type="Texture2D" uid="uid://p1fi6bwbolxw" path="res://Diver.png" id="2_cdy4c"]
+[ext_resource type="Texture2D" uid="uid://p1fi6bwbolxw" path="res://sprites/Diver.png" id="2_cdy4c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(30, 62)

@@ -6,15 +6,52 @@
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="9_8qc2n"]
 [ext_resource type="PackedScene" uid="uid://bg20reqytwww4" path="res://Scenes/Prefabs/slidy_boi.tscn" id="10_pf7uk"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="10_sw8ec"]
-[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="11_43rxf"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="11_43rxf"]
 [ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="11_ibn1c"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="12_3vkun"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="12_bei0t"]
 [ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://Scenes/Prefabs/wall_sitters.tscn" id="12_gogsg"]
-[ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://color_crystal.tscn" id="13_bei0t"]
+[ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://Scenes/Prefabs/color_crystal.tscn" id="13_bei0t"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="13_pf7uk"]
-[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="14_pf7uk"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://Scenes/Prefabs/ancestors.tscn" id="14_pf7uk"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="15_ibn1c"]
+[ext_resource type="Texture2D" uid="uid://b653wcd8meg6y" path="res://sprites/ColorCrystalB.png" id="16_gogsg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sw8ec"]
+atlas = ExtResource("16_gogsg")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y68r7"]
+atlas = ExtResource("16_gogsg")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0lql"]
+atlas = ExtResource("16_gogsg")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qc2n"]
+atlas = ExtResource("16_gogsg")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_43rxf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sw8ec")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y68r7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i0lql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qc2n")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="Blue2" type="Node2D" unique_id=458252390 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]
 script = ExtResource("1_m3txl")
@@ -660,3 +697,9 @@ zone_color = 2
 
 [node name="ColorZone4" parent="." unique_id=1124837558 instance=ExtResource("15_ibn1c")]
 position = Vector2(7880, -9205)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1046841789]
+position = Vector2(8441.001, -10554.001)
+scale = Vector2(2.760078, 2.760078)
+sprite_frames = SubResource("SpriteFrames_43rxf")
+autoplay = "default"

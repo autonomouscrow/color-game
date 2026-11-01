@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c3esrxtwcjlfa"]
 
 [ext_resource type="Script" uid="uid://b0kbuh0f3b0ff" path="res://Scripts/wall_sitters.gd" id="1_i0tgi"]
-[ext_resource type="Texture2D" uid="uid://bg7l1ynaq3mgj" path="res://wallJumper.png" id="2_ca1wb"]
+[ext_resource type="Texture2D" uid="uid://bg7l1ynaq3mgj" path="res://sprites/wallJumper.png" id="2_ca1wb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tkjrr"]
 radius = 226.73553

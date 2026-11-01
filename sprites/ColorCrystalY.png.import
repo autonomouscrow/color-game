@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bg7l1ynaq3mgj"
-path="res://.godot/imported/wallJumper.png-c44e70d4b00a6f213aa12ed9a83bf830.ctex"
+uid="uid://cfrhuwyn0ey85"
+path="res://.godot/imported/ColorCrystalY.png-9c90c2640803bc31ad3ad83a4e1b8492.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://wallJumper.png"
-dest_files=["res://.godot/imported/wallJumper.png-c44e70d4b00a6f213aa12ed9a83bf830.ctex"]
+source_file="res://sprites/ColorCrystalY.png"
+dest_files=["res://.godot/imported/ColorCrystalY.png-9c90c2640803bc31ad3ad83a4e1b8492.ctex"]
 
 [params]
 

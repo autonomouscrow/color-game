@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xd7vfkcooch0"
-path="res://.godot/imported/Hue_White_Spritesheet.png-67f85b7b797dd8013847229737a69478.ctex"
+uid="uid://o4nplgbi6m2p"
+path="res://.godot/imported/red1.png-e964113442f87d3e6f24850c08b7e47b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Hue_White_Spritesheet.png"
-dest_files=["res://.godot/imported/Hue_White_Spritesheet.png-67f85b7b797dd8013847229737a69478.ctex"]
+source_file="res://sprites/red1.png"
+dest_files=["res://.godot/imported/red1.png-e964113442f87d3e6f24850c08b7e47b.ctex"]
 
 [params]
 

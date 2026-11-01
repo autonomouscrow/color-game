@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5p1ah2mibuv4"
-path="res://.godot/imported/leafSheep.png-793ef06fd283a40c90e06d9028b5508b.ctex"
+uid="uid://dj70vavtf3jk1"
+path="res://.godot/imported/Canvas.png-1d1a61bc70130bb2c56cb6531a4f62a4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://leafSheep.png"
-dest_files=["res://.godot/imported/leafSheep.png-793ef06fd283a40c90e06d9028b5508b.ctex"]
+source_file="res://sprites/Canvas.png"
+dest_files=["res://.godot/imported/Canvas.png-1d1a61bc70130bb2c56cb6531a4f62a4.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d0y5ggtqv3vyv"]
 
 [ext_resource type="Script" uid="uid://7t85mmrkq0h3" path="res://Scripts/slime.gd" id="1_slime"]
-[ext_resource type="Texture2D" uid="uid://dc24w7wg7tyq6" path="res://slime.png" id="2_740om"]
+[ext_resource type="Texture2D" uid="uid://dc24w7wg7tyq6" path="res://sprites/slime.png" id="2_740om"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(50, 30)

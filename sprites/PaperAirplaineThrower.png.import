@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dw8t71bl82m8i"
-path="res://.godot/imported/Ninja (1).png-6ff22278d493aeaa95f2a2efaa5943e3.ctex"
+uid="uid://8n1lu2nsgtvc"
+path="res://.godot/imported/PaperAirplaineThrower.png-b979da693eb3ef47d9c4ea7294563909.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Ninja (1).png"
-dest_files=["res://.godot/imported/Ninja (1).png-6ff22278d493aeaa95f2a2efaa5943e3.ctex"]
+source_file="res://sprites/PaperAirplaineThrower.png"
+dest_files=["res://.godot/imported/PaperAirplaineThrower.png-b979da693eb3ef47d9c4ea7294563909.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://butbrp11dq2nx"]
 
 [ext_resource type="Script" uid="uid://c6vjqvyppprjf" path="res://Scripts/ninja.gd" id="1_buaqa"]
-[ext_resource type="Texture2D" uid="uid://dw8t71bl82m8i" path="res://Ninja (1).png" id="2_lgpkp"]
+[ext_resource type="Texture2D" uid="uid://dw8t71bl82m8i" path="res://sprites/Ninja (1).png" id="2_lgpkp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3acn"]
 size = Vector2(32, 47)

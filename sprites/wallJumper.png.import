@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7a0102k4xkcf"
-path="res://.godot/imported/leafSheep.png-4a820630fe6e0e8ebde5480d8d429820.ctex"
+uid="uid://bg7l1ynaq3mgj"
+path="res://.godot/imported/wallJumper.png-666e13e47c3e51841a5c58f830f91ff0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Rooms/leafSheep.png"
-dest_files=["res://.godot/imported/leafSheep.png-4a820630fe6e0e8ebde5480d8d429820.ctex"]
+source_file="res://sprites/wallJumper.png"
+dest_files=["res://.godot/imported/wallJumper.png-666e13e47c3e51841a5c58f830f91ff0.ctex"]
 
 [params]
 

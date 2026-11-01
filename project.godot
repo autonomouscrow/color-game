@@ -13,7 +13,7 @@ config_version=5
 config/name="color"
 run/main_scene="uid://b3v1edmqhqd75"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://sprites/icon.svg"
 
 [display]
 

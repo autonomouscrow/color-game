@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg4e1n1sy65s3"
-path="res://.godot/imported/green1.png-d5c41a01631048bf12fe81de94d97c1a.ctex"
+uid="uid://p1fi6bwbolxw"
+path="res://.godot/imported/Diver.png-ba6d037c66d293a67f94353f954927a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://green1.png"
-dest_files=["res://.godot/imported/green1.png-d5c41a01631048bf12fe81de94d97c1a.ctex"]
+source_file="res://sprites/Diver.png"
+dest_files=["res://.godot/imported/Diver.png-ba6d037c66d293a67f94353f954927a0.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqqpy5unxkh5s"
-path="res://.godot/imported/blue1.png-2e93420d7fed7b833410b06d2c18b595.ctex"
+uid="uid://b653wcd8meg6y"
+path="res://.godot/imported/ColorCrystalB.png-4ad6dd591dcb2aa7e575d1fc970f0a8c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://blue1.png"
-dest_files=["res://.godot/imported/blue1.png-2e93420d7fed7b833410b06d2c18b595.ctex"]
+source_file="res://sprites/ColorCrystalB.png"
+dest_files=["res://.godot/imported/ColorCrystalB.png-4ad6dd591dcb2aa7e575d1fc970f0a8c.ctex"]
 
 [params]
 

@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_slyfa"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_dq0vl"]
-[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="4_gop86"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="4_gop86"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_slyfa"]
-[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="5_u5oj7"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://Scenes/Prefabs/ancestors.tscn" id="5_u5oj7"]
 
 [node name="GreenHonse" type="Node2D" unique_id=2046928556 groups=["Room"]]
 script = ExtResource("1_slyfa")

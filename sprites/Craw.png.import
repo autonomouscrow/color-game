@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cilry4vexqw4x"
-path="res://.godot/imported/Dasher.png-a9605698ef9c370f529c01a0f4af1832.ctex"
+uid="uid://dhte5oqt32a4t"
+path="res://.godot/imported/Craw.png-5f96ee81a2cc15e5fabce178bab11d86.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Dasher.png"
-dest_files=["res://.godot/imported/Dasher.png-a9605698ef9c370f529c01a0f4af1832.ctex"]
+source_file="res://sprites/Craw.png"
+dest_files=["res://.godot/imported/Craw.png-5f96ee81a2cc15e5fabce178bab11d86.ctex"]
 
 [params]
 

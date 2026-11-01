@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhte5oqt32a4t"
-path="res://.godot/imported/Craw.png-20e4a8663cd5fc04f03a9d791a4b28de.ctex"
+uid="uid://7a0102k4xkcf"
+path="res://.godot/imported/leafSheep.png-bfe96a0b042290ec0bd94057f11da69d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Craw.png"
-dest_files=["res://.godot/imported/Craw.png-20e4a8663cd5fc04f03a9d791a4b28de.ctex"]
+source_file="res://sprites/leafSheep.png"
+dest_files=["res://.godot/imported/leafSheep.png-bfe96a0b042290ec0bd94057f11da69d.ctex"]
 
 [params]
 

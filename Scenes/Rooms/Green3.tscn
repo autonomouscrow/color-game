@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://u53ev8iw1am2"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_m87rl"]
-[ext_resource type="Texture2D" uid="uid://dcnmh4k4hwpi3" path="res://green3.png" id="2_07n74"]
+[ext_resource type="Texture2D" uid="uid://dcnmh4k4hwpi3" path="res://sprites/green3.png" id="2_07n74"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_5ggvd"]
-[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="4_ho2ax"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="4_ho2ax"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_jfnis"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_ho2ax"]
 [ext_resource type="PackedScene" uid="uid://d11k86ap54sq6" path="res://Scenes/Prefabs/damage_tp.tscn" id="6_dq8n7"]

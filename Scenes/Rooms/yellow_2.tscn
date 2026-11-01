@@ -3,13 +3,50 @@
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_lbndr"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="2_qqbhw"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="3_ksxh1"]
-[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="4_2d22j"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="4_2d22j"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_3w672"]
-[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Dasher.tscn" id="6_ksxh1"]
+[ext_resource type="PackedScene" uid="uid://cm55gamptkieg" path="res://Scenes/Prefabs/Dasher.tscn" id="6_ksxh1"]
 [ext_resource type="PackedScene" uid="uid://bvbkoiedl4jtg" path="res://Scenes/Prefabs/Craw.tscn" id="7_2d22j"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="8_2d22j"]
-[ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://color_crystal.tscn" id="9_3w672"]
+[ext_resource type="PackedScene" uid="uid://wgfe6wtvypdf" path="res://Scenes/Prefabs/color_crystal.tscn" id="9_3w672"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="10_mpbch"]
+[ext_resource type="Texture2D" uid="uid://cfrhuwyn0ey85" path="res://sprites/ColorCrystalY.png" id="11_1iguh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4u3t"]
+atlas = ExtResource("11_1iguh")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enbty"]
+atlas = ExtResource("11_1iguh")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr34o"]
+atlas = ExtResource("11_1iguh")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nv7jf"]
+atlas = ExtResource("11_1iguh")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4droo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4u3t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enbty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wr34o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nv7jf")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="Yellow2" type="Node2D" unique_id=719130131 groups=["Room"]]
 script = ExtResource("1_lbndr")
@@ -162,3 +199,9 @@ position = Vector2(3487, -14775)
 
 [node name="ColorZone2" parent="." unique_id=1090436383 instance=ExtResource("10_mpbch")]
 position = Vector2(1972, -14974)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2063442216]
+position = Vector2(5070.0005, -14508.001)
+scale = Vector2(2.760078, 2.760078)
+sprite_frames = SubResource("SpriteFrames_4droo")
+autoplay = "default"

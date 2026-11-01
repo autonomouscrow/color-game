@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_oiuna"]
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="1_ots34"]
-[ext_resource type="Texture2D" uid="uid://cpguj7itn2pip" path="res://start.png" id="2_p61lq"]
-[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="2_qn1rc"]
+[ext_resource type="Texture2D" uid="uid://cpguj7itn2pip" path="res://sprites/start.png" id="2_p61lq"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="2_qn1rc"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="3_1n0d2"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_y5hus"]
-[ext_resource type="PackedScene" uid="uid://dlaq8kmhddk8v" path="res://text.tscn" id="6_p74js"]
+[ext_resource type="PackedScene" uid="uid://dlaq8kmhddk8v" path="res://Scenes/Prefabs/text.tscn" id="6_p74js"]
 [ext_resource type="PackedScene" uid="uid://c5i7skmtn3i2o" path="res://Scenes/Prefabs/breakable_wall.tscn" id="7_h331w"]
 
 [node name="Start" type="Node2D" unique_id=118567636 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]

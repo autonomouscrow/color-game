@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cm55gamptkieg"]
 
 [ext_resource type="Script" uid="uid://cvdwlmtmklfkt" path="res://Scripts/dasher.gd" id="1_dasher"]
-[ext_resource type="Texture2D" uid="uid://cilry4vexqw4x" path="res://Dasher.png" id="2_c8ns3"]
+[ext_resource type="Texture2D" uid="uid://cilry4vexqw4x" path="res://sprites/Dasher.png" id="2_c8ns3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(30, 62)

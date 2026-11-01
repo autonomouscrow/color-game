@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c5h4o4wir0f08"]
 
 [ext_resource type="Script" uid="uid://dkhpmj78ce0lx" path="res://Scripts/Room.gd" id="1_6x4te"]
-[ext_resource type="Texture2D" uid="uid://bqqpy5unxkh5s" path="res://blue1.png" id="2_8bakv"]
+[ext_resource type="Texture2D" uid="uid://bqqpy5unxkh5s" path="res://sprites/blue1.png" id="2_8bakv"]
 [ext_resource type="PackedScene" uid="uid://cdiaroodhyb5v" path="res://Scenes/Prefabs/DamageBlock.tscn" id="5_dox6h"]
 [ext_resource type="PackedScene" uid="uid://qwq2dgsgx5d2" path="res://Scenes/Prefabs/Diver.tscn" id="6_ovws3"]
 [ext_resource type="PackedScene" uid="uid://bg20reqytwww4" path="res://Scenes/Prefabs/slidy_boi.tscn" id="7_dlvn0"]
@@ -10,9 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://b7owcqgbcb5fa" path="res://Scenes/roomExit.tscn" id="9_es6mr"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/ColorZone.tscn" id="9_ovws3"]
 [ext_resource type="PackedScene" uid="uid://d0y5ggtqv3vyv" path="res://Scenes/Prefabs/Slime.tscn" id="10_dlvn0"]
-[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://SolidBox.tscn" id="10_rudwg"]
+[ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="10_rudwg"]
 [ext_resource type="PackedScene" uid="uid://c3esrxtwcjlfa" path="res://Scenes/Prefabs/wall_sitters.tscn" id="11_jpjf8"]
-[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://ancestors.tscn" id="12_pli0g"]
+[ext_resource type="PackedScene" uid="uid://btcp03ywrwyyn" path="res://Scenes/Prefabs/ancestors.tscn" id="12_pli0g"]
 [ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="13_2sgry"]
 
 [node name="Blue1" type="Node2D" unique_id=1167361679 node_paths=PackedStringArray("EnemyObjects") groups=["Room"]]

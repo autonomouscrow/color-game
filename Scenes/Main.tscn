@@ -23,7 +23,7 @@ SpawnRoom = "Start"
 [node name="Start" parent="RoomContainer" unique_id=118567636 instance=ExtResource("13_5jffn")]
 
 [node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
-position = Vector2(-2900, 573)
+position = Vector2(-2873, 578)
 health = 70.0
 mp = 6
 

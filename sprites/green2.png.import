@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8n1lu2nsgtvc"
-path="res://.godot/imported/PaperAirplaineThrower.png-be0f310340e9c47e1fbb2e3e2b4f3b69.ctex"
+uid="uid://dety7yohacqxa"
+path="res://.godot/imported/green2.png-18c6ec0313e5a79f88128e06110ea4dd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://PaperAirplaineThrower.png"
-dest_files=["res://.godot/imported/PaperAirplaineThrower.png-be0f310340e9c47e1fbb2e3e2b4f3b69.ctex"]
+source_file="res://sprites/green2.png"
+dest_files=["res://.godot/imported/green2.png-18c6ec0313e5a79f88128e06110ea4dd.ctex"]
 
 [params]
 
