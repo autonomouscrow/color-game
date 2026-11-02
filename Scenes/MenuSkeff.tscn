@@ -4,12 +4,23 @@
 [ext_resource type="Texture2D" uid="uid://bdu0o7jsq4l03" path="res://sprites/Controls.png" id="2_v67yl"]
 [ext_resource type="Texture2D" uid="uid://c6hh4nhk7cl5e" path="res://sprites/sound control.png" id="3_rk1s0"]
 [ext_resource type="Texture2D" uid="uid://5wxxocy3k0oq" path="res://sprites/Map_drawing.png" id="4_kpvme"]
-[ext_resource type="Texture2D" uid="uid://bnw056t6mf7yp" path="res://sprites/space.png" id="5_bsy53"]
+[ext_resource type="Texture2D" uid="uid://crlax6jjkewyh" path="res://Tutorial Red.png" id="6_pwr_r"]
+[ext_resource type="Texture2D" uid="uid://d7vjm4etykcl" path="res://Tutorial Blue.png" id="7_pwr_b"]
+[ext_resource type="Texture2D" uid="uid://wgrk8k71ol04" path="res://Tutorial Yellow.png" id="8_pwr_y"]
+[ext_resource type="Texture2D" uid="uid://bt80xt7cvabrg" path="res://Tutorial Green.png" id="9_pwr_g"]
+[ext_resource type="Texture2D" uid="uid://b7f8u6qwvhuwk" path="res://sprites/majortom.png" id="10_knob"]
 
 [node name="MenuSkeff" type="CanvasLayer" unique_id=1389517807 groups=["MenuSkeff"]]
 process_mode = 3
 layer = 120
 script = ExtResource("1_menu")
+master_handle = ExtResource("10_knob")
+music_handle = ExtResource("10_knob")
+sfx_handle = ExtResource("10_knob")
+red_power_image = ExtResource("6_pwr_r")
+blue_power_image = ExtResource("7_pwr_b")
+yellow_power_image = ExtResource("8_pwr_y")
+green_power_image = ExtResource("9_pwr_g")
 
 [node name="ControlsMenu" type="ColorRect" parent="." unique_id=227753607]
 anchors_preset = 15
@@ -105,9 +116,14 @@ offset_bottom = 722.0
 color = Color(0.72156864, 0.6431373, 0.7254902, 1)
 
 [node name="MapImage" type="TextureRect" parent="MapMenu" unique_id=836113068]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -115,18 +131,21 @@ texture = ExtResource("4_kpvme")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="MapImage2" type="TextureRect" parent="MapMenu" unique_id=1004712779]
+[node name="PowerMenu" type="ColorRect" parent="." unique_id=1730482915]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="PowerImage" type="TextureRect" parent="PowerMenu" unique_id=1730482916]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1145.0
-offset_top = 19.0
-offset_right = 151.17383
-offset_bottom = -620.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("5_bsy53")
-expand_mode = 3
+expand_mode = 1
 stretch_mode = 5

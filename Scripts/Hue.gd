@@ -185,6 +185,7 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var hidden_alpha := 0.5  ## Hue's opacity while hidden from enemies in a color zone that matches its color
 
 @export_group("Display")
+@export var show_hitbox := false  ## Draws Hue's true hitbox in hitbox_color, for debugging; off now that the sprite covers Hue
 @export var hitbox_color := Color(0.6, 0.2, 1.0, 0.4)  ## Color the true hitbox is drawn in, underneath the white color rectangle
 
 @export_group("Stats")
@@ -1151,6 +1152,8 @@ func _remove_hitbox(attack_hitbox) -> void:
 		attack_hitbox.queue_free()
 
 func _draw() -> void:
+	if not show_hitbox:
+		return
 	draw_rect(Rect2(hitbox.position - hitbox_shape.size / 2, hitbox_shape.size), hitbox_color)
 
 func _crisis(delta: float) -> void:

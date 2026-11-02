@@ -1094,6 +1094,7 @@ offset_top = -80.0
 offset_right = 40.0
 offset_bottom = 80.0
 mouse_filter = 2
+color = Color(1, 1, 1, 0)
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=680228856]
 scale = Vector2(1.5, 1.5)

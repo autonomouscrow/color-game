@@ -1725,9 +1725,8 @@ palette_green = PackedColorArray(0.0705882, 0.360784, 0.0666667, 1, 0.101961, 0.
 [node name="Animation" type="AnimatedSprite2D" parent="." unique_id=1177540707]
 
 [node name="Hitbox" type="CollisionShape2D" parent="." unique_id=736195284]
-visible = false
 shape = SubResource("RectangleShape2D_hb1x")
-debug_color = Color(0.6, 0.2, 1, 0.4)
+debug_color = Color(0.6, 0.2, 1, 0)
 
 [node name="Color" type="ColorRect" parent="." unique_id=1592846307]
 visible = false
@@ -1735,6 +1734,7 @@ offset_left = -16.0
 offset_top = -32.0
 offset_right = 16.0
 offset_bottom = 32.0
+color = Color(1, 1, 1, 0)
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=2025411958]
 material = SubResource("ShaderMaterial_palette")

@@ -21,6 +21,9 @@ extends Node
 @export_range(0.0, 5.0, 0.1) var music_fade_out_time := 1.0  ## Seconds to fade out one track before the other starts
 @export_range(0.0, 5.0, 0.1) var music_fade_in_time := 0.5  ## Seconds to fade the new track in
 
+@export_group("Credits Music")
+@export_range(0.0, 10.0, 0.1) var credits_music_fade_in_time := 3.0  ## Seconds for the normal music to fade back in when the credits start
+
 @export_group("Sound Effects")
 @export var attack_sound: AudioStream  ## Played on every punch and uppercut
 @export_range(-40.0, 30.0, 0.5) var attack_sound_volume_db := 0.0  ## Player-facing volume, for an audio slider
@@ -77,6 +80,7 @@ var _music_fade := 1.0  # 0..1 multiplier tweened during crossfades
 var _boss_fade := 0.0
 var _in_boss_room := false
 var _fade_tween: Tween
+var _credits := false  # True once the credits start: normal music only, at full loudness even though the game is paused
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -112,6 +116,8 @@ func _process(_delta: float) -> void:
 	_update_music_volume()
 
 func _is_in_boss_room() -> bool:
+	if _credits:
+		return false
 	var room_control := get_tree().get_first_node_in_group("RoomControl")
 	if not room_control:
 		return false
@@ -142,9 +148,34 @@ func _switch_music(to_boss: bool) -> void:
 	)
 	_fade_tween.tween_property(self, to_fade, 1.0, music_fade_in_time)
 
+## Fades the boss music to silence over fade_time seconds, leaving nothing playing; used when Lord Chroma dies
+func fade_out_boss_music(fade_time: float) -> void:
+	if _fade_tween:
+		_fade_tween.kill()
+	_fade_tween = create_tween()
+	_fade_tween.tween_property(self, "_boss_fade", 0.0, fade_time)
+	_fade_tween.tween_callback(boss_music.stop)
+
+## Called when the credits start: the boss music stops and the normal music fades back in from where it left off
+func start_credits_music() -> void:
+	_credits = true
+	_in_boss_room = false
+	if _fade_tween:
+		_fade_tween.kill()
+	_boss_fade = 0.0
+	boss_music.stop()
+	if music.stream:
+		if music.stream_paused:
+			music.stream_paused = false
+		elif not music.playing:
+			music.play()
+	_music_fade = 0.0
+	_fade_tween = create_tween()
+	_fade_tween.tween_property(self, "_music_fade", 1.0, credits_music_fade_in_time)
+
 func _update_music_volume() -> void:
 	# Only a real pause quiets the music, not a brief hitstop
-	var loudness := paused_music_volume if Pause.is_menu_paused() else 1.0
+	var loudness := paused_music_volume if Pause.is_menu_paused() and not _credits else 1.0
 	music.volume_db = master_volume_db + music_volume_db + music_db_offset + linear_to_db(maxf(loudness * _music_fade, 0.0001))
 	boss_music.volume_db = master_volume_db + music_volume_db + boss_music_db_offset + linear_to_db(maxf(loudness * _boss_fade, 0.0001))
 

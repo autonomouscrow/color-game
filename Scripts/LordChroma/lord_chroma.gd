@@ -95,6 +95,17 @@ var current_state: State = State.IDLE
 ## The middle of the arena, where Chroma teleports for moves like the quarter blast; the room sets it
 @export var arena_center: Node2D
 
+@export_group("Unstick")
+## Colors where Chroma teleports to unstick_point right after swapping into them, and again whenever he spends
+## unstick_time in a row near the bottom of the arena; for green, whose moving floor pillars can trap him
+@export_flags("White", "Red", "Blue", "Yellow", "Green") var unstick_colors := 16
+## Where Chroma teleports to, as an offset from the middle of the arena (arena_center)
+@export var unstick_point := Vector2.ZERO
+## Chroma counts as at the bottom once his center is this many pixels below the middle of the arena
+@export var unstick_bottom_offset := 200.0
+## Seconds in a row at the bottom before Chroma teleports again
+@export var unstick_time := 2.0
+
 @export_group("Platforming")
 ## Horizontal speed while in the air
 @export var air_speed := 350.0
@@ -143,7 +154,7 @@ var current_state: State = State.IDLE
 @export var anim_flip_with_facing := true  ## Mirrors the Sprite when Chroma faces left; turn off if the art handles facing itself
 @export var anim_sprite_faces_right := false  ## Which way the Sprite's frames are drawn facing; Chroma's art faces left
 @export var anim_flip_on_ceiling := true  ## Turns the Sprite upside down while Chroma's gravity points up (green mode on the ceiling)
-@export var show_color_box := true  ## Shows the plain colored box over Chroma's body (and the clones' bodies); turn off once the Sprite has art
+@export var show_color_box := false  ## Shows the plain colored box over Chroma's body (and the clones' bodies); turn off once the Sprite has art
 
 @export_group("Debug")
 ## 0 cycles Chroma's color, for testing the arena
@@ -181,6 +192,8 @@ var has_wander_target := false
 var swap_freeze_left := 0.0
 ## Seconds left before Chroma can pick a move after a color swap
 var swap_attack_left := 0.0
+## Seconds Chroma has been at the bottom of the arena in a row, in an unstick color
+var bottom_time := 0.0
 ## Seconds until the next teleport roll
 var teleport_check_left := 0.0
 ## Chroma's own collision mask; flying clears it so he passes through everything
@@ -297,6 +310,7 @@ func _physics_step(delta: float) -> void:
 	for move in moves:
 		move.cooldown_left = maxf(move.cooldown_left - delta, 0.0)
 	swap_attack_left = maxf(swap_attack_left - delta, 0.0)
+	_update_unstick(delta)
 	if swap_freeze_left > 0:
 		swap_freeze_left -= delta
 		if swap_freeze_left <= 0:
@@ -508,8 +522,11 @@ func stun() -> void:
 
 func swap_color(color: int) -> void:
 	current_color = color as ChromaColor
-	if not is_flying() and _inside_block():
+	if unstick_colors & (1 << current_color):
+		teleport_to(arena_middle() + unstick_point)
+	elif not is_flying() and _inside_block():
 		teleport_to(arena_middle())
+	bottom_time = 0.0
 	attacks_until_swap = randi_range(standard_attacks_per_color.x, standard_attacks_per_color.y)
 	swap_attack_left = swap_attack_delay
 	# Only between moves; a swap in the middle of one (the debug key) doesn't freeze him
@@ -531,6 +548,20 @@ func _inside_block() -> bool:
 		if body.intersects(rect):
 			return true
 	return false
+
+## In an unstick color, teleports Chroma to unstick_point once he's been near the bottom for unstick_time in a row.
+## The timer holds while a move pulls him down on purpose, like the green wave dive
+func _update_unstick(delta: float) -> void:
+	if unstick_colors & (1 << current_color) == 0 or gravity_override > 0 or body_hidden:
+		bottom_time = 0.0
+		return
+	if global_position.y < arena_middle().y + unstick_bottom_offset:
+		bottom_time = 0.0
+		return
+	bottom_time += delta
+	if bottom_time >= unstick_time:
+		bottom_time = 0.0
+		teleport_to(arena_middle() + unstick_point)
 
 func _swap_to_random_color() -> void:
 	var options: Array[int] = []

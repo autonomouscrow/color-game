@@ -5,8 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://b7mrfg0q1dqrb" path="res://Scenes/Prefabs/LordChroma.tscn" id="3_chroma"]
 [ext_resource type="PackedScene" uid="uid://bbreqjvxwbsbw" path="res://Scenes/Prefabs/SolidBox.tscn" id="3_oad2v"]
 [ext_resource type="PackedScene" uid="uid://b5ve86daq1wpt" path="res://Scenes/room_boundry.tscn" id="4_boundry"]
-[ext_resource type="PackedScene" uid="uid://k6kpr2pmhh05" path="res://Scenes/Prefabs/canvas.tscn" id="5_canvas"]
 [ext_resource type="Script" uid="uid://befvtvrll4a6p" path="res://Scripts/LordChroma/chroma_pillars.gd" id="6_pillars"]
+[ext_resource type="Script" uid="uid://bto1cipns0pbi" path="res://Scripts/LordChroma/chroma_intro.gd" id="7_intro"]
+[ext_resource type="Texture2D" uid="uid://dn1052aq3qb06" path="res://sprites/Lord ChromaYes I stole this title style _).png" id="9_6jr6c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_10"]
 size = Vector2(1920, 60)
@@ -33,6 +34,7 @@ position = Vector2(1496, -21067)
 script = ExtResource("2_arena")
 boss = NodePath("../LordChroma")
 wall_rects = [NodePath("../Floor/Color"), NodePath("../LeftWall/Color"), NodePath("../RightWall/Color"), NodePath("../Ceiling/Color")]
+wall_colors = Array[Color]([Color(0.48122025, 0.48368943, 0.5837552, 1), Color(0.32, 0.08, 0.08, 1), Color(0.1, 0.15, 0.36, 1), Color(0.36, 0.3, 0.05, 1), Color(0.1, 0.25, 0.12, 1)])
 
 [node name="White" type="Node2D" parent="Variants" unique_id=1322901175]
 visible = false
@@ -41,7 +43,7 @@ visible = false
 offset_right = 1920.0
 offset_bottom = 900.0
 mouse_filter = 2
-color = Color(0.93, 0.93, 0.96, 0.85)
+color = Color(0.92941177, 0.92941177, 0.9607843, 0.49411765)
 
 [node name="Box" parent="Variants/White" unique_id=1599687405 instance=ExtResource("3_oad2v")]
 position = Vector2(1422, 681)
@@ -383,15 +385,21 @@ metadata/_edit_use_anchors_ = true
 [node name="LeftDoor" type="Marker2D" parent="." unique_id=529497060]
 position = Vector2(1646, -20207)
 
-[node name="Canvas" parent="." unique_id=2060818970 instance=ExtResource("5_canvas")]
-position = Vector2(1646, -20207)
-
 [node name="ArenaCenter" type="Marker2D" parent="." unique_id=1203512895]
 position = Vector2(2456, -20617)
 
 [node name="LordChroma" parent="." unique_id=312795924 node_paths=PackedStringArray("arena_center") instance=ExtResource("3_chroma")]
 position = Vector2(2996, -20263)
 arena_center = NodePath("../ArenaCenter")
+max_health = 3000
+
+[node name="ChromaIntro" type="Node2D" parent="." unique_id=1279973181 node_paths=PackedStringArray("boss")]
+script = ExtResource("7_intro")
+boss = NodePath("../LordChroma")
+freeze_time = 0.5
+title_image = ExtResource("9_6jr6c")
+title_image_scale = 0.5
+title_fade_in_time = 0.5
 
 [node name="In" type="Marker2D" parent="." unique_id=352035876]
 position = Vector2(1549.0204, -20224.488)

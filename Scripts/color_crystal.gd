@@ -3,11 +3,7 @@ extends Node2D
 var playerInArea: bool = false
 
 @export var color: int
-@export var tutorial: Texture2D
-
-var showingUI: bool = false
-
-var spawned_image: Control = null
+@export var tutorial: Texture2D  ## Overrides MenuSkeff's power window picture for this color; leave empty to use MenuSkeff's
 
 func _ready() -> void:
 	pass # Replace with function body.
@@ -27,3 +23,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if playerInArea and event.is_action_pressed("interact"):
 		var player = get_tree().get_first_node_in_group("Player")
 		player.unlockColor(color)
+		# The first crystal of each color opens its power window (paused, closed with Space); later ones do nothing extra
+		var menu = get_tree().get_first_node_in_group("MenuSkeff")
+		if menu and menu.show_power(color, tutorial):
+			get_viewport().set_input_as_handled()

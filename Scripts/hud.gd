@@ -64,6 +64,64 @@ extends CanvasLayer
 		diamond_outline_width = value
 		_redraw()
 
+@export_group("MP Diamond Sprites")
+## Which colors Hue has unlocked. Set from the player's CanColor at runtime; change it here to preview each sprite in the editor
+@export var color_combo := Combo.WHITE:
+	set(value):
+		color_combo = value
+		_redraw()
+## Spritesheet with one diamond per color combo. Leave empty to draw plain colored diamonds instead
+@export var diamond_sheet: Texture2D:
+	set(value):
+		diamond_sheet = value
+		_redraw()
+## Number of frames across the sheet
+@export var sheet_hframes := 7:
+	set(value):
+		sheet_hframes = maxi(value, 1)
+		_redraw()
+## Number of frames down the sheet
+@export var sheet_vframes := 1:
+	set(value):
+		sheet_vframes = maxi(value, 1)
+		_redraw()
+## Each diamond is drawn at its frame's size times this
+@export var diamond_sprite_scale := 1.0:
+	set(value):
+		diamond_sprite_scale = value
+		_redraw()
+## Frames are counted left to right, then top to bottom, starting at 0
+@export var frame_white := 1:
+	set(value):
+		frame_white = value
+		_redraw()
+@export var frame_white_green := 2:
+	set(value):
+		frame_white_green = value
+		_redraw()
+@export var frame_white_green_red := 3:
+	set(value):
+		frame_white_green_red = value
+		_redraw()
+@export var frame_white_green_blue := 4:
+	set(value):
+		frame_white_green_blue = value
+		_redraw()
+@export var frame_white_green_red_blue := 5:
+	set(value):
+		frame_white_green_red_blue = value
+		_redraw()
+## White, green, red, blue and yellow
+@export var frame_all := 6:
+	set(value):
+		frame_all = value
+		_redraw()
+## Frame for a spent MP point. At -1 the current combo's sprite is drawn tinted with Diamond Empty Color
+@export var frame_empty := 0:
+	set(value):
+		frame_empty = value
+		_redraw()
+
 @export_group("Colors")
 @export var health_color := Color(1, 1, 1):
 	set(value):
@@ -92,6 +150,18 @@ extends CanvasLayer
 
 const ORB_POINTS := 64
 
+enum Combo { WHITE, WHITE_GREEN, WHITE_GREEN_RED, WHITE_GREEN_BLUE, WHITE_GREEN_RED_BLUE, ALL }
+
+# Bits follow Hue's HueColor order: WHITE 0, RED 1, BLUE 2, YELLOW 3, GREEN 4
+const COMBO_MASKS := {
+	Combo.WHITE: 0b00001,
+	Combo.WHITE_GREEN: 0b10001,
+	Combo.WHITE_GREEN_RED: 0b10011,
+	Combo.WHITE_GREEN_BLUE: 0b10101,
+	Combo.WHITE_GREEN_RED_BLUE: 0b10111,
+	Combo.ALL: 0b11111,
+}
+
 @onready var canvas: Control = $Canvas
 
 func _ready() -> void:
@@ -107,6 +177,40 @@ func _process(_delta: float) -> void:
 		var value = player.get(property)
 		if value != null and value != get(property):
 			set(property, value)
+	var can_color = player.get("CanColor")
+	if can_color is Array:
+		var combo := _combo_for(can_color)
+		if combo != color_combo:
+			color_combo = combo
+
+## The combo matching the unlocked colors. Anything off the list (e.g. from debug unlocks)
+## falls back to the biggest listed combo it contains
+func _combo_for(can_color: Array) -> Combo:
+	var mask := 0
+	for i in can_color.size():
+		if can_color[i]:
+			mask |= 1 << i
+	var best := Combo.WHITE
+	var best_bits := -1
+	for combo: Combo in COMBO_MASKS:
+		var combo_mask: int = COMBO_MASKS[combo]
+		if (mask & combo_mask) == combo_mask:
+			var bits := 0
+			for b in 5:
+				bits += (combo_mask >> b) & 1
+			if bits > best_bits:
+				best = combo
+				best_bits = bits
+	return best
+
+func _combo_frame() -> int:
+	match color_combo:
+		Combo.WHITE_GREEN: return frame_white_green
+		Combo.WHITE_GREEN_RED: return frame_white_green_red
+		Combo.WHITE_GREEN_BLUE: return frame_white_green_blue
+		Combo.WHITE_GREEN_RED_BLUE: return frame_white_green_red_blue
+		Combo.ALL: return frame_all
+	return frame_white
 
 func _redraw() -> void:
 	if is_node_ready():
@@ -140,6 +244,9 @@ func _draw_orb(center: Vector2) -> void:
 	canvas.draw_arc(center, orb_radius, 0, TAU, ORB_POINTS, orb_outline_color, orb_outline_width, true)
 
 func _draw_diamond(center: Vector2, filled: bool) -> void:
+	if diamond_sheet:
+		_draw_diamond_sprite(center, filled)
+		return
 	var half := diamond_size / 2
 	var points := PackedVector2Array([
 		center + Vector2(0, -half.y),
@@ -150,3 +257,17 @@ func _draw_diamond(center: Vector2, filled: bool) -> void:
 	canvas.draw_colored_polygon(points, mp_color if filled else diamond_empty_color)
 	points.append(points[0])
 	canvas.draw_polyline(points, diamond_outline_color, diamond_outline_width, true)
+
+func _draw_diamond_sprite(center: Vector2, filled: bool) -> void:
+	var frame := _combo_frame()
+	var tint := Color.WHITE
+	if not filled:
+		if frame_empty >= 0:
+			frame = frame_empty
+		else:
+			tint = diamond_empty_color
+	var frame_size := diamond_sheet.get_size() / Vector2(sheet_hframes, sheet_vframes)
+	@warning_ignore("integer_division")
+	var region := Rect2(Vector2(frame % sheet_hframes, frame / sheet_hframes) * frame_size, frame_size)
+	var draw_size := frame_size * diamond_sprite_scale
+	canvas.draw_texture_rect_region(diamond_sheet, Rect2(center - draw_size / 2, draw_size), region, tint)

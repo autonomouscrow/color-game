@@ -6,8 +6,14 @@ extends CanvasLayer
 ## The sound menu has three sliders, each -30 to +30 dB starting at 0, wired to AudioSkeff:
 ## Master sets master_volume_db (added to every sound), Music sets music_volume_db (normal and boss music),
 ## and SFX sets attack_sound_volume_db, hurt_sound_volume_db and ability_volume_db (every other sound).
+## The title screen opens the controls and sound pages with open_from_start(). Those pages then only close: Space or the
+## page's own key goes back to the title screen (back_to_start is emitted), the game stays paused, and other keys do nothing.
+## Power windows: show_power(color) opens the explanation picture for a color the first time Hue gains it from a crystal.
+## They pause like the other menus and only Space closes them; the menu keys do nothing while one is up.
 
-enum Menu { NONE, CONTROLS, SOUND, MAP }
+signal back_to_start
+
+enum Menu { NONE, CONTROLS, SOUND, MAP, POWER }
 
 @export_group("Keys")
 @export var controls_key: Key = KEY_I  ## Toggles the controls menu
@@ -26,6 +32,7 @@ enum Menu { NONE, CONTROLS, SOUND, MAP }
 @export var master_handle: Texture2D  ## Sprite for the Master slider's handle
 @export var music_handle: Texture2D  ## Sprite for the Music slider's handle
 @export var sfx_handle: Texture2D  ## Sprite for the SFX slider's handle
+@export var handle_size := 48  ## Width in pixels the handle sprites are scaled to (height keeps their shape); 0 draws them at their own size
 @export_range(-30.0, 30.0, 0.5) var slider_min_db := -30.0  ## Lowest dB a slider can reach
 @export_range(-30.0, 30.0, 0.5) var slider_max_db := 30.0  ## Highest dB a slider can reach
 @export_range(0.1, 5.0, 0.1) var slider_step_db := 0.5  ## dB per slider notch
@@ -33,6 +40,15 @@ enum Menu { NONE, CONTROLS, SOUND, MAP }
 @export_group("Map")
 @export var map_image: Texture2D  ## Picture shown on the map screen; leave empty for plain black
 
+@export_group("Power Windows")
+## Picture shown the first time Hue gains each color, fitted to the screen with its aspect kept. A crystal's own tutorial slot overrides these.
+@export var red_power_image: Texture2D
+@export var blue_power_image: Texture2D
+@export var yellow_power_image: Texture2D
+@export var green_power_image: Texture2D
+
+@onready var _power: Control = $PowerMenu
+@onready var _power_image: TextureRect = $PowerMenu/PowerImage
 @onready var _controls: Control = $ControlsMenu
 @onready var _sound: Control = $SoundMenu
 @onready var _map: Control = $MapMenu
@@ -43,6 +59,8 @@ enum Menu { NONE, CONTROLS, SOUND, MAP }
 @onready var _sfx_slider: HSlider = $SoundMenu/SFXSlider
 
 var _open := Menu.NONE
+var _from_start := false  # The open page came from the title screen
+var _powers_shown := {}  # Colors (Hue.HueColor ints) whose power window has already been shown
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -61,6 +79,7 @@ func _setup_slider(slider: HSlider, handle: Texture2D, fill: Color, apply: Calla
 	slider.add_theme_stylebox_override("slider", _bar_style(track_color))
 	slider.add_theme_stylebox_override("grabber_area", _bar_style(fill))
 	slider.add_theme_stylebox_override("grabber_area_highlight", _bar_style(fill))
+	handle = _sized_handle(handle)
 	if handle:
 		slider.add_theme_icon_override("grabber", handle)
 		slider.add_theme_icon_override("grabber_highlight", handle)
@@ -71,6 +90,19 @@ func _setup_slider(slider: HSlider, handle: Texture2D, fill: Color, apply: Calla
 	slider.value = 0.0
 	apply.call(0.0)
 	slider.value_changed.connect(apply)
+
+## A copy of handle scaled to handle_size wide, since a slider draws its grabber at the texture's own size
+func _sized_handle(handle: Texture2D) -> Texture2D:
+	if handle == null or handle_size <= 0 or handle.get_width() == handle_size:
+		return handle
+	var image := handle.get_image()
+	if image == null:
+		return handle
+	if image.is_compressed():
+		image.decompress()
+	var height := maxi(1, roundi(float(handle_size) * image.get_height() / image.get_width()))
+	image.resize(handle_size, height, Image.INTERPOLATE_LANCZOS)
+	return ImageTexture.create_from_image(image)
 
 func _bar_style(color: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -92,6 +124,22 @@ func _input(event: InputEvent) -> void:
 	if not key or not key.pressed or key.echo:
 		return
 	var code := key.physical_keycode
+	# A power window only closes with Space
+	if _open == Menu.POWER:
+		if code == close_key:
+			close()
+		get_viewport().set_input_as_handled()
+		return
+	if _from_start:
+		if _open == Menu.NONE:
+			return
+		if code == close_key or code == _key_for(_open):
+			_from_start = false
+			_show(Menu.NONE)
+			back_to_start.emit()
+			get_viewport().set_input_as_handled()
+		# Other keys fall through (arrows still move the sound sliders); the game is paused, so nothing else reacts
+		return
 	var target := Menu.NONE
 	if code == controls_key:
 		target = Menu.CONTROLS
@@ -114,10 +162,50 @@ func _input(event: InputEvent) -> void:
 		open(target)
 	get_viewport().set_input_as_handled()
 
+func _key_for(menu: Menu) -> Key:
+	match menu:
+		Menu.CONTROLS:
+			return controls_key
+		Menu.SOUND:
+			return sound_key
+		Menu.MAP:
+			return map_key
+	return KEY_NONE
+
+## Opens a page on top of the title screen without touching the pause
+func open_from_start(menu: Menu) -> void:
+	_from_start = true
+	_show(menu)
+
 func open(menu: Menu) -> void:
 	_show(menu)
 	Pause.menu_open = true
 	Pause.set_paused(true)
+
+## Shows the power window for this color (Hue.HueColor: 1 red, 2 blue, 3 yellow, 4 green), only the first time it's asked for.
+## override replaces the picture from the export slots. Returns true if the window opened.
+func show_power(color: int, override: Texture2D = null) -> bool:
+	if _powers_shown.has(color):
+		return false
+	var tex := override if override else _power_texture(color)
+	if not tex:
+		return false
+	_powers_shown[color] = true
+	_power_image.texture = tex
+	open(Menu.POWER)
+	return true
+
+func _power_texture(color: int) -> Texture2D:
+	match color:
+		1:
+			return red_power_image
+		2:
+			return blue_power_image
+		3:
+			return yellow_power_image
+		4:
+			return green_power_image
+	return null
 
 func close() -> void:
 	_show(Menu.NONE)
@@ -132,6 +220,7 @@ func _show(menu: Menu) -> void:
 	_controls.visible = menu == Menu.CONTROLS
 	_sound.visible = menu == Menu.SOUND
 	_map.visible = menu == Menu.MAP
+	_power.visible = menu == Menu.POWER
 	var focused := get_viewport().gui_get_focus_owner()
 	if focused:
 		focused.release_focus()

@@ -10,8 +10,12 @@ var playerInArea: bool = false
 func _ready() -> void:
 	animated_sprite.play("Empty") 
 	color.color = Color8(255, 255, 255,255)
-	if skeff.checkCanvas(name):
+	# Only the canvas in the spawn room counts, since several rooms have a node named "Canvas"
+	if skeff.checkCanvas(name) and owner and skeff.SpawnRoom == owner.name:
 		color.color = Color8(0, 0, 0,255)
+		# Already the spawn point (e.g. set by the title screen's boss skip): show it painted
+		animated_sprite.animation = &"Draw"
+		animated_sprite.frame = animated_sprite.sprite_frames.get_frame_count(&"Draw") - 1
 	if hide:
 		color.color = Color8(0, 0, 0,0)
 		animated_sprite.visible = false

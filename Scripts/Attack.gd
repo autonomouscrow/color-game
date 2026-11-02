@@ -9,6 +9,8 @@ signal fully_extended
 ## On: extends from zero to full size over extend_time, stays for hold_time, then frees itself (punch, uppercut).
 ## Off: stays until Hue removes it, and Hue sets its shape every frame with set_rect (slide, slam, dive).
 @export var timed := true
+## On: shows the red ColorRect over the hitbox for debugging; off: it stays hidden and only the Effect sprite (if any) shows
+@export var show_hitbox := false
 @export_group("Timed")
 ## Full size of the hitbox once it has finished extending
 @export var size := Vector2(53, 48)
@@ -48,6 +50,8 @@ func _ready() -> void:
 	# Own copy of the shape so resizing it doesn't affect other hitboxes
 	hitbox_shape = hitbox.shape.duplicate()
 	hitbox.shape = hitbox_shape
+	if color_rect:
+		color_rect.visible = show_hitbox
 	area_entered.connect(_on_area_entered)
 	body_entered.connect(_on_body_entered)
 	if timed:
@@ -62,7 +66,7 @@ func _start_effect() -> void:
 	if not frames.has_animation(effect_animation) or frames.get_frame_count(effect_animation) == 0:
 		effect.visible = false
 		return
-	if color_rect and hide_color_with_effect:
+	if color_rect and hide_color_with_effect and show_hitbox:
 		color_rect.visible = false
 	effect.visible = true
 	effect.centered = true
