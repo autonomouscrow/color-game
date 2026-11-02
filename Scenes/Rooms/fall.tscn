@@ -283,6 +283,7 @@ position = Vector2(562, -7140)
 scale = Vector2(86.03377, 682.8827)
 
 [node name="platforms" type="Node2D" parent="." unique_id=1373208686]
+visible = false
 position = Vector2(0, -335.9995)
 
 [node name="Box" parent="platforms" unique_id=1599687405 instance=ExtResource("3_xo1kr")]

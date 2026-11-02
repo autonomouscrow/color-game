@@ -140,3 +140,7 @@ position = Vector2(623, 606)
 [node name="Box" parent="." unique_id=1118866347 instance=ExtResource("2_qn1rc")]
 position = Vector2(15, -529)
 scale = Vector2(1, 64.95999)
+
+[node name="text9" parent="." unique_id=734120871 instance=ExtResource("6_p74js")]
+position = Vector2(-640, 495)
+write = "[Ctrl] to Birst and spray bullets(cost 3 Crystals)"
