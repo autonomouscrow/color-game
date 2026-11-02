@@ -155,10 +155,10 @@ position = Vector2(4565, -306)
 scale = Vector2(1, 18.960003)
 
 [node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("8_sawut")]
-position = Vector2(3982, -130)
+position = Vector2(3998, -134)
 
 [node name="text" parent="ancestors" unique_id=252815897 instance=ExtResource("9_y22up")]
-position = Vector2(-136, 69)
+position = Vector2(-155, 69)
 write = "Help Me"
 
 [node name="text" parent="." unique_id=462300394 instance=ExtResource("9_y22up")]
