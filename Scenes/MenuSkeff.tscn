@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://bx55dpbf6dgu2"]
+
+[ext_resource type="Script" uid="uid://cbqh706xv5c36" path="res://Scripts/menu_skeff.gd" id="1_menu"]
+[ext_resource type="Texture2D" uid="uid://bdu0o7jsq4l03" path="res://sprites/Controls.png" id="2_v67yl"]
+[ext_resource type="Texture2D" uid="uid://c6hh4nhk7cl5e" path="res://sprites/sound control.png" id="3_rk1s0"]
+[ext_resource type="Texture2D" uid="uid://5wxxocy3k0oq" path="res://sprites/Map_drawing.png" id="4_kpvme"]
+[ext_resource type="Texture2D" uid="uid://bnw056t6mf7yp" path="res://sprites/space.png" id="5_bsy53"]
+
+[node name="MenuSkeff" type="CanvasLayer" unique_id=1389517807 groups=["MenuSkeff"]]
+process_mode = 3
+layer = 120
+script = ExtResource("1_menu")
+
+[node name="ControlsMenu" type="ColorRect" parent="." unique_id=227753607]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Background" type="TextureRect" parent="ControlsMenu" unique_id=2129831659]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_v67yl")
+expand_mode = 1
+
+[node name="SoundMenu" type="ColorRect" parent="." unique_id=246035631]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Background" type="TextureRect" parent="SoundMenu" unique_id=620232006]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_rk1s0")
+expand_mode = 1
+
+[node name="MasterSlider" type="HSlider" parent="SoundMenu" unique_id=2104320012]
+layout_mode = 0
+anchor_left = 0.597
+anchor_top = 0.315
+anchor_right = 0.837
+anchor_bottom = 0.315
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="MusicSlider" type="HSlider" parent="SoundMenu" unique_id=1480777251]
+layout_mode = 0
+anchor_left = 0.597
+anchor_top = 0.468
+anchor_right = 0.837
+anchor_bottom = 0.468
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="SFXSlider" type="HSlider" parent="SoundMenu" unique_id=108342557]
+layout_mode = 0
+anchor_left = 0.597
+anchor_top = 0.622
+anchor_right = 0.837
+anchor_bottom = 0.622
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="MapMenu" type="ColorRect" parent="." unique_id=284304292]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect" type="ColorRect" parent="MapMenu" unique_id=956268835]
+layout_mode = 0
+offset_right = 1284.0
+offset_bottom = 722.0
+color = Color(0.72156864, 0.6431373, 0.7254902, 1)
+
+[node name="MapImage" type="TextureRect" parent="MapMenu" unique_id=836113068]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_kpvme")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="MapImage2" type="TextureRect" parent="MapMenu" unique_id=1004712779]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1145.0
+offset_top = 19.0
+offset_right = 151.17383
+offset_bottom = -620.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_bsy53")
+expand_mode = 3
+stretch_mode = 5

@@ -58,3 +58,9 @@ func tick(_player: Node2D, _delta: float) -> bool:
 ## Called when the move ends or is cut short; removes anything the move left behind
 func finish() -> void:
 	pass
+
+## The animation state Chroma shows this frame while the move runs, read by LordChroma._update_animation(); an empty
+## name lets plain movement decide (idle standing, float walking, jumping, falling or flying). To restart an animation
+## at a moment, like dart on each dart, call boss.request_anim() then too
+func anim_state() -> StringName:
+	return &""

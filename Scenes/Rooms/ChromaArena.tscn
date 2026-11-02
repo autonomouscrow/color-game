@@ -28,10 +28,11 @@ EnemyObjects = [NodePath("LordChroma")]
 position = Vector2(2456, -20587)
 scale = Vector2(96, 48)
 
-[node name="Variants" type="Node2D" parent="." unique_id=11313029 node_paths=PackedStringArray("boss")]
+[node name="Variants" type="Node2D" parent="." unique_id=11313029 node_paths=PackedStringArray("boss", "wall_rects")]
 position = Vector2(1496, -21067)
 script = ExtResource("2_arena")
 boss = NodePath("../LordChroma")
+wall_rects = [NodePath("../Floor/Color"), NodePath("../LeftWall/Color"), NodePath("../RightWall/Color"), NodePath("../Ceiling/Color")]
 
 [node name="White" type="Node2D" parent="Variants" unique_id=1322901175]
 visible = false
@@ -40,29 +41,77 @@ visible = false
 offset_right = 1920.0
 offset_bottom = 900.0
 mouse_filter = 2
-color = Color(1, 1, 1, 0.12)
+color = Color(0.93, 0.93, 0.96, 0.85)
 
 [node name="Box" parent="Variants/White" unique_id=1599687405 instance=ExtResource("3_oad2v")]
 position = Vector2(1422, 681)
 scale = Vector2(18.920002, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/White/Box" unique_id=795425564]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.6, 0.6, 0.66, 1)
+
 [node name="Box2" parent="Variants/White" unique_id=325135418 instance=ExtResource("3_oad2v")]
 position = Vector2(514, 681)
 scale = Vector2(18.920002, 1)
+
+[node name="PlatformColor" type="ColorRect" parent="Variants/White/Box2" unique_id=2135525362]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.6, 0.6, 0.66, 1)
 
 [node name="Box3" parent="Variants/White" unique_id=1036487293 instance=ExtResource("3_oad2v")]
 position = Vector2(1422, 317)
 scale = Vector2(18.920002, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/White/Box3" unique_id=423946139]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.6, 0.6, 0.66, 1)
+
 [node name="Box4" parent="Variants/White" unique_id=48134269 instance=ExtResource("3_oad2v")]
 position = Vector2(514, 317)
 scale = Vector2(18.920002, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/White/Box4" unique_id=947876999]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.6, 0.6, 0.66, 1)
+
 [node name="Box5" parent="Variants/White" unique_id=2046369588 instance=ExtResource("3_oad2v")]
 position = Vector2(1763, 503)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/White/Box5" unique_id=1497871144]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.6, 0.6, 0.66, 1)
+
 [node name="Box6" parent="Variants/White" unique_id=1294860123 instance=ExtResource("3_oad2v")]
 position = Vector2(185, 503)
+
+[node name="PlatformColor" type="ColorRect" parent="Variants/White/Box6" unique_id=203694312]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.6, 0.6, 0.66, 1)
 
 [node name="Red" type="Node2D" parent="Variants" unique_id=73109980]
 visible = false
@@ -77,25 +126,73 @@ color = Color(0.9, 0.15, 0.15, 0.12)
 position = Vector2(420, 681)
 scale = Vector2(15.960001, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/Red/Box" unique_id=255555737]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.45, 0.12, 0.12, 1)
+
 [node name="Box2" parent="Variants/Red" unique_id=1854719059 instance=ExtResource("3_oad2v")]
 position = Vector2(1500, 681)
 scale = Vector2(15.96, 1)
+
+[node name="PlatformColor" type="ColorRect" parent="Variants/Red/Box2" unique_id=1863673106]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.45, 0.12, 0.12, 1)
 
 [node name="Box3" parent="Variants/Red" unique_id=653270276 instance=ExtResource("3_oad2v")]
 position = Vector2(420, 298)
 scale = Vector2(15.960001, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/Red/Box3" unique_id=1250797845]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.45, 0.12, 0.12, 1)
+
 [node name="Box4" parent="Variants/Red" unique_id=268287036 instance=ExtResource("3_oad2v")]
 position = Vector2(1500, 298)
 scale = Vector2(15.96, 1)
+
+[node name="PlatformColor" type="ColorRect" parent="Variants/Red/Box4" unique_id=302142728]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.45, 0.12, 0.12, 1)
 
 [node name="Box5" parent="Variants/Red" unique_id=215907312 instance=ExtResource("3_oad2v")]
 position = Vector2(960, 822)
 scale = Vector2(15.120003, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/Red/Box5" unique_id=885310972]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.45, 0.12, 0.12, 1)
+
 [node name="Box6" parent="Variants/Red" unique_id=1556308505 instance=ExtResource("3_oad2v")]
 position = Vector2(960, 154)
 scale = Vector2(15.120003, 1)
+
+[node name="PlatformColor" type="ColorRect" parent="Variants/Red/Box6" unique_id=1351527726]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.45, 0.12, 0.12, 1)
 
 [node name="Blue" type="Node2D" parent="Variants" unique_id=1116503665]
 visible = false
@@ -110,9 +207,25 @@ color = Color(0.2, 0.4, 1, 0.12)
 position = Vector2(552, 497)
 scale = Vector2(31.2, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/Blue/Box" unique_id=224551738]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.14, 0.22, 0.5, 1)
+
 [node name="Box2" parent="Variants/Blue" unique_id=1611191821 instance=ExtResource("3_oad2v")]
 position = Vector2(1366, 497)
 scale = Vector2(31.2, 1)
+
+[node name="PlatformColor" type="ColorRect" parent="Variants/Blue/Box2" unique_id=2053574602]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.14, 0.22, 0.5, 1)
 
 [node name="Yellow" type="Node2D" parent="Variants" unique_id=1281568352]
 
@@ -127,25 +240,73 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(524, 497)
 scale = Vector2(25.52, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/Yellow/Box" unique_id=1189709946]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.5, 0.42, 0.08, 1)
+
 [node name="Box2" parent="Variants/Yellow" unique_id=734631723 instance=ExtResource("3_oad2v")]
 position = Vector2(1389, 497)
 scale = Vector2(25.52, 1)
+
+[node name="PlatformColor" type="ColorRect" parent="Variants/Yellow/Box2" unique_id=561060838]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.5, 0.42, 0.08, 1)
 
 [node name="Box3" parent="Variants/Yellow" unique_id=2085061385 instance=ExtResource("3_oad2v")]
 position = Vector2(524, 700)
 scale = Vector2(25.52, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/Yellow/Box3" unique_id=180521324]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.5, 0.42, 0.08, 1)
+
 [node name="Box4" parent="Variants/Yellow" unique_id=1286500801 instance=ExtResource("3_oad2v")]
 position = Vector2(1389, 700)
 scale = Vector2(25.52, 1)
+
+[node name="PlatformColor" type="ColorRect" parent="Variants/Yellow/Box4" unique_id=284570285]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.5, 0.42, 0.08, 1)
 
 [node name="Box5" parent="Variants/Yellow" unique_id=1472776407 instance=ExtResource("3_oad2v")]
 position = Vector2(524, 266)
 scale = Vector2(25.52, 1)
 
+[node name="PlatformColor" type="ColorRect" parent="Variants/Yellow/Box5" unique_id=1031247021]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.5, 0.42, 0.08, 1)
+
 [node name="Box6" parent="Variants/Yellow" unique_id=1096894433 instance=ExtResource("3_oad2v")]
 position = Vector2(1389, 266)
 scale = Vector2(25.52, 1)
+
+[node name="PlatformColor" type="ColorRect" parent="Variants/Yellow/Box6" unique_id=998017869]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 9.921875
+offset_bottom = 10.84375
+mouse_filter = 2
+color = Color(0.5, 0.42, 0.08, 1)
 
 [node name="Green" type="Node2D" parent="Variants" unique_id=981778103]
 visible = false

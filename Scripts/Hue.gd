@@ -117,7 +117,7 @@ const COLOR_ACTIONS := ["color_white", "color_red", "color_blue", "color_yellow"
 @export var bullet_spawn_offset := Vector2(0, -15)  ## Where bullets start, relative to Hue's center
 @export var bullet_speed := 2000.0
 @export var bullet_lifetime := 5.0  ## Seconds before a bullet that hasn't hit anything disappears
-@export var bullet_damage := 15.0
+@export var bullet_damage := 60.0
 @export var gun_mp_cost := 1
 @export var gun_cooldown := 0.5  ## Seconds after shooting before D can shoot again
 

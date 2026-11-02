@@ -11,6 +11,8 @@ var direction := Vector2.RIGHT
 var warning_length := 1000.0
 var warning_width := 50.0
 var warning_color := Color(1, 0, 0, 0.35)
+## Draws the plain colored body box; off once Lord Chroma's Sprite has art, since each clone carries a copy of it
+var draw_body := true
 ## 0 hides the warning, 1 shows it at warning_color's full opacity
 var warning_alpha := 0.0:
 	set(value):
@@ -25,4 +27,5 @@ func _draw() -> void:
 		draw_set_transform(Vector2.ZERO, direction.angle())
 		draw_rect(Rect2(0, -warning_width / 2, warning_length, warning_width), Color(warning_color, warning_color.a * warning_alpha))
 		draw_set_transform(Vector2.ZERO)
-	draw_rect(Rect2(-size / 2, size), color)
+	if draw_body:
+		draw_rect(Rect2(-size / 2, size), color)

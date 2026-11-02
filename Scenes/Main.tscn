@@ -7,12 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://b7xkvd58w1xgu" path="res://Scenes/HUD.tscn" id="3_hud"]
 [ext_resource type="Script" uid="uid://bbq5dbxu3ek3q" path="res://Scenes/CameraManager.gd" id="4_pbw6q"]
 [ext_resource type="PackedScene" path="res://Scenes/AudioSkeff.tscn" id="5_audio"]
+[ext_resource type="PackedScene" path="res://Scenes/MenuSkeff.tscn" id="6_menu"]
 [ext_resource type="AudioStream" uid="uid://b3jves70hxuwm" path="res://Audio/hurt sounds/01._damage_grunt_male.wav" id="8_frkhe"]
 [ext_resource type="AudioStream" uid="uid://bvatliyte3p48" path="res://Audio/hurt sounds/02._damage_grunt_male.wav" id="9_1p5hy"]
 [ext_resource type="AudioStream" uid="uid://3v1cj4du1h6k" path="res://Audio/hurt sounds/03._damage_grunt_male.wav" id="10_h1m7h"]
 [ext_resource type="AudioStream" uid="uid://hohj07g3rtm1" path="res://Audio/hurt sounds/04._damage_grunt_male.wav" id="11_erwvk"]
 [ext_resource type="AudioStream" uid="uid://csdededo4ttxu" path="res://Audio/hurt sounds/05._damage_grunt_male.wav" id="12_2w5on"]
-[ext_resource type="PackedScene" uid="uid://cj21ahglvgpf8" path="res://Scenes/Rooms/start.tscn" id="13_5jffn"]
 [ext_resource type="AudioStream" uid="uid://c88ouus5gjrd" path="res://Audio/hurt sounds/06._damage_grunt_male.wav" id="13_346fj"]
 [ext_resource type="AudioStream" uid="uid://brgj83oqd3kdx" path="res://Audio/dash.mp3" id="14_1p5hy"]
 [ext_resource type="AudioStream" uid="uid://edpswq5r7vnr" path="res://Audio/gun.mp3" id="15_h1m7h"]
@@ -33,10 +33,9 @@ SpawnRoom = "Start"
 
 [node name="Gauntlet" parent="RoomContainer" unique_id=1701499376 instance=ExtResource("3_2w5on")]
 
-[node name="Start" parent="RoomContainer" unique_id=118567636 instance=ExtResource("13_5jffn")]
-
 [node name="Hue" parent="." unique_id=1902301394 groups=["Player"] instance=ExtResource("1_idj7w")]
 position = Vector2(1312, -20364)
+CanColor = [true, true, true, true, true]
 health = 70.0
 mp = 6
 
@@ -64,3 +63,5 @@ gun_sounds = Array[AudioStream]([ExtResource("15_h1m7h")])
 gun_db_offset = -5.0
 color_swap_sounds = Array[AudioStream]([ExtResource("16_erwvk")])
 color_swap_db_offset = -5.0
+
+[node name="MenuSkeff" parent="." instance=ExtResource("6_menu")]

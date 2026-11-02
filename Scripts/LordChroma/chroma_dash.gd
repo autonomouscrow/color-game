@@ -145,3 +145,12 @@ func _make_contact() -> void:
 	contact.knockback = knockback
 	contact.hurt_player.connect(boss.on_player_hurt)
 	boss.add_child(contact)
+
+## No landing after the dash; the recovery is plain movement (float in yellow)
+func anim_state() -> StringName:
+	match phase:
+		Phase.FREEZE:
+			return &"dash_windup"
+		Phase.DASH:
+			return &"dash"
+	return &""

@@ -1,11 +1,12 @@
 extends Node
-## Autoload "Pause": P toggles SceneTree.paused. While paused with P, everything is tinted gray (Scenes/PauseTint.tscn; edit its material to tune the gray).
+## Autoload "Pause": owns SceneTree.paused. Menus (MenuSkeff, the title screen) pause through set_paused(); there is no manual pause key anymore.
+## The gray tint (Scenes/PauseTint.tscn) only shows when set_paused(true) is called with no menu_open, which nothing does right now.
 ## Also offers game_msec(), a clock that stops while paused, for code that would otherwise use Time.get_ticks_msec().
 ## hitstop() freezes the game briefly (no label, music unaffected); presses and releases during it are buffered for take_buffered_inputs().
 
 const PAUSE_TINT := preload("res://Scenes/PauseTint.tscn")
 
-## True while the main menu is up; P does nothing then, so only the Start button can unpause
+## True while a menu (title screen or MenuSkeff) is up; hides the gray pause tint
 var menu_open := false
 
 var _paused_total_msec := 0
@@ -36,11 +37,6 @@ func _input(event: InputEvent) -> void:
 			_buffered_presses.append(action)
 		elif event.is_action_released(action) and action not in _buffered_releases:
 			_buffered_releases.append(action)
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause") and not event.is_echo() and not menu_open:
-		toggle()
-		get_viewport().set_input_as_handled()
 
 func toggle() -> void:
 	set_paused(not _menu_paused)

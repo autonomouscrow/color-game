@@ -19,6 +19,12 @@ var slow_factor := 0.5
 var dot_damage := 3
 var dot_interval := 0.5
 var color := Color(0.3, 0.85, 0.3, 0.7)
+## Drawn in place of the green rectangle when set, stretched to fit size, its bottom edge on the ground; the hitbox is unchanged
+var texture: Texture2D
+## Multiplies the fitted size of texture
+var sprite_scale := Vector2.ONE
+## Moves texture from where it's fitted
+var sprite_offset := Vector2.ZERO
 ## Pixels the hitbox reaches down into the ground, so a player standing on it is surely touching it
 const SINK := 4.0
 
@@ -38,6 +44,7 @@ func _ready() -> void:
 	collision.shape = shape
 	collision.position = Vector2(0, (SINK - size.y) / 2)
 	add_child(collision)
+	_add_sprite()
 
 ## Puts the puddle on the ground at point, the middle of its bottom edge
 func stick_at(point: Vector2) -> void:
@@ -70,4 +77,15 @@ func _physics_process(delta: float) -> void:
 		dot_left = 0.0
 
 func _draw() -> void:
-	draw_rect(Rect2(-size.x / 2, -size.y, size.x, size.y), color)
+	if texture == null:
+		draw_rect(Rect2(-size.x / 2, -size.y, size.x, size.y), color)
+
+## Adds texture as a sprite fitted to size, if there is one; _draw only draws the plain shape without one
+func _add_sprite() -> void:
+	if texture == null:
+		return
+	var sprite := Sprite2D.new()
+	sprite.texture = texture
+	sprite.scale = size / texture.get_size() * sprite_scale
+	sprite.position = Vector2(0, -size.y / 2) + sprite_offset
+	add_child(sprite)

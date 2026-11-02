@@ -175,3 +175,12 @@ func _make_contact() -> void:
 	contact.knockback = knockback
 	contact.hurt_player.connect(boss.on_player_hurt)
 	boss.add_child(contact)
+
+## The dive and the slide after it share the slide animation
+func anim_state() -> StringName:
+	match phase:
+		Phase.JUMP:
+			return &"float"
+		Phase.DIVE, Phase.SLIDE:
+			return &"slide"
+	return &"landing"

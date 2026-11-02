@@ -143,3 +143,7 @@ func _nearest_open() -> int:
 		if absi(i - here) < absi(best - here):
 			best = i
 	return best
+
+## Summons the pillars for the whole move
+func anim_state() -> StringName:
+	return &"summon_pillars"

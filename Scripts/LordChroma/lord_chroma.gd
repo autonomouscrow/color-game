@@ -136,6 +136,15 @@ var current_state: State = State.IDLE
 @export var health_bar_back_color := Color(0.5, 0.5, 0.5)
 @export var health_bar_fill_color := Color(0.85, 0.1, 0.1)
 
+@export_group("Animation")  ## The AnimationTree state machine is driven from _update_animation(); see the state names there
+@export var anim_xfade_time := 0.0  ## Crossfade seconds used by every transition when anim_override_xfade is on; keep at 0 for frame-by-frame art, since a fade blends frame numbers and flashes unrelated cells
+@export var anim_override_xfade := true  ## Turn off to use each transition's own Xfade Time set in the AnimationTree editor instead
+@export var anim_walk_threshold := 10.0  ## Horizontal speed on the ground above which the walk animation plays instead of idle
+@export var anim_flip_with_facing := true  ## Mirrors the Sprite when Chroma faces left; turn off if the art handles facing itself
+@export var anim_sprite_faces_right := false  ## Which way the Sprite's frames are drawn facing; Chroma's art faces left
+@export var anim_flip_on_ceiling := true  ## Turns the Sprite upside down while Chroma's gravity points up (green mode on the ceiling)
+@export var show_color_box := true  ## Shows the plain colored box over Chroma's body (and the clones' bodies); turn off once the Sprite has art
+
 @export_group("Debug")
 ## 0 cycles Chroma's color, for testing the arena
 @export var debug_color_key := false
@@ -143,6 +152,16 @@ var current_state: State = State.IDLE
 
 @onready var color_rect: ColorRect = $Color
 @onready var airbrush: Node2D = $Airbrush
+@onready var sprite: Sprite2D = $Sprite
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var anim_state_machine: AnimationNodeStateMachine = animation_tree.tree_root
+@onready var anim_playback: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
+
+## The boss's animations: idle, float, landing, slide, airbrush, dash_windup, dash, stun, burst, dart, slime_windup,
+## slime, summon_pillars. Color swaps just change color over idle; teleports snap with no animation
+## Animations nothing else can cut into while they're the current state
+const ANIM_LOCKED: Array[StringName] = [&"stun"]
 
 var moves: Array[ChromaMove] = []
 var current_move: ChromaMove
@@ -174,6 +193,9 @@ var ult_hit := false
 var stun_left := 0.0
 ## True while a move holds Chroma still in the air, with no gravity, like the quarter blast
 var frozen := false
+## Set once health runs out: Chroma stops acting, drops to the ground and holds the last frame of death instead of
+## disappearing
+var dead := false
 ## 1 or -1 while a move points Chroma's gravity down or up whatever his color, like the green wave dive; 0 otherwise
 var gravity_override := 0.0
 ## True while a move sets Chroma's velocity itself, like the blue dive and slide; gravity is skipped
@@ -193,6 +215,11 @@ var ult_camera_offset := Vector2.ZERO
 ## 0 is the camera's normal view following the player, 1 is the whole arena; tweened between the two
 var ult_camera_blend := 0.0
 var ult_camera_tween: Tween
+## Animation restarted this frame by an event, like each dart, blob or burst; _update_animation() plays it and clears it
+var anim_request: StringName = &""
+var anim_was_on_floor := true
+## True while a move takes Chroma out of the fight, like the clone pierce; his box and Sprite hide
+var body_hidden := false
 
 ## The walkable top edge of one floor or platform
 class Surface:
@@ -229,6 +256,10 @@ func _ready() -> void:
 	ground_mask = collision_mask
 	spawn_position = global_position
 	_apply_flying()
+	if anim_override_xfade:
+		for i in anim_state_machine.get_transition_count():
+			anim_state_machine.get_transition(i).xfade_time = anim_xfade_time
+	animation_tree.active = true
 
 func _process(_delta: float) -> void:
 	_update_ult_camera()
@@ -237,6 +268,25 @@ func _exit_tree() -> void:
 	_release_ult_camera()
 
 func _physics_process(delta: float) -> void:
+	if dead:
+		_fall_while_dead(delta)
+		return
+	_physics_step(delta)
+	_update_animation()
+
+## After death: no moves or animation changes, just falling to whatever he's standing on so the death animation ends on
+## the ground
+func _fall_while_dead(delta: float) -> void:
+	velocity.x = 0.0
+	up_direction = Vector2(0, -gravity_sign())
+	var down := gravity_sign()
+	if is_on_floor() and velocity.y * down > 0:
+		velocity.y = 0.0
+	velocity.y = down * minf(velocity.y * down + gravity * delta, max_fall_speed)
+	move_and_slide()
+
+## Everything Chroma does each physics frame; split from _physics_process so its early returns still let _update_animation() run
+func _physics_step(delta: float) -> void:
 	var found := get_tree().get_first_node_in_group("Player") as Node2D
 	player = found if can_see(found) else null
 	_pass_through_player()
@@ -427,6 +477,7 @@ func _end_move() -> void:
 	move_velocity = false
 	gravity_override = 0.0
 	invulnerable = false
+	body_hidden = false
 	hide_airbrush()
 	velocity.x = 0.0
 	idle_left = randf_range(idle_time.x, idle_time.y)
@@ -710,11 +761,30 @@ func _update_health_bar() -> void:
 	if health_bar_fill:
 		health_bar_fill.anchor_right = float(health) / max_health if max_health > 0 else 0.0
 
+## Plays death and stays there holding its last frame, rather than being removed like other enemies
 func die() -> void:
+	if dead:
+		return
+	dead = true
 	if current_move:
 		current_move.finish()
+		if current_move.ult:
+			_end_ult_camera()
+	current_move = null
+	current_state = State.IDLE
+	frozen = false
+	move_velocity = false
+	body_hidden = false
+	invulnerable = false
+	velocity = Vector2.ZERO
+	hide_airbrush()
+	# Flying turns off his collisions; he needs them back to land on the floor
+	collision_mask = ground_mask
+	color_rect.visible = false
+	sprite.visible = true
+	_update_health_bar()
 	defeated.emit()
-	super()
+	anim_playback.start(&"death", true)
 
 ## Moves Chroma one step toward standing with his center at goal: running, jumping up onto a platform, or dropping off
 ## one, planning the route across the level's floors and platforms again every frame
@@ -927,3 +997,86 @@ func _pass_through_player() -> void:
 		if node is PhysicsBody2D:
 			add_collision_exception_with(node)
 			node.add_collision_exception_with(self)
+
+## Restarts an animation this frame even if it's already playing, like dart on each dart; moves call it through boss
+func request_anim(anim: StringName) -> void:
+	anim_request = anim
+
+## Copies Chroma's Sprite and AnimationPlayer onto holder, which must already be in the tree, and plays anim there.
+## Used for the clone pierce's clones, so they show the same art. face is 1 or -1 to mirror it like Chroma's facing,
+## or 0 to keep the Sprite's own flip. Call play() on the returned player to switch animations
+func attach_sprite_copy(holder: Node, anim: StringName, face := 0.0) -> AnimationPlayer:
+	var copy := sprite.duplicate() as Sprite2D
+	copy.name = "Sprite"
+	copy.visible = true
+	if face != 0 and anim_flip_with_facing:
+		_mirror_sprite(copy, (face < 0) == anim_sprite_faces_right, false)
+	else:
+		_mirror_sprite(copy, copy.scale.x < 0, false)
+	holder.add_child(copy)
+	var player := animation_player.duplicate() as AnimationPlayer
+	player.root_node = NodePath("..")
+	holder.add_child(player)
+	if player.has_animation(anim):
+		player.play(anim)
+	return player
+
+## Mirrors target by flipping the sign of its scale rather than flip_h/flip_v, so the Sprite's offset (set per frame by
+## the animations) is mirrored too and the art stays centered on the hitbox whichever way he faces
+func _mirror_sprite(target: Sprite2D, horizontal: bool, vertical: bool) -> void:
+	target.flip_h = false
+	target.flip_v = false
+	target.scale = Vector2(absf(target.scale.x) * (-1.0 if horizontal else 1.0),
+			absf(target.scale.y) * (-1.0 if vertical else 1.0))
+
+## Picks the animation state from what Chroma is doing this frame and moves the AnimationTree there.
+## Transitions drawn in the AnimationTree editor are used when they exist (with their xfade and switch mode);
+## a jump between two states with no transition drawn snaps straight across.
+func _update_animation() -> void:
+	var on_floor := is_on_floor()
+	var target := _anim_base_state()
+	var just_landed := on_floor and not anim_was_on_floor
+	anim_was_on_floor = on_floor
+	var requested := anim_request
+	anim_request = &""
+	# Landing from any jump or fall, unless a move shows something else there (the dash shows its own)
+	if just_landed and target in [&"idle", &"float"] and current_state != State.STUNNED:
+		target = &"landing"
+
+	_mirror_sprite(sprite, anim_flip_with_facing and (facing < 0) == anim_sprite_faces_right,
+			anim_flip_on_ceiling and gravity_sign() < 0)
+	color_rect.visible = show_color_box and not body_hidden
+	sprite.visible = not body_hidden
+
+	var current := anim_playback.get_current_node()
+	var current_done := anim_playback.get_current_play_position() >= anim_playback.get_current_length()
+	if current in ANIM_LOCKED and target == current:
+		return
+	# Landing plays out unless Chroma starts doing something else
+	if current == &"landing" and not current_done and target in [&"idle", &"float"] and on_floor:
+		return
+	if target == current:
+		if requested == target:
+			anim_playback.start(target, true)
+		return
+	if anim_state_machine.has_transition(current, target):
+		anim_playback.travel(target)
+	else:
+		anim_playback.start(target, true)
+
+## The looping or held state for what Chroma is doing. While a move runs, its anim_state() decides; an empty name
+## falls through to plain movement: idle standing (and during color swaps), float walking, jumping, falling or flying
+func _anim_base_state() -> StringName:
+	if current_state == State.STUNNED:
+		return &"stun"
+	if swap_freeze_left > 0:
+		return &"idle"
+	if current_move and current_state == State.EXECUTE:
+		var move_anim := current_move.anim_state()
+		if move_anim != &"":
+			return move_anim
+	if is_flying() or not is_on_floor():
+		return &"float"
+	if frozen:
+		return &"idle"
+	return &"float" if absf(velocity.x) > anim_walk_threshold else &"idle"

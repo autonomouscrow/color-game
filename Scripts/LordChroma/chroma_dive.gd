@@ -183,3 +183,11 @@ func _make_contact() -> void:
 	contact.knockback = knockback
 	contact.hurt_player.connect(boss.on_player_hurt)
 	boss.add_child(contact)
+
+func anim_state() -> StringName:
+	match phase:
+		Phase.JUMP, Phase.FREEZE:
+			return &"float"
+		Phase.DIVE:
+			return &"slide"
+	return &"landing"

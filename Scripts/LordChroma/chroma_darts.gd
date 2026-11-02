@@ -28,6 +28,14 @@ extends ChromaMove
 @export var dart_color := Color(1, 0.3, 0.3)
 ## Area centered on the arena's middle; darts disappear on reaching its edge
 @export var arena_size := Vector2(1920, 900)
+@export_group("Dart Sprite")
+## Shown instead of the plain shape when set; the hitbox stays the same size
+@export var dart_texture: Texture2D
+## Multiplies the sprite's size after it's fitted to the hitbox
+@export var dart_sprite_scale := Vector2.ONE
+## Pixels the sprite is moved from the hitbox's center
+@export var dart_sprite_offset := Vector2.ZERO
+@export_group("")
 
 var fired := 0
 var timer := 0.0
@@ -76,6 +84,9 @@ func _fire(player: Node2D) -> void:
 	dart.damage = damage
 	dart.knockback = knockback
 	dart.color = dart_color
+	dart.texture = dart_texture
+	dart.sprite_scale = dart_sprite_scale
+	dart.sprite_offset = dart_sprite_offset
 	dart.lifetime = lifetime
 	dart.turn_rate = turn_rate
 	dart.avoid_distance = avoid_distance
@@ -84,6 +95,11 @@ func _fire(player: Node2D) -> void:
 	dart.hurt_player.connect(boss.on_player_hurt)
 	dart.direction = boss.global_position.direction_to(boss.player_center(player)) if player else Vector2(boss.facing, 0)
 	boss.show_airbrush(dart.direction)
+	boss.request_anim(&"dart")
 	# Added to the room rather than to Chroma, so darts keep flying after the move ends
 	boss.get_parent().add_child(dart)
 	dart.global_position = boss.global_position
+
+## dart restarts on each dart
+func anim_state() -> StringName:
+	return &"dart"

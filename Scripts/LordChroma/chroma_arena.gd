@@ -7,6 +7,16 @@ const VARIANT_NAMES := ["White", "Red", "Blue", "Yellow", "Green"]  ## In Chroma
 
 ## The boss whose color picks the variant
 @export var boss: LordChroma
+## The arena's walls, floor and ceiling, recolored to match the shown variant
+@export var wall_rects: Array[ColorRect] = []
+## Wall color for each variant, in ChromaColor order (White, Red, Blue, Yellow, Green)
+@export var wall_colors: Array[Color] = [
+	Color(0.78, 0.78, 0.83),
+	Color(0.32, 0.08, 0.08),
+	Color(0.1, 0.15, 0.36),
+	Color(0.36, 0.3, 0.05),
+	Color(0.1, 0.25, 0.12),
+]
 
 func _ready() -> void:
 	if boss:
@@ -16,6 +26,10 @@ func _ready() -> void:
 		show_color(0)
 
 func show_color(color: int) -> void:
+	if color >= 0 and color < wall_colors.size():
+		for rect in wall_rects:
+			if rect:
+				rect.color = wall_colors[color]
 	for i in VARIANT_NAMES.size():
 		var variant := get_node_or_null(VARIANT_NAMES[i]) as CanvasItem
 		if variant == null:

@@ -22,6 +22,8 @@ extends ChromaMove
 @export var warning_fade_time := 0.75
 @export var warning_color := Color(1, 0, 0, 0.35)
 @export var charge_speed := 2000.0
+## Seconds into each warning the clones hold the first frame of dash_windup before playing the rest of it
+@export var clone_windup_hold := 1.1
 ## Seconds with no clones out between one round's charge and the next round's clones
 @export var round_gap := 0.4
 ## Seconds Chroma stays frozen after the last round before his next move
@@ -47,12 +49,16 @@ var timer := 0.0
 var round_index := 0
 var clones: Array[ChromaClone] = []
 var contacts: Array[ChromaContact] = []
+## Each clone's copy of Chroma's AnimationPlayer, switched from dash_windup to dash as they charge
+var clone_players: Array[AnimationPlayer] = []
+## True once this round's clones have started playing dash_windup past its first frame
+var windup_playing := false
 var starts: Array[Vector2] = []
 var directions: Array[Vector2] = []
 
 func start(player: Node2D) -> void:
 	boss.frozen = true
-	boss.color_rect.visible = false
+	boss.body_hidden = true
 	boss.hide_airbrush()
 	round_index = 0
 	_start_round(player)
@@ -64,9 +70,17 @@ func tick(player: Node2D, delta: float) -> bool:
 			var fade := minf(timer, 2 * warning_fade_time - timer) / warning_fade_time if warning_fade_time > 0 else 0.0
 			for clone in clones:
 				clone.warning_alpha = clampf(fade, 0.0, 1.0)
+			if not windup_playing and timer >= clone_windup_hold:
+				windup_playing = true
+				for p in clone_players:
+					if is_instance_valid(p):
+						p.play()
 			if timer >= 2 * warning_fade_time:
 				for contact in contacts:
 					contact.active = true
+				for p in clone_players:
+					if is_instance_valid(p) and p.has_animation(&"dash"):
+						p.play(&"dash")
 				phase = Phase.CHARGE
 				timer = 0.0
 		Phase.CHARGE:
@@ -88,7 +102,7 @@ func tick(player: Node2D, delta: float) -> bool:
 
 func finish() -> void:
 	_clear_clones()
-	boss.color_rect.visible = true
+	boss.body_hidden = false
 	boss.frozen = false
 
 func _start_round(player: Node2D) -> void:
@@ -118,6 +132,7 @@ func _start_round(player: Node2D) -> void:
 		clone.warning_length = warning_length
 		clone.warning_width = warning_width
 		clone.warning_color = warning_color
+		clone.draw_body = boss.show_color_box
 		var contact := ChromaContact.new()
 		contact.radius = hit_diameter / 2
 		contact.damage = damage
@@ -126,8 +141,15 @@ func _start_round(player: Node2D) -> void:
 		clone.add_child(contact)
 		boss.get_parent().add_child(clone)
 		clone.global_position = starts[i]
+		var anim_player := boss.attach_sprite_copy(clone, &"dash_windup", signf(directions[i].x))
+		# Held on the first frame until clone_windup_hold
+		if anim_player.has_animation(&"dash_windup"):
+			anim_player.seek(0.0, true)
+			anim_player.pause()
+		clone_players.append(anim_player)
 		clones.append(clone)
 		contacts.append(contact)
+	windup_playing = false
 	phase = Phase.WARNING
 	timer = 0.0
 
@@ -137,6 +159,7 @@ func _clear_clones() -> void:
 			clone.queue_free()
 	clones.clear()
 	contacts.clear()
+	clone_players.clear()
 
 ## clones_per_quadrant random spots in each quarter, going round the quarters until there are clone_count
 func _pick_positions() -> Array[Vector2]:
@@ -242,3 +265,7 @@ func _player_size(player: Node2D) -> Vector2:
 		if hitbox is CollisionShape2D and hitbox.shape is RectangleShape2D:
 			return hitbox.shape.size * hitbox.global_scale.abs()
 	return default_player_size
+
+## Chroma himself is hidden for the whole ult; the clones show dash_windup then dash on their own copies of his Sprite
+func anim_state() -> StringName:
+	return &"idle"

@@ -13,6 +13,12 @@ var velocity := Vector2.ZERO
 var gravity := 1500.0
 var radius := 12.0
 var color := Color(0.3, 0.85, 0.3)
+## Drawn in place of the green circle when set, stretched to fit the circle's width (radius * 2); the hitbox is unchanged
+var texture: Texture2D
+## Multiplies the fitted size of texture
+var sprite_scale := Vector2.ONE
+## Moves texture from where it's fitted
+var sprite_offset := Vector2.ZERO
 ## Seconds before the shot disappears if it never lands
 var lifetime := 5.0
 ## Settings handed to the puddle it leaves
@@ -22,11 +28,15 @@ var slow_factor := 0.5
 var dot_damage := 3
 var dot_interval := 0.5
 var puddle_color := Color(0.3, 0.85, 0.3, 0.7)
+var puddle_texture: Texture2D
+var puddle_sprite_scale := Vector2.ONE
+var puddle_sprite_offset := Vector2.ZERO
 
 var age := 0.0
 
 func _ready() -> void:
 	z_index = 5
+	_add_sprite()
 
 func _physics_process(delta: float) -> void:
 	age += delta
@@ -67,6 +77,9 @@ func _land(body: Object, point: Vector2) -> void:
 	puddle.dot_damage = dot_damage
 	puddle.dot_interval = dot_interval
 	puddle.color = puddle_color
+	puddle.texture = puddle_texture
+	puddle.sprite_scale = puddle_sprite_scale
+	puddle.sprite_offset = puddle_sprite_offset
 	# The puddle outlives the shot, so whoever listens to the shot listens to the puddle instead
 	for connection in hurt_player.get_connections():
 		puddle.hurt_player.connect(connection["callable"])
@@ -75,4 +88,15 @@ func _land(body: Object, point: Vector2) -> void:
 	queue_free()
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, radius, color)
+	if texture == null:
+		draw_circle(Vector2.ZERO, radius, color)
+
+## Adds texture as a sprite fitted to Vector2.ONE * radius * 2, if there is one; _draw only draws the plain shape without one
+func _add_sprite() -> void:
+	if texture == null:
+		return
+	var sprite := Sprite2D.new()
+	sprite.texture = texture
+	sprite.scale = Vector2.ONE * radius * 2 / texture.get_size() * sprite_scale
+	sprite.position = sprite_offset
+	add_child(sprite)

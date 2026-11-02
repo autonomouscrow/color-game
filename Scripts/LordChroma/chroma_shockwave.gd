@@ -23,6 +23,12 @@ var full_gap_distance := 600.0
 var damage := 20
 var knockback := Vector2(600, -400)
 var color := Color(0.2, 0.4, 1.0, 0.8)
+## Drawn in place of the blue block when set, stretched to fit size; the hitbox is unchanged
+var texture: Texture2D
+## Multiplies the fitted size of texture
+var sprite_scale := Vector2.ONE
+## Moves texture from where it's fitted
+var sprite_offset := Vector2.ZERO
 var min_x := 0.0
 var max_x := 1920.0
 
@@ -38,6 +44,7 @@ func _ready() -> void:
 	contact.hurt_player.connect(hurt_player.emit)
 	add_child(contact)
 	contact.active = true
+	_add_sprite()
 	_place()
 
 func _physics_process(delta: float) -> void:
@@ -59,4 +66,15 @@ func _place() -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_rect(Rect2(-size / 2, size), color)
+	if texture == null:
+		draw_rect(Rect2(-size / 2, size), color)
+
+## Adds texture as a sprite fitted to size, if there is one; _draw only draws the plain shape without one
+func _add_sprite() -> void:
+	if texture == null:
+		return
+	var sprite := Sprite2D.new()
+	sprite.texture = texture
+	sprite.scale = size / texture.get_size() * sprite_scale
+	sprite.position = sprite_offset
+	add_child(sprite)

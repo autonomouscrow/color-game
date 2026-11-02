@@ -23,7 +23,7 @@ extends ChromaMove
 ## Seconds Chroma stands still after the last blast before its next move
 @export var recover_time := 0.6
 ## Distance from Chroma's center to the round edge of each fan; the screen is 1280 x 720
-@export var reach := 1000.0
+@export var reach := 1100.0
 ## Full width of each fan in degrees
 @export_range(1, 180) var spread := 90.0
 ## Damage from each blast; a player is hit at most once per blast
@@ -31,6 +31,17 @@ extends ChromaMove
 @export var knockback := Vector2(900, -600)
 @export var warning_color := Color(1, 0, 0, 0.25)
 @export var blast_color := Color(1, 0.1, 0.1, 0.7)
+@export_group("Blast Sprite")
+## Animated blast art shown instead of the drawn fan during each blast; warnings keep the drawn fan. Drawn as a quarter
+## circle spreading up and to the right from its lower left corner, and stretched so each side is reach long
+@export var blast_frames: SpriteFrames
+## Which animation in blast_frames plays; falls back to the first one
+@export var blast_animation := &"default"
+## Multiplies the art's size after it's stretched to reach
+@export var blast_sprite_scale := Vector2.ONE
+## Pixels the art is moved, in its own unrotated frame
+@export var blast_sprite_offset := Vector2.ZERO
+@export_group("")
 
 enum Phase { RAISE, WARNING, PAUSE, BLAST, RECOVER }
 var phase := Phase.RAISE
@@ -56,7 +67,7 @@ func start(_player: Node2D) -> void:
 	# No walking first: Chroma teleports straight to the middle of the arena and hangs there, out of gravity's reach,
 	# until the move ends
 	if boss.arena_center:
-		boss.global_position = boss.arena_center.global_position
+		boss.teleport_to(boss.arena_center.global_position)
 	boss.frozen = true
 	index = 0
 	phase = Phase.RAISE
@@ -119,13 +130,27 @@ func _show_fan(i: int, blast: bool) -> void:
 	fan.warning_color = warning_color
 	fan.active_color = blast_color
 	fan.active = blast
+	if blast:
+		fan.frames = blast_frames
+		fan.frames_animation = blast_animation
+		fan.sprite_pivot = Vector2(0, 1)
+		fan.sprite_art_angle = -PI / 4
+		fan.stretch_to_radius = true
+		fan.sprite_scale = blast_sprite_scale
+		fan.sprite_offset = blast_sprite_offset
 	fan.hurt_player.connect(boss.on_player_hurt)
 	if not blast:
 		fan.modulate.a = 0.0
 	boss.add_child(fan)
 	boss.show_airbrush(directions[i])
+	if blast:
+		boss.request_anim(&"burst")
 
 func _clear_fan() -> void:
 	if is_instance_valid(fan):
 		fan.queue_free()
 	fan = null
+
+## burst for the whole ult, restarting on each blast
+func anim_state() -> StringName:
+	return &"burst"

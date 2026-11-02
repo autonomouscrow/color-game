@@ -16,6 +16,12 @@ var size := Vector2(20, 10)
 var damage := 10
 var knockback := Vector2(300, -300)
 var color := Color(1, 0.3, 0.3)
+## Drawn in place of the red rectangle when set, stretched to fit size; draw it pointing right, it turns with the dart; the hitbox is unchanged
+var texture: Texture2D
+## Multiplies the fitted size of texture
+var sprite_scale := Vector2.ONE
+## Moves texture from where it's fitted, in the dart's own frame (x is forward)
+var sprite_offset := Vector2.ZERO
 ## Seconds before the dart disappears on its own
 var lifetime := 10.0
 ## Homes in on this node while it's set and turn_rate is above 0
@@ -41,6 +47,7 @@ func _ready() -> void:
 	direction = direction.normalized() if direction != Vector2.ZERO else Vector2.RIGHT
 	rotation = direction.angle()
 	body_entered.connect(_on_body_entered)
+	_add_sprite()
 
 func _physics_process(delta: float) -> void:
 	age += delta
@@ -57,7 +64,18 @@ func _physics_process(delta: float) -> void:
 	rotation = direction.angle()
 
 func _draw() -> void:
-	draw_rect(Rect2(-size / 2, size), color)
+	if texture == null:
+		draw_rect(Rect2(-size / 2, size), color)
+
+## Adds texture as a sprite fitted to size, if there is one; _draw only draws the plain shape without one
+func _add_sprite() -> void:
+	if texture == null:
+		return
+	var sprite := Sprite2D.new()
+	sprite.texture = texture
+	sprite.scale = size / texture.get_size() * sprite_scale
+	sprite.position = sprite_offset
+	add_child(sprite)
 
 func _target_center() -> Vector2:
 	var center := target.global_position

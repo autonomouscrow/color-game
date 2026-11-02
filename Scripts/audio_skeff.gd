@@ -3,10 +3,13 @@ extends Node
 ## get_tree().get_first_node_in_group("AudioSkeff") and call play_sfx(...).
 ## Keeps running while the game is paused, so the music keeps going at paused_music_volume.
 
+@export_group("Master")
+@export_range(-40.0, 30.0, 0.5) var master_volume_db := 0.0  ## Player-facing volume added to every sound and the music; MenuSkeff's Master slider sets it
+
 @export_group("Music")
 ## Background music; loops when it ends.
 @export_file("*.mp3", "*.ogg", "*.wav") var music_path := "res://Audio/Magical Playlist Vol1.mp3"
-@export_range(-40.0, 12.0, 0.5) var music_volume_db := 0.0  ## Player-facing volume, for an audio slider
+@export_range(-40.0, 30.0, 0.5) var music_volume_db := 0.0  ## Player-facing volume, for an audio slider
 @export_range(-40.0, 12.0, 0.5) var music_db_offset := -20  ## Default loudness of this track; added to music_volume_db
 @export_range(0.0, 1.0, 0.05) var paused_music_volume := 0.5  ## Music loudness while paused, as a fraction of normal (0.5 = half)
 
@@ -20,18 +23,18 @@ extends Node
 
 @export_group("Sound Effects")
 @export var attack_sound: AudioStream  ## Played on every punch and uppercut
-@export_range(-40.0, 12.0, 0.5) var attack_sound_volume_db := 0.0  ## Player-facing volume, for an audio slider
+@export_range(-40.0, 30.0, 0.5) var attack_sound_volume_db := 0.0  ## Player-facing volume, for an audio slider
 @export_range(-40.0, 12.0, 0.5) var attack_sound_db_offset := -15  ## Default loudness of this sound; added to attack_sound_volume_db
 @export_range(0.0, 0.5, 0.01) var attack_pitch_variation := 0.1  ## Each attack's pitch is randomly shifted up or down by up to this much (0.1 = ±10%)
 @export var hurt_sounds: Array[AudioStream] = []  ## Played when Hue takes damage; one is picked at random each hit
 @export_range(0.25, 4.0, 0.05) var hurt_sound_pitch := 1.2  ## Pitch of the hurt sounds (1 = original, 1.2 = 20% higher)
 @export_range(0.0, 0.5, 0.01) var hurt_pitch_variation := 0.05  ## Each hit's pitch is randomly shifted up or down by up to this much
-@export_range(-40.0, 12.0, 0.5) var hurt_sound_volume_db := 0.0  ## Player-facing volume, for an audio slider
+@export_range(-40.0, 30.0, 0.5) var hurt_sound_volume_db := 0.0  ## Player-facing volume, for an audio slider
 @export_range(-40.0, 12.0, 0.5) var hurt_sound_db_offset := 0.0  ## Default loudness of these sounds; added to hurt_sound_volume_db
 
 @export_group("Ability Sounds")
 ## Each ability works like the hurt sounds: drag files into its list, and one plays at random each time. Empty lists stay silent.
-@export_range(-40.0, 12.0, 0.5) var ability_volume_db := 0.0  ## Player-facing volume for all ability sounds, for an audio slider
+@export_range(-40.0, 30.0, 0.5) var ability_volume_db := 0.0  ## Player-facing volume for all ability sounds, for an audio slider
 @export_subgroup("Dash")
 @export var dash_sounds: Array[AudioStream] = []  ## Starting a dash; one is picked at random each time
 @export_range(0.25, 4.0, 0.05) var dash_pitch := 1.0  ## 1 = original pitch, 1.2 = 20% higher
@@ -142,8 +145,8 @@ func _switch_music(to_boss: bool) -> void:
 func _update_music_volume() -> void:
 	# Only a real pause quiets the music, not a brief hitstop
 	var loudness := paused_music_volume if Pause.is_menu_paused() else 1.0
-	music.volume_db = music_volume_db + music_db_offset + linear_to_db(maxf(loudness * _music_fade, 0.0001))
-	boss_music.volume_db = music_volume_db + boss_music_db_offset + linear_to_db(maxf(loudness * _boss_fade, 0.0001))
+	music.volume_db = master_volume_db + music_volume_db + music_db_offset + linear_to_db(maxf(loudness * _music_fade, 0.0001))
+	boss_music.volume_db = master_volume_db + music_volume_db + boss_music_db_offset + linear_to_db(maxf(loudness * _boss_fade, 0.0001))
 
 ## Plays a one-shot sound; overlapping plays don't cut each other off. Pauses with the game unless ignore_pause is true.
 func play_sfx(stream: AudioStream, volume_db := 0.0, pitch_scale := 1.0, ignore_pause := false) -> void:
@@ -152,7 +155,7 @@ func play_sfx(stream: AudioStream, volume_db := 0.0, pitch_scale := 1.0, ignore_
 	var player := AudioStreamPlayer.new()
 	player.process_mode = Node.PROCESS_MODE_ALWAYS if ignore_pause else Node.PROCESS_MODE_PAUSABLE
 	player.stream = stream
-	player.volume_db = volume_db
+	player.volume_db = master_volume_db + volume_db
 	player.pitch_scale = pitch_scale
 	player.finished.connect(player.queue_free)
 	add_child(player)

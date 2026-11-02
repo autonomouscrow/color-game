@@ -136,3 +136,13 @@ func _draw_warning() -> void:
 	var half_width := boss.half_size.x + warning_margin
 	var rect := Rect2(boss.global_position.x - half_width, top, half_width * 2, maxf(pillars.floor_top(column) - top, 0.0))
 	warning.draw_rect(rect, Color(warning_color, warning_color.a * fade))
+
+## Idle upside down on the ceiling through the warning, floats down, summons the pillars as he presses one, floats
+## back up
+func anim_state() -> StringName:
+	match phase:
+		Phase.DIVE, Phase.RISE:
+			return &"float"
+		Phase.DOWN:
+			return &"summon_pillars"
+	return &""

@@ -33,6 +33,21 @@ extends ChromaMove
 @export var dot_damage := 3
 @export var dot_interval := 0.5
 @export var puddle_color := Color(0.3, 0.85, 0.3, 0.7)
+@export_group("Orb Sprite")
+## Shown instead of the plain shape when set; the hitbox stays the same size
+@export var orb_texture: Texture2D
+## Multiplies the sprite's size after it's fitted to the hitbox
+@export var orb_sprite_scale := Vector2.ONE
+## Pixels the sprite is moved from the hitbox's center
+@export var orb_sprite_offset := Vector2.ZERO
+@export_group("Puddle Sprite")
+## Shown instead of the plain shape when set; the hitbox stays the same size
+@export var puddle_texture: Texture2D
+## Multiplies the sprite's size after it's fitted to the hitbox
+@export var puddle_sprite_scale := Vector2.ONE
+## Pixels the sprite is moved from the hitbox's center
+@export var puddle_sprite_offset := Vector2.ZERO
+@export_group("")
 
 var timer := 0.0
 var fired := 0
@@ -70,6 +85,7 @@ func finish() -> void:
 
 ## Shot i of shots lands spacing apart from its neighbors, the middle of them all at aim
 func _fire(i: int) -> void:
+	boss.request_anim(&"slime")
 	var target := aim + Vector2((i - (shots - 1) / 2.0) * spacing, 0)
 	var from := boss.airbrush.global_position
 	var t := maxf(flight_time, 0.05)
@@ -85,6 +101,12 @@ func _fire(i: int) -> void:
 	shot.dot_damage = dot_damage
 	shot.dot_interval = dot_interval
 	shot.puddle_color = puddle_color
+	shot.texture = orb_texture
+	shot.sprite_scale = orb_sprite_scale
+	shot.sprite_offset = orb_sprite_offset
+	shot.puddle_texture = puddle_texture
+	shot.puddle_sprite_scale = puddle_sprite_scale
+	shot.puddle_sprite_offset = puddle_sprite_offset
 	shot.hurt_player.connect(boss.on_player_hurt)
 	boss.get_parent().add_child(shot)
 	shot.global_position = from
@@ -96,3 +118,7 @@ func _feet(player: Node2D) -> Vector2:
 	if hitbox is CollisionShape2D and hitbox.shape is RectangleShape2D:
 		feet.y += hitbox.shape.size.y * absf(hitbox.global_scale.y) / 2
 	return feet
+
+## slime_windup until the first blob, then slime, restarting on each blob
+func anim_state() -> StringName:
+	return &"slime" if fired > 0 else &"slime_windup"

@@ -1,113 +1,1193 @@
 [gd_scene format=3 uid="uid://b7mrfg0q1dqrb"]
 
 [ext_resource type="Script" uid="uid://ddgrf1ij75wyw" path="res://Scripts/LordChroma/lord_chroma.gd" id="1_chroma"]
+[ext_resource type="Texture2D" uid="uid://d0mwtytwf4ero" path="res://sprites/Chroma/Lord_Chroma_2.png" id="2_4n0j3"]
 [ext_resource type="Script" uid="uid://doplgao7vu2x0" path="res://Scripts/LordChroma/chroma_airbrush.gd" id="2_airbrush"]
 [ext_resource type="Script" uid="uid://dh55yaj4sihao" path="res://Scripts/LordChroma/chroma_quarter_blast.gd" id="3_blast"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_darts.gd" id="4_darts"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_bullet_storm.gd" id="5_storm"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_dive.gd" id="6_dive"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_slide.gd" id="7_slide"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_dash.gd" id="8_dash"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_clone_pierce.gd" id="9_pierce"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_depth_charge.gd" id="10_depth"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_slime_shots.gd" id="11_slime"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_earth_wave.gd" id="12_earth"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_wave_dive.gd" id="13_wavedive"]
-[ext_resource type="Script" path="res://Scripts/LordChroma/chroma_omnicrush.gd" id="14_omnicrush"]
+[ext_resource type="Script" uid="uid://bplff7xawlgb3" path="res://Scripts/LordChroma/chroma_darts.gd" id="4_darts"]
+[ext_resource type="Texture2D" uid="uid://b88e6v4soh4il" path="res://sprites/Chroma/spray.png" id="4_ijx53"]
+[ext_resource type="Script" uid="uid://cgupq3d8igpm4" path="res://Scripts/LordChroma/chroma_bullet_storm.gd" id="5_storm"]
+[ext_resource type="Texture2D" uid="uid://ckwr6p68dgvkt" path="res://sprites/Chroma/bigspray.png" id="6_2qcw4"]
+[ext_resource type="Texture2D" uid="uid://c6fsw0ox88rts" path="res://sprites/Chroma/RedDart.png" id="6_233lr"]
+[ext_resource type="Script" uid="uid://c7s8h6gxr4vc5" path="res://Scripts/LordChroma/chroma_dive.gd" id="6_dive"]
+[ext_resource type="Script" uid="uid://dtvfhfau5008v" path="res://Scripts/LordChroma/chroma_slide.gd" id="7_slide"]
+[ext_resource type="Script" uid="uid://dhqlfnlpjyr1k" path="res://Scripts/LordChroma/chroma_dash.gd" id="8_dash"]
+[ext_resource type="Script" uid="uid://c6bdjgc8rx31b" path="res://Scripts/LordChroma/chroma_clone_pierce.gd" id="9_pierce"]
+[ext_resource type="Script" uid="uid://cb62w74lsvbfq" path="res://Scripts/LordChroma/chroma_depth_charge.gd" id="10_depth"]
+[ext_resource type="Script" uid="uid://c8wwampallbid" path="res://Scripts/LordChroma/chroma_slime_shots.gd" id="11_slime"]
+[ext_resource type="Script" uid="uid://djw8wndyok0rr" path="res://Scripts/LordChroma/chroma_earth_wave.gd" id="12_earth"]
+[ext_resource type="Texture2D" uid="uid://r6xwmwfg348u" path="res://sprites/Chroma/Wave.png" id="13_ijx53"]
+[ext_resource type="Texture2D" uid="uid://4qb8h2ivxt8v" path="res://sprites/Chroma/SlimeBall.png" id="13_qbwsg"]
+[ext_resource type="Script" uid="uid://da2q0rbql4yrn" path="res://Scripts/LordChroma/chroma_wave_dive.gd" id="13_wavedive"]
+[ext_resource type="Texture2D" uid="uid://c1xqmjl1vtnsy" path="res://sprites/Chroma/SlimeFloor.png" id="14_567cf"]
+[ext_resource type="Script" uid="uid://dx4g6wor4drhj" path="res://Scripts/LordChroma/chroma_omnicrush.gd" id="14_omnicrush"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(80, 160)
 
+[sub_resource type="Animation" id="Animation_ph6a1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-9, -2.295)]
+}
+
+[sub_resource type="Animation" id="Animation_airbrush"]
+resource_name = "airbrush"
+length = 0.75
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(-9, -2.295), Vector2(-9, -2.295), Vector2(-9, -2.295)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [7, 8, 9]
+}
+
+[sub_resource type="Animation" id="Animation_burst"]
+resource_name = "burst"
+length = 0.5
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-9, 2.21)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+
+[sub_resource type="Animation" id="Animation_dart"]
+resource_name = "dart"
+length = 0.2
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-9, 2.21)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+
+[sub_resource type="Animation" id="Animation_dash"]
+resource_name = "dash"
+length = 0.3
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-9, -2.295)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [14]
+}
+
+[sub_resource type="Animation" id="Animation_dash_windup"]
+resource_name = "dash_windup"
+length = 0.4
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [12, 13]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(-9, -2.295), Vector2(-9, -2.295)]
+}
+
+[sub_resource type="Animation" id="Animation_death"]
+resource_name = "death"
+length = 3.3333333
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3.3333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(-9, 2.21), Vector2(-9, 26.715)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.33333334, 0.5, 0.6666667, 0.8333333, 1, 1.1666667, 1.3333334, 1.5, 1.6666666, 1.8333333, 2, 2.1666667, 2.3333333, 2.5, 2.6666667, 2.8371406, 3, 3.1666667, 3.3333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 23, 24, 25, 26, 27, 23, 24, 25, 26, 27, 28]
+}
+
+[sub_resource type="Animation" id="Animation_float"]
+resource_name = "float"
+length = 0.6
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-9, -11.295)]
+}
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = "idle"
+length = 0.75
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(-9, -2.295), Vector2(-9, -2.295), Vector2(-9, -2.295)]
+}
+
+[sub_resource type="Animation" id="Animation_landing"]
+resource_name = "landing"
+length = 0.25
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.083333336),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-9, -2.295)]
+}
+
+[sub_resource type="Animation" id="Animation_slide"]
+resource_name = "slide"
+length = 0.4
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-9, -6.185)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_slime"]
+resource_name = "slime"
+length = 0.15
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.083333336),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-9, -2.295)]
+}
+
+[sub_resource type="Animation" id="Animation_slime_windup"]
+resource_name = "slime_windup"
+length = 0.4
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.083333336),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-9, -2.295)]
+}
+
+[sub_resource type="Animation" id="Animation_stun"]
+resource_name = "stun"
+length = 0.8
+loop_mode = 1
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-9, 2.21)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_summon_pillars"]
+resource_name = "summon_pillars"
+length = 0.6
+step = 0.0833
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-9, 2.21)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [15]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_chroma"]
+_data = {
+&"RESET": SubResource("Animation_ph6a1"),
+&"airbrush": SubResource("Animation_airbrush"),
+&"burst": SubResource("Animation_burst"),
+&"dart": SubResource("Animation_dart"),
+&"dash": SubResource("Animation_dash"),
+&"dash_windup": SubResource("Animation_dash_windup"),
+&"death": SubResource("Animation_death"),
+&"float": SubResource("Animation_float"),
+&"idle": SubResource("Animation_idle"),
+&"landing": SubResource("Animation_landing"),
+&"slide": SubResource("Animation_slide"),
+&"slime": SubResource("Animation_slime"),
+&"slime_windup": SubResource("Animation_slime_windup"),
+&"stun": SubResource("Animation_stun"),
+&"summon_pillars": SubResource("Animation_summon_pillars")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_airbrush"]
+animation = &"airbrush"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_burst"]
+animation = &"burst"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_dart"]
+animation = &"dart"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_dash"]
+animation = &"dash"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_dash_windup"]
+animation = &"dash_windup"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_death"]
+animation = &"death"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_float"]
+animation = &"float"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_idle"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_landing"]
+animation = &"landing"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_slide"]
+animation = &"slide"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_slime"]
+animation = &"slime"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_slime_windup"]
+animation = &"slime_windup"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_stun"]
+animation = &"stun"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimNode_summon_pillars"]
+animation = &"summon_pillars"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_start"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_0"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_1"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_2"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_3"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_4"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_5"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_6"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_7"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_8"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_9"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_10"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_11"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_12"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_13"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_14"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_15"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_16"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_17"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_18"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_19"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_20"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_21"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_22"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_23"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_24"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_25"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_26"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_27"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_28"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_29"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_30"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_31"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_32"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_33"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_34"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_35"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_36"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_37"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_38"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_39"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_40"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_41"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_42"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_43"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_44"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_45"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_46"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_47"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_48"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_49"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_50"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_51"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_52"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_53"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_54"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_55"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_56"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_57"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_58"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_59"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_60"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_61"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_62"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_63"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_64"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_65"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_66"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_67"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_68"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_69"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_70"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_71"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_72"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_73"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_74"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_75"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_76"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_77"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_78"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_79"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_80"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_81"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_82"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_83"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_84"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_85"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_86"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_87"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_88"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_89"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_90"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_91"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_92"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_93"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_94"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_95"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_96"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_97"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_98"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_99"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_100"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_101"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_102"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_103"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_104"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_105"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_106"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_107"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_108"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_109"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_110"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_111"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_112"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_113"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_114"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_115"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_116"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_117"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_118"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_119"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_120"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_121"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_122"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_123"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_124"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_125"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_126"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_127"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_128"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_129"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_130"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_131"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_132"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_133"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_134"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_135"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_136"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_137"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_138"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_139"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_140"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_141"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_142"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_143"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_144"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_145"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_146"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_147"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_148"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_149"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_150"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_151"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_152"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_153"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_154"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="Trans_155"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_chroma"]
+states/End/position = Vector2(1250, 750)
+states/Start/position = Vector2(150, 300)
+states/airbrush/node = SubResource("AnimNode_airbrush")
+states/airbrush/position = Vector2(100, 100)
+states/burst/node = SubResource("AnimNode_burst")
+states/burst/position = Vector2(400, 0)
+states/dart/node = SubResource("AnimNode_dart")
+states/dart/position = Vector2(700, 0)
+states/dash/node = SubResource("AnimNode_dash")
+states/dash/position = Vector2(1250, 150)
+states/dash_windup/node = SubResource("AnimNode_dash_windup")
+states/dash_windup/position = Vector2(1000, 150)
+states/death/node = SubResource("AnimNode_death")
+states/death/position = Vector2(100, 850)
+states/float/node = SubResource("AnimNode_float")
+states/float/position = Vector2(400, 550)
+states/idle/node = SubResource("AnimNode_idle")
+states/idle/position = Vector2(400, 300)
+states/landing/node = SubResource("AnimNode_landing")
+states/landing/position = Vector2(700, 450)
+states/slide/node = SubResource("AnimNode_slide")
+states/slide/position = Vector2(1000, 550)
+states/slime/node = SubResource("AnimNode_slime")
+states/slime/position = Vector2(1000, 800)
+states/slime_windup/node = SubResource("AnimNode_slime_windup")
+states/slime_windup/position = Vector2(700, 750)
+states/stun/node = SubResource("AnimNode_stun")
+states/stun/position = Vector2(100, 600)
+states/summon_pillars/node = SubResource("AnimNode_summon_pillars")
+states/summon_pillars/position = Vector2(1250, 400)
+transitions = ["Start", "idle", SubResource("Trans_start"), "idle", "float", SubResource("Trans_0"), "idle", "landing", SubResource("Trans_1"), "idle", "slide", SubResource("Trans_2"), "idle", "airbrush", SubResource("Trans_3"), "idle", "dash_windup", SubResource("Trans_4"), "idle", "dash", SubResource("Trans_5"), "idle", "stun", SubResource("Trans_6"), "idle", "burst", SubResource("Trans_7"), "idle", "dart", SubResource("Trans_8"), "idle", "slime_windup", SubResource("Trans_9"), "idle", "slime", SubResource("Trans_10"), "idle", "summon_pillars", SubResource("Trans_11"), "float", "idle", SubResource("Trans_12"), "float", "landing", SubResource("Trans_13"), "float", "slide", SubResource("Trans_14"), "float", "airbrush", SubResource("Trans_15"), "float", "dash_windup", SubResource("Trans_16"), "float", "dash", SubResource("Trans_17"), "float", "stun", SubResource("Trans_18"), "float", "burst", SubResource("Trans_19"), "float", "dart", SubResource("Trans_20"), "float", "slime_windup", SubResource("Trans_21"), "float", "slime", SubResource("Trans_22"), "float", "summon_pillars", SubResource("Trans_23"), "landing", "idle", SubResource("Trans_24"), "landing", "float", SubResource("Trans_25"), "landing", "slide", SubResource("Trans_26"), "landing", "airbrush", SubResource("Trans_27"), "landing", "dash_windup", SubResource("Trans_28"), "landing", "dash", SubResource("Trans_29"), "landing", "stun", SubResource("Trans_30"), "landing", "burst", SubResource("Trans_31"), "landing", "dart", SubResource("Trans_32"), "landing", "slime_windup", SubResource("Trans_33"), "landing", "slime", SubResource("Trans_34"), "landing", "summon_pillars", SubResource("Trans_35"), "slide", "idle", SubResource("Trans_36"), "slide", "float", SubResource("Trans_37"), "slide", "landing", SubResource("Trans_38"), "slide", "airbrush", SubResource("Trans_39"), "slide", "dash_windup", SubResource("Trans_40"), "slide", "dash", SubResource("Trans_41"), "slide", "stun", SubResource("Trans_42"), "slide", "burst", SubResource("Trans_43"), "slide", "dart", SubResource("Trans_44"), "slide", "slime_windup", SubResource("Trans_45"), "slide", "slime", SubResource("Trans_46"), "slide", "summon_pillars", SubResource("Trans_47"), "airbrush", "idle", SubResource("Trans_48"), "airbrush", "float", SubResource("Trans_49"), "airbrush", "landing", SubResource("Trans_50"), "airbrush", "slide", SubResource("Trans_51"), "airbrush", "dash_windup", SubResource("Trans_52"), "airbrush", "dash", SubResource("Trans_53"), "airbrush", "stun", SubResource("Trans_54"), "airbrush", "burst", SubResource("Trans_55"), "airbrush", "dart", SubResource("Trans_56"), "airbrush", "slime_windup", SubResource("Trans_57"), "airbrush", "slime", SubResource("Trans_58"), "airbrush", "summon_pillars", SubResource("Trans_59"), "dash_windup", "idle", SubResource("Trans_60"), "dash_windup", "float", SubResource("Trans_61"), "dash_windup", "landing", SubResource("Trans_62"), "dash_windup", "slide", SubResource("Trans_63"), "dash_windup", "airbrush", SubResource("Trans_64"), "dash_windup", "dash", SubResource("Trans_65"), "dash_windup", "stun", SubResource("Trans_66"), "dash_windup", "burst", SubResource("Trans_67"), "dash_windup", "dart", SubResource("Trans_68"), "dash_windup", "slime_windup", SubResource("Trans_69"), "dash_windup", "slime", SubResource("Trans_70"), "dash_windup", "summon_pillars", SubResource("Trans_71"), "dash", "idle", SubResource("Trans_72"), "dash", "float", SubResource("Trans_73"), "dash", "landing", SubResource("Trans_74"), "dash", "slide", SubResource("Trans_75"), "dash", "airbrush", SubResource("Trans_76"), "dash", "dash_windup", SubResource("Trans_77"), "dash", "stun", SubResource("Trans_78"), "dash", "burst", SubResource("Trans_79"), "dash", "dart", SubResource("Trans_80"), "dash", "slime_windup", SubResource("Trans_81"), "dash", "slime", SubResource("Trans_82"), "dash", "summon_pillars", SubResource("Trans_83"), "stun", "idle", SubResource("Trans_84"), "stun", "float", SubResource("Trans_85"), "stun", "landing", SubResource("Trans_86"), "stun", "slide", SubResource("Trans_87"), "stun", "airbrush", SubResource("Trans_88"), "stun", "dash_windup", SubResource("Trans_89"), "stun", "dash", SubResource("Trans_90"), "stun", "burst", SubResource("Trans_91"), "stun", "dart", SubResource("Trans_92"), "stun", "slime_windup", SubResource("Trans_93"), "stun", "slime", SubResource("Trans_94"), "stun", "summon_pillars", SubResource("Trans_95"), "burst", "idle", SubResource("Trans_96"), "burst", "float", SubResource("Trans_97"), "burst", "landing", SubResource("Trans_98"), "burst", "slide", SubResource("Trans_99"), "burst", "airbrush", SubResource("Trans_100"), "burst", "dash_windup", SubResource("Trans_101"), "burst", "dash", SubResource("Trans_102"), "burst", "stun", SubResource("Trans_103"), "burst", "dart", SubResource("Trans_104"), "burst", "slime_windup", SubResource("Trans_105"), "burst", "slime", SubResource("Trans_106"), "burst", "summon_pillars", SubResource("Trans_107"), "dart", "idle", SubResource("Trans_108"), "dart", "float", SubResource("Trans_109"), "dart", "landing", SubResource("Trans_110"), "dart", "slide", SubResource("Trans_111"), "dart", "airbrush", SubResource("Trans_112"), "dart", "dash_windup", SubResource("Trans_113"), "dart", "dash", SubResource("Trans_114"), "dart", "stun", SubResource("Trans_115"), "dart", "burst", SubResource("Trans_116"), "dart", "slime_windup", SubResource("Trans_117"), "dart", "slime", SubResource("Trans_118"), "dart", "summon_pillars", SubResource("Trans_119"), "slime_windup", "idle", SubResource("Trans_120"), "slime_windup", "float", SubResource("Trans_121"), "slime_windup", "landing", SubResource("Trans_122"), "slime_windup", "slide", SubResource("Trans_123"), "slime_windup", "airbrush", SubResource("Trans_124"), "slime_windup", "dash_windup", SubResource("Trans_125"), "slime_windup", "dash", SubResource("Trans_126"), "slime_windup", "stun", SubResource("Trans_127"), "slime_windup", "burst", SubResource("Trans_128"), "slime_windup", "dart", SubResource("Trans_129"), "slime_windup", "slime", SubResource("Trans_130"), "slime_windup", "summon_pillars", SubResource("Trans_131"), "slime", "idle", SubResource("Trans_132"), "slime", "float", SubResource("Trans_133"), "slime", "landing", SubResource("Trans_134"), "slime", "slide", SubResource("Trans_135"), "slime", "airbrush", SubResource("Trans_136"), "slime", "dash_windup", SubResource("Trans_137"), "slime", "dash", SubResource("Trans_138"), "slime", "stun", SubResource("Trans_139"), "slime", "burst", SubResource("Trans_140"), "slime", "dart", SubResource("Trans_141"), "slime", "slime_windup", SubResource("Trans_142"), "slime", "summon_pillars", SubResource("Trans_143"), "summon_pillars", "idle", SubResource("Trans_144"), "summon_pillars", "float", SubResource("Trans_145"), "summon_pillars", "landing", SubResource("Trans_146"), "summon_pillars", "slide", SubResource("Trans_147"), "summon_pillars", "airbrush", SubResource("Trans_148"), "summon_pillars", "dash_windup", SubResource("Trans_149"), "summon_pillars", "dash", SubResource("Trans_150"), "summon_pillars", "stun", SubResource("Trans_151"), "summon_pillars", "burst", SubResource("Trans_152"), "summon_pillars", "dart", SubResource("Trans_153"), "summon_pillars", "slime_windup", SubResource("Trans_154"), "summon_pillars", "slime", SubResource("Trans_155")]
+graph_offset = Vector2(-200, -150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qcw4"]
+atlas = ExtResource("4_ijx53")
+region = Rect2(0, 800, 400, 800)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gh0s8"]
+atlas = ExtResource("4_ijx53")
+region = Rect2(400, 0, 400, 800)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hf8kj"]
+atlas = ExtResource("4_ijx53")
+region = Rect2(0, 0, 400, 800)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gx11j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2qcw4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gh0s8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hf8kj")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwh4q"]
+atlas = ExtResource("6_2qcw4")
+region = Rect2(0, 1200, 1200, 1200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfppg"]
+atlas = ExtResource("6_2qcw4")
+region = Rect2(0, 0, 1200, 1200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gwh4q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gwh4q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfppg")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="LordChroma" type="CharacterBody2D" unique_id=1954131219 groups=["enemy"]]
 script = ExtResource("1_chroma")
-max_health = 600
+max_health = 6
 
 [node name="Body" type="CollisionShape2D" parent="." unique_id=1301227680]
 shape = SubResource("RectangleShape2D_body")
 
 [node name="Color" type="ColorRect" parent="." unique_id=2091150993]
+visible = false
 offset_left = -40.0
 offset_top = -80.0
 offset_right = 40.0
 offset_bottom = 80.0
 mouse_filter = 2
 
-[node name="Airbrush" type="Node2D" parent="." unique_id=2034713968]
-z_index = 1
+[node name="Sprite" type="Sprite2D" parent="." unique_id=680228856]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_4n0j3")
+offset = Vector2(-9, -2.295)
+hframes = 4
+vframes = 8
 
-[node name="Color" type="ColorRect" parent="Airbrush" unique_id=1779151964]
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 40.0
-offset_bottom = 8.0
-mouse_filter = 2
-color = Color(0.25, 0.25, 0.25, 1)
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1547440846]
+libraries/ = SubResource("AnimationLibrary_chroma")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=475099459]
+active = false
+callback_mode_process = 0
+tree_root = SubResource("AnimationNodeStateMachine_chroma")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="Airbrush" type="Node2D" parent="." unique_id=2034713968]
+visible = false
+z_index = 1
 
 [node name="Moves" type="Node" parent="." unique_id=1783072071]
 
 [node name="Airbrush" type="Node" parent="Moves" unique_id=1042139539]
 script = ExtResource("2_airbrush")
+spray_frames = SubResource("SpriteFrames_gx11j")
 colors = 15
 fixed_chance_colors = 30
 cooldown = 2.0
 
 [node name="QuarterBlast" type="Node" parent="Moves" unique_id=1741958643]
 script = ExtResource("3_blast")
+blast_frames = SubResource("SpriteFrames_gwh4q")
 colors = 15
 ult = true
 dodge_mp = 4
 
-[node name="Darts" type="Node" parent="Moves"]
+[node name="Darts" type="Node" parent="Moves" unique_id=2030644567]
 script = ExtResource("4_darts")
+dart_texture = ExtResource("6_233lr")
 colors = 2
 wander_during = true
 
-[node name="BulletStorm" type="Node" parent="Moves"]
+[node name="BulletStorm" type="Node" parent="Moves" unique_id=641992649]
 script = ExtResource("5_storm")
+dart_texture = ExtResource("6_233lr")
 colors = 2
 ult = true
 dodge_mp = 5
 
-[node name="Dive" type="Node" parent="Moves"]
+[node name="Dive" type="Node" parent="Moves" unique_id=1389967479]
 script = ExtResource("6_dive")
 colors = 4
 
-[node name="Slide" type="Node" parent="Moves"]
+[node name="Slide" type="Node" parent="Moves" unique_id=1950976236]
 script = ExtResource("7_slide")
 colors = 4
 
-[node name="Dash" type="Node" parent="Moves"]
+[node name="Dash" type="Node" parent="Moves" unique_id=1545486138]
 script = ExtResource("8_dash")
 colors = 8
 
-[node name="ClonePierce" type="Node" parent="Moves"]
+[node name="ClonePierce" type="Node" parent="Moves" unique_id=1312853486]
 script = ExtResource("9_pierce")
 colors = 8
 ult = true
 dodge_mp = 6
 
-[node name="DepthCharge" type="Node" parent="Moves"]
+[node name="DepthCharge" type="Node" parent="Moves" unique_id=1046165106]
 script = ExtResource("10_depth")
+wave_texture = ExtResource("13_ijx53")
 colors = 4
 ult = true
 dodge_mp = 5
 
-[node name="SlimeShots" type="Node" parent="Moves"]
+[node name="SlimeShots" type="Node" parent="Moves" unique_id=1429041471]
 script = ExtResource("11_slime")
+orb_texture = ExtResource("13_qbwsg")
+puddle_texture = ExtResource("14_567cf")
+puddle_sprite_offset = Vector2(0, 5)
 colors = 16
 cooldown = 2.0
 
-[node name="EarthWave" type="Node" parent="Moves"]
+[node name="EarthWave" type="Node" parent="Moves" unique_id=1594048767]
 script = ExtResource("12_earth")
 colors = 16
 cooldown = 4.0
 
-[node name="WaveDive" type="Node" parent="Moves"]
+[node name="WaveDive" type="Node" parent="Moves" unique_id=1613459945]
 script = ExtResource("13_wavedive")
 colors = 16
 cooldown = 3.0
 
-[node name="Omnicrush" type="Node" parent="Moves"]
+[node name="Omnicrush" type="Node" parent="Moves" unique_id=69621125]
 script = ExtResource("14_omnicrush")
 colors = 16
 ult = true

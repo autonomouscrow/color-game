@@ -28,6 +28,14 @@ extends ChromaMove
 ## Seconds Chroma stays frozen after the last wave fires, before his next move
 @export var recover_time := 0.6
 @export var dart_color := Color(1, 0.3, 0.3)
+@export_group("Dart Sprite")
+## Shown instead of the plain shape when set; the hitbox stays the same size
+@export var dart_texture: Texture2D
+## Multiplies the sprite's size after it's fitted to the hitbox
+@export var dart_sprite_scale := Vector2.ONE
+## Pixels the sprite is moved from the hitbox's center
+@export var dart_sprite_offset := Vector2.ZERO
+@export_group("")
 
 var wave := 0
 var timer := 0.0
@@ -39,7 +47,7 @@ var darts: Array[ChromaDart] = []
 
 func start(_player: Node2D) -> void:
 	if boss.arena_center:
-		boss.global_position = boss.arena_center.global_position
+		boss.teleport_to(boss.arena_center.global_position)
 	boss.frozen = true
 	wave = 0
 	timer = 0.0
@@ -75,6 +83,7 @@ func finish() -> void:
 	boss.frozen = false
 
 func _release() -> void:
+	boss.request_anim(&"burst")
 	for i in bullets_per_wave:
 		var dart := ChromaDart.new()
 		dart.direction = Vector2.from_angle(angle_offset + TAU * i / bullets_per_wave)
@@ -83,6 +92,9 @@ func _release() -> void:
 		dart.damage = damage
 		dart.knockback = knockback
 		dart.color = dart_color
+		dart.texture = dart_texture
+		dart.sprite_scale = dart_sprite_scale
+		dart.sprite_offset = dart_sprite_offset
 		dart.lifetime = lifetime
 		dart.pass_through_walls = true
 		dart.bounds = Rect2(boss.arena_middle() - clear_area_size / 2, clear_area_size)
@@ -101,3 +113,7 @@ func _draw_lines() -> void:
 	for i in bullets_per_wave:
 		var dir := Vector2.from_angle(angle_offset + TAU * i / bullets_per_wave)
 		lines.draw_line(Vector2.ZERO, dir * line_length, color, line_width)
+
+## burst for the whole ult, restarting as each wave fires
+func anim_state() -> StringName:
+	return &"burst"

@@ -47,6 +47,14 @@ extends ChromaMove
 @export var wave_damage := 20
 @export var wave_knockback := Vector2(600, -400)
 @export var wave_color := Color(0.2, 0.4, 1.0, 0.8)
+@export_group("Wave Sprite")
+## Shown instead of the plain shape when set; the hitbox stays the same size
+@export var wave_texture: Texture2D
+## Multiplies the sprite's size after it's fitted to the hitbox
+@export var wave_sprite_scale := Vector2.ONE
+## Pixels the sprite is moved from the hitbox's center
+@export var wave_sprite_offset := Vector2.ZERO
+@export_group("")
 
 enum Phase { FADE_OUT, WARNING, DIVE, IMPACT, RISE, WAIT_WAVES, RETURN, RECOVER }
 var phase := Phase.FADE_OUT
@@ -213,6 +221,9 @@ func _spawn_waves() -> void:
 		wave.damage = wave_damage
 		wave.knockback = wave_knockback
 		wave.color = wave_color
+		wave.texture = wave_texture
+		wave.sprite_scale = wave_sprite_scale
+		wave.sprite_offset = wave_sprite_offset
 		wave.min_x = area.position.x
 		wave.max_x = area.end.x
 		wave.hurt_player.connect(boss.on_player_hurt)
@@ -302,3 +313,13 @@ func _make_contact() -> void:
 	contact.knockback = knockback
 	contact.hurt_player.connect(boss.on_player_hurt)
 	boss.add_child(contact)
+
+## Floats off-screen and down each charge, lands on each impact; after the last one he stands while the waves and
+## platforms come back
+func anim_state() -> StringName:
+	match phase:
+		Phase.FADE_OUT, Phase.WARNING, Phase.DIVE, Phase.RISE:
+			return &"float"
+		Phase.IMPACT:
+			return &"landing"
+	return &""
