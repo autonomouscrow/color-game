@@ -412,3 +412,6 @@ position = Vector2(1359.3478, -20360.625)
 [node name="ancestors" parent="." unique_id=1961041996 instance=ExtResource("7_4ba2h")]
 position = Vector2(1009, -16512)
 scale = Vector2(-1, 1)
+
+[node name="Canvas3" parent="." unique_id=1117207212 instance=ExtResource("6_ig2bl")]
+position = Vector2(1077, -20104)
