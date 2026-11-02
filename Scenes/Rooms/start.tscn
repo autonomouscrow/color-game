@@ -143,4 +143,4 @@ scale = Vector2(1, 64.95999)
 
 [node name="text9" parent="." unique_id=734120871 instance=ExtResource("6_p74js")]
 position = Vector2(-640, 495)
-write = "[Ctrl] to Birst and spray bullets(cost 3 Crystals)"
+write = "[Ctrl] to Burst and spray bullets(cost 3 Crystals)"
