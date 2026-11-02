@@ -1,22 +1,19 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://ntd3u7ijnljd"]
 
-[ext_resource type="Script" path="res://Scripts/Bullet.gd" id="1_bullet"]
+[ext_resource type="Script" uid="uid://c7c5ntf18ghom" path="res://Scripts/Bullet.gd" id="1_bullet"]
+[ext_resource type="Texture2D" uid="uid://dqeavbixd3v41" path="res://sprites/magic bolt.png" id="2_yovq8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bullet"]
 size = Vector2(20, 10)
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="Area2D" unique_id=2002521503]
 script = ExtResource("1_bullet")
 timed = false
 
-[node name="Hitbox" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=1361677142]
 shape = SubResource("RectangleShape2D_bullet")
 debug_color = Color(1, 0.9, 0.2, 0.4)
 
-[node name="Color" type="ColorRect" parent="."]
-offset_left = -10.0
-offset_top = -5.0
-offset_right = 10.0
-offset_bottom = 5.0
-mouse_filter = 2
-color = Color(1, 1, 1, 1)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1178038278]
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_yovq8")
