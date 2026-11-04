@@ -717,13 +717,6 @@ position = Vector2(4032, -7675)
 [node name="Canvas2" parent="." unique_id=753632142 instance=ExtResource("4_cjpqh")]
 position = Vector2(5405, -9902)
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=388438463]
-offset_left = 4619.0
-offset_top = -8538.0
-offset_right = 4659.0
-offset_bottom = -8498.0
-color = Color(0.6901961, 0, 1, 1)
-
 [node name="OutL" parent="." unique_id=1448498682 instance=ExtResource("2_xmy5j")]
 position = Vector2(1525, -8249)
 scale = Vector2(0.44000977, 9.959961)
@@ -771,3 +764,6 @@ position = Vector2(3269, -9893)
 scale = Vector2(2.760078, 2.760078)
 sprite_frames = SubResource("SpriteFrames_a13qn")
 autoplay = "default"
+
+[node name="ancestors3" parent="." unique_id=1720825306 instance=ExtResource("13_iyu5w")]
+position = Vector2(4646, -8521)

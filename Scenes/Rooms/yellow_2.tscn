@@ -76,7 +76,7 @@ scale = Vector2(19.24, 1)
 [node name="OutL" parent="." unique_id=1476490728 instance=ExtResource("3_ksxh1")]
 position = Vector2(1472, -15154)
 scale = Vector2(1, 9.8)
-target_room_id = "gauntlet"
+target_room_id = "Gauntlet"
 target_door_id = "InR"
 
 [node name="InL" type="Marker2D" parent="." unique_id=1443929056]
@@ -179,7 +179,6 @@ position = Vector2(5160.9995, -13563)
 scale = Vector2(28.32, 1)
 
 [node name="enemies" type="Node2D" parent="." unique_id=803735037]
-visible = false
 
 [node name="Dasher" parent="enemies" unique_id=1922705482 instance=ExtResource("6_ksxh1")]
 position = Vector2(3024, -14776)
@@ -200,7 +199,6 @@ position = Vector2(2603, -14903)
 position = Vector2(5589, -14006)
 
 [node name="ColorCrystal" parent="." unique_id=1691775424 instance=ExtResource("9_3w672")]
-visible = false
 position = Vector2(5071, -14520)
 color = 3
 

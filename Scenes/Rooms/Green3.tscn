@@ -143,7 +143,7 @@ scale = Vector2(1.2380953, 7.1649218)
 position = Vector2(11294, -2894)
 scale = Vector2(34.64002, 1.2399969)
 target_room_id = "Blue1"
-target_door_id = "InD"
+target_door_id = "InM"
 
 [node name="InM3" type="Marker2D" parent="." unique_id=663648742]
 position = Vector2(11073, -2790)
